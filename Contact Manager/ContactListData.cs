@@ -46,6 +46,11 @@ namespace Contact_Manager
         /// <param name="listToShow">List to show</param>
         public void ShowContacts(List<ContactData> listToShow)
         {
+            if(this._contactList.Count <= 0)
+            {
+                Console.WriteLine("No contacts");
+                return;
+            }
             Console.WriteLine(string.Format("|{0,-5}|{1,-15}|{2,-15}|{3,-15}|{4,-20}|", "S. no", "Name", "Email ID", "Phone", "Additional Notes"));
             Console.WriteLine(new string('-', 76));
             for (int i = 0; i < listToShow.Count; i++)
