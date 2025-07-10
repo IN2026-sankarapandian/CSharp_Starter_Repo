@@ -14,11 +14,6 @@ namespace Contact_Manager
         public static void Main(string[] args)
         {
             ContactListData userContactList = new ContactListData();
-            userContactList.AddContact("Sankar2", "san@gmail.com", "8220709131", "Nothing much");
-            userContactList.AddContact("Sankar4", "san@gmail.com", "8220709131", "Nothing much");
-            userContactList.AddContact("Guru", "san@gmail.com", "8220709131", "Nothing much");
-            userContactList.AddContact("Uttand", "san@gmail.com", "8220709131", "Nothing much");
-            userContactList.AddContact("Sankar1", "san@gmail.com", "8220709131", "Nothing much");
             string choice;
             do
             {
