@@ -15,6 +15,7 @@ namespace Contact_Manager
         /// List of custom ontact data type
         /// </summary>
         private List<ContactData> _contactList = new List<ContactData>();
+
         /// <summary>
         /// Add a contact
         /// </summary>
@@ -26,16 +27,17 @@ namespace Contact_Manager
         public ContactData AddContact(string name, string email, string phone, string notes)
         {
             ContactData newContact = new ContactData(name, email, phone, notes);
-            _contactList.Add(newContact);
+            this._contactList.Add(newContact);
             return newContact;
         }
+
         /// <summary>
         /// Return the entire contact list
         /// </summary>
         /// <returns>return entire list</returns>
         public List<ContactData> GetContacts()
         {
-            return _contactList;
+            return this._contactList;
         }
 
         /// <summary>
@@ -44,21 +46,22 @@ namespace Contact_Manager
         /// <param name="listToShow">List to show</param>
         public void ShowContacts(List<ContactData> listToShow)
         {
-            Console.WriteLine(String.Format("|{0,-5}|{1,-15}|{2,-15}|{3,-15}|{4,-20}|", "S. no", "Name", "Email ID", "Phone", "Additional Notes"));
+            Console.WriteLine(string.Format("|{0,-5}|{1,-15}|{2,-15}|{3,-15}|{4,-20}|", "S. no", "Name", "Email ID", "Phone", "Additional Notes"));
             Console.WriteLine(new string('-', 76));
             for (int i = 0; i < listToShow.Count; i++)
             {
-                Console.WriteLine(String.Format("|{0,-5}|{1,-15}|{2,-15}|{3,-15}|{4,-20}|", i + 1, listToShow[i].Name, listToShow[i].Email, listToShow[i].Phone, listToShow[i].Notes));
+                Console.WriteLine(string.Format("|{0,-5}|{1,-15}|{2,-15}|{3,-15}|{4,-20}|", i + 1, listToShow[i].Name, listToShow[i].Email, listToShow[i].Phone, listToShow[i].Notes));
             }
         }
+
         /// <summary>
         /// Print the details of single contact
         /// </summary>
         /// <param name="contactToShow">Contact to show</param>
         public void ShowContact(ContactData contactToShow)
         {
-            Console.WriteLine(String.Format("|{0,-15}|{1,-15}|{2,-15}|{3,-20}|", "Name", "Email ID", "Phone", "Additional Notes"));
-            Console.WriteLine(String.Format("|{0,-15}|{1,-15}|{2,-15}|{3,-20}|", contactToShow.Name, contactToShow.Email, contactToShow.Phone, contactToShow.Notes));
+            Console.WriteLine(string.Format("|{0,-15}|{1,-15}|{2,-15}|{3,-20}|", "Name", "Email ID", "Phone", "Additional Notes"));
+            Console.WriteLine(string.Format("|{0,-15}|{1,-15}|{2,-15}|{3,-20}|", contactToShow.Name, contactToShow.Email, contactToShow.Phone, contactToShow.Notes));
         }
 
         /// <summary>
@@ -68,11 +71,12 @@ namespace Contact_Manager
         /// <returns>bool of validation of index</returns>
         public bool ShowContactByIndex(int index)
         {
-            if (index < 0 || index >= _contactList.Count)
+            if (index < 0 || index >= this._contactList.Count)
             {
                 return false;
             }
-            ShowContact(_contactList[index]);
+
+            this.ShowContact(this._contactList[index]);
             return true;
         }
 
@@ -86,23 +90,24 @@ namespace Contact_Manager
         /// <returns>bool of validation of index</returns>
         public bool EditContact(int index, string key, string field)
         {
-            if (index >= _contactList.Count || index < 0)
+            if (index >= this._contactList.Count || index < 0)
             {
                 return false;
             }
+
             switch (field)
             {
                 case "name":
-                    _contactList[index].Name = key;
+                    this._contactList[index].Name = key;
                     return true;
                 case "email":
-                    _contactList[index].Email = key;
+                    this._contactList[index].Email = key;
                     return true;
                 case "phone":
-                    _contactList[index].Phone = key;
+                    this._contactList[index].Phone = key;
                     return true;
                 case "notes":
-                    _contactList[index].Notes = key;
+                    this._contactList[index].Notes = key;
                     return true;
                 default:
                     return false;
@@ -116,11 +121,12 @@ namespace Contact_Manager
         /// <returns>success status</returns>
         public bool DeleteContacts(int index)
         {
-            if (index >= _contactList.Count || index < 0)
+            if (index >= this._contactList.Count || index < 0)
             {
                 return false;
             }
-            _contactList.RemoveAt(index);
+
+            this._contactList.RemoveAt(index);
             return true;
         }
 
@@ -137,21 +143,22 @@ namespace Contact_Manager
             switch (field)
             {
                 case "name":
-                    filtered = _contactList.FindAll(a => a.Name.ToUpper().Contains(keyword.ToUpper()));
+                    filtered = this._contactList.FindAll(a => a.Name.ToUpper().Contains(keyword.ToUpper()));
                     break;
                 case "email":
-                    filtered = _contactList.FindAll(a => a.Email.ToUpper().Contains(keyword.ToUpper()));
+                    filtered = this._contactList.FindAll(a => a.Email.ToUpper().Contains(keyword.ToUpper()));
                     break;
                 case "phone":
-                    filtered = _contactList.FindAll(a => a.Phone.ToUpper().Contains(keyword.ToUpper()));
+                    filtered = this._contactList.FindAll(a => a.Phone.ToUpper().Contains(keyword.ToUpper()));
                     break;
                 case "notes":
-                    filtered = _contactList.FindAll(a => a.Phone.ToUpper().Contains(keyword.ToUpper()));
+                    filtered = this._contactList.FindAll(a => a.Phone.ToUpper().Contains(keyword.ToUpper()));
                     break;
                 default:
-                    filtered = _contactList.FindAll(a => a.Name.ToUpper().Contains(keyword.ToUpper()));
+                    filtered = this._contactList.FindAll(a => a.Name.ToUpper().Contains(keyword.ToUpper()));
                     break;
             }
+
             return filtered;
         }
 
@@ -165,14 +172,15 @@ namespace Contact_Manager
             switch (field)
             {
                 case "name":
-                    _contactList.Sort((a, b) => a.Name.CompareTo(b.Name));
+                    this._contactList.Sort((a, b) => a.Name.CompareTo(b.Name));
                     break;
                 case "time":
                     Console.WriteLine("yoyo");
-                    _contactList.Sort((a, b) => a.CreatedAt.CompareTo(b.CreatedAt));
+                    this._contactList.Sort((a, b) => a.CreatedAt.CompareTo(b.CreatedAt));
                     break;
             }
         }
+
         /// <summary>
         /// check whether there is a name for it
         /// </summary>
@@ -180,10 +188,11 @@ namespace Contact_Manager
         /// <returns>returns true if exists</returns>
         public bool ExistWithName(string name)
         {
-            if (_contactList.Exists(a => a.Name == name))
+            if (this._contactList.Exists(a => a.Name == name))
             {
                 return true;
             }
+
             return false;
         }
 
@@ -194,10 +203,11 @@ namespace Contact_Manager
         /// <returns>true if it is in range</returns>
         public bool IsValidIndex(int index)
         {
-            if(index >= 0 && index <= _contactList.Count)
+            if (index >= 0 && index <= this._contactList.Count)
             {
                 return true;
             }
+
             return false;
         }
     }
