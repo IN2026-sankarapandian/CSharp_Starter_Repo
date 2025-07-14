@@ -1,7 +1,7 @@
 ﻿namespace ContactManager.Model
 {
     /// <summary>
-    /// This class represents the data of an individual contact.
+    /// This class represents the data of an individual contact
     /// </summary>
     internal class Contact
     {
@@ -24,7 +24,7 @@
         private Dictionary<string, string> ContactInfo { get; set; } = new ();
 
         /// <summary>
-        /// Its an indexer that gets the value with getting the key(field).
+        /// Its an indexer that gets the value with getting the key(field) for easy access of data with fields.
         /// </summary>
         /// <param name="key">Field name to get</param>
         /// <returns>Value of the field.</returns>

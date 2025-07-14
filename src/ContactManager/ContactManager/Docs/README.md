@@ -11,7 +11,7 @@ When you launch the app, you can see a menu with options of
 
 ## Working Flow Chart
 
-![Flow Chart](./Images/flowChart.png)
+![FlowChart](./Images/flowChart.png)
 
 ## Add Contact
 **Purpose :** Add a new contact.
