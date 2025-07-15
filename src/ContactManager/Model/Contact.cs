@@ -14,16 +14,16 @@ internal class Contact
     /// <param name="contactDetails">Is a dictionary of contact data.</param>
     public Contact(Dictionary<string, string> contactDetails)
     {
-        _contactInfo = GetContactTemplate();
+        this._contactInfo = GetContactTemplate();
         foreach (var field in contactDetails)
         {
-            if (_contactInfo[field.Key] != null)
+            if (this._contactInfo[field.Key] != null)
             {
-                _contactInfo[field.Key] = field.Value;
+                this._contactInfo[field.Key] = field.Value;
             }
         }
 
-        _contactInfo["Time"] = DateTime.Now.ToString();
+        this._contactInfo["Time"] = DateTime.Now.ToString();
     }
 
     /// <summary>
@@ -33,8 +33,8 @@ internal class Contact
     /// <returns>Value of the field.</returns>
     public string? this[string key]
     {
-        get => _contactInfo.ContainsKey(key) ? _contactInfo[key] : null;
-        set => _contactInfo[key] = value!;
+        get => this._contactInfo.ContainsKey(key) ? this._contactInfo[key] : null;
+        set => this._contactInfo[key] = value!;
     }
 
     /// <summary>
