@@ -1,11 +1,11 @@
-﻿namespace ContactManager.Handlers;
+﻿namespace ContactManager;
 
 /// <summary>
 /// Handle all the main features of contact manager Like Add, Show, Edit, Delete, Sort and Search
 /// </summary>
-internal class FeatureController
+internal class FeatureHandler
 {
-    private static readonly Dictionary<string, string> _contactTemplate = ContactRepository.GetContactTemplate();
+    private static readonly Dictionary<string, string>? _contactTemplate = ContactRepository.GetContactTemplate();
     private static readonly string[] _fields = _contactTemplate.Keys.ToArray();
 
     /// <summary>
@@ -20,15 +20,15 @@ internal class FeatureController
     {
         ConsoleUI.PrintAppHeader("Add");
         Dictionary<string, string> contactDetails = _contactTemplate;
-        ConsoleUI.PromptInfo("You have to enter the name*, email*, phone*, additional notes ");
+        ConsoleUI.PromptInfoWithColor("You have to enter the name*, email*, phone*, additional notes ");
         foreach (string field in _fields)
         {
-            contactDetails[field] = UserFormHandler.GetFieldValue(field, userContactList);
+            contactDetails[field] = UserFormHandler.GetFieldValue(field, userContactList) ?? " ";
         }
 
-        ConsoleUI.PromptInfo(string.Empty);
+        ConsoleUI.PromptInfoWithColor(string.Empty);
         userContactList.AddContact(contactDetails);
-        ConsoleUI.PromptSuccess("Contact added successsfully !");
+        ConsoleUI.PromptInfoWithColor("Contact added successfully !", ConsoleColor.Green);
         ConsoleUI.WaitAndReturnToMenu();
     }
 
@@ -70,12 +70,12 @@ internal class FeatureController
         ConsoleUI.PrintAppHeader("Edit");
         Contact selectedContact = userContactList.GetContact(index - 1);
         ConsoleUI.PrintContact(selectedContact, true);
-        ConsoleUI.PromptInfo("\nEdit ");
+        ConsoleUI.PromptInfoWithColor("\nEdit ");
         string selectedField = UserFormHandler.GetField(_fields);
-        ConsoleUI.PromptInfo("New ");
-        string key = UserFormHandler.GetFieldValue(selectedField, userContactList);
+        ConsoleUI.PromptInfoWithColor("New ");
+        string? key = UserFormHandler.GetFieldValue(selectedField, userContactList);
         userContactList.EditContact(index - 1, selectedField, key);
-        ConsoleUI.PromptSuccess("Edited successsfully !");
+        ConsoleUI.PromptInfoWithColor("Edited successfully !", ConsoleColor.Green);
         ConsoleUI.WaitAndReturnToMenu();
     }
 
@@ -100,7 +100,7 @@ internal class FeatureController
 
         int index = UserFormHandler.GetValidContactIndex(userContactList);
         userContactList.DeleteContacts(index - 1);
-        ConsoleUI.PromptSuccess("Contact deleted successsfully !");
+        ConsoleUI.PromptInfoWithColor("Contact deleted successfully !", ConsoleColor.Green);
         ConsoleUI.WaitAndReturnToMenu();
     }
 
@@ -115,16 +115,16 @@ internal class FeatureController
     {
         ConsoleUI.PrintAppHeader("Search");
         string fieldName = UserFormHandler.GetField(_fields);
-        string key = ConsoleUI.GetInputWithPrompt("Keyword : ");
+        string? key = ConsoleUI.GetInputWithPrompt("Keyword : ");
         List<Contact> filteredContacts = userContactList.Search(fieldName, key);
         ConsoleUI.PrintAppHeader("Search");
         if (filteredContacts.Count <= 0)
         {
-            ConsoleUI.PromptWarning("No matches found");
+            ConsoleUI.PromptInfoWithColor("No matches found", ConsoleColor.Yellow);
         }
         else
         {
-            ConsoleUI.PromptSuccess("Matched results : ");
+            ConsoleUI.PromptInfoWithColor("Matched results : ", ConsoleColor.Green);
             ConsoleUI.PrintContacts(filteredContacts);
         }
 
@@ -132,7 +132,7 @@ internal class FeatureController
     }
 
     /// <summary>
-    /// Handles the user input for sort operation, ist all the available sort option and prompt the user to select one
+    /// Handles the user input for sort operation, list all the available sort option and prompt the user to select one
     /// apply the selected sort operation and display the sorted list.
     /// and navigate to menu based on user option
     /// </summary>
@@ -161,7 +161,7 @@ internal class FeatureController
         ConsoleUI.PrintAppHeader("Sort");
         contactList = userContactList.GetContacts();
         ConsoleUI.PrintContacts(contactList);
-        ConsoleUI.PromptSuccess($"Sorted by {optionName}");
+        ConsoleUI.PromptInfoWithColor($"Sorted by {optionName}", ConsoleColor.Green);
         ConsoleUI.WaitAndReturnToMenu();
     }
 }

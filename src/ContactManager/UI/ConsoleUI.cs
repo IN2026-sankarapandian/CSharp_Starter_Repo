@@ -1,7 +1,4 @@
-﻿using ContactManager.Model;
-using ContactManager.Repository;
-
-namespace ContactManager.UI;
+﻿namespace ContactManager;
 
 /// <summary>
 /// Provides Console UI operations for the Contact Manager application.
@@ -10,8 +7,8 @@ namespace ContactManager.UI;
 /// </summary>
 internal static class ConsoleUI
 {
-    private static readonly Dictionary<string, string> _contactTemplate = ContactRepository.GetContactTemplate();
-    private static readonly string[] _fields = new[] { "S. no" }.Concat(_contactTemplate.Keys).ToArray();
+    private static readonly Dictionary<string, string>? _contactTemplate = ContactRepository.GetContactTemplate();
+    private static readonly string[] _fields = _contactTemplate != null ? new[] { "S. no" }.Concat(_contactTemplate.Keys).ToArray() : new[] { "S. no. " };
 
     /// <summary>
     /// Prints the list of contact in table structure
@@ -21,7 +18,7 @@ internal static class ConsoleUI
     {
         if (contacts.Count <= 0)
         {
-            PromptWarning("You don't have any contacts yet.");
+            ConsoleUI.PromptInfoWithColor("You don't have any contacts yet.", ConsoleColor.Yellow);
             return;
         }
 
@@ -44,7 +41,7 @@ internal static class ConsoleUI
         values[0] = index;
         for (int i = 1; i < _fields.Length; i++)
         {
-            values[i] = contact[_fields[i]];
+            values[i] = contact[_fields[i]] ?? " ";
         }
 
         string rowFormat = GetRowFormat();
@@ -70,44 +67,23 @@ internal static class ConsoleUI
     /// This function is responsible to print the header of app name and mode name(if any) in all pages
     /// </summary>
     /// <param name="modeName">Name of the mode</param>
-    public static void PrintAppHeader(string modeName)
+    public static void PrintAppHeader(string? modeName)
     {
         Console.Clear();
-        Console.ForegroundColor = ConsoleColor.Blue;
-        Console.Write("Contact Manager");
-        Console.Write($" - {modeName}\n\n");
-        Console.ResetColor();
+        string heading = $"Contact Manager - {modeName}\n\n";
+        PromptInfoWithColor(heading, ConsoleColor.Blue);
         return;
     }
 
     /// <summary>
-    /// Display waring message in yellow color
+    /// Display message in selected color
+    /// Default color is white
     /// </summary>
     /// <param name="prompt">Prompt to be shown</param>
-    public static void PromptWarning(string prompt)
+    /// <param name="color">Color of the prompt text</param>
+    public static void PromptInfoWithColor(string prompt, ConsoleColor color = ConsoleColor.White)
     {
-        Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine(prompt);
-        Console.ResetColor();
-    }
-
-    /// <summary>
-    /// Display success message in green color
-    /// </summary>
-    /// <param name="prompt">Prompt to be shown</param>
-    public static void PromptSuccess(string prompt)
-    {
-        Console.ForegroundColor = ConsoleColor.Green;
-        Console.WriteLine(prompt);
-        Console.ResetColor();
-    }
-
-    /// <summary>
-    /// Display info in default color
-    /// </summary>
-    /// <param name="prompt">Prompt to be shown</param>
-    public static void PromptInfo(string prompt)
-    {
+        Console.ForegroundColor = color;
         Console.WriteLine(prompt);
         Console.ResetColor();
     }
@@ -117,7 +93,7 @@ internal static class ConsoleUI
     /// </summary>
     /// <param name="prompt">Prompt shown to the user</param>
     /// <returns>user input</returns>
-    public static string GetInputWithPrompt(string prompt)
+    public static string? GetInputWithPrompt(string? prompt)
     {
         Console.Write(prompt);
         return Console.ReadLine();
