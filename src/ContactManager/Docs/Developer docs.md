@@ -96,9 +96,7 @@ It has all necessary function to Console write and read operation, the entire st
 | `PrintContacts(Contact contact)`            | Print the contact in table format.   |                                                              |
 | `WaitAndReturnToMenu()`                  | Prompt the user waits for the key press and navigates to menu                                                 |
 | `PrintAppHeader(string modeName)`             | Prints the header with title and current mode name at top of ebery page.                       |
-| `PromptWarning(string prompt)`       | Prints warning message with custom styling.                                                   |
-| `PromptSuccess(string prompt)`       | Prints success message with custom styling.                                                   |
-| `PromptInfo(string prompt)`              | Prints message with custom styling.                                                           |
+| `PromptInfoWithColor(string prompt, ConsoleColor color)`       | Prints message with the color                                                   |
 | `GetInputWithPrompt(string prompt)`         | Prompts the user, and returns the input from user.                                            |
 | `GetRowFormat()`                  | Create a row format according to the number of fields, column width should manually customised in code if needed |
 | `PrintTableHeader()`       | Prints the header of the table with field names  |

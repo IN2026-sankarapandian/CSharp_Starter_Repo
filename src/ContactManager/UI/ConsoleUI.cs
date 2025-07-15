@@ -2,7 +2,7 @@
 
 /// <summary>
 /// Provides Console UI operations for the Contact Manager application.
-/// Get user input anddisplay messages in structured format
+/// Get user input and display messages in structured format
 /// handle table formats and navigation to menu.
 /// </summary>
 internal static class ConsoleUI

@@ -9,7 +9,7 @@ internal class Contact
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Contact"/> class.
-    /// Constructor to set the inital data.
+    /// Constructor to set the initial data.
     /// </summary>
     /// <param name="contactDetails">Is a dictionary of contact data.</param>
     public Contact(Dictionary<string, string> contactDetails)
