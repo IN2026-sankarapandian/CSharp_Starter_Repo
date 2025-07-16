@@ -1,34 +1,33 @@
-﻿namespace OOPS.Task1
+﻿namespace OOPS;
+
+/// <summary>
+/// Represents a shape circle.
+/// </summary>
+public class Circle : Shape
 {
     /// <summary>
-    /// Represents a shape circle.
+    /// Gets or initializes radius of circle
     /// </summary>
-    public class Circle : Shape
+    /// <value>
+    /// Radius of circle
+    /// </value>
+    public double Radius { get; init; }
+
+    /// <summary>
+    /// Calculate the area of circle.
+    /// </summary>
+    /// <returns>Area of the circle</returns>
+    public override double CalculateArea()
     {
-        /// <summary>
-        /// Gets or initializes radius of circle
-        /// </summary>
-        /// <value>
-        /// Radius of circle
-        /// </value>
-        public double Radius { get; init; }
+        return Math.PI * this.Radius * this.Radius;
+    }
 
-        /// <summary>
-        /// Calculate the area of circle.
-        /// </summary>
-        /// <returns>Area of the circle</returns>
-        public override double CalculateArea()
-        {
-            return Math.PI * this.Radius * this.Radius;
-        }
-
-        /// <summary>
-        /// Print all the details about circle shape.
-        /// </summary>
-        public override void PrintDetails()
-        {
-            Console.WriteLine("Shape: Circle");
-            base.PrintDetails();
-        }
+    /// <summary>
+    /// Print all the details about circle shape.
+    /// </summary>
+    public override void PrintDetails()
+    {
+        Console.WriteLine("Shape: Circle");
+        base.PrintDetails();
     }
 }

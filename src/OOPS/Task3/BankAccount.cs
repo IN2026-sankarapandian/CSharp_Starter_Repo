@@ -1,5 +1,4 @@
-﻿namespace OOPS.Task3
-{
+﻿namespace OOPS;
     /// <summary>
     /// Represent a bank account allow all other types of bank account to inherit from it.
     /// </summary>

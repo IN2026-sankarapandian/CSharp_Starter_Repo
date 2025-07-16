@@ -1,7 +1,4 @@
-﻿global using OOPS.Task1;
-global using OOPS.Task2;
-global using OOPS.Task3;
-
+﻿namespace OOPS;
 /// <summary>
 /// The entry point class of application which contains main method which serves as a starting point.
 /// </summary>
