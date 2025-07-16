@@ -1,4 +1,6 @@
-﻿namespace InventoryManager.Validators;
+﻿using InventoryManager.Models;
+
+namespace InventoryManager.Validators;
 
 /// <summary>
 /// Contains validator method for every fields.
@@ -17,7 +19,7 @@ internal class Validator
         {
             case "Name":
                 return ValidateName((string)value);
-            case "Id":
+            case :Product.etr
                 return ValidateId((string)value);
             case "Price":
                 return ValidatePrice((int)value);

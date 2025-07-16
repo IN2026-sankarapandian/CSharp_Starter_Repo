@@ -5,7 +5,7 @@
 /// </summary>
 internal class ProductList
 {
-    private List<Product> _productList = new List<Product>();
+    private List<Product> newname = new List<Product>();
 
     /// <summary>
     /// Adds an new <see cref="Product"/> to the end of an product list.
@@ -13,9 +13,10 @@ internal class ProductList
     /// <param name="newProduct"><see cref="Product"/> to add in <see cref="ProductList"/></param>
     public void Add(Product newProduct)
     {
-        this._productList.Add(newProduct);
+        this.newname.Add(newProduct);
         Console.WriteLine("Added..");
         List<Product> products = new List<Product>();
+        nameof(newname);
     }
 
     /// <summary>
@@ -24,6 +25,6 @@ internal class ProductList
     /// <returns>PEntire product list.</returns>
     public List<Product> Get()
     {
-        return this._productList;
+        return this.newname;
     }
 }

@@ -17,6 +17,30 @@ public class Product
     }
 
     /// <summary>
+    /// Used to name a field
+    /// </summary>
+    /// <value>Holds none, used as name for fields</value>
+    public string Name { get; set; }
+
+    /// <summary>
+    /// Used to name a field
+    /// </summary>
+    /// <value>Holds none, used as name for fields</value>
+    public string Id { get; set; }
+
+    /// <summary>
+    /// Used to name a field
+    /// </summary>
+    /// <value>Holds none, used as name for fields</value>
+    public string Price { get; set; }
+
+    /// <summary>
+    /// Used to name a field
+    /// </summary>
+    /// <value>Holds none, used as name for fields</value>
+    public string Quantity { get; set; }
+
+    /// <summary>
     /// Indexer for easy access of values with fields as keys.
     /// </summary>
     /// <param name="field">Name of the field to get or set.</param>
@@ -34,11 +58,10 @@ public class Product
     {
         return new Dictionary<string, Type>
         {
-            { "Name", typeof(string) },
-            { "Id", typeof(string) },
-            { "Price", typeof(int) },
-            { "Quantity", typeof(int) },
-            { "Time", typeof(int) },
+            { nameof(Name), typeof(string) },
+            { nameof(Id), typeof(string) },
+            { nameof(Price), typeof(int) },
+            { nameof(Quantity), typeof(int) },
         };
     }
 }
