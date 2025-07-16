@@ -1,4 +1,4 @@
-﻿namespace OOPS;
+﻿namespace OOPS.Task1;
 
 /// <summary>
 /// Represents a shape rectangle.

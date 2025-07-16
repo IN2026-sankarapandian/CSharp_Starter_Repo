@@ -1,4 +1,4 @@
-﻿namespace OOPS;
+﻿namespace OOPS.Task2;
 
 /// <summary>
 /// Represent a employee all other kind of employee to inherit from it

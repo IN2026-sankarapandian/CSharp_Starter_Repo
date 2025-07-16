@@ -1,4 +1,8 @@
-﻿namespace OOPS;
+﻿using OOPS.Task1;
+using OOPS.Task2;
+using OOPS.Task3;
+
+namespace OOPS;
 
 /// <summary>
 /// The entry point class of application which contains main method which serves as a starting point.

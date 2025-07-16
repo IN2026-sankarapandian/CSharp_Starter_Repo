@@ -1,4 +1,4 @@
-﻿namespace OOPS;
+﻿namespace OOPS.Task2;
 
 /// <summary>
 /// Represent an employee manager.

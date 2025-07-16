@@ -1,4 +1,4 @@
-﻿namespace OOPS;
+﻿namespace OOPS.Task1;
 
 /// <summary>
 /// Represents a shape, allow all other individual shape to inherit from it.

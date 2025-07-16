@@ -1,4 +1,4 @@
-﻿namespace OOPS;
+﻿namespace OOPS.Task1;
 
 /// <summary>
 /// Represents a shape circle.
@@ -19,7 +19,7 @@ public class Circle : Shape
     /// <returns>Area of the circle</returns>
     public override double CalculateArea()
     {
-        return Math.PI * this.Radius * this.Radius;
+        return Math.PI * Radius * Radius;
     }
 
     /// <summary>

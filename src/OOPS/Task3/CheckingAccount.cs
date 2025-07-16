@@ -1,4 +1,4 @@
-﻿namespace OOPS;
+﻿namespace OOPS.Task3;
 
 /// <summary>
 /// Represents a checking account.
