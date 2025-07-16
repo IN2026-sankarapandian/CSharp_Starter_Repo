@@ -1,5 +1,7 @@
-﻿using InventoryManager;
+﻿using ConsoleTables;
+using InventoryManager.Handlers;
 using InventoryManager.Models;
+using InventoryManager.UI;
 
 namespace Assignments
 {
@@ -24,10 +26,12 @@ namespace Assignments
                 switch (choice)
                 {
                     case "1":
-                        FeatureHandlers.AddProduct(list);
+                        FeatureHandlers.HandleAddProduct(list);
                         break;
                     case "2":
-                        list.Show();
+                        List<Product> userProductList = list.Get();
+                        ConsoleUI.PrintTable(userProductList);
+
                         break;
                     case "3":
                         break;

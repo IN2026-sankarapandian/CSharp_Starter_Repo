@@ -19,7 +19,7 @@ public class Circle : Shape
     /// <returns>Area of the circle</returns>
     public override double CalculateArea()
     {
-        return Math.PI * Radius * Radius;
+        return Math.PI * this.Radius * this.Radius;
     }
 
     /// <summary>
