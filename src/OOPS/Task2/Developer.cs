@@ -1,15 +1,15 @@
 ﻿namespace OOPS.Task2
 {
     /// <summary>
-    /// Represent a employee developer.
+    /// Represents an employee developer.
     /// </summary>
     public class Developer : Employee
     {
         /// <summary>
-        /// Calculates ansd shows the bonus amount of the developer
+        /// Calculates and shows the bonus amount of the developer.
         /// Bonus : 10%
         /// </summary>
-        /// <returns>bonus of employee</return>
+        /// <returns>Bonus of developer.</return>
         public override float CalculateBonus()
         {
             return this.Salary * (10f / 100f);

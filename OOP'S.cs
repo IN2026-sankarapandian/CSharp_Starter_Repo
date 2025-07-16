@@ -1,29 +1,14 @@
-﻿global using OOPS.Task1;
+﻿using System;
+global using OOPS.Task1;
 global using OOPS.Task2;
 global using OOPS.Task3;
 
-/// <summary>
-/// The entry point class of application which contains main method which serves as a starting point.
-/// </summary>
-public class Program
+public class OOPS
 {
-    /// <summary>
-    /// The main entry point of application which is called when application starts.
-    /// </summary>
-    public static void Main()
-    {
-        CallShapeClass();
-        CallEmployeeClass();
-        CallBankAccount();
-        Console.ReadKey();
-    }
-
-    /// <summary>
-    /// Calls the derived classes of <see cref="Shape"/> for testing
-    /// </summary>
-    private static void CallShapeClass()
-    {
-        Circle circle = new ()
+	public static void Main()
+	{
+        Console.WriteLine();
+        Circle circle = new()
         {
             Color = "Red",
             Radius = 7,
@@ -32,7 +17,7 @@ public class Program
         circle.PrintDetails();
         Console.WriteLine();
 
-        Rectangle rectangle = new ()
+        Rectangle rectangle = new()
         {
             Color = "Red",
             Width = 10,
@@ -41,14 +26,8 @@ public class Program
         rectangle.CalculateArea();
         rectangle.PrintDetails();
         Console.WriteLine();
-    }
 
-    /// <summary>
-    /// Calls the derived classes of <see cref="Employee"/> for testing
-    /// </summary>
-    private static void CallEmployeeClass()
-    {
-        Developer developer = new ()
+        Developer developer = new()
         {
             Salary = 50000,
             Name = "Sankar",
@@ -57,7 +36,7 @@ public class Program
         developer.PrintDetails();
         Console.WriteLine();
 
-        Manager manager = new ()
+        Manager manager = new()
         {
             Salary = 50000,
             Name = "Arthur",
@@ -65,14 +44,8 @@ public class Program
         manager.CalculateBonus();
         manager.PrintDetails();
         Console.WriteLine();
-    }
 
-    /// <summary>
-    /// Calls the derived classes of <see cref="BankAccount"/> for testing
-    /// </summary>
-    private static void CallBankAccount()
-    {
-        SavingsAccount savingsAccount = new ()
+        SavingsAccount savingsAccount = new()
         {
             AccountNumber = "IOB312424JK",
             Balance = 0,
@@ -84,7 +57,7 @@ public class Program
         savingsAccount.PrintDetails();
         Console.WriteLine();
 
-        CheckingAccount checkingAccount = new ()
+        CheckingAccount checkingAccount = new()
         {
             AccountNumber = "IOB2342244JK",
             Balance = 0,
@@ -95,5 +68,7 @@ public class Program
         checkingAccount.Withdraw(10000);
         checkingAccount.PrintDetails();
         Console.WriteLine();
+
+        Console.ReadKey();
     }
 }

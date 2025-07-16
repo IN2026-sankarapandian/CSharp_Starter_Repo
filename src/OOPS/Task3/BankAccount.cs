@@ -6,9 +6,9 @@
     public abstract class BankAccount
         {
             /// <summary>
-            /// Gets or initialize the account number of ban account
+            /// Gets or initialize the account number of bank account.
             /// </summary>
-            /// <value>account number of user</value>
+            /// <value>Account number of user.</value>
             public string? AccountNumber { get; init; }
 
             /// <summary>
@@ -20,7 +20,7 @@
             /// <summary>
             /// Deposit amount in the account.
             /// </summary>
-            /// <param name="amount">amount to deposit</param>
+            /// <param name="amount">Amount to deposit.</param>
             public void Deposit(float amount)
             {
                 if (amount > 0)
@@ -37,7 +37,7 @@
             /// <summary>
             /// Withdraw amount from the account.
             /// </summary>
-            /// <param name="amount">Withdraw amount</param>
+            /// <param name="amount">Withdraw amount.</param>
             public abstract void Withdraw(float amount);
 
             /// <summary>

@@ -9,12 +9,12 @@ namespace OOPS.Task3
     using System;
 
     /// <summary>
-    /// Represents a savings account
+    /// Represents a savings account.
     /// It has restricted withdraw policy.
     /// </summary>
     public class SavingsAccount : BankAccount
         {
-            private const float MinimumBalance = 1000;
+            private const float _minimumBalance = 1000;
 
             /// <summary>
             /// Withdraw amount from the account. <see cref="SavingsAccount"/> has restricted withdraw policy.
@@ -26,7 +26,7 @@ namespace OOPS.Task3
                     {
                         Console.WriteLine("Withdrawal amount must be positive.");
                     }
-                    else if (this.Balance - amount < MinimumBalance)
+                    else if (this.Balance - amount < _minimumBalance)
                     {
                         Console.WriteLine("Minimum balance not met, withdrawal denied.");
                     }
@@ -38,7 +38,7 @@ namespace OOPS.Task3
                 }
 
             /// <summary>
-            /// Print all the details about saving account.
+            /// Print all the details about savings account.
             /// </summary>
             public override void PrintDetails()
                 {
