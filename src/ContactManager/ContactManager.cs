@@ -17,7 +17,7 @@ internal class ContactManager
         do
         {
             Console.WriteLine("1. Add  \n2. Show  \n3. Edit  \n4. Delete  \n5. Sort  \n6. Search  \n7. Exit\n");
-            string choice = ConsoleUI.GetInputWithPrompt("What do you want to do : ");
+            string? choice = ConsoleUI.GetInputWithPrompt("What do you want to do : ");
             switch (choice)
             {
                 case "1":

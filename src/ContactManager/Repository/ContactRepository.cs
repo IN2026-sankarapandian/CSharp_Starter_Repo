@@ -5,7 +5,6 @@
 /// </summary>
 internal class ContactRepository
 {
-    private readonly string[] _fields = { "Name", "Phone", "Email", "Notes" };
     private List<Contact> _contactList = new List<Contact>();
 
     /// <summary>
