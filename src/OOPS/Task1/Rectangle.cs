@@ -25,10 +25,7 @@ public class Rectangle : Shape
     /// Calculate the area of rectangle.
     /// </summary>
     /// <returns>Area of the rectangle.</returns>
-    public override double CalculateArea()
-    {
-        return this.Width * this.Height;
-    }
+    public override double CalculateArea() => this.Width * this.Height;
 
     /// <summary>
     /// Print all the details about rectangle shape.
