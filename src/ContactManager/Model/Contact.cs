@@ -31,9 +31,9 @@ internal class Contact
     /// </summary>
     /// <param name="key">Field name to get</param>
     /// <returns>Value of the field.</returns>
-    public string? this[string key]
+    public string this[string key]
     {
-        get => this._contactInfo.ContainsKey(key) ? this._contactInfo[key] : null;
+        get => this._contactInfo[key];
         set => this._contactInfo[key] = value!;
     }
 

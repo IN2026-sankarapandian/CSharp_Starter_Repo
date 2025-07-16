@@ -5,7 +5,7 @@
 /// </summary>
 internal class FeatureHandler
 {
-    private static readonly Dictionary<string, string>? _contactTemplate = ContactRepository.GetContactTemplate();
+    private static readonly Dictionary<string, string> _contactTemplate = ContactRepository.GetContactTemplate();
     private static readonly string[] _fields = _contactTemplate.Keys.ToArray();
 
     /// <summary>
@@ -73,7 +73,7 @@ internal class FeatureHandler
         ConsoleUI.PromptInfoWithColor("\nEdit ");
         string selectedField = UserFormHandler.GetField(_fields);
         ConsoleUI.PromptInfoWithColor("New ");
-        string? key = UserFormHandler.GetFieldValue(selectedField, userContactList);
+        string key = UserFormHandler.GetFieldValue(selectedField, userContactList);
         userContactList.EditContact(index - 1, selectedField, key);
         ConsoleUI.PromptInfoWithColor("Edited successfully !", ConsoleColor.Green);
         ConsoleUI.WaitAndReturnToMenu();
@@ -115,7 +115,7 @@ internal class FeatureHandler
     {
         ConsoleUI.PrintAppHeader("Search");
         string fieldName = UserFormHandler.GetField(_fields);
-        string? key = ConsoleUI.GetInputWithPrompt("Keyword : ");
+        string key = ConsoleUI.GetInputWithPrompt("Keyword : ");
         List<Contact> filteredContacts = userContactList.Search(fieldName, key);
         ConsoleUI.PrintAppHeader("Search");
         if (filteredContacts.Count <= 0)

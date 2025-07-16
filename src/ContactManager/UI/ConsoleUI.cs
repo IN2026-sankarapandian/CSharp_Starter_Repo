@@ -93,10 +93,25 @@ internal static class ConsoleUI
     /// </summary>
     /// <param name="prompt">Prompt shown to the user</param>
     /// <returns>user input</returns>
-    public static string? GetInputWithPrompt(string? prompt)
+    public static string GetInputWithPrompt(string prompt)
     {
-        Console.Write(prompt);
-        return Console.ReadLine();
+        string? input;
+        do
+        {
+            Console.Write(prompt);
+            input = Console.ReadLine();
+            if (input is null)
+            {
+                PromptInfoWithColor("Input can't be empty !", ConsoleColor.Yellow);
+                continue;
+            }
+            else
+            {
+                break;
+            }
+        }
+        while (true);
+        return input;
     }
 
     /// <summary>

@@ -10,14 +10,14 @@ internal class ContactManager
     /// </summary>
     /// <param name="args">Inputs from console while executing file</param>
     /// <returns>A <see cref="Task"/> Representing the asynchronous operation.</returns>
-    public static async Task Main(string[] args)
+    public static async Task Main()
     {
         ContactRepository userContactList = new ContactRepository();
         ConsoleUI.PrintAppHeader("Menu");
         do
         {
             Console.WriteLine("1. Add  \n2. Show  \n3. Edit  \n4. Delete  \n5. Sort  \n6. Search  \n7. Exit\n");
-            string? choice = ConsoleUI.GetInputWithPrompt("What do you want to do : ");
+            string choice = ConsoleUI.GetInputWithPrompt("What do you want to do : ");
             switch (choice)
             {
                 case "1":

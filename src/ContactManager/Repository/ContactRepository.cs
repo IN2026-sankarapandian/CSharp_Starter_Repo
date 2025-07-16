@@ -12,7 +12,7 @@ internal class ContactRepository
     /// Holds the template of the contact.
     /// </summary>
     /// <returns>Template of contact as a dictionary.</returns>
-    public static Dictionary<string, string>? GetContactTemplate()
+    public static Dictionary<string, string> GetContactTemplate()
     {
         return Contact.GetContactTemplate();
     }
@@ -51,7 +51,7 @@ internal class ContactRepository
     /// <param name="index">index of contact to be edited</param>
     /// <param name="field">field of contact to edit</param>
     /// <param name="newValue">changes</param>
-    public void EditContact(int index, string? field, string? newValue)
+    public void EditContact(int index, string field, string newValue)
     {
         if (index >= this._contactList.Count || index < 0)
         {
@@ -67,24 +67,32 @@ internal class ContactRepository
     /// <param name="index">Index of contact to delete.</param>
     public void DeleteContacts(int index)
     {
-        if (index >= _contactList.Count || index < 0)
+        if (index >= this._contactList.Count || index < 0)
         {
             return;
         }
 
-        _contactList.RemoveAt(index);
+        this._contactList.RemoveAt(index);
     }
 
     /// <summary>
     /// Searches contacts by field with keyword, Holds the matched results as list.
     /// </summary>
-    /// <param name="field">field to search for.</param>
+    /// <param name="field">Field to search for.</param>
     /// <param name="keyword">Keyword to find matches.</param>
     /// <returns>Filtered list</returns>
-    public List<Contact> Search(string? field, string? keyword)
+    public List<Contact> Search(string field, string keyword)
     {
-        List<Contact> filtered = _contactList.FindAll(contact => contact[field].ToUpper().Contains(keyword.ToUpper()));
-        return filtered;
+        List<Contact> filteredContacts = this._contactList.FindAll(contact =>
+        {
+            if (contact is null || contact[field] is null || field is null)
+            {
+                return false;
+            }
+
+            return contact[field].ToUpper().Contains(keyword.ToUpper());
+        });
+        return filteredContacts;
     }
 
     /// <summary>
@@ -93,7 +101,15 @@ internal class ContactRepository
     /// <param name="field">Field to sort.</param>
     public void SortContacts(string field)
     {
-        _contactList.Sort((contactA, contactB) => contactA[field].CompareTo(contactB[field]));
+        this._contactList.Sort((contactA, contactB) =>
+        {
+            if (contactA is null || contactB is null)
+            {
+                return 0;
+            }
+
+            return contactA[field].CompareTo(contactB[field]);
+        });
     }
 
     /// <summary>
@@ -102,9 +118,9 @@ internal class ContactRepository
     /// <param name="field">Field to check for in contact list.</param>
     /// <param name="value">Value to check with existing values.</param>
     /// <returns>Return true if there is duplicate and false if there is no duplicates.</returns>
-    public bool HaveDuplicate(string? field, string? value)
+    public bool HaveDuplicate(string field, string value)
     {
-        if (_contactList.Exists(contact => contact[field] == value))
+        if (this._contactList.Exists(contact => contact[field] == value))
         {
             return true;
         }
@@ -119,7 +135,7 @@ internal class ContactRepository
     /// <returns>return true if it is in range and false if index it out of range.</returns>
     public bool IsValidIndex(int index)
     {
-        if (index >= 0 && index < _contactList.Count)
+        if (index >= 0 && index < this._contactList.Count)
         {
             return true;
         }
