@@ -13,28 +13,28 @@ public class SavingsAccount : BankAccount
     /// </summary>
     /// <param name="amount">Amount to withdraw</param>
     public override void Withdraw(float amount)
+    {
+        if (amount <= 0)
         {
-            if (amount <= 0)
-            {
-                Console.WriteLine("Withdrawal amount must be positive.");
-            }
-            else if (this.Balance - amount < _minimumBalance)
-            {
-                Console.WriteLine("Minimum balance not met, withdrawal denied.");
-            }
-            else
-            {
-                this.Balance -= amount;
-                Console.WriteLine($"Withdrawn amount: {amount}");
-            }
+            Console.WriteLine("Withdrawal amount must be positive.");
         }
+        else if (this.Balance - amount < _minimumBalance)
+        {
+            Console.WriteLine("Minimum balance not met, withdrawal denied.");
+        }
+        else
+        {
+            this.Balance -= amount;
+            Console.WriteLine($"Withdrawn amount: {amount}");
+        }
+    }
 
     /// <summary>
     /// Print all the details about savings account.
     /// </summary>
     public override void PrintDetails()
-        {
-            Console.WriteLine("Account Type: Savings");
-            base.PrintDetails();
-        }
+    {
+        Console.WriteLine("Account Type: Savings");
+        base.PrintDetails();
+    }
 }
