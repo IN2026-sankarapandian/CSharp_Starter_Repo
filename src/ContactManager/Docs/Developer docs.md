@@ -97,7 +97,7 @@ It has all necessary function to Console write and read operation, the entire st
 | `WaitAndReturnToMenu()`                  | Prompt the user waits for the key press and navigates to menu                                                 |
 | `PrintAppHeader(string modeName)`             | Prints the header with title and current mode name at top of ebery page.                       |
 | `PromptInfoWithColor(string prompt, ConsoleColor color)`       | Prints message with the color                                                   |
-| `GetInputWithPrompt(string prompt)`         | Prompts the user, and returns the input from user.                                            |
+| `GetInputWithPrompt(string prompt)`         | Prompts the user, and returns the non null input from user.                                            |
 | `GetRowFormat()`                  | Create a row format according to the number of fields, column width should manually customised in code if needed |
 | `PrintTableHeader()`       | Prints the header of the table with field names  |
 ---
