@@ -1,4 +1,5 @@
 ﻿namespace OOPS;
+
 /// <summary>
 /// The entry point class of application which contains main method which serves as a starting point.
 /// </summary>

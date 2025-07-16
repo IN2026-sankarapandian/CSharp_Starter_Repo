@@ -1,13 +1,11 @@
 ﻿namespace OOPS;
 
-using System;
-
 /// <summary>
 /// Represents a checking account.
 /// It has unrestricted withdraw policy.
 /// </summary>
 public class CheckingAccount : BankAccount
-    {
+{
     /// <summary>
     /// Withdraw amount from the account. <see cref="CheckingAccount"/> has unrestricted withdraw policy.
     /// </summary>
@@ -37,4 +35,4 @@ public class CheckingAccount : BankAccount
             Console.WriteLine("Account Type: Checking");
             base.PrintDetails();
         }
-    }
+}
