@@ -3,12 +3,12 @@ using InventoryManager.Parsers;
 using InventoryManager.UI;
 using InventoryManager.Validators;
 
-namespace InventoryManager.FeatureHandler;
+namespace InventoryManager.ActionHandlers;
 
 /// <summary>
 /// Provides methods to handle actions of the inventory manager.
 /// </summary>
-internal class FeatureHandlers
+internal class ActionHandler
 {
     /// <summary>
     /// Handle getting user inputs and adds a new product to the <see cref="ProductList"/>.

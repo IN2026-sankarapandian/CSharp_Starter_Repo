@@ -1,4 +1,4 @@
-﻿using InventoryManager.FeatureHandler;
+﻿using InventoryManager.ActionHandlers;
 using InventoryManager.Models;
 using InventoryManager.UI;
 
@@ -20,28 +20,28 @@ public class InventoryManager
         ProductList list = new ();
         while (true)
         {
-            ConsoleUI.Prompt("1. Add Product\n2. Show Product\n3. Edit Product\n4. Delete Product\n5. Search Product");
+            ConsoleUI.Prompt("1. Add Product\n2. Show Product\n3. Edit Product\n4. Delete Product\n5. Search Product\n");
             ConsoleUI.PromptLine("6. Exit\n", ConsoleColor.Red);
             string choice = ConsoleUI.PromptAndGetInput("\nWhat do you want to do : ");
             switch (choice)
             {
                 case "1":
-                    FeatureHandlers.HandleAddProduct(list);
+                    ActionHandler.HandleAddProduct(list);
                     break;
                 case "2":
-                    FeatureHandlers.HandleShowProducts(list);
+                    ActionHandler.HandleShowProducts(list);
                     break;
                 case "3":
-                    FeatureHandlers.HandleEditProduct(list);
+                    ActionHandler.HandleEditProduct(list);
                     break;
                 case "4":
-                    FeatureHandlers.HandleDeleteProduct(list);
+                    ActionHandler.HandleDeleteProduct(list);
                     break;
                 case "5":
-                    FeatureHandlers.HandleSearchProduct(list);
+                    ActionHandler.HandleSearchProduct(list);
                     break;
                 case "6":
-                    bool confirmExit = await FeatureHandlers.ConfirmExitAsync();
+                    bool confirmExit = await ActionHandler.ConfirmExitAsync();
                     if (!confirmExit)
                     {
                         return;

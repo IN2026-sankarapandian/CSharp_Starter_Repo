@@ -36,7 +36,7 @@ public class ConsoleUI
     }
 
     /// <summary>
-    /// Prompt the user with info with color.
+    /// Prompt the user with info with specified color.
     /// </summary>
     /// <param name="info">Info to shown.</param>
     /// <param name="color">Color for the prompt.</param>
@@ -48,7 +48,7 @@ public class ConsoleUI
     }
 
     /// <summary>
-    /// Prompt the user with info with color.
+    /// Prompt the user with info in new line with specified color.
     /// </summary>
     /// <param name="prompt">Prompt to show.</param>
     /// <param name="color">Color for the prompt. Default value is white.</param>
