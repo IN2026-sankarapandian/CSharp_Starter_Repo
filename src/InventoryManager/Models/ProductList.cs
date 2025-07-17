@@ -8,7 +8,7 @@ internal class ProductList
     private List<Product> _productList = new ();
 
     /// <summary>
-    /// Add a <see cref="Product"/> to the inventory.
+    /// Add a <see cref="Product"/> to the list.
     /// </summary>
     /// <param name="newProduct">New <see cref="Product"/> to add.</param>
     public void Add(Product newProduct)
@@ -46,7 +46,7 @@ internal class ProductList
     }
 
     /// <summary>
-    /// Search for the keywrd and return all the matched <see cref="Product"/>s as list.
+    /// Search for the keyword and return all the matched <see cref="Product"/>s as list.
     /// </summary>
     /// <param name="keyword">Key word to search with.</param>
     /// <returns>The list of matched <see cref="Product"/>s</returns>
@@ -62,13 +62,24 @@ internal class ProductList
                 bool result = false;
                 foreach (string field in Product.GetFields())
                 {
-                    if (product is null || product[field] is null || field is null)
+                    if (field is null)
                     {
                         continue;
                     }
 
-                    string value = product[field].ToString().ToUpper();
-                    result |= value.Contains(keyword.ToUpper());
+                    object? value = product[field];
+                    if (value is null)
+                    {
+                        continue;
+                    }
+
+                    string? valueString = value.ToString();
+                    if (valueString is null)
+                    {
+                        continue;
+                    }
+
+                    result |= valueString.Contains(keyword.ToUpper());
                 }
 
                 return result;
@@ -77,8 +88,8 @@ internal class ProductList
     }
 
     /// <summary>
-    /// Holds the count of <see cref="Product"/> in the list.
+    /// Holds the count of <see cref="Product"/>s in the list.
     /// </summary>
-    /// <returns>Total count of <see cref="Product"/> in the list.</returns>
+    /// <returns>Total count of <see cref="Product"/>s in the list.</returns>
     public int Count() => this._productList.Count;
 }

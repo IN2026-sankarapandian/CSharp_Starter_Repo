@@ -3,15 +3,15 @@
 namespace InventoryManager.Validators;
 
 /// <summary>
-/// Provides validators for product fields via a <see cref="Validate"/> method.
+/// Provides generic validators for product fields using a <see cref="Validate"/> method.
 /// </summary>
-public class Validators
+public class Validator
 {
     /// <summary>
     /// Validate the value based on the field name and will not validate if it is an unhandled field.
-    /// out the appropriate error message if validation failed.
+    /// and out the appropriate error message if validation failed.
     /// </summary>
-    /// <param name="field">Field to type to validate.</param>
+    /// <param name="field">Field type to validate.</param>
     /// <param name="value">Value to validate.</param>
     /// <param name="error">Contains the error message of why validation failed, if validation passed error will be empty.</param>
     /// <returns><see cref="true"/> If value passes the specific field validation or unhandled fields; otherwise <see cref="false"/>.</returns>

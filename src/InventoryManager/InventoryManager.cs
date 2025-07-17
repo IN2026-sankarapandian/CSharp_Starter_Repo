@@ -5,7 +5,7 @@ using InventoryManager.UI;
 namespace Assignments;
 
 /// <summary>
-/// The main class contains the main method, entry point of a inventory manager, c# application
+/// The main class contains the main method, entry point of a inventory manager, c# application.
 /// </summary>
 public class InventoryManager
 {
@@ -16,12 +16,12 @@ public class InventoryManager
     /// <returns>A task that represents the asynchronous operation of the application.</returns>
     public static async Task Main(string[] args)
     {
-        ConsoleUI.CreateNewPageFor("Menu");
+        ConsoleUI.CreateNewPageFor("Action Menu");
         ProductList list = new ();
         while (true)
         {
             ConsoleUI.Prompt("1. Add Product\n2. Show Product\n3. Edit Product\n4. Delete Product\n5. Search Product");
-            ConsoleUI.Prompt("6. Exit\n", ConsoleColor.Red);
+            ConsoleUI.PromptLine("6. Exit\n", ConsoleColor.Red);
             string choice = ConsoleUI.PromptAndGetInput("\nWhat do you want to do : ");
             switch (choice)
             {

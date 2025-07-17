@@ -1,21 +1,22 @@
-﻿namespace InventoryManager.FeatureHandler;
-using InventoryManager.Models;
+﻿using InventoryManager.Models;
 using InventoryManager.Parsers;
 using InventoryManager.UI;
 using InventoryManager.Validators;
-using System;
+
+namespace InventoryManager.FeatureHandler;
 
 /// <summary>
-/// Provides methods to handle features of the inventory manager.
+/// Provides methods to handle actions of the inventory manager.
 /// </summary>
 internal class FeatureHandlers
 {
     /// <summary>
-    /// Handle getting user inputs and adds a new product to the inventory.
+    /// Handle getting user inputs and adds a new product to the <see cref="ProductList"/>.
     /// </summary>
     /// <remarks>
     /// This method prompts the user to enter all the details for the product
-    /// and create a new product with the user input details in product inventory.
+    /// and create a new product with the user input details in <see cref="ProductList"/>.
+    /// It also validate every inputs from the user using <see cref="Validator"/>
     /// </remarks>
     /// <param name="list">Give access to user list</param>
     public static void HandleAddProduct(ProductList list)
@@ -27,17 +28,17 @@ internal class FeatureHandlers
         foreach (var field in productTemplate)
         {
             object result;
-            string input, error = string.Empty;
+            string input, erroressage = string.Empty;
             do
             {
-                if (error != string.Empty)
+                if (erroressage != string.Empty)
                 {
-                    ConsoleUI.PromptLine(error, ConsoleColor.Yellow);
+                    ConsoleUI.PromptLine(erroressage, ConsoleColor.Yellow);
                 }
 
                 input = ConsoleUI.PromptAndGetInput($"{field.Key} : ");
             }
-            while (!(Parser.TryParseValue(input, field.Value, out result, out error) && Validators.Validate(field.Key, result, out error)));
+            while (!(Parser.TryParseValue(input, field.Value, out result, out erroressage) && Validator.Validate(field.Key, result, out erroressage)));
             newProductDetails[field.Key] = result;
         }
 
@@ -72,10 +73,9 @@ internal class FeatureHandlers
     /// </summary>
     /// <remarks> This method lists all the products as a table format to the user and prompt the user to
     /// select a index of product to edit (It informs user if product list was empty and ask user to return
-    /// back to menu). It list the available
-    /// fields of the product and prompt the user to select the field to edit. Then it prompt the user to
-    /// enter the new value to change and apply changes to the list. This function validates the index, field,
-    /// and new value of the field with validators.
+    /// back to menu). It list all the available fields of the product and prompt the user to select the field
+    /// to edit. Then it prompt the user to enter the new value to change and apply changes to the list via <see cref="ProductList"/>.
+    /// This function validates the index, field, and new value of the field with <see cref="Validator"/>.
     /// </remarks>
     /// <param name="list">Give access to user list</param>
     public static void HandleEditProduct(ProductList list)
@@ -89,17 +89,17 @@ internal class FeatureHandlers
         int index = Helper.GetIndex(list);
         string field = Helper.GetFieldName(list);
         object value;
-        string valueString, error = string.Empty;
+        string valueString, errorMessage = string.Empty;
         do
         {
-            if (error != string.Empty)
+            if (errorMessage != string.Empty)
             {
-                ConsoleUI.PromptLine(error, ConsoleColor.Yellow);
+                ConsoleUI.PromptLine(errorMessage, ConsoleColor.Yellow);
             }
 
             valueString = ConsoleUI.PromptAndGetInput($"New {field} : ");
         }
-        while (!(Parser.TryParseValue(valueString, Product.GetTemplate()[field], out value, out error) && Validators.Validate(field, value, out error)));
+        while (!(Parser.TryParseValue(valueString, Product.GetTemplate()[field], out value, out errorMessage) && Validator.Validate(field, value, out errorMessage)));
         list.Edit(index - 1, field, value);
         ConsoleUI.PromptLine("Edited successfully", ConsoleColor.Green);
         ConsoleUI.WaitAndNavigateToMenu();
@@ -107,11 +107,12 @@ internal class FeatureHandlers
     }
 
     /// <summary>
-    /// Handles the deletion of a product from the provided product list.
+    /// Handles the deletion of a product from the provided <see cref="ProductList"/>.
     /// </summary>
     /// <remarks>This method lists the products as table format with index to the user and prompt the user
-    /// to select a index of product to delete. If no products are in the list, then it inform the user
-    /// that there is no products in the list so navigate back to menu. It also check the input is a valid index.
+    /// to select a index of product to delete. Deletes the product at specified index in <see cref="ProductList"/>
+    /// If no products are in the list, then it inform the user
+    /// that there is no products in the list so navigate back to menu. It also check the input is a valid index using <see cref="Validator"/>.
     /// </remarks>
     /// <param name="list">Give access to user list</param>
     public static void HandleDeleteProduct(ProductList list)
@@ -139,7 +140,7 @@ internal class FeatureHandlers
     /// are in the list, then it inform the user that there is no products
     /// in the list so navigate back to menu.
     /// </remarks>
-    /// <param name="list">Give access to user list</param>
+    /// <param name="list">Give access to user list.</param>
     public static void HandleSearchProduct(ProductList list)
     {
         ConsoleUI.CreateNewPageFor("Search");
@@ -151,7 +152,7 @@ internal class FeatureHandlers
         }
 
         string keyword = ConsoleUI.PromptAndGetInput($"Keyword : ");
-        List<Product> products = list.Search(keyword, field);
+        List<Product> products = list.Search(keyword);
         if (products.Count == 0)
         {
             ConsoleUI.PromptLine("No matches found !", ConsoleColor.Yellow);
@@ -166,14 +167,14 @@ internal class FeatureHandlers
     }
 
     /// <summary>
-    /// Ask the user for confirmation to exit with a warning.
+    /// Ask the user for confirmation to exit with a warning of loss of data.
     /// </summary>
     /// <returns><see cref="true"/> /if user chooses to exit; otherwise <see cref="false"/></returns>
     public static async Task<bool> ConfirmExitAsync()
     {
         do
         {
-            string input = ConsoleUI.PromptAndGetInput("Warning : Closing the app will erase all product details. Are you sure you want to continue? (y/n) :", ConsoleColor.Magenta);
+            string input = ConsoleUI.PromptAndGetInput("Warning : Closing the app will erase all added product details. Are you sure you want to continue? (y/n) :", ConsoleColor.Magenta);
             if (input.ToUpper() == "Y")
             {
                 ConsoleUI.PromptLine("Closing the app...", ConsoleColor.Magenta);
