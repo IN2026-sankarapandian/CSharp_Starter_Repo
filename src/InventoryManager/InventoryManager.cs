@@ -1,41 +1,56 @@
-﻿using ConsoleTables;
-using InventoryManager.Handlers;
+﻿using InventoryManager.FeatureHandler;
 using InventoryManager.Models;
 using InventoryManager.UI;
 
-namespace Assignments
+namespace Assignments;
+
+/// <summary>
+/// The main class contains the main method, entry point of a inventory manager, c# application
+/// </summary>
+public class InventoryManager
 {
     /// <summary>
-    /// The main class contains the main method, entry point of a inventory manager, c# application
+    /// The Main method is the entry point of the inventory manager, creates a new instance of <see cref="ProductList"/>, prompts the user for actions, and handles them accordingly.
     /// </summary>
-    internal class InventoryManager
+    /// <param name="args">Command line arguments</param>
+    /// <returns>A task that represents the asynchronous operation of the application.</returns>
+    public static async Task Main(string[] args)
     {
-        /// <summary>
-        /// The Main method is the entry point of a inventory manager, C# application. When the application is started, the Main method is the first method that is invoked.
-        /// </summary>
-        /// <param name="args">Command line arguments</param>
-        public static void Main(string[] args)
+        ConsoleUI.CreateNewPageFor("Menu");
+        ProductList list = new ();
+        while (true)
         {
-            ProductList list = new ProductList();
-            ConsoleUI.PromptInfo("Inventory manager - Menu");
-            ConsoleUI.PromptInfo("1. Add\n2. Show\n3. Delete");
-            ConsoleUI.PromptInfo("What do you want to do : ");
-            while (true)
+            ConsoleUI.Prompt("1. Add Product\n2. Show Product\n3. Edit Product\n4. Delete Product\n5. Search Product");
+            ConsoleUI.Prompt("6. Exit\n", ConsoleColor.Red);
+            string choice = ConsoleUI.PromptAndGetInput("\nWhat do you want to do : ");
+            switch (choice)
             {
-                string? choice = ConsoleUI.PromptAndGetInput("Select option : ");
-                switch (choice)
-                {
-                    case "1":
-                        FeatureHandlers.HandleAddProduct(list);
-                        break;
-                    case "2":
-                        List<Product> userProductList = list.Get();
-                        ConsoleUI.PrintTable(userProductList);
+                case "1":
+                    FeatureHandlers.HandleAddProduct(list);
+                    break;
+                case "2":
+                    FeatureHandlers.HandleShowProducts(list);
+                    break;
+                case "3":
+                    FeatureHandlers.HandleEditProduct(list);
+                    break;
+                case "4":
+                    FeatureHandlers.HandleDeleteProduct(list);
+                    break;
+                case "5":
+                    FeatureHandlers.HandleSearchProduct(list);
+                    break;
+                case "6":
+                    bool confirmExit = await FeatureHandlers.ConfirmExitAsync();
+                    if (!confirmExit)
+                    {
+                        return;
+                    }
 
-                        break;
-                    case "3":
-                        break;
-                }
+                    break;
+                default:
+                    ConsoleUI.PromptLine("Invalid option. Please try again.", ConsoleColor.Yellow);
+                    break;
             }
         }
     }

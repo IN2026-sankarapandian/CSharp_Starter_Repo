@@ -1,75 +1,89 @@
-﻿using InventoryManager.Models;
+﻿using InventoryManager.UI;
 
 namespace InventoryManager.Validators;
 
 /// <summary>
-/// Contains validator method for every fields.
+/// Provides validators for product fields via a <see cref="Validate"/> method.
 /// </summary>
-internal class Validator
+public class Validators
 {
     /// <summary>
-    /// Call the validator method for mentioned fields, if there is not vaidator added it will return without validation.
+    /// Validate the value based on the field name and will not validate if it is an unhandled field.
+    /// out the appropriate error message if validation failed.
     /// </summary>
-    /// <param name="field">Validation method</param>
-    /// <param name="value">The value to validate.</param>
-    /// <returns><see cref="true"/> if the value passed the validation; other wise <see cref="false"/></returns>
-    public static bool Validate(string field, object value)
+    /// <param name="field">Field to type to validate.</param>
+    /// <param name="value">Value to validate.</param>
+    /// <param name="error">Contains the error message of why validation failed, if validation passed error will be empty.</param>
+    /// <returns><see cref="true"/> If value passes the specific field validation or unhandled fields; otherwise <see cref="false"/>.</returns>
+    public static bool Validate(string field, object? value, out string error)
     {
+        if (value is null)
+        {
+            error = "Value cannot be null !";
+            return false;
+        }
+
         switch (field)
         {
             case "Name":
-                return ValidateName((string)value);
-            case :Product.etr
-                return ValidateId((string)value);
+                return ValidateName((string)value, out error);
+            case "Id":
+                return ValidateId((string)value, out error);
             case "Price":
-                return ValidatePrice((int)value);
+                return ValidatePrice((int)value, out error);
             case "Quantity":
-                return ValidateQuantity((int)value);
+                return ValidateQuantity((int)value, out error);
             default:
+                error = string.Empty;
                 return true;
         }
     }
 
-    private static bool ValidateName(string name)
+    private static bool ValidateName(string name, out string error)
     {
         if (name.Length >= 20)
         {
-            Console.WriteLine("Should not exceed 20 characters");
+            error = "Name should not exceed 20 characters !";
             return false;
         }
+
+        error = string.Empty;
         return true;
     }
 
-    private static bool ValidateId(string id)
+    private static bool ValidateId(string id, out string error)
     {
         if (id.Length != 10)
         {
-            Console.WriteLine("Must be 10 character");
+            error = "Id must have 10 characters ! ";
             return false;
         }
 
+        error = string.Empty;
         return true;
     }
 
-    private static bool ValidatePrice(int price)
+    private static bool ValidatePrice(int price, out string error)
     {
         if (price < 0)
         {
-            Console.WriteLine("Price annot be a negative value");
+            error = "Price cannot be a negative value !";
             return false;
         }
 
+        error = string.Empty;
         return true;
     }
 
-    private static bool ValidateQuantity(int quantity)
+    private static bool ValidateQuantity(int quantity, out string error)
     {
         if (quantity < 0)
         {
-            Console.WriteLine("Atleast one quantity is required");
+            error = "Atleast one quantity is required !";
             return false;
         }
 
+        error = string.Empty;
         return true;
     }
 }

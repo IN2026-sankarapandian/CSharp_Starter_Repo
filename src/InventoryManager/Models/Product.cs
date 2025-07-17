@@ -1,7 +1,7 @@
 ﻿namespace InventoryManager.Models;
 
 /// <summary>
-/// Represents a product and holds data of it.
+/// Represent a product with Name, Id, Price, and Quantity fields.
 /// </summary>
 public class Product
 {
@@ -17,51 +17,66 @@ public class Product
     }
 
     /// <summary>
-    /// Used to name a field
+    /// Gets the name of the Name field.
     /// </summary>
-    /// <value>Holds none, used as name for fields</value>
-    public string Name { get; set; }
+    /// <value>
+    /// Holds the name of the Name field.
+    /// </value>
+    public static string Name => "Name";
 
     /// <summary>
-    /// Used to name a field
+    /// Gets the name the id Field.
     /// </summary>
-    /// <value>Holds none, used as name for fields</value>
-    public string Id { get; set; }
+    /// <value>
+    /// Holds the name of the id Field.
+    /// </value>
+    public static string Id => "Id";
 
     /// <summary>
-    /// Used to name a field
+    /// Gets the name of the Price field.
     /// </summary>
-    /// <value>Holds none, used as name for fields</value>
-    public string Price { get; set; }
+    /// <value>
+    /// Holds the name of the Price field.
+    /// </value>
+    public static string Price => "Price";
 
     /// <summary>
-    /// Used to name a field
+    /// Gets the name of the Quantity field.
     /// </summary>
-    /// <value>Holds none, used as name for fields</value>
-    public string Quantity { get; set; }
+    /// <value>
+    /// Holds the name of the Quantity field.
+    /// </value>
+    public static string Quantity => "Quantity";
 
     /// <summary>
-    /// Indexer for easy access of values with fields as keys.
+    /// Indexer for easy access of values of <see cref="Dictionary{TKey, TValue}"/> containing fields as key, value in <see cref="Product"/>.
     /// </summary>
-    /// <param name="field">Name of the field to get or set.</param>
-    public object? this[string field]
+    /// <param name="key">Key of the dictionary.</param>
+    /// <returns>Value for the key.</returns>
+    public object this[string key]
     {
-        get => this._product.ContainsKey(field) ? this._product[field] : null;
-        set => this._product[field] = value!;
+        get => this._product[key];
+        set => this._product[key] = value!;
     }
 
     /// <summary>
-    /// Holds the template of product details that includes field names and it type.
+    /// Holds the template of <see cref="Product"/> details.
     /// </summary>
-    /// <returns>Template of product</returns>
+    /// <returns>Template of <see cref="Product"/>.</returns>
     public static Dictionary<string, Type> GetTemplate()
     {
         return new Dictionary<string, Type>
         {
-            { nameof(Name), typeof(string) },
-            { nameof(Id), typeof(string) },
-            { nameof(Price), typeof(int) },
-            { nameof(Quantity), typeof(int) },
+            { Name, typeof(string) },
+            { Id, typeof(string) },
+            { Price, typeof(int) },
+            { Quantity, typeof(int) },
         };
     }
+
+    /// <summary>
+    /// Holds the string array of available fields in <see cref="Product"/>.
+    /// </summary>
+    /// <returns>Available fields name.</returns>
+    public static string[] GetFields() => GetTemplate().Keys.ToArray();
 }

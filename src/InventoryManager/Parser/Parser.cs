@@ -1,30 +1,42 @@
-﻿namespace InventoryManager.Parsers;
+﻿using InventoryManager.UI;
 
-internal class Parser
+namespace InventoryManager.Parsers;
+
+/// <summary>
+/// Provides generic parser methods works for specified data types
+/// </summary>
+public class Parser
 {
     /// <summary>
-    /// Convert the string representation of input to the given type equivelant. A return value indicates whether the conversion succeeded.
+    /// Try to parse the input string to the specified data type. Out the appropriate error message if parsing faied
     /// </summary>
     /// <param name="input">Input string</param>
-    /// <param name="type">Type of the object</param>
-    /// <param name="result">Parsed value</param>
-    /// <returns>true if <see cref="input"/> is converted; otherwise</returns>
-    public static bool TryParseValue(string input, Type type, out object? result)
+    /// <param name="type">Target data type</param>
+    /// <param name="result">Contains parsed if parse is successful, else the default string</param>
+    /// <param name="error">Contains the error message of why parsing failed, if parsing passed error will be empty.</param>
+    /// <returns>true if parsing was successful, false if cant parsed</returns>
+    public static bool TryParseValue(string input, Type type, out object result, out string error)
     {
-        result = null;
-        if (type == typeof(string))
+        bool status = false;
+        error = string.Empty;
+        if (type == typeof(int))
+        {
+            status = int.TryParse(input, out int number);
+            result = number;
+            if (!status)
+            {
+                error = "Give a valid input!";
+            }
+
+            return status;
+        }
+        else if (type == typeof(string))
         {
             result = input;
             return true;
         }
 
-        if (type == typeof(int))
-        {
-            bool status = int.TryParse(input, out int number);
-            result = number;
-            return status;
-        }
-        Console.WriteLine("Invalid value !");
-        return false;
+        result = input;
+        return status;
     }
 }
