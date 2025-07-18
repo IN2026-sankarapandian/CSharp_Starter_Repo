@@ -40,6 +40,7 @@ Creates and manages the main list of Contact and provides core operations:
 | `void Delete(int index)`        | Delete the Product in inventory at given index.                                    |
 | `List<Product> Search(string keyword)`     | Search for the keyword and return all the matched Products as list.               |
 | `int Count()`      | Holds the count of Products in the list.           |
+| `bool HasDuplicate(string field, object value)`  | Check for duplicates in specified field for specified value.  |
 
 
 ## Action handlers
@@ -56,7 +57,7 @@ Handle all the main features of contact manager Like Add, Show, Edit, Delete, So
 ## Validator and Parsers
 | **Function**             | **Description**                                                                 |
 |--------------------------|---------------------------------------------------------------------------------|
-|`bool Validate(string field, object? value, out string error)` | Validate the value based on the field name and will not validate if it is an unhandled field and out the appropriate error message if validation failed.|
+|`bool Validate(ProductList list, string field, object? value, out string error)` | Validate the value based on the field name and will not validate if it is an unhandled field and out the appropriate error message if validation failed.|
 |`bool TryParseValue(string input, Type type, out object result, out string errorMessage)` | Try to parse the input string to the specified data type. Out the appropriate error message if parsing faied. |
 
 

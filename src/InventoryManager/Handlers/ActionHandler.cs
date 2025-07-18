@@ -38,7 +38,7 @@ public class ActionHandler
 
                 input = ConsoleUI.PromptAndGetInput($"{field.Key} : ");
             }
-            while (!(Parser.TryParseValue(input, field.Value, out result, out erroressage) && Validator.Validate(field.Key, result, out erroressage)));
+            while (!(Parser.TryParseValue(input, field.Value, out result, out erroressage) && Validator.Validate(list, field.Key, result, out erroressage)));
             newProductDetails[field.Key] = result;
         }
 
@@ -99,7 +99,7 @@ public class ActionHandler
 
             valueString = ConsoleUI.PromptAndGetInput($"New {field} : ");
         }
-        while (!(Parser.TryParseValue(valueString, Product.GetTemplate()[field], out value, out errorMessage) && Validator.Validate(field, value, out errorMessage)));
+        while (!(Parser.TryParseValue(valueString, Product.GetTemplate()[field], out value, out errorMessage) && Validator.Validate(list, field, value, out errorMessage)));
         list.Edit(index - 1, field, value);
         ConsoleUI.PromptLine("Edited successfully", ConsoleColor.Green);
         ConsoleUI.WaitAndNavigateToMenu();

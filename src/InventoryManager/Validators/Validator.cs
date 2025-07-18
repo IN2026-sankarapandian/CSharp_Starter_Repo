@@ -1,4 +1,6 @@
-﻿using InventoryManager.UI;
+﻿using System.Xml.Linq;
+using InventoryManager.Models;
+using InventoryManager.UI;
 
 namespace InventoryManager.Validators;
 
@@ -11,11 +13,12 @@ public class Validator
     /// Validate the value based on the field name and will not validate if it is an unhandled field.
     /// and out the appropriate error message if validation failed.
     /// </summary>
+    /// <param name="list">Give acces to user list</param>
     /// <param name="field">Field type to validate.</param>
     /// <param name="value">Value to validate.</param>
     /// <param name="error">Contains the error message of why validation failed, if validation passed error will be empty.</param>
     /// <returns><see cref="true"/> If value passes the specific field validation or unhandled fields; otherwise <see cref="false"/>.</returns>
-    public static bool Validate(string field, object? value, out string error)
+    public static bool Validate(ProductList list, string field, object? value, out string error)
     {
         if (value is null)
         {
@@ -28,7 +31,7 @@ public class Validator
             case "Name":
                 return ValidateName((string)value, out error);
             case "Id":
-                return ValidateId((string)value, out error);
+                return ValidateId(list, (string)value, out error);
             case "Price":
                 return ValidatePrice((int)value, out error);
             case "Quantity":
@@ -51,11 +54,16 @@ public class Validator
         return true;
     }
 
-    private static bool ValidateId(string id, out string error)
+    private static bool ValidateId(ProductList list, string id, out string error)
     {
         if (id.Length != 10)
         {
             error = "Id must have 10 characters ! ";
+            return false;
+        }
+        else if (list.HasDuplicate(Product.Id, id))
+        {
+            error = "Product with the ID already exist";
             return false;
         }
 

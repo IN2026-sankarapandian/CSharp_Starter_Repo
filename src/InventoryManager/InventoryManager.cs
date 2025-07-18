@@ -16,7 +16,7 @@ public class InventoryManager
     /// <returns>A task that represents the asynchronous operation of the application.</returns>
     public static async Task Main(string[] args)
     {
-        ConsoleUI.CreateNewPageFor("Action Menu");
+        ConsoleUI.CreateNewPageFor("Menu");
         ProductList list = new ();
         while (true)
         {

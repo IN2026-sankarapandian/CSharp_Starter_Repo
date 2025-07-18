@@ -101,6 +101,6 @@ public class ConsoleUI
     {
         Console.Clear();
         Prompt($"Inventory manager - {action}", ConsoleColor.DarkBlue);
-        Console.WriteLine();
+        Console.WriteLine("\n");
     }
 }

@@ -79,12 +79,24 @@ public class ProductList
                         continue;
                     }
 
-                    result |= valueString.Contains(keyword.ToUpper());
+                    Console.WriteLine(valueString);
+                    result |= valueString.ToUpper().Contains(keyword.ToUpper());
                 }
 
                 return result;
             });
         return filteredProducts;
+    }
+
+    /// <summary>
+    /// Checks for dupicates for specified value and field.
+    /// </summary>
+    /// <param name="field">Field to check.</param>
+    /// <param name="value">Target value.</param>
+    /// <returns><see cref="true"/> if duplicate exists; <see cref="false"/> otherwise.</returns>
+    public bool HasDuplicate(string field, object value)
+    {
+        return this._productList.Exists(product => product[field].ToString().Equals(value.ToString()));
     }
 
     /// <summary>
