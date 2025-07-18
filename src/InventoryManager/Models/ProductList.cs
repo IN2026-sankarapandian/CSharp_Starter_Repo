@@ -3,7 +3,7 @@
 /// <summary>
 /// Represent list of <see cref="Product"/>s.
 /// </summary>
-internal class ProductList
+public class ProductList
 {
     private List<Product> _productList = new ();
 

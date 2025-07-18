@@ -8,7 +8,7 @@ namespace InventoryManager.ActionHandlers;
 /// <summary>
 /// Provides methods to handle actions of the inventory manager.
 /// </summary>
-internal class ActionHandler
+public class ActionHandler
 {
     /// <summary>
     /// Handle getting user inputs and adds a new product to the <see cref="ProductList"/>.
