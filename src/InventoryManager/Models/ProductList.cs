@@ -96,7 +96,16 @@ public class ProductList
     /// <returns><see cref="true"/> if duplicate exists; <see cref="false"/> otherwise.</returns>
     public bool HasDuplicate(string field, object value)
     {
-        return this._productList.Exists(product => product[field].ToString().Equals(value.ToString()));
+        return this._productList.Exists(product =>
+        {
+            string? valueInList = product[field].ToString();
+            if (valueInList is null)
+            {
+                return false;
+            }
+
+            return valueInList.Equals(value.ToString());
+        });
     }
 
     /// <summary>

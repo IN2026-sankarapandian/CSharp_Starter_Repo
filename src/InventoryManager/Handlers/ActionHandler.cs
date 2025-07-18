@@ -193,7 +193,7 @@ public class ActionHandler
     }
 
     // Consist of helper methods to get values from the user(used only on action handlers)
-    private static class Helper 
+    private static class Helper
     {
         // Get the index from the user until user enters a valid input.
         public static int GetIndex(ProductList list)
