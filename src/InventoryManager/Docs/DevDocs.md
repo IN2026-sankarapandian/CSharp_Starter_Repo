@@ -76,3 +76,7 @@ It has all necessary function to Console write and read operation, the entire st
 | `void WaitAndNavigateToMenu()`       |  Wait for the keypress and clear the console and navigate back to the menu.                                                   |
 | `void CreateNewPageFor(string action)`         | Clears the console and create new page for the actions.                                     |
 ---
+
+## Constants
+**Error messages** : contains all the error messages as constants.
+**Product field names** : contains all the available field names.

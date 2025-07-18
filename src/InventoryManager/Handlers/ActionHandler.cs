@@ -1,4 +1,5 @@
-﻿using InventoryManager.Models;
+﻿using InventoryManager.Constants;
+using InventoryManager.Models;
 using InventoryManager.Parsers;
 using InventoryManager.UI;
 using InventoryManager.Validators;
@@ -28,17 +29,17 @@ public class ActionHandler
         foreach (var field in productTemplate)
         {
             object result;
-            string input, erroressage = string.Empty;
+            string input, errormessage = string.Empty;
             do
             {
-                if (erroressage != string.Empty)
+                if (errormessage != string.Empty)
                 {
-                    ConsoleUI.PromptLine(erroressage, ConsoleColor.Yellow);
+                    ConsoleUI.PromptLine(errormessage, ConsoleColor.Yellow);
                 }
 
                 input = ConsoleUI.PromptAndGetInput($"{field.Key} : ");
             }
-            while (!(Parser.TryParseValue(input, field.Value, out result, out erroressage) && Validator.Validate(list, field.Key, result, out erroressage)));
+            while (!(Parser.TryParseValue(input, field.Value, out result, out errormessage) && Validator.Validate(list, field.Key, result, out errormessage)));
             newProductDetails[field.Key] = result;
         }
 
@@ -134,7 +135,7 @@ public class ActionHandler
     /// </summary>
     /// <remarks>
     /// This method prompt the user to give keyword to search and
-    /// pass the keyword to <see cref="ProductList"/> via search funcion
+    /// pass the keyword to <see cref="ProductList"/> via search function
     /// and list the matched results, if there is no matches it will inform
     /// user that there is no matches so navigate to menu. If no products
     /// are in the list, then it inform the user that there is no products
@@ -146,7 +147,7 @@ public class ActionHandler
         ConsoleUI.CreateNewPageFor("Search");
         if (list.Count() <= 0)
         {
-            ConsoleUI.PromptLine("No products available !", ConsoleColor.Yellow);
+            ConsoleUI.PromptLine(ErrorMessages.NoProducts, ConsoleColor.Yellow);
             ConsoleUI.WaitAndNavigateToMenu();
             return;
         }
@@ -155,7 +156,7 @@ public class ActionHandler
         List<Product> products = list.Search(keyword);
         if (products.Count == 0)
         {
-            ConsoleUI.PromptLine("No matches found !", ConsoleColor.Yellow);
+            ConsoleUI.PromptLine(ErrorMessages.NoMatches, ConsoleColor.Yellow);
             ConsoleUI.WaitAndNavigateToMenu();
             return;
         }
@@ -174,7 +175,7 @@ public class ActionHandler
     {
         do
         {
-            string input = ConsoleUI.PromptAndGetInput("Warning : Closing the app will erase all added product details. Are you sure you want to continue? (y/n) :", ConsoleColor.Magenta);
+            string input = ConsoleUI.PromptAndGetInput(ErrorMessages.FileEraseWarning, ConsoleColor.Magenta);
             if (input.ToUpper() == "Y")
             {
                 ConsoleUI.PromptLine("Closing the app...", ConsoleColor.Magenta);
@@ -191,8 +192,10 @@ public class ActionHandler
         return true;
     }
 
-    private static class Helper
+    // Consist of helper methods to get values from the user(used only on action handlers)
+    private static class Helper 
     {
+        // Get the index from the user until user enters a valid input.
         public static int GetIndex(ProductList list)
         {
             int index;
@@ -201,13 +204,13 @@ public class ActionHandler
                 string indexString = ConsoleUI.PromptAndGetInput("Enter the index of the product : ");
                 if (!int.TryParse(indexString, out index))
                 {
-                    ConsoleUI.PromptLine("Enter a valid index !", ConsoleColor.Yellow);
+                    ConsoleUI.PromptLine(ErrorMessages.NotValidIndex, ConsoleColor.Yellow);
                     continue;
                 }
 
                 if (index > list.Count() || index <= 0)
                 {
-                    ConsoleUI.PromptLine("No product exist at the given index " + index, ConsoleColor.Yellow);
+                    ConsoleUI.PromptLine(ErrorMessages.NotProductAtGivenIndex + index, ConsoleColor.Yellow);
                     continue;
                 }
 
@@ -216,6 +219,7 @@ public class ActionHandler
             while (true);
         }
 
+        // Get field name from the user until user enters a valid input.
         public static string GetFieldName(ProductList list)
         {
             do
@@ -229,7 +233,7 @@ public class ActionHandler
                 string fieldChoiceString = ConsoleUI.PromptAndGetInput("\nEnter a field : ");
                 if (!int.TryParse(fieldChoiceString, out int fieldChoice) && fieldChoice < fields.Length && fieldChoice > 0)
                 {
-                    ConsoleUI.PromptLine("Enter a valid choice", ConsoleColor.Yellow);
+                    ConsoleUI.PromptLine(ErrorMessages.NotValidField, ConsoleColor.Yellow);
                     continue;
                 }
 
@@ -238,11 +242,13 @@ public class ActionHandler
             while (true);
         }
 
+        // Shows the product as table
+        // return false if there is no products available; false otherwise
         public static bool ShowProducts(ProductList list)
         {
             if (list.Count() <= 0)
             {
-                ConsoleUI.PromptLine("No products found.", ConsoleColor.Yellow);
+                ConsoleUI.PromptLine(ErrorMessages.NoProducts, ConsoleColor.Yellow);
                 ConsoleUI.WaitAndNavigateToMenu();
                 return false;
             }

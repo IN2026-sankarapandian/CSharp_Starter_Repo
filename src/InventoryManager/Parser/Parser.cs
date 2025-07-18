@@ -1,4 +1,4 @@
-﻿using InventoryManager.UI;
+﻿using InventoryManager.Constants;
 
 namespace InventoryManager.Parsers;
 
@@ -25,7 +25,7 @@ public class Parser
             result = number;
             if (!status)
             {
-                errorMessage = "Give a valid input!";
+                errorMessage = ErrorMessages.NeedANumber;
             }
 
             return status;

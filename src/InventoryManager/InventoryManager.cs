@@ -1,4 +1,5 @@
 ﻿using InventoryManager.ActionHandlers;
+using InventoryManager.Constants;
 using InventoryManager.Models;
 using InventoryManager.UI;
 
@@ -49,7 +50,7 @@ public class InventoryManager
 
                     break;
                 default:
-                    ConsoleUI.PromptLine("Invalid option. Please try again.", ConsoleColor.Yellow);
+                    ConsoleUI.PromptLine(ErrorMessages.InvalidActionChoice, ConsoleColor.Yellow);
                     break;
             }
         }

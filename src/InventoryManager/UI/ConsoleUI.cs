@@ -1,4 +1,5 @@
 ﻿using ConsoleTables;
+using InventoryManager.Constants;
 using InventoryManager.Models;
 
 namespace InventoryManager.UI;
@@ -24,7 +25,7 @@ public class ConsoleUI
             string? input = Console.ReadLine();
             if (input is null || input.Trim() == string.Empty)
             {
-                PromptLine("Input cannot be empty. Please try again.", ConsoleColor.Yellow);
+                PromptLine(ErrorMessages.EmptyInput, ConsoleColor.Yellow);
                 continue;
             }
             else

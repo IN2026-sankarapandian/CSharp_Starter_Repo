@@ -1,4 +1,6 @@
-﻿namespace InventoryManager.Models;
+﻿using InventoryManager.Constants;
+
+namespace InventoryManager.Models;
 
 /// <summary>
 /// Represent a product with Name, Id, Price, and Quantity fields.
@@ -15,38 +17,6 @@ public class Product
     {
         this._product = newProduct;
     }
-
-    /// <summary>
-    /// Gets the name of the Name field.
-    /// </summary>
-    /// <value>
-    /// Holds the name of the Name field.
-    /// </value>
-    public static string Name => "Name";
-
-    /// <summary>
-    /// Gets the name the id Field.
-    /// </summary>
-    /// <value>
-    /// Holds the name of the id Field.
-    /// </value>
-    public static string Id => "Id";
-
-    /// <summary>
-    /// Gets the name of the Price field.
-    /// </summary>
-    /// <value>
-    /// Holds the name of the Price field.
-    /// </value>
-    public static string Price => "Price";
-
-    /// <summary>
-    /// Gets the name of the Quantity field.
-    /// </summary>
-    /// <value>
-    /// Holds the name of the Quantity field.
-    /// </value>
-    public static string Quantity => "Quantity";
 
     /// <summary>
     /// Indexer for easy access of values of <see cref="Dictionary{TKey, TValue}"/> containing fields as key, value in <see cref="Product"/>.
@@ -67,10 +37,10 @@ public class Product
     {
         return new Dictionary<string, Type>
         {
-            { Name, typeof(string) },
-            { Id, typeof(string) },
-            { Price, typeof(int) },
-            { Quantity, typeof(int) },
+            { ProductFieldNames.Name, typeof(string) },
+            { ProductFieldNames.Id, typeof(string) },
+            { ProductFieldNames.Price, typeof(int) },
+            { ProductFieldNames.Quantity, typeof(int) },
         };
     }
 
