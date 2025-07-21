@@ -3,7 +3,10 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OOPS", "src\OOPS\OOPS.csproj", "{E437A0CA-9B22-7DE3-015C-23075F2A1369}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager", "src\ContactManager\ContactManager.csproj", "{C447C2B8-4C00-881A-1603-B24ED0CF770A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker", "ExpenseTracker\ExpenseTracker.csproj", "{9513852C-652F-4E22-BF6C-CD3219892758}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,6 +22,10 @@ Global
 		{C447C2B8-4C00-881A-1603-B24ED0CF770A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C447C2B8-4C00-881A-1603-B24ED0CF770A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C447C2B8-4C00-881A-1603-B24ED0CF770A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9513852C-652F-4E22-BF6C-CD3219892758}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9513852C-652F-4E22-BF6C-CD3219892758}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9513852C-652F-4E22-BF6C-CD3219892758}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9513852C-652F-4E22-BF6C-CD3219892758}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
