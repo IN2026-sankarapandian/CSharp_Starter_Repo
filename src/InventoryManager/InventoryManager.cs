@@ -18,7 +18,7 @@ public class InventoryManager
     public static async Task Main(string[] args)
     {
         ConsoleUI.CreateNewPageFor("Menu");
-        ProductList list = new ();
+        ProductList productList = new ();
         while (true)
         {
             ConsoleUI.Prompt("1. Add Product\n2. Show Product\n3. Edit Product\n4. Delete Product\n5. Search Product\n");
@@ -27,19 +27,19 @@ public class InventoryManager
             switch (choice)
             {
                 case "1":
-                    ActionHandler.HandleAddProduct(list);
+                    ActionHandler.HandleAddProduct(productList);
                     break;
                 case "2":
-                    ActionHandler.HandleShowProducts(list);
+                    ActionHandler.HandleShowProducts(productList);
                     break;
                 case "3":
-                    ActionHandler.HandleEditProduct(list);
+                    ActionHandler.HandleEditProduct(productList);
                     break;
                 case "4":
-                    ActionHandler.HandleDeleteProduct(list);
+                    ActionHandler.HandleDeleteProduct(productList);
                     break;
                 case "5":
-                    ActionHandler.HandleSearchProduct(list);
+                    ActionHandler.HandleSearchProduct(productList);
                     break;
                 case "6":
                     bool confirmExit = await ActionHandler.ConfirmExitAsync();

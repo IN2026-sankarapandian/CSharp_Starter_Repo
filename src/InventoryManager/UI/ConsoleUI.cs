@@ -22,15 +22,15 @@ public class ConsoleUI
             Console.ForegroundColor = color;
             Console.Write(prompt);
             Console.ResetColor();
-            string? input = Console.ReadLine();
-            if (input is null || input.Trim() == string.Empty)
+            string? userInput = Console.ReadLine();
+            if (string.IsNullOrEmpty(userInput))
             {
                 PromptLine(ErrorMessages.EmptyInput, ConsoleColor.Yellow);
                 continue;
             }
             else
             {
-                return input.Trim();
+                return userInput.Trim();
             }
         }
         while (true);
@@ -53,8 +53,13 @@ public class ConsoleUI
     /// </summary>
     /// <param name="prompt">Prompt to show.</param>
     /// <param name="color">Color for the prompt. Default value is white.</param>
-    public static void PromptLine(string prompt, ConsoleColor color = ConsoleColor.White)
+    public static void PromptLine(string? prompt, ConsoleColor color = ConsoleColor.White)
     {
+        if (string.IsNullOrEmpty(prompt))
+        {
+            return;
+        }
+
         Console.ForegroundColor = color;
         Console.WriteLine(prompt);
         Console.ResetColor();

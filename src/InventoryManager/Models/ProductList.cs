@@ -67,20 +67,14 @@ public class ProductList
                         continue;
                     }
 
-                    object? value = product[field];
+                    string? value = product[field].ToString();
                     if (value is null)
                     {
                         continue;
                     }
 
-                    string? valueString = value.ToString();
-                    if (valueString is null)
-                    {
-                        continue;
-                    }
-
-                    Console.WriteLine(valueString);
-                    result |= valueString.ToUpper().Contains(keyword.ToUpper());
+                    Console.WriteLine(value);
+                    result |= value.Contains(keyword, StringComparison.OrdinalIgnoreCase);
                 }
 
                 return result;
@@ -89,7 +83,7 @@ public class ProductList
     }
 
     /// <summary>
-    /// Checks for dupicates for specified value and field.
+    /// Checks for duplicates for specified value and field.
     /// </summary>
     /// <param name="field">Field to check.</param>
     /// <param name="value">Target value.</param>

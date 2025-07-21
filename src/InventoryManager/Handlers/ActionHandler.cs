@@ -19,32 +19,29 @@ public class ActionHandler
     /// and create a new product with the user input details in <see cref="ProductList"/>.
     /// It also validate every inputs from the user using <see cref="Validator"/>
     /// </remarks>
-    /// <param name="list">Give access to user list</param>
-    public static void HandleAddProduct(ProductList list)
+    /// <param name="productList">Give access to user list</param>
+    public static void HandleAddProduct(ProductList productList)
     {
         ConsoleUI.CreateNewPageFor("Add");
         ConsoleUI.PromptLine("Enter the details of product :");
         Dictionary<string, object>? newProductDetails = new Dictionary<string, object>();
         Dictionary<string, Type>? productTemplate = Product.GetTemplate();
-        foreach (var field in productTemplate)
+        foreach (KeyValuePair<string, Type> field in productTemplate)
         {
             object result;
-            string input, errormessage = string.Empty;
+            string input;
+            string? errorMessage = string.Empty;
             do
             {
-                if (errormessage != string.Empty)
-                {
-                    ConsoleUI.PromptLine(errormessage, ConsoleColor.Yellow);
-                }
-
+                ConsoleUI.PromptLine(errorMessage, ConsoleColor.Yellow);
                 input = ConsoleUI.PromptAndGetInput($"{field.Key} : ");
             }
-            while (!(Parser.TryParseValue(input, field.Value, out result, out errormessage) && Validator.Validate(list, field.Key, result, out errormessage)));
+            while (!(Parser.TryParseValue(input, field.Value, out result, out errorMessage) && Validator.IsValid(productList, field.Key, result, out errorMessage)));
             newProductDetails[field.Key] = result;
         }
 
         Product newProduct = new Product(newProductDetails);
-        list.Add(newProduct);
+        productList.Add(newProduct);
         ConsoleUI.PromptLine("Added successfully", ConsoleColor.Green);
         ConsoleUI.WaitAndNavigateToMenu();
     }
@@ -56,11 +53,11 @@ public class ActionHandler
     /// This method lists all the products as a table format to the user. It informs user
     /// if product list was empty and ask user to return back to menu.
     /// </remarks>
-    /// <param name="list">Give access to user list</param>
-    public static void HandleShowProducts(ProductList list)
+    /// <param name="productList">Give access to user list</param>
+    public static void HandleShowProducts(ProductList productList)
     {
         ConsoleUI.CreateNewPageFor("Show");
-        if (!Helper.ShowProducts(list))
+        if (!Helper.ShowProducts(productList))
         {
             return;
         }
@@ -78,30 +75,31 @@ public class ActionHandler
     /// to edit. Then it prompt the user to enter the new value to change and apply changes to the list via <see cref="ProductList"/>.
     /// This function validates the index, field, and new value of the field with <see cref="Validator"/>.
     /// </remarks>
-    /// <param name="list">Give access to user list</param>
-    public static void HandleEditProduct(ProductList list)
+    /// <param name="productList">Give access to user list</param>
+    public static void HandleEditProduct(ProductList productList)
     {
         ConsoleUI.CreateNewPageFor("Edit");
-        if (!Helper.ShowProducts(list))
+        if (!Helper.ShowProducts(productList))
         {
             return;
         }
 
-        int index = Helper.GetIndex(list);
-        string field = Helper.GetFieldName(list);
+        int index = Helper.GetIndex(productList);
+        string field = Helper.GetFieldName(productList);
         object value;
-        string valueString, errorMessage = string.Empty;
+        string valueString;
+        string? errorMessage = string.Empty;
         do
         {
-            if (errorMessage != string.Empty)
+            if (string.IsNullOrEmpty(errorMessage))
             {
                 ConsoleUI.PromptLine(errorMessage, ConsoleColor.Yellow);
             }
 
             valueString = ConsoleUI.PromptAndGetInput($"New {field} : ");
         }
-        while (!(Parser.TryParseValue(valueString, Product.GetTemplate()[field], out value, out errorMessage) && Validator.Validate(list, field, value, out errorMessage)));
-        list.Edit(index - 1, field, value);
+        while (!(Parser.TryParseValue(valueString, Product.GetTemplate()[field], out value, out errorMessage) && Validator.IsValid(productList, field, value, out errorMessage)));
+        productList.Edit(index - 1, field, value);
         ConsoleUI.PromptLine("Edited successfully", ConsoleColor.Green);
         ConsoleUI.WaitAndNavigateToMenu();
         return;
@@ -115,16 +113,16 @@ public class ActionHandler
     /// If no products are in the list, then it inform the user
     /// that there is no products in the list so navigate back to menu. It also check the input is a valid index using <see cref="Validator"/>.
     /// </remarks>
-    /// <param name="list">Give access to user list</param>
-    public static void HandleDeleteProduct(ProductList list)
+    /// <param name="productList">Give access to user list</param>
+    public static void HandleDeleteProduct(ProductList productList)
     {
         ConsoleUI.CreateNewPageFor("Delete");
-        if (!Helper.ShowProducts(list))
+        if (!Helper.ShowProducts(productList))
         {
             return;
         }
 
-        list.Delete(Helper.GetIndex(list) - 1);
+        productList.Delete(Helper.GetIndex(productList) - 1);
         ConsoleUI.PromptLine("Deleted successfully", ConsoleColor.Green);
         ConsoleUI.WaitAndNavigateToMenu();
         return;
@@ -141,11 +139,11 @@ public class ActionHandler
     /// are in the list, then it inform the user that there is no products
     /// in the list so navigate back to menu.
     /// </remarks>
-    /// <param name="list">Give access to user list.</param>
-    public static void HandleSearchProduct(ProductList list)
+    /// <param name="productList">Give access to user list.</param>
+    public static void HandleSearchProduct(ProductList productList)
     {
         ConsoleUI.CreateNewPageFor("Search");
-        if (list.Count() <= 0)
+        if (productList.Count() <= 0)
         {
             ConsoleUI.PromptLine(ErrorMessages.NoProducts, ConsoleColor.Yellow);
             ConsoleUI.WaitAndNavigateToMenu();
@@ -153,7 +151,7 @@ public class ActionHandler
         }
 
         string keyword = ConsoleUI.PromptAndGetInput($"Keyword : ");
-        List<Product> products = list.Search(keyword);
+        List<Product> products = productList.Search(keyword);
         if (products.Count == 0)
         {
             ConsoleUI.PromptLine(ErrorMessages.NoMatches, ConsoleColor.Yellow);
@@ -196,7 +194,7 @@ public class ActionHandler
     private static class Helper
     {
         // Get the index from the user until user enters a valid input.
-        public static int GetIndex(ProductList list)
+        public static int GetIndex(ProductList productList)
         {
             int index;
             do
@@ -208,7 +206,7 @@ public class ActionHandler
                     continue;
                 }
 
-                if (index > list.Count() || index <= 0)
+                if (index > productList.Count() || index <= 0)
                 {
                     ConsoleUI.PromptLine(ErrorMessages.NotProductAtGivenIndex + index, ConsoleColor.Yellow);
                     continue;
@@ -220,7 +218,7 @@ public class ActionHandler
         }
 
         // Get field name from the user until user enters a valid input.
-        public static string GetFieldName(ProductList list)
+        public static string GetFieldName(ProductList productList)
         {
             do
             {
@@ -244,16 +242,16 @@ public class ActionHandler
 
         // Shows the product as table
         // return false if there is no products available; false otherwise
-        public static bool ShowProducts(ProductList list)
+        public static bool ShowProducts(ProductList productList)
         {
-            if (list.Count() <= 0)
+            if (productList.Count() <= 0)
             {
                 ConsoleUI.PromptLine(ErrorMessages.NoProducts, ConsoleColor.Yellow);
                 ConsoleUI.WaitAndNavigateToMenu();
                 return false;
             }
 
-            List<Product> currentProductList = list.Get();
+            List<Product> currentProductList = productList.Get();
             ConsoleUI.PrintAsTable(currentProductList);
             return true;
         }

@@ -4,97 +4,98 @@ using InventoryManager.Models;
 namespace InventoryManager.Validators;
 
 /// <summary>
-/// Provides generic validators for product fields using a <see cref="Validate"/> method.
+/// Provides generic validators for product fields using a <see cref="IsValid"/> method.
 /// </summary>
 public class Validator
 {
     /// <summary>
-    /// Validate the value based on the field name and will not validate if it is an unhandled field.
-    /// and out the appropriate error message if validation failed.
+    /// Validate the value based on the field name and return true with null out message if validation passed
+    /// and return false with appropriate error message as out string if validation failed.
+    /// It will not validate and return true with null string as out error message if it is an unhandled field.
     /// </summary>
     /// <param name="list">Give access to user list</param>
     /// <param name="field">Field type to validate.</param>
     /// <param name="value">Value to validate.</param>
-    /// <param name="error">Contains the error message of why validation failed, if validation passed error will be empty.</param>
+    /// <param name="errorMessage">Contains the error message of why validation failed, if validation passed error will be empty.</param>
     /// <returns><see cref="true"/> If value passes the specific field validation or unhandled fields; otherwise <see cref="false"/>.</returns>
-    public static bool Validate(ProductList list, string field, object? value, out string error)
+    public static bool IsValid(ProductList list, string field, object? value, out string? errorMessage)
     {
-        error = string.Empty;
         if (value is null)
         {
+            errorMessage = null;
             return false;
         }
 
         switch (field)
         {
             case ProductFieldNames.Name:
-                return ValidateName((string)value, out error);
+                return IsValidName((string)value, out errorMessage);
             case ProductFieldNames.Id:
-                return ValidateId(list, (string)value, out error);
+                return IsValidId(list, (string)value, out errorMessage);
             case ProductFieldNames.Price:
-                return ValidatePrice((int)value, out error);
+                return IsValidPrice((int)value, out errorMessage);
             case ProductFieldNames.Quantity:
-                return ValidateQuantity((int)value, out error);
+                return IsValidQuantity((int)value, out errorMessage);
             default:
-                error = string.Empty;
+                errorMessage = null;
                 return true;
         }
     }
 
     // Validates name and out the error
-    private static bool ValidateName(string name, out string error)
+    private static bool IsValidName(string name, out string? errorMessage)
     {
         if (name.Length >= 20)
         {
-            error = ErrorMessages.NameShouldNotExceedChar;
+            errorMessage = ErrorMessages.NameShouldNotExceedChar;
             return false;
         }
 
-        error = string.Empty;
+        errorMessage = null;
         return true;
     }
 
     // Validates id and out the error
-    private static bool ValidateId(ProductList list, string id, out string error)
+    private static bool IsValidId(ProductList list, string id, out string? errorMessage)
     {
         if (id.Length != 10)
         {
-            error = ErrorMessages.IdMustHave10Characters;
+            errorMessage = ErrorMessages.IdMustHave10Characters;
             return false;
         }
         else if (list.HasDuplicate(ProductFieldNames.Id, id))
         {
-            error = ErrorMessages.IdDuplicate;
+            errorMessage = ErrorMessages.IdDuplicate;
             return false;
         }
 
-        error = string.Empty;
+        errorMessage = null;
         return true;
     }
 
     // Validates price and out the error
-    private static bool ValidatePrice(int price, out string error)
+    private static bool IsValidPrice(int price, out string? errorMessage)
     {
         if (price < 0)
         {
-            error = ErrorMessages.PriceIsNegative;
+            errorMessage = ErrorMessages.PriceIsNegative;
             return false;
         }
 
-        error = string.Empty;
+        errorMessage = null;
         return true;
     }
 
     // Validates quantity and out the error
-    private static bool ValidateQuantity(int quantity, out string error)
+    private static bool IsValidQuantity(int quantity, out string? errorMessage)
     {
         if (quantity < 0)
         {
-            error = ErrorMessages.ZeroOrNegativeQuantity;
+            errorMessage = ErrorMessages.ZeroOrNegativeQuantity;
             return false;
         }
 
-        error = string.Empty;
+        errorMessage = null;
         return true;
     }
 }
