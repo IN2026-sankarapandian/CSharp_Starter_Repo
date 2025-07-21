@@ -23,7 +23,7 @@ public class ErrorMessages
     /// <summary>
     /// Error message for files loss warning.
     /// </summary>
-    public const string AppCLosingPrompt = "Warning : Closing the app will erase all added product details. Are you sure you want to continue? (y/n) :";
+    public const string AppClosingPrompt = "Warning : Closing the app will erase all added product details. Are you sure you want to continue? (y/n) :";
 
     /// <summary>
     /// Error message for not valid index.
