@@ -25,26 +25,20 @@ public class Validator
             errorMessage = null;
             return false;
         }
-        else if (field.Equals(ProductFieldNames.Name) && value is string)
+
+        switch (field)
         {
-            return IsValidName((string)value, out errorMessage);
-        }
-        else if (field.Equals(ProductFieldNames.Id) && value is string)
-        {
-            return IsValidId(list, (string)value, out errorMessage);
-        }
-        else if (field.Equals(ProductFieldNames.Price) && value is decimal)
-        {
-            return IsValidPrice((decimal)value, out errorMessage);
-        }
-        else if (field.Equals(ProductFieldNames.Quantity) && value is int)
-        {
-            return IsValidQuantity((int)value, out errorMessage);
-        }
-        else
-        {
-            errorMessage = null;
-            return true;
+            case ProductFieldNames.Name when value is string name:
+                return IsValidName(name, out errorMessage);
+            case ProductFieldNames.Id when value is string id:
+                return IsValidId(list, id, out errorMessage);
+            case ProductFieldNames.Price when value is decimal price:
+                return IsValidPrice(price, out errorMessage);
+            case ProductFieldNames.Quantity when value is int quantity:
+                return IsValidQuantity(quantity, out errorMessage);
+            default:
+                errorMessage = null;
+                return true;
         }
     }
 

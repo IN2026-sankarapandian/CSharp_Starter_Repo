@@ -196,11 +196,10 @@ public class ActionHandler
         // Get the index from the user until user enters a valid input.
         public static int GetIndex(ProductList productList)
         {
-            int index;
             do
             {
                 string indexString = ConsoleUI.PromptAndGetInput("Enter the index of the product : ");
-                if (!int.TryParse(indexString, out index))
+                if (!int.TryParse(indexString, out int index))
                 {
                     ConsoleUI.PromptLine(ErrorMessages.NotValidIndex, ConsoleColor.Yellow);
                     continue;
