@@ -173,7 +173,7 @@ public class ActionHandler
     {
         do
         {
-            string input = ConsoleUI.PromptAndGetInput(ErrorMessages.AppCLosingPrompt, ConsoleColor.Magenta);
+            string input = ConsoleUI.PromptAndGetInput(ErrorMessages.AppClosingPrompt, ConsoleColor.Magenta);
             if (input.ToUpper() == "Y")
             {
                 ConsoleUI.PromptLine("Closing the app...", ConsoleColor.Magenta);
