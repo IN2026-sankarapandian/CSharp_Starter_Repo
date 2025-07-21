@@ -37,9 +37,9 @@ public class Product
     {
         return new Dictionary<string, Type>
         {
-            { ProductFieldNames.Name, typeof(string) },
             { ProductFieldNames.Id, typeof(string) },
-            { ProductFieldNames.Price, typeof(int) },
+            { ProductFieldNames.Name, typeof(string) },
+            { ProductFieldNames.Price, typeof(decimal) },
             { ProductFieldNames.Quantity, typeof(int) },
         };
     }

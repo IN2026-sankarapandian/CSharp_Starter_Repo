@@ -73,7 +73,6 @@ public class ProductList
                         continue;
                     }
 
-                    Console.WriteLine(value);
                     result |= value.Contains(keyword, StringComparison.OrdinalIgnoreCase);
                 }
 

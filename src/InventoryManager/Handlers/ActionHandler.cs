@@ -173,7 +173,7 @@ public class ActionHandler
     {
         do
         {
-            string input = ConsoleUI.PromptAndGetInput(ErrorMessages.FileEraseWarning, ConsoleColor.Magenta);
+            string input = ConsoleUI.PromptAndGetInput(ErrorMessages.AppCLosingPrompt, ConsoleColor.Magenta);
             if (input.ToUpper() == "Y")
             {
                 ConsoleUI.PromptLine("Closing the app...", ConsoleColor.Magenta);
@@ -208,7 +208,7 @@ public class ActionHandler
 
                 if (index > productList.Count() || index <= 0)
                 {
-                    ConsoleUI.PromptLine(ErrorMessages.NotProductAtGivenIndex + index, ConsoleColor.Yellow);
+                    ConsoleUI.PromptLine(ErrorMessages.NoProductAtGivenIndex + index, ConsoleColor.Yellow);
                     continue;
                 }
 
@@ -223,19 +223,19 @@ public class ActionHandler
             do
             {
                 string[] fields = Product.GetFields();
-                for (int i = 0; i < fields.Length; i++)
+                for (int i = 1; i < fields.Length; i++)
                 {
-                    ConsoleUI.Prompt($"{i + 1} {fields[i]} ");
+                    ConsoleUI.Prompt($"{i} {fields[i]} ");
                 }
 
                 string fieldChoiceString = ConsoleUI.PromptAndGetInput("\nEnter a field : ");
-                if (!int.TryParse(fieldChoiceString, out int fieldChoice) && fieldChoice < fields.Length && fieldChoice > 0)
+                if (!(int.TryParse(fieldChoiceString, out int fieldChoice) && fieldChoice < fields.Length && fieldChoice > 0))
                 {
                     ConsoleUI.PromptLine(ErrorMessages.NotValidField, ConsoleColor.Yellow);
                     continue;
                 }
 
-                return fields[fieldChoice - 1];
+                return fields[fieldChoice];
             }
             while (true);
         }

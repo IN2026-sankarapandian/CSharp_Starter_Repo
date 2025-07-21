@@ -30,6 +30,17 @@ public class Parser
 
             return status;
         }
+        else if (type == typeof(decimal))
+        {
+            status = decimal.TryParse(input, out decimal number);
+            result = number;
+            if (!status)
+            {
+                errorMessage = ErrorMessages.NeedANumber;
+            }
+
+            return status;
+        }
         else if (type == typeof(string))
         {
             result = input;
