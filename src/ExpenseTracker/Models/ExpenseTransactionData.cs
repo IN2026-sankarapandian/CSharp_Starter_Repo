@@ -6,26 +6,6 @@
 public class ExpenseTransactionData : ITransaction
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="ExpenseTransactionData"/> class.
-    /// </summary>
-    /// <param name="amount">Expense amount</param>
-    /// <param name="category">Expense category</param>
-    public ExpenseTransactionData(decimal amount, string category)
-    {
-        this.Amount = amount;
-        this.Category = category;
-        this.CreatedAt = DateTime.Now;
-    }
-
-    /// <summary>
-    /// Gets or sets list of available categories.
-    /// </summary>
-    /// <value>
-    /// List of available categories.
-    /// </value>
-    public static List<string> Categories { get; set; } = new List<string> { "Food", "rent", "Game" };
-
-    /// <summary>
     /// Gets or sets amount transferred.
     /// </summary>
     /// <value>
@@ -39,7 +19,7 @@ public class ExpenseTransactionData : ITransaction
     /// <value>
     /// Time the transaction initiated.
     /// </value>
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Gets or sets description about transaction.
@@ -47,7 +27,7 @@ public class ExpenseTransactionData : ITransaction
     /// <value>
     /// Description about transaction.
     /// </value>
-    public string Category { get; set; }
+    public string Category { get; set; } = null!;
 
     /// <summary>
     /// Edits the amount of expense.

@@ -8,26 +8,6 @@ namespace ExpenseTracker.Models;
 public class IncomeTransactionData : ITransaction
 {
     /// <summary>
-    /// Initializes a new instance of the <see cref="IncomeTransactionData"/> class.
-    /// </summary>
-    /// <param name="amount">Income amount</param>
-    /// <param name="source">Income source</param>
-    public IncomeTransactionData(decimal amount, string source)
-    {
-        this.Amount = amount;
-        this.Source = source;
-        this.CreatedAt = DateTime.Now;
-    }
-
-    /// <summary>
-    /// Gets or sets list of available sources.
-    /// </summary>
-    /// <value>
-    /// List of available sources.
-    /// </value>
-    public static List<string> Sources { get; set; } = new List<string> { "Work", "Freelance", "Stocks", "other" };
-
-    /// <summary>
     /// Gets or sets amount transferred.
     /// </summary>
     /// <value>
@@ -41,7 +21,7 @@ public class IncomeTransactionData : ITransaction
     /// <value>
     /// Time the transaction initiated.
     /// </value>
-    public DateTime CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     /// <summary>
     /// Gets or sets description about transaction.
@@ -49,7 +29,7 @@ public class IncomeTransactionData : ITransaction
     /// <value>
     /// Description about transaction.
     /// </value>
-    public string Source { get; set; }
+    public string Source { get; set; } = null!;
 
     /// <summary>
     /// Edits the amount of income.

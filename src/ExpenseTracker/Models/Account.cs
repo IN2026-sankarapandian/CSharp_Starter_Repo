@@ -3,56 +3,55 @@
 /// <summary>
 /// Represents the account with name, balance, list of transactions.
 /// </summary>
-public class Account
+public class Account : IAccount
 {
-    private readonly List<IncomeTransactionData> _incomeDataList = new List<IncomeTransactionData>();
-    private readonly List<ExpenseTransactionData> _expenseDataList = new List<ExpenseTransactionData>();
-    private readonly List<ITransaction> _totalTransactionDataList = new List<ITransaction>();
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="Account"/> class.
-    /// </summary>
-    /// <param name="accountName">.Name of the account.</param>
-    /// <param name="currentBalance">Account balance.</param>
-    public Account(string accountName, decimal currentBalance)
-    {
-        this.AccountName = accountName;
-        this.CurrentBalance = currentBalance;
-        this.TotalIncome += currentBalance;
-        this.TotalExpense = 0;
-    }
-
-    /// <summary>
-    /// Gets or sets name of the account.
-    /// </summary>
-    /// <value>
-    /// Name of the account.
-    /// </value>
-    public string AccountName { get; set; }
-
-    /// <summary>
-    /// Gets or sets current balance of the account.
+    /// Gets current balance of the account.
     /// </summary>
     /// <value>
     /// Current balance of the account.
     /// </value>
-    public decimal CurrentBalance { get; set; }
+    public decimal CurrentBalance { get; private set; }
 
     /// <summary>
-    /// Gets or sets total income of the account.
+    /// Gets total income of the account.
     /// </summary>
     /// <value>
     /// Current total income of the account.
     /// </value>
-    public decimal TotalIncome { get; set; }
+    public decimal TotalIncome { get; private set; }
 
     /// <summary>
-    /// Gets or sets total expense of the account.
+    /// Gets total expense of the account.
     /// </summary>
     /// <value>
     /// Current total expense of the account.
     /// </value>
-    public decimal TotalExpense { get; set; }
+    public decimal TotalExpense { get; private set; }
+
+    /// <summary>
+    /// Gets the list of all transactions.
+    /// </summary>
+    /// <value>
+    /// Its the list of all transactions.
+    /// </value>
+    public List<ITransaction> TotalTransactionDataList { get; private set;  } = new List<ITransaction>();
+
+    /// <summary>
+    /// Gets or sets list of available categories.
+    /// </summary>
+    /// <value>
+    /// List of available categories.
+    /// </value>
+    public List<string> Categories { get; set; } = new List<string> { "Food", "rent", "Game" };
+
+    /// <summary>
+    /// Gets or sets list of available sources.
+    /// </summary>
+    /// <value>
+    /// List of available sources.
+    /// </value>
+    public List<string> Sources { get; set; } = new List<string> { "Work", "Freelance", "Stocks", "other" };
 
     /// <summary>
     /// Create the income transaction.
@@ -61,11 +60,12 @@ public class Account
     /// <param name="source">Source of income.</param>
     public void AddIncome(decimal incomeAmount, string source)
     {
-        IncomeTransactionData newIncome = new IncomeTransactionData(incomeAmount, source);
+        IncomeTransactionData newIncome = new IncomeTransactionData();
+        newIncome.Amount = incomeAmount;
+        newIncome.Source = source;
         this.CurrentBalance += incomeAmount;
         this.TotalIncome += incomeAmount;
-        this._incomeDataList.Add(newIncome);
-        this._totalTransactionDataList.Add(newIncome);
+        this.TotalTransactionDataList.Add(newIncome);
     }
 
     /// <summary>
@@ -75,20 +75,12 @@ public class Account
     /// <param name="category">Category of expense.</param>
     public void AddExpense(decimal expenseAmount, string category)
     {
-        ExpenseTransactionData newExpense = new ExpenseTransactionData(expenseAmount, category);
+        ExpenseTransactionData newExpense = new ExpenseTransactionData();
+        newExpense.Amount = expenseAmount;
+        newExpense.Category = category;
         this.CurrentBalance -= expenseAmount;
         this.TotalExpense += expenseAmount;
-        this._expenseDataList.Add(newExpense);
-        this._totalTransactionDataList.Add(newExpense);
-    }
-
-    /// <summary>
-    /// Gets the entire transaction list
-    /// </summary>
-    /// <returns>Entire transaction list.</returns>
-    public List<ITransaction> GetTransactionDataList()
-    {
-        return this._totalTransactionDataList.OrderBy(transaction => transaction.CreatedAt).ToList();
+        this.TotalTransactionDataList.Add(newExpense);
     }
 
     /// <summary>
@@ -98,7 +90,7 @@ public class Account
     /// <param name="newAmountValue">New amount value.</param>
     public void EditTransactionAmount(int index, decimal newAmountValue)
     {
-        ITransaction transaction = this._totalTransactionDataList[index];
+        ITransaction transaction = this.TotalTransactionDataList[index];
         switch (transaction)
         {
             case IncomeTransactionData income:
@@ -127,7 +119,7 @@ public class Account
     /// <param name="newSourceValue">New source value.</param>
     public void EditIncomeTransactionSource(int index, string newSourceValue)
     {
-        ITransaction transaction = this._totalTransactionDataList[index];
+        ITransaction transaction = this.TotalTransactionDataList[index];
         if (transaction is IncomeTransactionData income)
         {
             income.EditSource(newSourceValue);
@@ -141,7 +133,7 @@ public class Account
     /// <param name="newCategoryValue">New category value.</param>
     public void EditExpenseTransactionCategory(int index, string newCategoryValue)
     {
-        ITransaction transaction = this._totalTransactionDataList[index];
+        ITransaction transaction = this.TotalTransactionDataList[index];
         if (transaction is ExpenseTransactionData income)
         {
             income.EditCategory(newCategoryValue);
@@ -154,20 +146,18 @@ public class Account
     /// <param name="index">Index of transaction to delete.</param>
     public void DeleteTransaction(int index)
     {
-        ITransaction transaction = this._totalTransactionDataList[index];
+        ITransaction transaction = this.TotalTransactionDataList[index];
         switch (transaction)
         {
             case IncomeTransactionData income:
                 this.TotalIncome -= income.Amount;
                 this.CurrentBalance -= income.Amount;
-                this._totalTransactionDataList.RemoveAt(index);
-                this._incomeDataList.Remove(income);
+                this.TotalTransactionDataList.RemoveAt(index);
                 break;
             case ExpenseTransactionData expense:
                 this.TotalExpense -= expense.Amount;
                 this.CurrentBalance += expense.Amount;
-                this._totalTransactionDataList.RemoveAt(index);
-                this._expenseDataList.Remove(expense);
+                this.TotalTransactionDataList.RemoveAt(index);
                 break;
             default:
                 break;

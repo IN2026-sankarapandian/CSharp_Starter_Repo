@@ -1,4 +1,7 @@
-﻿using ExpenseTracker.Models;
+﻿using System.Reflection.Emit;
+using ExpenseTracker.Handlers;
+using ExpenseTracker.Models;
+using ExpenseTracker.UserInterface;
 
 namespace Assignments;
 
@@ -8,9 +11,13 @@ namespace Assignments;
 public class ExpenseTracker
 {
     /// <summary>
-    /// The Main method is the entry point of the expense tracker, prompts the user to create account, and handles them accordingly.
+    /// The Main method is the entry point of the expense tracker, creates a new instance of <see cref="Account"/>.
     /// </summary>
     public static void Main()
     {
+        IAccount userAccount = new Account();
+        IUserInterface consoleUI = new ConsoleUI();
+        Controller controller = new Controller(userAccount, consoleUI);
+        controller.HandleMenu();
     }
 }
