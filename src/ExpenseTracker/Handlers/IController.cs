@@ -22,7 +22,7 @@ public interface IController
     /// <value>
     /// User interface object.
     /// </value>
-    public IUserInterface UserInterface { set; }
+    IUserInterface UserInterface { set; }
 
     /// <summary>
     /// Handles menu of expense tracker
@@ -31,20 +31,20 @@ public interface IController
     /// Lists all available action options user and prompt the user to select action by index,
     /// calls the respective action handling methods.
     /// </remarks>
-    public void HandleMenu();
+    void HandleMenu();
 
     /// <summary>
     /// Handle getting user inputs and add a income transaction to user's <see cref="Account"/>.
     /// </summary>
-    public void HandleAddIncome();
+    void HandleAddIncome();
 
     /// <summary>
     /// Handle getting user inputs and add a expense transaction to user's <see cref="Account"/>.
     /// </summary>
-    public void HandleAddExpense();
+    void HandleAddExpense();
 
     /// <summary>
     /// Handle showing the transaction details to user from user's <see cref="Account"/>.
     /// </summary>
-    public void HandleViewTransactions();
+    void HandleViewTransactions();
 }

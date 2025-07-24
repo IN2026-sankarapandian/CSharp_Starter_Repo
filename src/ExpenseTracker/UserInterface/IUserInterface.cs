@@ -12,31 +12,31 @@ public interface IUserInterface
     /// </summary>
     /// <param name="prompt">Prompt to show user.</param>
     /// <returns>User's input.</returns>
-    public string? PromptAndGetInput(string prompt);
+    string? PromptAndGetInput(string prompt);
 
     /// <summary>
     /// Shows title to the user.
     /// </summary>
     /// <param name="action">Title to show user.</param>
-    public void MoveToAction(string action);
+    void MoveToAction(string action);
 
     /// <summary>
     /// Shows info to the user.
     /// </summary>
     /// <param name="info">Info to show user.</param>
-    public void ShowInfoMessage(string info);
+    void ShowInfoMessage(string info);
 
     /// <summary>
     /// Shows warning to the user.
     /// </summary>
     /// <param name="warningMessage">Warning message to show user.</param>
-    public void ShowWarningMessage(string warningMessage);
+    void ShowWarningMessage(string warningMessage);
 
     /// <summary>
     /// Shows success message to the user.
     /// </summary>
     /// <param name="successMessage">Success message to show user.</param>
-    public void ShowSuccessMessage(string successMessage);
+    void ShowSuccessMessage(string successMessage);
 
     /// <summary>
     /// Shows transaction list to the user.
@@ -44,11 +44,11 @@ public interface IUserInterface
     /// <param name="userTransactionDataList">Transaction list to show user.</param>
     /// <param name="showIncome">Income filter.</param>
     /// <param name="showExpense">Expense filter.</param>
-    public void ShowTransactionList(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true);
+    void ShowTransactionList(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true);
 
     /// <summary>
     /// Shows transaction data to the user.
     /// </summary>
     /// <param name="transactionData">Transaction data to show user.</param>
-    public void ShowTransactionData(ITransaction transactionData);
+    void ShowTransactionData(ITransaction transactionData);
 }

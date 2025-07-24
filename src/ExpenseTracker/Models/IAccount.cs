@@ -11,7 +11,7 @@ public interface IAccount
     /// <value>
     /// Current balance of the account.
     /// </value>
-    public decimal CurrentBalance { get; }
+    decimal CurrentBalance { get; }
 
     /// <summary>
     /// Gets total income of the account.
@@ -19,7 +19,7 @@ public interface IAccount
     /// <value>
     /// Current total income of the account.
     /// </value>
-    public decimal TotalIncome { get; }
+    decimal TotalIncome { get; }
 
     /// <summary>
     /// Gets total expense of the account.
@@ -27,7 +27,7 @@ public interface IAccount
     /// <value>
     /// Current total expense of the account.
     /// </value>
-    public decimal TotalExpense { get; }
+    decimal TotalExpense { get; }
 
     /// <summary>
     /// Gets the list of all transactions.
@@ -43,7 +43,7 @@ public interface IAccount
     /// <value>
     /// List of available categories.
     /// </value>
-    public List<string> Categories { get; set; }
+    List<string> Categories { get; set; }
 
     /// <summary>
     /// Gets or sets list of available sources.
@@ -51,19 +51,19 @@ public interface IAccount
     /// <value>
     /// List of available sources.
     /// </value>
-    public List<string> Sources { get; set; }
+    List<string> Sources { get; set; }
 
     /// <summary>
     /// Create the income transaction.
     /// </summary>
     /// <param name="incomeAmount">Income amount.</param>
     /// <param name="source">Source of income.</param>
-    public void AddIncome(decimal incomeAmount, string source);
+    void AddIncome(decimal incomeAmount, string source);
 
     /// <summary>
     /// Create the expense transaction.
     /// </summary>
     /// <param name="expenseAmount">Expense amount.</param>
     /// <param name="category">Category of expense.</param>
-    public void AddExpense(decimal expenseAmount, string category);
+    void AddExpense(decimal expenseAmount, string category);
 }
