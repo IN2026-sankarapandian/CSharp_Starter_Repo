@@ -43,7 +43,7 @@ public class Account : IAccount
     /// <value>
     /// List of available categories.
     /// </value>
-    public List<string> Categories { get; set; } = new List<string> { "Rent", "Food", "Transport"};
+    public List<string> Categories { get; set; } = new List<string> { "Rent", "Food", "Transport" };
 
     /// <summary>
     /// Gets or sets list of available sources.
@@ -51,7 +51,7 @@ public class Account : IAccount
     /// <value>
     /// List of available sources.
     /// </value>
-    public List<string> Sources { get; set; } = new List<string> { "Salary", "Stocks", "Petty cash"};
+    public List<string> Sources { get; set; } = new List<string> { "Salary", "Stocks", "Petty cash" };
 
     /// <summary>
     /// Create the income transaction.

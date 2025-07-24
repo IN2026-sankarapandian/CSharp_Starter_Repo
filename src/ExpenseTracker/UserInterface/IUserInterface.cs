@@ -8,11 +8,11 @@ namespace ExpenseTracker.UserInterface;
 public interface IUserInterface
 {
     /// <summary>
-    /// Prompt the user and returns the user non null input
+    /// Prompt the user and returns the user's'input
     /// </summary>
     /// <param name="prompt">Prompt to show user.</param>
-    /// <returns>User non null input.</returns>
-    public string? PromptAndGetNonNullInput(string prompt);
+    /// <returns>User's input.</returns>
+    public string? PromptAndGetInput(string prompt);
 
     /// <summary>
     /// Shows title to the user.

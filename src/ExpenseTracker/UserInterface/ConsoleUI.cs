@@ -14,7 +14,7 @@ public class ConsoleUI : IUserInterface
     /// </summary>
     /// <param name="prompt">Prompt shown to the user.</param>
     /// <returns>User input</returns>
-    public string? PromptAndGetNonNullInput(string prompt)
+    public string? PromptAndGetInput(string prompt)
     {
         Console.Write(prompt);
         string? userInput = Console.ReadLine();
