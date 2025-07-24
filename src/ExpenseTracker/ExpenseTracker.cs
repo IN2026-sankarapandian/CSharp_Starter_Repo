@@ -3,7 +3,7 @@ using ExpenseTracker.Handlers;
 using ExpenseTracker.Models;
 using ExpenseTracker.UserInterface;
 
-namespace Assignments;
+namespace ExpenseTracker;
 
 /// <summary>
 /// The main class contains the main method, entry point of a expense tracker, c# application.
@@ -17,7 +17,7 @@ public class ExpenseTracker
     {
         IAccount userAccount = new Account();
         IUserInterface consoleUI = new ConsoleUI();
-        Controller controller = new Controller(userAccount, consoleUI);
+        Controller controller = new (userAccount, consoleUI);
         controller.HandleMenu();
     }
 }

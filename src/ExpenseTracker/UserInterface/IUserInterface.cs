@@ -17,8 +17,8 @@ public interface IUserInterface
     /// <summary>
     /// Shows title to the user.
     /// </summary>
-    /// <param name="title">Title to show user.</param>
-    public void ShowTitle(string title);
+    /// <param name="action">Title to show user.</param>
+    public void MoveToAction(string action);
 
     /// <summary>
     /// Shows info to the user.

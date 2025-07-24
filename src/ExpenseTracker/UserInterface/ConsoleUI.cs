@@ -1,11 +1,11 @@
-﻿using System.Data;
-using ConsoleTables;
+﻿using ConsoleTables;
+using ExpenseTracker.Constants;
 using ExpenseTracker.Models;
 
 namespace ExpenseTracker.UserInterface;
 
 /// <summary>
-/// Have functions used to manipulate console UI
+/// Have functions used to manipulate console UI.
 /// </summary>
 public class ConsoleUI : IUserInterface
 {
@@ -22,7 +22,7 @@ public class ConsoleUI : IUserInterface
             string? userInput = Console.ReadLine();
             if (string.IsNullOrEmpty(userInput))
             {
-                Console.WriteLine("Input cannot be empty !", ConsoleColor.Yellow);
+                this.PromptLine(ErrorMessages.InputCannotBeEmpty, ConsoleColor.Yellow);
                 continue;
             }
             else
@@ -36,10 +36,10 @@ public class ConsoleUI : IUserInterface
     /// <summary>
     /// Shows title to the user.
     /// </summary>
-    /// <param name="title">Title to show user.</param>
-    public void ShowTitle(string title)
+    /// <param name="action">Action to show user.</param>
+    public void MoveToAction(string action)
     {
-        this.CreateNewPage(title);
+        this.CreateNewPage(action);
     }
 
     /// <summary>
@@ -102,7 +102,7 @@ public class ConsoleUI : IUserInterface
         }
 
         Console.ForegroundColor = color;
-        Console.Write(prompt);
+        Console.Write(prompt.Replace("\\n", "\n"));
         Console.WriteLine();
         Console.ResetColor();
     }
@@ -127,18 +127,22 @@ public class ConsoleUI : IUserInterface
     /// <param name="showExpense">True to display expense transaction; otherwise false.</param>
     private void ShowTransactionListAsTable(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true)
     {
-        List<string> header = new List<string> { "Index", "Income/Expense ", "Amount", $"{(showIncome ? "Source" : string.Empty)}{(showExpense && showIncome ? "/" : string.Empty)} {(showExpense ? "Category" : string.Empty)}" };
+        if (userTransactionDataList.Count == 0)
+        {
+            this.PromptLine(ErrorMessages.NoTransactionFound);
+            return;
+        }
+
+        List<string> header = new () { "Index", "Income/Expense ", "Amount", $"{(showIncome ? "Source" : string.Empty)}{(showExpense && showIncome ? "/" : string.Empty)} {(showExpense ? "Category" : string.Empty)}" };
         if (!(showExpense && showIncome))
         {
             header.RemoveAt(1);
         }
 
-        ConsoleTable table = new ConsoleTable(header.ToArray());
+        ConsoleTable table = new (header.ToArray());
         for (int rowIndex = 0; rowIndex < userTransactionDataList.Count; rowIndex++)
         {
-            List<string> row = new List<string>();
-            row.Add((rowIndex + 1).ToString());
-            object k = 156;
+            List<string> row = new () { (rowIndex + 1).ToString() };
             if (userTransactionDataList[rowIndex] is IncomeTransactionData income)
             {
                 if (!showIncome)
@@ -195,7 +199,7 @@ public class ConsoleUI : IUserInterface
             value[1] = expense.Category;
         }
 
-        ConsoleTable table = new ConsoleTable(header);
+        ConsoleTable table = new (header);
         table.AddRow(value);
         table.Write();
     }

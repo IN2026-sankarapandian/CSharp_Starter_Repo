@@ -43,7 +43,7 @@ public class Account : IAccount
     /// <value>
     /// List of available categories.
     /// </value>
-    public List<string> Categories { get; set; } = new List<string> { "Food", "rent", "Game" };
+    public List<string> Categories { get; set; } = new List<string> { "Rent", "Food", "Transport"};
 
     /// <summary>
     /// Gets or sets list of available sources.
@@ -51,7 +51,7 @@ public class Account : IAccount
     /// <value>
     /// List of available sources.
     /// </value>
-    public List<string> Sources { get; set; } = new List<string> { "Work", "Freelance", "Stocks", "other" };
+    public List<string> Sources { get; set; } = new List<string> { "Salary", "Stocks", "Petty cash"};
 
     /// <summary>
     /// Create the income transaction.
@@ -60,9 +60,11 @@ public class Account : IAccount
     /// <param name="source">Source of income.</param>
     public void AddIncome(decimal incomeAmount, string source)
     {
-        IncomeTransactionData newIncome = new IncomeTransactionData();
-        newIncome.Amount = incomeAmount;
-        newIncome.Source = source;
+        IncomeTransactionData newIncome = new ()
+        {
+            Amount = incomeAmount,
+            Source = source,
+        };
         this.CurrentBalance += incomeAmount;
         this.TotalIncome += incomeAmount;
         this.TotalTransactionDataList.Add(newIncome);
@@ -75,9 +77,11 @@ public class Account : IAccount
     /// <param name="category">Category of expense.</param>
     public void AddExpense(decimal expenseAmount, string category)
     {
-        ExpenseTransactionData newExpense = new ExpenseTransactionData();
-        newExpense.Amount = expenseAmount;
-        newExpense.Category = category;
+        ExpenseTransactionData newExpense = new ()
+        {
+            Amount = expenseAmount,
+            Category = category,
+        };
         this.CurrentBalance -= expenseAmount;
         this.TotalExpense += expenseAmount;
         this.TotalTransactionDataList.Add(newExpense);
