@@ -69,8 +69,18 @@ public class Controller : IController
                     this.HandleViewTransactions();
                     break;
 
-                // Exit application
+                // Edit transaction
                 case "4":
+                    this.HandleEditTransaction();
+                    break;
+
+                // Delete transaction
+                case "5":
+                    this.HandleDeleteTransaction();
+                    break;
+
+                // Exit application
+                case "6":
                     return;
 
                 // Invalid choice
@@ -110,7 +120,7 @@ public class Controller : IController
     {
         this.UserInterface.MoveToAction(Headings.AddExpense);
         decimal expenseAmount = this.GetAmountFromUser(PromptMessages.EnterExpense);
-        string category = this.GetCategoryFromUser(PromptMessages.EnterCategory);
+        string category = this.GetCategoryFromUser(PromptMessages.EnterNewCategory);
         this.UserAccount.AddExpense(expenseAmount, category);
         this.UserInterface.ShowSuccessMessage(StatusMessages.ExpenseAddedSuccessfully);
         this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
@@ -135,6 +145,12 @@ public class Controller : IController
 
             this.UserInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
             string? userViewChoice = this.UserInterface.PromptAndGetInput(PromptMessages.EnterChoice);
+            if (string.IsNullOrEmpty(userViewChoice))
+            {
+                this.UserInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
+                continue;
+            }
+
             switch (userViewChoice)
             {
                 // Show income entries
@@ -159,6 +175,98 @@ public class Controller : IController
             }
         }
         while (true);
+    }
+
+    /// <summary>
+    /// Handle getting user inputs and edit a transaction to user's <see cref="Account"/>.
+    /// </summary>
+    /// <remarks>
+    /// This method Lists all the transaction to user and prompt the user to select the transaction to edit by index
+    /// and then shows the selected transaction data and prompt the user to select field to edit and new value fot it.
+    /// Finally it will edit the transaction from user <see cref="Acccount"/>
+    /// </remarks>
+    public void HandleEditTransaction()
+    {
+    SelectIndex:
+        this.UserInterface.MoveToAction(Headings.Edit);
+        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, true);
+        if (this.UserAccount.TotalTransactionDataList.Count == 0)
+        {
+            this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+            this.UserInterface.MoveToAction(string.Format(Headings.Menu));
+            return;
+        }
+
+        int indexToEdit = this.GetIndexFromUser(PromptMessages.EnterIndexToEdit);
+        this.UserInterface.MoveToAction(Headings.Edit);
+        ITransaction selectedTransactionData = this.UserAccount.TotalTransactionDataList[indexToEdit];
+        this.UserInterface.ShowTransactionData(selectedTransactionData);
+        do
+        {
+            this.UserInterface.ShowInfoMessage(string.Format(PromptMessages.EditPrompt, selectedTransactionData is IncomeTransactionData ? "Source" : "Category"));
+            string? fieldToEdit = this.UserInterface.PromptAndGetInput(PromptMessages.EnterWhatToEdit);
+            if (string.IsNullOrEmpty(fieldToEdit))
+            {
+                this.UserInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
+                continue;
+            }
+
+            switch (fieldToEdit)
+            {
+                // Edit amount
+                case "1":
+                    this.EditAmountOfTransaction(indexToEdit);
+                    goto promptSuccess;
+
+                // Edit source or category
+                case "2":
+                    this.EditCategoryOrSourceFromUser(indexToEdit);
+                    goto promptSuccess;
+
+                // Go back to select index
+                case "3":
+                    goto SelectIndex;
+
+                // Invalid choice
+                default:
+                    this.UserInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
+                    continue;
+            }
+        }
+        while (true);
+
+    // The updated content is shown to the user
+    promptSuccess:
+        this.UserInterface.MoveToAction(Headings.Edit);
+        selectedTransactionData = this.UserAccount.TotalTransactionDataList[indexToEdit];
+        this.UserInterface.ShowTransactionData(selectedTransactionData);
+        this.UserInterface.ShowSuccessMessage(StatusMessages.EditedSucccessfuly);
+        this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this.UserInterface.MoveToAction(string.Format(Headings.Menu));
+    }
+
+    /// <summary>
+    /// Handle getting user inputs and delete a transaction from user's <see cref="Account"/>.
+    /// </summary>
+    /// <remarks>
+    /// This method lists all the transaction to the user and prompt the user to select transaction to delete by index.
+    /// </remarks>
+    public void HandleDeleteTransaction()
+    {
+        this.UserInterface.MoveToAction(Headings.Delete);
+        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, true);
+        if (this.UserAccount.TotalTransactionDataList.Count == 0)
+        {
+            this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+            this.UserInterface.MoveToAction(string.Format(Headings.Menu));
+            return;
+        }
+
+        int indexToDelete = this.GetIndexFromUser(PromptMessages.EnterIndexToDelete);
+        this.UserAccount.DeleteTransaction(indexToDelete);
+        this.UserInterface.ShowSuccessMessage(StatusMessages.EditedSucccessfuly);
+        this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this.UserInterface.MoveToAction(string.Format(Headings.Menu));
     }
 
     /// <summary>
@@ -333,14 +441,41 @@ public class Controller : IController
     }
 
     /// <summary>
+    /// Edits the category or source of the specified transaction based on its type with user inputs.
+    /// </summary>
+    /// <param name="indexToEdit">Index value of transaction in users account.</param>
+    private void EditCategoryOrSourceFromUser(int indexToEdit)
+    {
+        ITransaction selectedTransactionData = this.UserAccount.TotalTransactionDataList[indexToEdit];
+        if (selectedTransactionData is IncomeTransactionData)
+        {
+            string newSource = this.GetSourceFromUser(PromptMessages.EnterNewSource);
+            this.UserAccount.EditIncomeTransactionSource(indexToEdit, newSource);
+        }
+        else
+        {
+            string newCategory = this.GetCategoryFromUser(PromptMessages.EnterNewCategory);
+            this.UserAccount.EditExpenseTransactionCategory(indexToEdit, newCategory);
+        }
+    }
+
+    /// <summary>
+    /// Edits the amount of specified transaction with user inputs.
+    /// <param name="indexToEdit"></param>
+    private void EditAmountOfTransaction(int indexToEdit)
+    {
+        decimal newAmount = this.GetAmountFromUser(PromptMessages.EnterNewAmount);
+        this.UserAccount.EditTransactionAmount(indexToEdit, newAmount);
+    }
+
+    /// <summary>
     /// Shows all the expense entries.
     /// </summary>
     private void ShowExpenseEntries()
     {
         this.UserInterface.MoveToAction(Headings.ExpenseEntry);
         this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, false, true);
-        this.UserInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
-        Console.ReadKey();
+        this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
     }
 
     /// <summary>
@@ -350,8 +485,7 @@ public class Controller : IController
     {
         this.UserInterface.MoveToAction(Headings.ExpenseEntry);
         this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, false);
-        this.UserInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
-        Console.ReadKey();
+        this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
     }
 
     /// <summary>

@@ -19,11 +19,15 @@ Represents an user account with balance and transaction info and the core operat
 | `decimal CurrentBalance { get; }`                                          | Gets the current balance of the account.                                        |
 | `decimal TotalIncome { get; }`                                             | Gets the total income of the account.                                           |
 | `decimal TotalExpense { get; }`                                            | Gets the total expense of the account.                                          |
-| `List<ITransaction> TotalTransactionDataList { get; }`                    | Gets the list of all transactions.                                              |
+| `List<ITransaction> TotalTransactionDataList { get; }`                     | Gets the list of all transactions.                                              |
 | `List<string> Categories { get; set; }`                                    | Gets or sets the list of available categories.                                  |
 | `List<string> Sources { get; set; }`                                       | Gets or sets the list of available sources.                                     |
-| `void AddIncome(decimal incomeAmount, string source)`                     | Creates an income transaction with the specified amount and source.             |
-| `void AddExpense(decimal expenseAmount, string category)`                 | Creates an expense transaction with the specified amount and category.          |
+| `void AddIncome(decimal incomeAmount, string source)`                      | Creates an income transaction with the specified amount and source.             |
+| `void AddExpense(decimal expenseAmount, string category)`                  | Creates an expense transaction with the specified amount and category.          |
+| `void EditTransactionAmount(int index, decimal newAmountValue)`            | Edit the amount of transaction at specified index.							   |
+| `void EditIncomeTransactionSource(int index, string newSourceValue)`       | Edits the source of income transaction of specified index.			           |
+| `void EditExpenseTransactionCategory(int index, string newCategoryValue)`  | Edits category of expense transaction of specified index.				       |
+| `void DeleteTransaction(int index)`									     | Deletes a transaction in a specified index.									   |
 
 ### ITransaction interface
  ```cs
@@ -40,14 +44,16 @@ This is the base interface for all types transaction data like `ExpenseTransacti
 public interface IController
 ```
 Represents the controller for expense tracker which should allow user to add and view transactions.
-| **Function / Property**                          | **Description**                                                                 |
-|--------------------------------------------------|---------------------------------------------------------------------------------|
-| `IAccount UserAccount { set; }`                  | Sets the user account to implement user actions.                                |
-| `IUserInterface UserInterface { set; }`          | Sets the user interface object for this controller.                             |
-| `void HandleMenu()`                              | Displays the menu, prompts the user to select an action, and handles the selected action. |
-| `void HandleAddIncome()`                         | Handles user input and adds an income transaction to the user's account.        |
-| `void HandleAddExpense()`                        | Handles user input and adds an expense transaction to the user's account.       |
-| `void HandleViewTransactions()`                  | Displays transaction details from the user's account.                           |
+| **Function / Property**                          | **Description**																		      |
+|--------------------------------------------------|----------------------------------------------------------------------------------------------|
+| `IAccount UserAccount { set; }`                  | Sets the user account to implement user actions.											  |
+| `IUserInterface UserInterface { set; }`          | Sets the user interface object for this controller.										  |
+| `void HandleMenu()`                              | Displays the menu, prompts the user to select an action, and handles the selected action.    |
+| `void HandleAddIncome()`                         | Handles user input and adds an income transaction to the user's account.					  |
+| `void HandleAddExpense()`                        | Handles user input and adds an expense transaction to the user's account.				      |
+| `void HandleViewTransactions()`                  | Displays transaction details from the user's account.									      |
+| `void HandleEditTransaction()`                   | Handle getting user inputs and edit a transaction to user's account.                         |
+| `void HandleDeleteTransaction()`                 | Handle getting user inputs and delete a transaction from user's account.				      |
 
 
 ### IUserInterface

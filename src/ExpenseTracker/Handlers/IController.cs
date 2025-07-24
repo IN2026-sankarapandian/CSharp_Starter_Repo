@@ -47,4 +47,14 @@ public interface IController
     /// Handle showing the transaction details to user from user's <see cref="Account"/>.
     /// </summary>
     void HandleViewTransactions();
+
+    /// <summary>
+    /// Handle getting user inputs and edit a transaction to user's <see cref="Account"/>.
+    /// </summary>
+    void HandleEditTransaction();
+
+    /// <summary>
+    /// Handle getting user inputs and delete a transaction from user's <see cref="Account"/>.
+    /// </summary>
+    void HandleDeleteTransaction();
 }

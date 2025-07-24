@@ -187,7 +187,7 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1. Add income\n2. Add expense\n3. View all transactions\n4. Exit application\n.
+        ///   Looks up a localized string similar to 1. Add income\n2. Add expense\n3. View all transactions\n4. Edit transaction \n5. Delete transaction\n6. Exit application\n.
         /// </summary>
         internal static string MenuPrompt {
             get {

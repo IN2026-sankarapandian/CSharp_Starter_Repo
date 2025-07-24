@@ -86,4 +86,85 @@ public class Account : IAccount
         this.TotalExpense += expenseAmount;
         this.TotalTransactionDataList.Add(newExpense);
     }
+
+    /// <summary>
+    /// Edit the amount of transaction at specified index.
+    /// </summary>
+    /// <param name="index">Index of transaction to edit.</param>
+    /// <param name="newAmountValue">New amount value.</param>
+    public void EditTransactionAmount(int index, decimal newAmountValue)
+    {
+        ITransaction transaction = this.TotalTransactionDataList[index];
+        switch (transaction)
+        {
+            case IncomeTransactionData income:
+                this.TotalIncome -= income.Amount;
+                this.TotalIncome += newAmountValue;
+                this.CurrentBalance -= income.Amount;
+                this.CurrentBalance += newAmountValue;
+                income.EditAmount(newAmountValue);
+                break;
+            case ExpenseTransactionData expense:
+                this.TotalExpense -= expense.Amount;
+                this.TotalExpense += newAmountValue;
+                this.CurrentBalance += expense.Amount;
+                this.CurrentBalance -= newAmountValue;
+                expense.EditAmount(newAmountValue);
+                break;
+            default:
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Edits the source of income transaction of specified index.
+    /// </summary>
+    /// <param name="index">Index of transaction to edit.</param>
+    /// <param name="newSourceValue">New source value.</param>
+    public void EditIncomeTransactionSource(int index, string newSourceValue)
+    {
+        ITransaction transaction = this.TotalTransactionDataList[index];
+        if (transaction is IncomeTransactionData income)
+        {
+            income.EditSource(newSourceValue);
+        }
+    }
+
+    /// <summary>
+    /// Edits category of expense transaction of specified index.
+    /// </summary>
+    /// <param name="index">Index of transaction to edit.</param>
+    /// <param name="newCategoryValue">New category value.</param>
+    public void EditExpenseTransactionCategory(int index, string newCategoryValue)
+    {
+        ITransaction transaction = this.TotalTransactionDataList[index];
+        if (transaction is ExpenseTransactionData income)
+        {
+            income.EditCategory(newCategoryValue);
+        }
+    }
+
+    /// <summary>
+    /// Deletes a transaction in a specified index.
+    /// </summary>
+    /// <param name="index">Index of transaction to delete.</param>
+    public void DeleteTransaction(int index)
+    {
+        ITransaction transaction = this.TotalTransactionDataList[index];
+        switch (transaction)
+        {
+            case IncomeTransactionData income:
+                this.TotalIncome -= income.Amount;
+                this.CurrentBalance -= income.Amount;
+                this.TotalTransactionDataList.RemoveAt(index);
+                break;
+            case ExpenseTransactionData expense:
+                this.TotalExpense -= expense.Amount;
+                this.CurrentBalance += expense.Amount;
+                this.TotalTransactionDataList.RemoveAt(index);
+                break;
+            default:
+                break;
+        }
+    }
 }

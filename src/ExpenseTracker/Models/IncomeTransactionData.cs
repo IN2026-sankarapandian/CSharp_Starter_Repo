@@ -28,4 +28,16 @@ public class IncomeTransactionData : ITransaction
     /// Description about transaction.
     /// </value>
     public string Source { get; set; } = null!;
+
+    /// <summary>
+    /// Edits the amount of income.
+    /// </summary>
+    /// <param name="amount">New value for amount.</param>
+    public void EditAmount(decimal amount) => this.Amount = amount;
+
+    /// <summary>
+    /// Edit the source of income.
+    /// </summary>
+    /// <param name="source">New value of income.</param>
+    public void EditSource(string source) => this.Source = source;
 }
