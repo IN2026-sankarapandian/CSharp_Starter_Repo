@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-
-namespace ExpenseTracker.Models;
+﻿namespace ExpenseTracker.Models;
 
 /// <summary>
 /// Represents the income transaction data of how much amount transacted, when the transaction initiated and the source of income.
