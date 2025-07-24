@@ -1,8 +1,10 @@
 # Expense tracker - User guide
 
 When you launch the app, you can see a menu with options of 
-- Add
+- Add Income
+- Add expense
 - View
+- Exit
 
 ---
 
