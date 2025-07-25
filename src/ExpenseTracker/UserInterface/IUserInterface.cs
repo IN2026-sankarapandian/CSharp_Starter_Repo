@@ -1,27 +1,7 @@
-﻿using ExpenseTracker.Models;
+﻿using ExpenseTracker.Constants;
+using ExpenseTracker.Models;
 
 namespace ExpenseTracker.UserInterface;
-
-/// <summary>
-/// Transaction filter options for transaction list view.
-/// </summary>
-public enum TransactionFilter
-{
-    /// <summary>
-    /// Shows only income
-    /// </summary>
-    Income,
-
-    /// <summary>
-    /// Shows only expense
-    /// </summary>
-    Expense,
-
-    /// <summary>
-    /// Shows all transaction
-    /// </summary>
-    All,
-}
 
 /// <summary>
 /// Represents the user interface and its methods to interact with user.
@@ -29,7 +9,7 @@ public enum TransactionFilter
 public interface IUserInterface
 {
     /// <summary>
-    /// Prompt the user and returns the user's'input
+    /// Prompt the user and return the user's input
     /// </summary>
     /// <param name="prompt">Prompt to show user.</param>
     /// <returns>User's input.</returns>
@@ -64,11 +44,5 @@ public interface IUserInterface
     /// </summary>
     /// <param name="userTransactionDataList">Transaction list to show user.</param>
     /// <param name="filter">Transaction view filter.</param>
-    void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionFilter filter);
-
-    /// <summary>
-    /// Shows transaction data to the user.
-    /// </summary>
-    /// <param name="transactionData">Transaction data to show user.</param>
-    void ShowTransactionData(ITransaction transactionData);
+    void ShowTransactionList(List<ITransaction> userTransactionDataList, OptionEnums.TransactionFilter filter);
 }
