@@ -97,7 +97,7 @@ public class Controller : IController
     }
 
     /// <inheritdoc/>
-    /// /// <remarks>
+    /// <remarks>
     /// This method gets the inputs details like amount and category of expense and add it to the user's <see cref="Account"/>.
     /// </remarks>
     public void HandleAddExpense()
@@ -159,9 +159,7 @@ public class Controller : IController
         while (true);
     }
 
-    /// <summary>
-    /// Handle getting user inputs and edit a transaction to user's <see cref="Account"/>.
-    /// </summary>
+    /// <inheritdoc/>
     /// <remarks>
     /// This method Lists all the transaction to user and prompt the user to select the transaction to edit by index
     /// and then shows the selected transaction data and prompt the user to select field to edit and new value fot it.
@@ -227,9 +225,7 @@ public class Controller : IController
         this.UserInterface.MoveToAction(string.Format(Headings.Menu));
     }
 
-    /// <summary>
-    /// Handle getting user inputs and delete a transaction from user's <see cref="Account"/>.
-    /// </summary>
+    /// <inheritdoc/>
     /// <remarks>
     /// This method lists all the transaction to the user and prompt the user to select transaction to delete by index.
     /// </remarks>

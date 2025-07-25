@@ -10,8 +10,6 @@ namespace ExpenseTracker.UserInterface;
 public class ConsoleUI : IUserInterface
 {
     /// <inheritdoc/>
-    /// <param name="prompt">Prompt shown to the user.</param>
-    /// <returns>User input</returns>
     public string? PromptAndGetInput(string prompt)
     {
         Console.Write(prompt);
@@ -19,41 +17,33 @@ public class ConsoleUI : IUserInterface
     }
 
     /// <inheritdoc/>
-    /// <param name="action">Action to show user.</param>
     public void MoveToAction(string action) => this.CreateNewPage(action);
 
     /// <inheritdoc/>
-    /// <param name="info">Info to show user.</param>
     public void ShowInfoMessage(string info)
     {
         this.PromptLine($"{info}");
     }
 
     /// <inheritdoc/>
-    /// <param name="warningMessage">Warning message to show user.</param>
     public void ShowWarningMessage(string warningMessage)
     {
         this.PromptLine($"{warningMessage}", ConsoleColor.Yellow);
     }
 
     /// <inheritdoc/>
-    /// <param name="successMessage">Success message to show user.</param>
     public void ShowSuccessMessage(string successMessage)
     {
         this.PromptLine($"{successMessage}", ConsoleColor.Green);
     }
 
     /// <inheritdoc/>
-    /// <param name="userTransactionDataList">Transaction list to show user.</param>
-    /// <param name="showIncome">Income filter.</param>
-    /// <param name="showExpense">Expense filter.</param>
     public void ShowTransactionList(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true)
     {
         this.ShowTransactionListAsTable(userTransactionDataList, showIncome, showExpense);
     }
 
     /// <inheritdoc/>
-    /// <param name="transactionData">Transaction data to show user.</param>
     public void ShowTransactionData(ITransaction transactionData)
     {
         this.ShowTransactionDataAsTable(transactionData);

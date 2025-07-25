@@ -49,11 +49,7 @@ public class Account : IAccount
         this.TotalTransactionDataList.Add(newExpense);
     }
 
-    /// <summary>
-    /// Edit the amount of transaction at specified index.
-    /// </summary>
-    /// <param name="index">Index of transaction to edit.</param>
-    /// <param name="newAmountValue">New amount value.</param>
+    /// <inheritdoc/>
     public void EditTransactionAmount(int index, decimal newAmountValue)
     {
         ITransaction transaction = this.TotalTransactionDataList[index];
@@ -78,11 +74,7 @@ public class Account : IAccount
         }
     }
 
-    /// <summary>
-    /// Edits the source of income transaction of specified index.
-    /// </summary>
-    /// <param name="index">Index of transaction to edit.</param>
-    /// <param name="newSourceValue">New source value.</param>
+    /// <inheritdoc/>
     public void EditIncomeTransactionSource(int index, string newSourceValue)
     {
         ITransaction transaction = this.TotalTransactionDataList[index];
@@ -92,11 +84,7 @@ public class Account : IAccount
         }
     }
 
-    /// <summary>
-    /// Edits category of expense transaction of specified index.
-    /// </summary>
-    /// <param name="index">Index of transaction to edit.</param>
-    /// <param name="newCategoryValue">New category value.</param>
+    /// <inheritdoc/>
     public void EditExpenseTransactionCategory(int index, string newCategoryValue)
     {
         ITransaction transaction = this.TotalTransactionDataList[index];
@@ -106,10 +94,7 @@ public class Account : IAccount
         }
     }
 
-    /// <summary>
-    /// Deletes a transaction in a specified index.
-    /// </summary>
-    /// <param name="index">Index of transaction to delete.</param>
+    /// <inheritdoc/>
     public void DeleteTransaction(int index)
     {
         ITransaction transaction = this.TotalTransactionDataList[index];
