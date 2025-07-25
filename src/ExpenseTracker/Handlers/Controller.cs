@@ -97,7 +97,7 @@ public class Controller : IController
     }
 
     /// <inheritdoc/>
-    /// /// <remarks>
+    /// <remarks>
     /// This method gets the inputs details like amount and category of expense and add it to the user's <see cref="Account"/>.
     /// </remarks>
     public void HandleAddExpense()
@@ -117,7 +117,7 @@ public class Controller : IController
         do
         {
             this.UserInterface.MoveToAction(Headings.Entries);
-            this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, true);
+            this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.All);
             if (this.UserAccount.TotalTransactionDataList.Count == 0)
             {
                 this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
@@ -159,9 +159,7 @@ public class Controller : IController
         while (true);
     }
 
-    /// <summary>
-    /// Handle getting user inputs and edit a transaction to user's <see cref="Account"/>.
-    /// </summary>
+    /// <inheritdoc/>
     /// <remarks>
     /// This method Lists all the transaction to user and prompt the user to select the transaction to edit by index
     /// and then shows the selected transaction data and prompt the user to select field to edit and new value fot it.
@@ -171,7 +169,7 @@ public class Controller : IController
     {
     SelectIndex:
         this.UserInterface.MoveToAction(Headings.Edit);
-        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, true);
+        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.All);
         if (this.UserAccount.TotalTransactionDataList.Count == 0)
         {
             this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
@@ -227,16 +225,14 @@ public class Controller : IController
         this.UserInterface.MoveToAction(string.Format(Headings.Menu));
     }
 
-    /// <summary>
-    /// Handle getting user inputs and delete a transaction from user's <see cref="Account"/>.
-    /// </summary>
+    /// <inheritdoc/>
     /// <remarks>
     /// This method lists all the transaction to the user and prompt the user to select transaction to delete by index.
     /// </remarks>
     public void HandleDeleteTransaction()
     {
         this.UserInterface.MoveToAction(Headings.Delete);
-        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, true);
+        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.All);
         if (this.UserAccount.TotalTransactionDataList.Count == 0)
         {
             this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
@@ -456,8 +452,9 @@ public class Controller : IController
     private void ShowExpenseEntries()
     {
         this.UserInterface.MoveToAction(Headings.ExpenseEntry);
-        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, false, true);
-        this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.Expense);
+        this.UserInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
+        Console.ReadKey();
     }
 
     /// <summary>
@@ -466,8 +463,9 @@ public class Controller : IController
     private void ShowIncomeEntries()
     {
         this.UserInterface.MoveToAction(Headings.ExpenseEntry);
-        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, false);
-        this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.Income);
+        this.UserInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
+        Console.ReadKey();
     }
 
     /// <summary>

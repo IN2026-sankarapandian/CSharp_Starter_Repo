@@ -69,7 +69,7 @@ Represents the user interface and its methods to interact with user.
 | `void ShowInfoMessage(string info)`                                                                | Displays informational messages to the user.                                    |
 | `void ShowWarningMessage(string warningMessage)`                                                   | Displays warning messages to the user.                                          |
 | `void ShowSuccessMessage(string successMessage)`                                                   | Displays success messages to the user.                                          |
-| `void ShowTransactionList(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true)` | Displays a list of transactions with optional filters for income and expense.   |
+| `void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionFilter filter)` | Displays a list of transactions with optional filters for income and expense.   |
 | `void ShowTransactionData(ITransaction transactionData)`                                           | Displays a single transaction's data to the user.                               |
 
 
