@@ -5,20 +5,10 @@
 /// </summary>
 public class IncomeTransactionData : ITransaction
 {
-    /// <summary>
-    /// Gets or sets amount transferred.
-    /// </summary>
-    /// <value>
-    /// Amount transferred.
-    /// </value>
+    /// <inheritdoc/>
     public decimal Amount { get; set; }
 
-    /// <summary>
-    /// Gets or sets time the transaction initiated.
-    /// </summary>
-    /// <value>
-    /// Time the transaction initiated.
-    /// </value>
+    /// <inheritdoc/>
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     /// <summary>

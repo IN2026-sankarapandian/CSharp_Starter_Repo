@@ -21,25 +21,13 @@ public class Controller : IController
         this.UserInterface = consoleUI;
     }
 
-    /// <summary>
-    /// Sets the user account to implement user actions.
-    /// </summary>
-    /// <value>
-    /// The user account to implement user actions.
-    /// </value>
+    /// <inheritdoc/>
     public IAccount UserAccount { private get; set; }
 
-    /// <summary>
-    /// Sets UI object for this controller.
-    /// </summary>
-    /// <value>
-    /// User interface object.
-    /// </value>
+    /// <inheritdoc/>
     public IUserInterface UserInterface { private get; set; }
 
-    /// <summary>
-    /// Handles menu of expense tracker
-    /// </summary>
+    /// <inheritdoc/>
     /// <remarks>
     /// Lists all available action options user and prompt the user to select action by index,
     /// calls the respective action handling methods.
@@ -92,9 +80,7 @@ public class Controller : IController
         while (true);
     }
 
-    /// <summary>
-    /// Handle getting user inputs and add a income transaction to user's <see cref="Account"/>.
-    /// </summary>
+    /// <inheritdoc/>
     /// <remarks>
     /// This method gets the inputs details like amount and source of income and add it to the user's <see cref="Account"/>.
     /// </remarks>
@@ -110,9 +96,7 @@ public class Controller : IController
         return;
     }
 
-    /// <summary>
-    /// Handle getting user inputs and add a expense transaction to user's <see cref="Account"/>.
-    /// </summary>
+    /// <inheritdoc/>
     /// /// <remarks>
     /// This method gets the inputs details like amount and category of expense and add it to the user's <see cref="Account"/>.
     /// </remarks>
@@ -127,9 +111,7 @@ public class Controller : IController
         this.UserInterface.MoveToAction(string.Format(Headings.Menu));
     }
 
-    /// <summary>
-    /// Handle showing the transaction details to user from user's <see cref="Account"/>.
-    /// </summary>
+    /// <inheritdoc/>
     public void HandleViewTransactions()
     {
         do

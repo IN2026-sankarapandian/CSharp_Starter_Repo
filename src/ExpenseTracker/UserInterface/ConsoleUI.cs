@@ -9,57 +9,41 @@ namespace ExpenseTracker.UserInterface;
 /// </summary>
 public class ConsoleUI : IUserInterface
 {
-    /// <summary>
-    /// Prompt the user and returns the user input for the prompt.
-    /// </summary>
+    /// <inheritdoc/>
     /// <param name="prompt">Prompt shown to the user.</param>
     /// <returns>User input</returns>
     public string? PromptAndGetInput(string prompt)
     {
         Console.Write(prompt);
-        string? userInput = Console.ReadLine();
-        return userInput;
+        return Console.ReadLine();
     }
 
-    /// <summary>
-    /// Shows title to the user.
-    /// </summary>
+    /// <inheritdoc/>
     /// <param name="action">Action to show user.</param>
-    public void MoveToAction(string action)
-    {
-        this.CreateNewPage(action);
-    }
+    public void MoveToAction(string action) => this.CreateNewPage(action);
 
-    /// <summary>
-    /// Shows info to the user.
-    /// </summary>
+    /// <inheritdoc/>
     /// <param name="info">Info to show user.</param>
     public void ShowInfoMessage(string info)
     {
         this.PromptLine($"{info}");
     }
 
-    /// <summary>
-    /// Shows warning to the user.
-    /// </summary>
+    /// <inheritdoc/>
     /// <param name="warningMessage">Warning message to show user.</param>
     public void ShowWarningMessage(string warningMessage)
     {
         this.PromptLine($"{warningMessage}", ConsoleColor.Yellow);
     }
 
-    /// <summary>
-    /// Shows success message to the user.
-    /// </summary>
+    /// <inheritdoc/>
     /// <param name="successMessage">Success message to show user.</param>
     public void ShowSuccessMessage(string successMessage)
     {
         this.PromptLine($"{successMessage}", ConsoleColor.Green);
     }
 
-    /// <summary>
-    /// Shows transaction list to the user.
-    /// </summary>
+    /// <inheritdoc/>
     /// <param name="userTransactionDataList">Transaction list to show user.</param>
     /// <param name="showIncome">Income filter.</param>
     /// <param name="showExpense">Expense filter.</param>
@@ -68,9 +52,7 @@ public class ConsoleUI : IUserInterface
         this.ShowTransactionListAsTable(userTransactionDataList, showIncome, showExpense);
     }
 
-    /// <summary>
-    /// Shows transaction data to the user.
-    /// </summary>
+    /// <inheritdoc/>
     /// <param name="transactionData">Transaction data to show user.</param>
     public void ShowTransactionData(ITransaction transactionData)
     {

@@ -5,59 +5,25 @@
 /// </summary>
 public class Account : IAccount
 {
-    /// <summary>
-    /// Gets current balance of the account.
-    /// </summary>
-    /// <value>
-    /// Current balance of the account.
-    /// </value>
+    /// <inheritdoc/>
     public decimal CurrentBalance { get; private set; }
 
-    /// <summary>
-    /// Gets total income of the account.
-    /// </summary>
-    /// <value>
-    /// Current total income of the account.
-    /// </value>
+    /// <inheritdoc/>
     public decimal TotalIncome { get; private set; }
 
-    /// <summary>
-    /// Gets total expense of the account.
-    /// </summary>
-    /// <value>
-    /// Current total expense of the account.
-    /// </value>
+    /// <inheritdoc/>
     public decimal TotalExpense { get; private set; }
 
-    /// <summary>
-    /// Gets the list of all transactions.
-    /// </summary>
-    /// <value>
-    /// Its the list of all transactions.
-    /// </value>
+    /// <inheritdoc/>
     public List<ITransaction> TotalTransactionDataList { get; private set;  } = new List<ITransaction>();
 
-    /// <summary>
-    /// Gets or sets list of available categories.
-    /// </summary>
-    /// <value>
-    /// List of available categories.
-    /// </value>
+    /// <inheritdoc/>
     public List<string> Categories { get; set; } = new List<string> { "Rent", "Food", "Transport" };
 
-    /// <summary>
-    /// Gets or sets list of available sources.
-    /// </summary>
-    /// <value>
-    /// List of available sources.
-    /// </value>
+    /// <inheritdoc/>
     public List<string> Sources { get; set; } = new List<string> { "Salary", "Stocks", "Petty cash" };
 
-    /// <summary>
-    /// Create the income transaction.
-    /// </summary>
-    /// <param name="incomeAmount">Income amount.</param>
-    /// <param name="source">Source of income.</param>
+    /// <inheritdoc/>
     public void AddIncome(decimal incomeAmount, string source)
     {
         IncomeTransactionData newIncome = new ()
@@ -70,11 +36,7 @@ public class Account : IAccount
         this.TotalTransactionDataList.Add(newIncome);
     }
 
-    /// <summary>
-    /// Create the expense transaction.
-    /// </summary>
-    /// <param name="expenseAmount">Expense amount.</param>
-    /// <param name="category">Category of expense.</param>
+    /// <inheritdoc/>
     public void AddExpense(decimal expenseAmount, string category)
     {
         ExpenseTransactionData newExpense = new ()
