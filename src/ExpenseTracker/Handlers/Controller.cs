@@ -87,7 +87,7 @@ public class Controller : IController
     }
 
     /// <inheritdoc/>
-    /// /// <remarks>
+    /// <remarks>
     /// This method gets the inputs details like amount and category of expense and add it to the user's <see cref="Account"/>.
     /// </remarks>
     public void HandleAddExpense()
