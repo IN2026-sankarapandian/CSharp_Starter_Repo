@@ -107,7 +107,7 @@ public class Controller : IController
         do
         {
             this.UserInterface.MoveToAction(Headings.Entries);
-            this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, true);
+            this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.All);
             if (this.UserAccount.TotalTransactionDataList.Count == 0)
             {
                 this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
@@ -320,7 +320,7 @@ public class Controller : IController
     private void ShowExpenseEntries()
     {
         this.UserInterface.MoveToAction(Headings.ExpenseEntry);
-        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, false, true);
+        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.Expense);
         this.UserInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
         Console.ReadKey();
     }
@@ -331,7 +331,7 @@ public class Controller : IController
     private void ShowIncomeEntries()
     {
         this.UserInterface.MoveToAction(Headings.ExpenseEntry);
-        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, true, false);
+        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.Income);
         this.UserInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
         Console.ReadKey();
     }

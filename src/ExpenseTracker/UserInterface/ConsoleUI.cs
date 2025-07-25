@@ -38,9 +38,9 @@ public class ConsoleUI : IUserInterface
     }
 
     /// <inheritdoc/>
-    public void ShowTransactionList(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true)
+    public void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionFilter filter)
     {
-        this.ShowTransactionListAsTable(userTransactionDataList, showIncome, showExpense);
+        this.ShowTransactionListAsTable(userTransactionDataList, filter);
     }
 
     /// <inheritdoc/>
@@ -83,15 +83,17 @@ public class ConsoleUI : IUserInterface
     /// Prints the transaction list as a table.
     /// </summary>
     /// <param name="userTransactionDataList">Transaction list to print.</param>
-    /// <param name="showIncome">True to display income transaction; otherwise false.</param>
-    /// <param name="showExpense">True to display expense transaction; otherwise false.</param>
-    private void ShowTransactionListAsTable(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true)
+    /// <param name="filter">Transaction view filter.</param>
+    private void ShowTransactionListAsTable(List<ITransaction> userTransactionDataList, TransactionFilter filter)
     {
         if (userTransactionDataList.Count == 0)
         {
             this.PromptLine(ErrorMessages.NoTransactionFound);
             return;
         }
+
+        bool showIncome = filter == TransactionFilter.Income || filter == TransactionFilter.All;
+        bool showExpense = filter == TransactionFilter.Expense || filter == TransactionFilter.All;
 
         List<string> header = new () { "Index", "Income/Expense ", "Amount", $"{(showIncome ? "Source" : string.Empty)}{(showExpense && showIncome ? "/" : string.Empty)} {(showExpense ? "Category" : string.Empty)}" };
         if (!(showExpense && showIncome))

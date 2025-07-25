@@ -3,6 +3,27 @@
 namespace ExpenseTracker.UserInterface;
 
 /// <summary>
+/// Transaction filter options for transaction list view.
+/// </summary>
+public enum TransactionFilter
+{
+    /// <summary>
+    /// Shows only income
+    /// </summary>
+    Income,
+
+    /// <summary>
+    /// Shows only expense
+    /// </summary>
+    Expense,
+
+    /// <summary>
+    /// Shows all transaction
+    /// </summary>
+    All,
+}
+
+/// <summary>
 /// Represents the user interface and its methods to interact with user.
 /// </summary>
 public interface IUserInterface
@@ -42,9 +63,8 @@ public interface IUserInterface
     /// Shows transaction list to the user.
     /// </summary>
     /// <param name="userTransactionDataList">Transaction list to show user.</param>
-    /// <param name="showIncome">Income filter.</param>
-    /// <param name="showExpense">Expense filter.</param>
-    void ShowTransactionList(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true);
+    /// <param name="filter">Transaction view filter.</param>
+    void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionFilter filter);
 
     /// <summary>
     /// Shows transaction data to the user.
