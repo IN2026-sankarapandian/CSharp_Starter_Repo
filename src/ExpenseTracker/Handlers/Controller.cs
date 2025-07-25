@@ -10,6 +10,16 @@ namespace ExpenseTracker.Handlers;
 public class Controller : IController
 {
     /// <summary>
+    /// Sets the user account to implement user actions.
+    /// </summary>
+    private readonly IAccount _userAccount;
+
+    /// <summary>
+    /// Sets UI object for this controller.
+    /// </summary>
+    private readonly IUserInterface _userInterface;
+
+    /// <summary>
     /// Initializes a new instance of the <see cref="Controller"/> class.
     /// Sets the user account to access user transactions details.
     /// </summary>
@@ -17,15 +27,9 @@ public class Controller : IController
     /// <param name="consoleUI">User Interface.</param>
     public Controller(IAccount userAccount, IUserInterface consoleUI)
     {
-        this.UserAccount = userAccount;
-        this.UserInterface = consoleUI;
+        this._userAccount = userAccount;
+        this._userInterface = consoleUI;
     }
-
-    /// <inheritdoc/>
-    public IAccount UserAccount { private get; set; }
-
-    /// <inheritdoc/>
-    public IUserInterface UserInterface { private get; set; }
 
     /// <inheritdoc/>
     /// <remarks>
@@ -34,12 +38,12 @@ public class Controller : IController
     /// </remarks>
     public void HandleMenu()
     {
-        this.UserInterface.MoveToAction(string.Format(Headings.Menu));
+        this._userInterface.MoveToAction(string.Format(Headings.Menu));
         do
         {
-            this.UserInterface.ShowInfoMessage(this.AccountStatsFormat(this.UserAccount.TotalIncome, this.UserAccount.TotalIncome, this.UserAccount.TotalExpense));
-            this.UserInterface.ShowInfoMessage(PromptMessages.MenuPrompt);
-            string? userChoice = this.UserInterface.PromptAndGetInput(PromptMessages.EnterChoice);
+            this._userInterface.ShowInfoMessage(this.AccountStatsFormat(this._userAccount.TotalIncome, this._userAccount.TotalIncome, this._userAccount.TotalExpense));
+            this._userInterface.ShowInfoMessage(PromptMessages.MenuPrompt);
+            string? userChoice = this._userInterface.PromptAndGetInput(PromptMessages.EnterChoice);
             switch (userChoice)
             {
                 // Add income transaction
@@ -63,7 +67,7 @@ public class Controller : IController
 
                 // Invalid choice
                 default:
-                    this.UserInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
+                    this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
                     continue;
             }
         }
@@ -76,13 +80,13 @@ public class Controller : IController
     /// </remarks>
     public void HandleAddIncome()
     {
-        this.UserInterface.MoveToAction(Headings.AddIncome);
+        this._userInterface.MoveToAction(Headings.AddIncome);
         decimal incomeAmount = this.GetAmountFromUser(PromptMessages.EnterIncome);
         string source = this.GetSourceFromUser(PromptMessages.EnterSource);
-        this.UserAccount.AddIncome(incomeAmount, source);
-        this.UserInterface.ShowSuccessMessage(StatusMessages.IncomeAddedSuccessfully);
-        this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
-        this.UserInterface.MoveToAction(string.Format(Headings.Menu));
+        this._userAccount.AddIncome(incomeAmount, source);
+        this._userInterface.ShowSuccessMessage(StatusMessages.IncomeAddedSuccessfully);
+        this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this._userInterface.MoveToAction(string.Format(Headings.Menu));
         return;
     }
 
@@ -92,13 +96,13 @@ public class Controller : IController
     /// </remarks>
     public void HandleAddExpense()
     {
-        this.UserInterface.MoveToAction(Headings.AddExpense);
+        this._userInterface.MoveToAction(Headings.AddExpense);
         decimal expenseAmount = this.GetAmountFromUser(PromptMessages.EnterExpense);
         string category = this.GetCategoryFromUser(PromptMessages.EnterCategory);
-        this.UserAccount.AddExpense(expenseAmount, category);
-        this.UserInterface.ShowSuccessMessage(StatusMessages.ExpenseAddedSuccessfully);
-        this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
-        this.UserInterface.MoveToAction(string.Format(Headings.Menu));
+        this._userAccount.AddExpense(expenseAmount, category);
+        this._userInterface.ShowSuccessMessage(StatusMessages.ExpenseAddedSuccessfully);
+        this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this._userInterface.MoveToAction(string.Format(Headings.Menu));
     }
 
     /// <inheritdoc/>
@@ -106,17 +110,17 @@ public class Controller : IController
     {
         do
         {
-            this.UserInterface.MoveToAction(Headings.Entries);
-            this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.All);
-            if (this.UserAccount.TotalTransactionDataList.Count == 0)
+            this._userInterface.MoveToAction(Headings.Entries);
+            this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionFilter.All);
+            if (this._userAccount.TotalTransactionDataList.Count == 0)
             {
-                this.UserInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
-                this.UserInterface.MoveToAction(string.Format(Headings.Menu));
+                this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+                this._userInterface.MoveToAction(string.Format(Headings.Menu));
                 return;
             }
 
-            this.UserInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
-            string? userViewChoice = this.UserInterface.PromptAndGetInput(PromptMessages.EnterChoice);
+            this._userInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
+            string? userViewChoice = this._userInterface.PromptAndGetInput(PromptMessages.EnterChoice);
             switch (userViewChoice)
             {
                 // Show income entries
@@ -131,12 +135,12 @@ public class Controller : IController
 
                 // Go back
                 case "3":
-                    this.UserInterface.MoveToAction(string.Format(Headings.Menu));
+                    this._userInterface.MoveToAction(string.Format(Headings.Menu));
                     return;
 
                 // Invalid choice
                 default:
-                    this.UserInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
+                    this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
                     continue;
             }
         }
@@ -153,16 +157,16 @@ public class Controller : IController
         string? amountString;
         do
         {
-            amountString = this.UserInterface.PromptAndGetInput(prompt);
+            amountString = this._userInterface.PromptAndGetInput(prompt);
             if (!decimal.TryParse(amountString, out decimal amount))
             {
-                this.UserInterface.ShowWarningMessage(ErrorMessages.NotValidAmount);
+                this._userInterface.ShowWarningMessage(ErrorMessages.NotValidAmount);
                 continue;
             }
 
             if (amount <= 0)
             {
-                this.UserInterface.ShowWarningMessage(ErrorMessages.AmountCantBeLessThanZero);
+                this._userInterface.ShowWarningMessage(ErrorMessages.AmountCantBeLessThanZero);
                 continue;
             }
 
@@ -178,21 +182,21 @@ public class Controller : IController
     /// <returns>Selected source by user.</returns>
     private string GetSourceFromUser(string prompt)
     {
-        List<string> sources = this.UserAccount.Sources;
-        this.UserInterface.ShowInfoMessage(PromptMessages.Sources);
+        List<string> sources = this._userAccount.Sources;
+        this._userInterface.ShowInfoMessage(PromptMessages.Sources);
         for (int i = 0; i < sources.Count; i++)
         {
-            this.UserInterface.ShowInfoMessage($"{i + 1}. {sources[i]}");
+            this._userInterface.ShowInfoMessage($"{i + 1}. {sources[i]}");
         }
 
-        this.UserInterface.ShowInfoMessage($"{sources.Count + 1}. {PromptMessages.NewSource}");
+        this._userInterface.ShowInfoMessage($"{sources.Count + 1}. {PromptMessages.NewSource}");
 
         do
         {
-            string? sourceIndexString = this.UserInterface.PromptAndGetInput(prompt);
+            string? sourceIndexString = this._userInterface.PromptAndGetInput(prompt);
             if (!int.TryParse(sourceIndexString, out int sourceIndex))
             {
-                this.UserInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, sources.Count + 1));
+                this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, sources.Count + 1));
                 continue;
             }
 
@@ -205,10 +209,10 @@ public class Controller : IController
                 string? newSource;
                 do
                 {
-                    newSource = this.UserInterface.PromptAndGetInput(PromptMessages.EnterNewSource);
+                    newSource = this._userInterface.PromptAndGetInput(PromptMessages.EnterNewSource);
                     if (string.IsNullOrEmpty(newSource))
                     {
-                        this.UserInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
+                        this._userInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
                         continue;
                     }
                     else
@@ -217,12 +221,12 @@ public class Controller : IController
                     }
                 }
                 while (true);
-                this.UserAccount.Sources.Add(newSource);
+                this._userAccount.Sources.Add(newSource);
                 return newSource;
             }
             else
             {
-                this.UserInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, sources.Count + 1));
+                this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, sources.Count + 1));
                 continue;
             }
         }
@@ -236,20 +240,20 @@ public class Controller : IController
     /// <returns>Selected prompt by user.</returns>
     private string GetCategoryFromUser(string prompt)
     {
-        List<string> categories = this.UserAccount.Categories;
-        this.UserInterface.ShowInfoMessage(PromptMessages.Categories);
+        List<string> categories = this._userAccount.Categories;
+        this._userInterface.ShowInfoMessage(PromptMessages.Categories);
         for (int i = 0; i < categories.Count; i++)
         {
-            this.UserInterface.ShowInfoMessage($"{i + 1}. {categories[i]}");
+            this._userInterface.ShowInfoMessage($"{i + 1}. {categories[i]}");
         }
 
-        this.UserInterface.ShowInfoMessage($"{categories.Count + 1}. {PromptMessages.NewCategory}");
+        this._userInterface.ShowInfoMessage($"{categories.Count + 1}. {PromptMessages.NewCategory}");
         do
         {
-            string? categoryIndexString = this.UserInterface.PromptAndGetInput(prompt);
+            string? categoryIndexString = this._userInterface.PromptAndGetInput(prompt);
             if (!int.TryParse(categoryIndexString, out int categoryIndex))
             {
-                this.UserInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, categories.Count + 1));
+                this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, categories.Count + 1));
                 continue;
             }
 
@@ -262,10 +266,10 @@ public class Controller : IController
                 string? newCategory;
                 do
                 {
-                    newCategory = this.UserInterface.PromptAndGetInput(PromptMessages.EnterCategory);
+                    newCategory = this._userInterface.PromptAndGetInput(PromptMessages.EnterCategory);
                     if (string.IsNullOrEmpty(newCategory))
                     {
-                        this.UserInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
+                        this._userInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
                         continue;
                     }
                     else
@@ -274,12 +278,12 @@ public class Controller : IController
                     }
                 }
                 while (true);
-                this.UserAccount.Categories.Add(newCategory);
+                this._userAccount.Categories.Add(newCategory);
                 return newCategory;
             }
             else
             {
-                this.UserInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, categories.Count + 1));
+                this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, categories.Count + 1));
                 continue;
             }
         }
@@ -295,16 +299,16 @@ public class Controller : IController
         int selectedIndex;
         do
         {
-            string? selectedIndexString = this.UserInterface.PromptAndGetInput(prompt);
+            string? selectedIndexString = this._userInterface.PromptAndGetInput(prompt);
             if (!int.TryParse(selectedIndexString, out selectedIndex))
             {
-                this.UserInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, this.UserAccount.TotalTransactionDataList.Count));
+                this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, this._userAccount.TotalTransactionDataList.Count));
                 continue;
             }
 
-            if (selectedIndex <= 0 || selectedIndex - 1 >= this.UserAccount.TotalTransactionDataList.Count)
+            if (selectedIndex <= 0 || selectedIndex - 1 >= this._userAccount.TotalTransactionDataList.Count)
             {
-                this.UserInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, this.UserAccount.TotalTransactionDataList.Count));
+                this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, this._userAccount.TotalTransactionDataList.Count));
                 continue;
             }
 
@@ -319,9 +323,9 @@ public class Controller : IController
     /// </summary>
     private void ShowExpenseEntries()
     {
-        this.UserInterface.MoveToAction(Headings.ExpenseEntry);
-        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.Expense);
-        this.UserInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
+        this._userInterface.MoveToAction(Headings.ExpenseEntry);
+        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionFilter.Expense);
+        this._userInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
         Console.ReadKey();
     }
 
@@ -330,9 +334,9 @@ public class Controller : IController
     /// </summary>
     private void ShowIncomeEntries()
     {
-        this.UserInterface.MoveToAction(Headings.ExpenseEntry);
-        this.UserInterface.ShowTransactionList(this.UserAccount.TotalTransactionDataList, TransactionFilter.Income);
-        this.UserInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
+        this._userInterface.MoveToAction(Headings.ExpenseEntry);
+        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionFilter.Income);
+        this._userInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
         Console.ReadKey();
     }
 

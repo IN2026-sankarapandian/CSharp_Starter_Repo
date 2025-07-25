@@ -9,22 +9,6 @@ namespace ExpenseTracker.Handlers;
 public interface IController
 {
     /// <summary>
-    /// Sets the user account to implement user actions.
-    /// </summary>
-    /// <value>
-    /// The user account to implement user actions.
-    /// </value>
-    IAccount UserAccount { set; }
-
-    /// <summary>
-    /// Sets UI object for this controller.
-    /// </summary>
-    /// <value>
-    /// User interface object.
-    /// </value>
-    IUserInterface UserInterface { set; }
-
-    /// <summary>
     /// Handles menu of expense tracker
     /// </summary>
     /// <remarks>
