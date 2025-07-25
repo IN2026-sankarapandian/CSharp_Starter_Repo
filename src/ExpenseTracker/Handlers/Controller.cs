@@ -108,7 +108,7 @@ public class Controller : IController
     {
         this._userInterface.MoveToAction(Headings.AddExpense);
         decimal expenseAmount = this.GetAmountFromUser(PromptMessages.EnterExpense);
-        string category = this.GetCategoryFromUser(PromptMessages.EnterNewCategory);
+        string category = this.GetCategoryFromUser(PromptMessages.EnterCategory);
         this._userAccount.AddExpense(expenseAmount, category);
         this._userInterface.ShowSuccessMessage(StatusMessages.ExpenseAddedSuccessfully);
         this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
