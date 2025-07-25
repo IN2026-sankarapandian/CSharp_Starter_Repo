@@ -1,7 +1,7 @@
 # Expense tracker Console Application - Developer Docs
 
 ## Overview  
-It is a C# console based expense tracker system that allow users to **Add**, **view** transactions.  
+It is a C# console based expense tracker system that allows users to **Add** and **view** transactions.  
 
 ---
 

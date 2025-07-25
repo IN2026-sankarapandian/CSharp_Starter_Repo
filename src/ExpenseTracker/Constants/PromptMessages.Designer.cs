@@ -178,7 +178,7 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to What do you to edit : .
+        ///   Looks up a localized string similar to What do you want to edit : .
         /// </summary>
         internal static string EnterWhatToEdit {
             get {
@@ -232,7 +232,7 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 1. View incomes alone\n2. View expenses alone\n3. Go back.
+        ///   Looks up a localized string similar to 1. View incomes \n2. View expenses \n3. Go back.
         /// </summary>
         internal static string ViewPrompt {
             get {

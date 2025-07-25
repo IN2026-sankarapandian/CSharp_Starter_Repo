@@ -136,7 +136,7 @@
     <value>Enter a new source : </value>
   </data>
   <data name="EnterWhatToEdit" xml:space="preserve">
-    <value>What do you to edit : </value>
+    <value>What do you want to edit : </value>
   </data>
   <data name="EnterCategory" xml:space="preserve">
     <value>Enter category : </value>
@@ -154,7 +154,7 @@
     <value>Enter the new amount : </value>
   </data>
   <data name="ViewPrompt" xml:space="preserve">
-    <value>1. View incomes alone\n2. View expenses alone\n3. Go back</value>
+    <value>1. View incomes \n2. View expenses \n3. Go back</value>
   </data>
   <data name="EditPrompt" xml:space="preserve">
     <value>\n1. Amount\n2. {0}\n3. Go back\n</value>
