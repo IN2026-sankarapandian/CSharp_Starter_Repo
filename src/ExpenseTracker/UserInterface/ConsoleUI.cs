@@ -38,10 +38,7 @@ public class ConsoleUI : IUserInterface
     }
 
     /// <inheritdoc/>
-    public void ShowTransactionList(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true)
-    /// <param name="showIncome">Income filter.</param>
-    /// <param name="showExpense">Expense filter.</param>
-    public void ShowTransactionList(List<ITransaction> userTransactionDataList, bool showIncome = true, bool showExpense = true)
+    public void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionFilter filter)
     {
         this.ShowTransactionListAsTable(userTransactionDataList, filter);
     }
