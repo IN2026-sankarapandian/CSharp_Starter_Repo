@@ -1,6 +1,6 @@
-﻿using System.Reflection.PortableExecutable;
-using ConsoleTables;
+﻿using ConsoleTables;
 using ExpenseTracker.Constants;
+using ExpenseTracker.Constants.Enums;
 using ExpenseTracker.Models;
 
 namespace ExpenseTracker.UserInterface;
@@ -32,21 +32,21 @@ public class ConsoleUI : IUserInterface
     /// <inheritdoc/>
     public void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionType type)
     {
-        List<string> header;
+        List<string>? header;
         switch (type)
         {
             case TransactionType.Income:
-                header = new () { "Index", "Amount", "Source" };
+                header = new () { Headings.Index, Headings.Amount, Headings.Source };
                 List<ITransaction> incomeTransactionList = this.GetIncomeTransactionDataList(userTransactionDataList);
                 this.ShowTransactionListAsTable(incomeTransactionList, header, true);
                 break;
             case TransactionType.Expense:
-                header = new () { "Index", "Amount", "Category" };
+                header = new () { Headings.Index, Headings.Amount, Headings.Category };
                 List<ITransaction> expenseTransactionList = this.GetExpenseTransactionDataList(userTransactionDataList);
                 this.ShowTransactionListAsTable(expenseTransactionList, header, true);
                 break;
             default:
-                header = new () { "Index", "Income/Expense ", "Amount", "Source/Category" };
+                header = new () { Headings.Index, $"{Headings.Income}/{Headings.Expense}", Headings.Amount, $"{Headings.Source}/{Headings.Expense}" };
                 this.ShowTransactionListAsTable(userTransactionDataList, header, false);
                 break;
         }

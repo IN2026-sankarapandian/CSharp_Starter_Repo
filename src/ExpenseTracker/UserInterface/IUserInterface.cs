@@ -1,4 +1,4 @@
-﻿using ExpenseTracker.Constants;
+﻿using ExpenseTracker.Constants.Enums;
 using ExpenseTracker.Models;
 
 namespace ExpenseTracker.UserInterface;

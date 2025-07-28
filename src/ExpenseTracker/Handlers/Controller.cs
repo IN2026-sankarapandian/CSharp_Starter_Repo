@@ -1,4 +1,5 @@
 ﻿using ExpenseTracker.Constants;
+using ExpenseTracker.Constants.Enums;
 using ExpenseTracker.Models;
 using ExpenseTracker.UserInterface;
 
@@ -182,13 +183,13 @@ public class Controller : IController
     /// Get the valid tag for the transaction type from user.
     /// </summary>
     /// <param name="prompt">Prompt to show the user.</param>
-    /// <param name="type">Get the respective tag(Source, category) of the type.</param>
+    /// <param name="transactionType">Get the respective tag(Source, category) of the type.</param>
     /// <returns>Selected prompt by user.</returns>
-    private string GetTagFromUser(string prompt, TransactionType type)
+    private string GetTagFromUser(string prompt, TransactionType transactionType)
     {
         List<string> tags;
         string tagName;
-        if (type == TransactionType.Income)
+        if (transactionType == TransactionType.Income)
         {
             tags = this._userAccount.Sources;
             tagName = Headings.Source;
