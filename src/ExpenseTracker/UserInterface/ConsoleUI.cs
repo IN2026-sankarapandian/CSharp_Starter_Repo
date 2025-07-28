@@ -1,4 +1,5 @@
-﻿using ConsoleTables;
+﻿using System.Reflection.PortableExecutable;
+using ConsoleTables;
 using ExpenseTracker.Constants;
 using ExpenseTracker.Models;
 
@@ -29,7 +30,28 @@ public class ConsoleUI : IUserInterface
     public void ShowSuccessMessage(string successMessage) => this.PromptLine($"{successMessage}", ConsoleColor.Green);
 
     /// <inheritdoc/>
-    public void ShowTransactionList(List<ITransaction> userTransactionDataList, OptionEnums.TransactionFilter filter) => this.ShowTransactionListAsTable(userTransactionDataList, filter);
+    public void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionType type)
+    {
+        List<string> header;
+        switch (type)
+        {
+            case TransactionType.Income:
+                header = new () { "Index", "Amount", "Source" };
+                List<ITransaction> incomeTransactionList = this.GetIncomeTransactionDataList(userTransactionDataList);
+                userTransactionDataList = this.GetIncomeTransactionDataList(incomeTransactionList);
+                this.ShowTransactionListAsTable(userTransactionDataList, header, true);
+                break;
+            case TransactionType.Expense:
+                header = new () { "Index", "Amount", "Category" };
+                userTransactionDataList = this.GetExpenseTransactionDataList(userTransactionDataList);
+                this.ShowTransactionListAsTable(userTransactionDataList, header, true);
+                break;
+            default:
+                header = new () { "Index", "Income/Expense ", "Amount", "Source/Category" };
+                this.ShowTransactionListAsTable(userTransactionDataList, header, false);
+                break;
+        }
+    }
 
     /// <summary>
     /// Prompt the user with info in new line with specified color.
@@ -61,51 +83,22 @@ public class ConsoleUI : IUserInterface
         Console.WriteLine();
     }
 
-    /// <summary>
-    /// Prints the transaction list as a table.
-    /// </summary>
-    /// <param name="userTransactionDataList">Transaction list to print.</param>
-    /// <param name="filter">Transaction view filter.</param>
-    private void ShowTransactionListAsTable(List<ITransaction> userTransactionDataList, OptionEnums.TransactionFilter filter)
+    private void ShowTransactionListAsTable(List<ITransaction> userTransactionDataList, List<string> header, bool isFiltered)
     {
-        // Applies filter
-        List<string> header;
-        switch (filter)
-        {
-            case OptionEnums.TransactionFilter.Income:
-                header = new () { "Index", "Amount", "Source" };
-                userTransactionDataList = this.FilterIncomeTransactionDataList(userTransactionDataList);
-                break;
-            case OptionEnums.TransactionFilter.Expense:
-                header = new () { "Index", "Amount", "Category" };
-                userTransactionDataList = this.FilterExpenseTransactionDataList(userTransactionDataList);
-                break;
-            default:
-                header = new () { "Index", "Income/Expense ", "Amount", "Source/Category" };
-                break;
-        }
-
         if (userTransactionDataList.Count == 0)
         {
             this.PromptLine(ErrorMessages.NoTransactionFound);
             return;
         }
 
-        // Create and prints table
         ConsoleTable table = new (header.ToArray());
-        for (int rowIndex = 0; rowIndex < userTransactionDataList.Count; rowIndex++)
+        int rowIndex = 0;
+        foreach (ITransaction transaction in userTransactionDataList)
         {
             List<string> row = new () { (rowIndex + 1).ToString() };
-            if (filter == OptionEnums.TransactionFilter.All)
+            if (!isFiltered)
             {
-                if (userTransactionDataList[rowIndex] is IncomeTransactionData)
-                {
-                    row.Add("Income");
-                }
-                else
-                {
-                    row.Add("Expense");
-                }
+                row.Add(transaction.TransactionType.ToString());
             }
 
             row.Add(userTransactionDataList[rowIndex].Amount.ToString());
@@ -119,36 +112,15 @@ public class ConsoleUI : IUserInterface
             }
 
             table.AddRow(row.ToArray());
+            rowIndex++;
         }
 
         table.Write();
     }
 
-    private List<ITransaction> FilterIncomeTransactionDataList(List<ITransaction> transactionList)
-    {
-        List<ITransaction> result = new ();
-        foreach (ITransaction transaction in transactionList)
-        {
-            if (transaction is IncomeTransactionData income)
-            {
-                result.Add(income);
-            }
-        }
+    private List<ITransaction> GetIncomeTransactionDataList(List<ITransaction> transactionList) =>
+        transactionList.Where(transaction => transaction.TransactionType == TransactionType.Income).ToList();
 
-        return result;
-    }
-
-    private List<ITransaction> FilterExpenseTransactionDataList(List<ITransaction> transactionList)
-    {
-        List<ITransaction> result = new ();
-        foreach (ITransaction transaction in transactionList)
-        {
-            if (transaction is ExpenseTransactionData expenseTransactionData)
-            {
-                result.Add(expenseTransactionData);
-            }
-        }
-
-        return result;
-    }
+    private List<ITransaction> GetExpenseTransactionDataList(List<ITransaction> transactionList) =>
+        transactionList.Where(transaction => transaction.TransactionType == TransactionType.Expense).ToList();
 }

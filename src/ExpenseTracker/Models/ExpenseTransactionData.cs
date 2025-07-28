@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Models;
+﻿using ExpenseTracker.Constants;
+
+namespace ExpenseTracker.Models;
 
 /// <summary>
 /// Represents the expense transaction data of how much amount transacted, when the transaction initiated and the category of expense.
@@ -18,4 +20,12 @@ public class ExpenseTransactionData : ITransaction
     /// Description about transaction.
     /// </value>
     public string Category { get; set; } = null!;
+
+    /// <summary>
+    /// Gets the transaction type.
+    /// </summary>
+    /// <value>
+    /// Type of transaction.
+    /// </value>
+    public TransactionType TransactionType { get; } = TransactionType.Expense;
 }

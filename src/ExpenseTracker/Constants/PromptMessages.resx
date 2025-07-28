@@ -132,17 +132,11 @@
   <data name="EnterSource" xml:space="preserve">
     <value>Enter a source : </value>
   </data>
-  <data name="EnterNewSource" xml:space="preserve">
-    <value>Enter a new source : </value>
-  </data>
   <data name="EnterWhatToEdit" xml:space="preserve">
     <value>What do you want to edit : </value>
   </data>
   <data name="EnterCategory" xml:space="preserve">
     <value>Enter category : </value>
-  </data>
-  <data name="EnterNewCategory" xml:space="preserve">
-    <value>Enter new category : </value>
   </data>
   <data name="EnterIndexToEdit" xml:space="preserve">
     <value>Select the index of transaction to edit : </value>
@@ -171,10 +165,13 @@
   <data name="Categories" xml:space="preserve">
     <value>Categories : </value>
   </data>
-  <data name="NewCategory" xml:space="preserve">
-    <value>New category</value>
+  <data name="NewTag" xml:space="preserve">
+    <value>New {0}</value>
   </data>
   <data name="NewSource" xml:space="preserve">
     <value>New source</value>
+  </data>
+  <data name="EnterNewTag" xml:space="preserve">
+    <value>Enter new {0} : </value>
   </data>
 </root>

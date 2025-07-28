@@ -79,6 +79,15 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Category.
+        /// </summary>
+        internal static string Category {
+            get {
+                return ResourceManager.GetString("Category", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string Delete {
@@ -108,9 +117,9 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Expense entries.
         /// </summary>
-        internal static string ExpenseEntry {
+        internal static string ExpenseEntries {
             get {
-                return ResourceManager.GetString("ExpenseEntry", resourceCulture);
+                return ResourceManager.GetString("ExpenseEntries", resourceCulture);
             }
         }
         
@@ -129,6 +138,15 @@ namespace ExpenseTracker.Constants {
         internal static string Menu {
             get {
                 return ResourceManager.GetString("Menu", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Source.
+        /// </summary>
+        internal static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
             }
         }
     }

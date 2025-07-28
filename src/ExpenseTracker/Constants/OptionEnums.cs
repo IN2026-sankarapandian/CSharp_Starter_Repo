@@ -1,28 +1,22 @@
 ﻿namespace ExpenseTracker.Constants;
 
 /// <summary>
-/// Consist of option enums used for better code readability.
+/// Transaction filter options for transaction list view.
 /// </summary>
-public class OptionEnums
+public enum TransactionType
 {
     /// <summary>
-    /// Transaction filter options for transaction list view.
+    /// Shows only income
     /// </summary>
-    public enum TransactionFilter
-    {
-        /// <summary>
-        /// Shows only income
-        /// </summary>
-        Income,
+    Income,
 
-        /// <summary>
-        /// Shows only expense
-        /// </summary>
-        Expense,
+    /// <summary>
+    /// Shows only expense
+    /// </summary>
+    Expense,
 
-        /// <summary>
-        /// Shows all transaction
-        /// </summary>
-        All,
-    }
+    /// <summary>
+    /// Shows all transaction
+    /// </summary>
+    All,
 }

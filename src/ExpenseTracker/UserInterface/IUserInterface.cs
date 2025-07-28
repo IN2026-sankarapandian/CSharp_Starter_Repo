@@ -43,6 +43,6 @@ public interface IUserInterface
     /// Shows transaction list to the user.
     /// </summary>
     /// <param name="userTransactionDataList">Transaction list to show user.</param>
-    /// <param name="filter">Transaction view filter.</param>
-    void ShowTransactionList(List<ITransaction> userTransactionDataList, OptionEnums.TransactionFilter filter);
+    /// <param name="type">Type of transaction.</param>
+    void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionType type);
 }
