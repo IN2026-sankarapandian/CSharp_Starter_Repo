@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Models;
+﻿using ExpenseTracker.Constants.Enums;
+
+namespace ExpenseTracker.Models;
 
 /// <summary>
 /// This is the base interface for all types transaction data like <see cref="ExpenseTransactionData"/>, <see cref="IncomeTransactionData"/>
@@ -21,4 +23,12 @@ public interface ITransaction
     /// Time the transaction initiated
     /// </value>
     DateTime CreatedAt { get; set; }
+
+    /// <summary>
+    /// Gets the type of transaction.
+    /// </summary>
+    /// <value>
+    /// Type of the transaction.
+    /// </value>
+    TransactionType TransactionType { get; }
 }

@@ -60,14 +60,14 @@ public class Account : IAccount
                 this.TotalIncome += newAmountValue;
                 this.CurrentBalance -= income.Amount;
                 this.CurrentBalance += newAmountValue;
-                income.EditAmount(newAmountValue);
+                income.Amount = newAmountValue;
                 break;
             case ExpenseTransactionData expense:
                 this.TotalExpense -= expense.Amount;
                 this.TotalExpense += newAmountValue;
                 this.CurrentBalance += expense.Amount;
                 this.CurrentBalance -= newAmountValue;
-                expense.EditAmount(newAmountValue);
+                expense.Amount = newAmountValue;
                 break;
             default:
                 break;
@@ -80,7 +80,7 @@ public class Account : IAccount
         ITransaction transaction = this.TotalTransactionDataList[index];
         if (transaction is IncomeTransactionData income)
         {
-            income.EditSource(newSourceValue);
+            income.Source = newSourceValue;
         }
     }
 
@@ -90,7 +90,7 @@ public class Account : IAccount
         ITransaction transaction = this.TotalTransactionDataList[index];
         if (transaction is ExpenseTransactionData income)
         {
-            income.EditCategory(newCategoryValue);
+            income.Category = newCategoryValue;
         }
     }
 

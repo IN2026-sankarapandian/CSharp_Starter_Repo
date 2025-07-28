@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Models;
+﻿using ExpenseTracker.Constants.Enums;
+
+namespace ExpenseTracker.Models;
 
 /// <summary>
 /// Represents the income transaction data of how much amount transacted, when the transaction initiated and the source of income.
@@ -20,14 +22,10 @@ public class IncomeTransactionData : ITransaction
     public string Source { get; set; } = null!;
 
     /// <summary>
-    /// Edits the amount of income.
+    /// Gets the transaction type.
     /// </summary>
-    /// <param name="amount">New value for amount.</param>
-    public void EditAmount(decimal amount) => this.Amount = amount;
-
-    /// <summary>
-    /// Edit the source of income.
-    /// </summary>
-    /// <param name="source">New value of income.</param>
-    public void EditSource(string source) => this.Source = source;
+    /// <value>
+    /// Type of transaction.
+    /// </value>
+    public TransactionType TransactionType { get; } = TransactionType.Income;
 }

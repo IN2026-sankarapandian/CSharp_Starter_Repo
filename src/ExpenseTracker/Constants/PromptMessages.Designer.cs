@@ -79,7 +79,7 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to \n1. Amount\n2. {0}\n3. Go back\n.
+        ///   Looks up a localized string similar to \n1. Amount\n2. {0}\n.
         /// </summary>
         internal static string EditPrompt {
             get {
@@ -151,20 +151,11 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Enter new category : .
+        ///   Looks up a localized string similar to Enter new {0} : .
         /// </summary>
-        internal static string EnterNewCategory {
+        internal static string EnterNewTag {
             get {
-                return ResourceManager.GetString("EnterNewCategory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Enter a new source : .
-        /// </summary>
-        internal static string EnterNewSource {
-            get {
-                return ResourceManager.GetString("EnterNewSource", resourceCulture);
+                return ResourceManager.GetString("EnterNewTag", resourceCulture);
             }
         }
         
@@ -196,20 +187,20 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New category.
-        /// </summary>
-        internal static string NewCategory {
-            get {
-                return ResourceManager.GetString("NewCategory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to New source.
         /// </summary>
         internal static string NewSource {
             get {
                 return ResourceManager.GetString("NewSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New {0}.
+        /// </summary>
+        internal static string NewTag {
+            get {
+                return ResourceManager.GetString("NewTag", resourceCulture);
             }
         }
         

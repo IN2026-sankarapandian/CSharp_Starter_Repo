@@ -35,9 +35,10 @@ Represents an user account with balance and transaction info and the core operat
  ```
 This is the base interface for all types transaction data like `ExpenseTransactionData`, `IncomeTransactionData`. It contains common properties like Amount, CreatedAt.
 | **Property**                  | **Description**                                                                 |
-|------------------------------|---------------------------------------------------------------------------------|
-| `decimal Amount { get; set; }`   | Gets or sets the amount transferred in the transaction.                        |
-| `DateTime CreatedAt { get; set; }` | Gets or sets the time the transaction was initiated.                           |
+|------------------------------|----------------------------------------------------------------------------------|
+| `decimal Amount { get; set; }`   | Gets or sets the amount transferred in the transaction.                      |
+| `DateTime CreatedAt { get; set; }` | Gets or sets the time the transaction was initiated.                       |
+| `TransactionType TransactionType { get; }` | Gets the type of transaction.					      |
 
 ### IController interface
 ```cs

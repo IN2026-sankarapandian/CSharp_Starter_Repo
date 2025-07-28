@@ -123,6 +123,12 @@
   <data name="AddIncome" xml:space="preserve">
     <value>Add income</value>
   </data>
+  <data name="Amount" xml:space="preserve">
+    <value>Amount</value>
+  </data>
+  <data name="Category" xml:space="preserve">
+    <value>Category</value>
+  </data>
   <data name="Delete" xml:space="preserve">
     <value>Delete</value>
   </data>
@@ -132,13 +138,25 @@
   <data name="Entries" xml:space="preserve">
     <value>Entries</value>
   </data>
-  <data name="ExpenseEntry" xml:space="preserve">
+  <data name="Expense" xml:space="preserve">
+    <value>Expense</value>
+  </data>
+  <data name="ExpenseEntries" xml:space="preserve">
     <value>Expense entries</value>
+  </data>
+  <data name="Income" xml:space="preserve">
+    <value>Income</value>
   </data>
   <data name="IncomeEntries" xml:space="preserve">
     <value>Income entries</value>
   </data>
+  <data name="Index" xml:space="preserve">
+    <value>Index</value>
+  </data>
   <data name="Menu" xml:space="preserve">
     <value>Menu</value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source</value>
   </data>
 </root>
