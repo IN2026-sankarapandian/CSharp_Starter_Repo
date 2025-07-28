@@ -38,13 +38,12 @@ public class ConsoleUI : IUserInterface
             case TransactionType.Income:
                 header = new () { "Index", "Amount", "Source" };
                 List<ITransaction> incomeTransactionList = this.GetIncomeTransactionDataList(userTransactionDataList);
-                userTransactionDataList = this.GetIncomeTransactionDataList(incomeTransactionList);
-                this.ShowTransactionListAsTable(userTransactionDataList, header, true);
+                this.ShowTransactionListAsTable(incomeTransactionList, header, true);
                 break;
             case TransactionType.Expense:
                 header = new () { "Index", "Amount", "Category" };
-                userTransactionDataList = this.GetExpenseTransactionDataList(userTransactionDataList);
-                this.ShowTransactionListAsTable(userTransactionDataList, header, true);
+                List<ITransaction> expenseTransactionList = this.GetExpenseTransactionDataList(userTransactionDataList);
+                this.ShowTransactionListAsTable(expenseTransactionList, header, true);
                 break;
             default:
                 header = new () { "Index", "Income/Expense ", "Amount", "Source/Category" };
