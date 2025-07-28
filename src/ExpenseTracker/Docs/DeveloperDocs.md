@@ -34,7 +34,7 @@ This is the base interface for all types transaction data like `ExpenseTransacti
 |------------------------------|----------------------------------------------------------------------------------|
 | `decimal Amount { get; set; }`   | Gets or sets the amount transferred in the transaction.                      |
 | `DateTime CreatedAt { get; set; }` | Gets or sets the time the transaction was initiated.                       |
-| `TransactionType TransactionType { get; set; }` | Gets or sets the type of transaction.					      |
+| `TransactionType TransactionType { get; }` | Gets the type of transaction.					      |
 
 ### IController interface
 ```cs
