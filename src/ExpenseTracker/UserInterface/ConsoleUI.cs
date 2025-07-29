@@ -24,10 +24,12 @@ public class ConsoleUI : IUserInterface
     public void ShowInfoMessage(string info) => this.PromptLine($"{info}");
 
     /// <inheritdoc/>
-    public void ShowWarningMessage(string warningMessage) => this.PromptLine($"{warningMessage}", ConsoleColor.Yellow);
+    public void ShowWarningMessage(string warningMessage) 
+        => this.PromptLine($"{warningMessage}", ConsoleColor.Yellow);
 
     /// <inheritdoc/>
-    public void ShowSuccessMessage(string successMessage) => this.PromptLine($"{successMessage}", ConsoleColor.Green);
+    public void ShowSuccessMessage(string successMessage) 
+        => this.PromptLine($"{successMessage}", ConsoleColor.Green);
 
     /// <inheritdoc/>
     public void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionType type)
@@ -59,15 +61,13 @@ public class ConsoleUI : IUserInterface
     /// <param name="color">Color for the prompt. Default value is white.</param>
     private void PromptLine(string? prompt, ConsoleColor color = ConsoleColor.White)
     {
-        if (string.IsNullOrEmpty(prompt))
+        if (!string.IsNullOrEmpty(prompt))
         {
-            return;
+            Console.ForegroundColor = color;
+            Console.Write(prompt.Replace("\\n", "\n"));
+            Console.WriteLine();
+            Console.ResetColor();
         }
-
-        Console.ForegroundColor = color;
-        Console.Write(prompt.Replace("\\n", "\n"));
-        Console.WriteLine();
-        Console.ResetColor();
     }
 
     /// <summary>

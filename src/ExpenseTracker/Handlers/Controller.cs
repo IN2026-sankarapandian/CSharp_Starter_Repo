@@ -1,4 +1,5 @@
-﻿using ExpenseTracker.Constants;
+﻿using System.Numerics;
+using ExpenseTracker.Constants;
 using ExpenseTracker.Constants.Enums;
 using ExpenseTracker.Models;
 using ExpenseTracker.UserInterface;
@@ -47,7 +48,7 @@ public class Controller : IController
                 this._userAccount.TotalIncome,
                 this._userAccount.TotalExpense));
             this._userInterface.ShowInfoMessage(PromptMessages.MenuPrompt);
-            string? userChoice = this._userInterface.PromptAndGetInput(PromptMessages.EnterChoice);
+            string userChoice = this.GetInputFromUser(PromptMessages.EnterChoice);
             switch (userChoice)
             {
                 // Add income transaction
@@ -72,7 +73,7 @@ public class Controller : IController
                 // Invalid choice
                 default:
                     this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
-                    continue;
+                    break;
             }
         }
         while (true);
@@ -120,35 +121,48 @@ public class Controller : IController
             {
                 this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
                 this._userInterface.MoveToAction(string.Format(Headings.Menu));
-                return;
             }
-
-            this._userInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
-            string? userViewChoice = this._userInterface.PromptAndGetInput(PromptMessages.EnterChoice);
-            switch (userViewChoice)
+            else
             {
-                // Show income entries
-                case "1":
-                    this.ShowIncomeEntries();
-                    break;
+                this._userInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
+                string userViewChoice = this.GetInputFromUser(PromptMessages.EnterChoice);
+                switch (userViewChoice)
+                {
+                    // Show income entries
+                    case "1":
+                        this.ShowIncomeEntries();
+                        break;
 
-                // Show expense entries
-                case "2":
-                    this.ShowExpenseEntries();
-                    break;
+                    // Show expense entries
+                    case "2":
+                        this.ShowExpenseEntries();
+                        break;
 
-                // Go back
-                case "3":
-                    this._userInterface.MoveToAction(string.Format(Headings.Menu));
-                    return;
+                    // Go back
+                    case "3":
+                        this._userInterface.MoveToAction(string.Format(Headings.Menu));
+                        return;
 
-                // Invalid choice
-                default:
-                    this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
-                    continue;
+                    // Invalid choice
+                    default:
+                        this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
+                        break;
+                }
             }
         }
         while (true);
+    }
+
+    /// <summary>
+    /// Gives account stats as structured string format.
+    /// </summary>
+    /// <param name="currentBalance">Current balance of user account.</param>
+    /// <param name="totalIncome">Current total income of user account.</param>
+    /// <param name="totalExpense">Current total expense of user account.</param>
+    /// <returns>Structured string format of account stats.</returns>
+    private string AccountStatsFormat(decimal currentBalance, decimal totalIncome, decimal totalExpense)
+    {
+        return string.Format(PromptMessages.AccountStats, currentBalance, totalIncome, totalExpense);
     }
 
     /// <summary>
@@ -158,23 +172,22 @@ public class Controller : IController
     /// <returns>Amount value</returns>
     private decimal GetAmountFromUser(string prompt)
     {
-        string? amountString;
+        string amountString;
         do
         {
-            amountString = this._userInterface.PromptAndGetInput(prompt);
+            amountString = this.GetInputFromUser(prompt);
             if (!decimal.TryParse(amountString, out decimal amount))
             {
                 this._userInterface.ShowWarningMessage(ErrorMessages.NotValidAmount);
-                continue;
             }
-
-            if (amount <= 0)
+            else if (amount <= 0)
             {
                 this._userInterface.ShowWarningMessage(ErrorMessages.AmountCantBeLessThanZero);
-                continue;
             }
-
-            return amount;
+            else
+            {
+                return amount;
+            }
         }
         while (true);
     }
@@ -214,10 +227,8 @@ public class Controller : IController
             if (!int.TryParse(categoryIndexString, out int tagIndex))
             {
                 this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, tags.Count + 1));
-                continue;
             }
-
-            if (tagIndex > 0 && tagIndex <= tags.Count)
+            else if (tagIndex > 0 && tagIndex <= tags.Count)
             {
                 return tags[tagIndex - 1];
             }
@@ -227,13 +238,28 @@ public class Controller : IController
                 this._userAccount.Categories.Add(newCategory);
                 return newCategory;
             }
-            else
-            {
-                this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, tags.Count + 1));
-                continue;
-            }
         }
         while (true);
+    }
+
+    /// <summary>
+    /// Shows all the expense entries.
+    /// </summary>
+    private void ShowExpenseEntries()
+    {
+        this._userInterface.MoveToAction(Headings.ExpenseEntries);
+        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Expense);
+        this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+    }
+
+    /// <summary>
+    /// Shows all the income entries.
+    /// </summary>
+    private void ShowIncomeEntries()
+    {
+        this._userInterface.MoveToAction(Headings.IncomeEntries);
+        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Income);
+        this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
     }
 
     /// <summary>
@@ -250,48 +276,12 @@ public class Controller : IController
             if (string.IsNullOrEmpty(input))
             {
                 this._userInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
-                continue;
             }
             else
             {
-                break;
+                return input;
             }
         }
         while (true);
-        return input;
-    }
-
-    /// <summary>
-    /// Shows all the expense entries.
-    /// </summary>
-    private void ShowExpenseEntries()
-    {
-        this._userInterface.MoveToAction(Headings.ExpenseEntries);
-        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Expense);
-        this._userInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
-        Console.ReadKey();
-    }
-
-    /// <summary>
-    /// Shows all the income entries.
-    /// </summary>
-    private void ShowIncomeEntries()
-    {
-        this._userInterface.MoveToAction(Headings.IncomeEntries);
-        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Income);
-        this._userInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
-        Console.ReadKey();
-    }
-
-    /// <summary>
-    /// Gives account stats as structured string format.
-    /// </summary>
-    /// <param name="currentBalance">Current balance of user account.</param>
-    /// <param name="totalIncome">Current total income of user account.</param>
-    /// <param name="totalExpense">Current total expense of user account.</param>
-    /// <returns>Structured string format of account stats.</returns>
-    private string AccountStatsFormat(decimal currentBalance, decimal totalIncome, decimal totalExpense)
-    {
-        return string.Format(PromptMessages.AccountStats, currentBalance, totalIncome, totalExpense);
     }
 }

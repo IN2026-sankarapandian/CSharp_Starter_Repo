@@ -1,7 +1,7 @@
 ﻿namespace ExpenseTracker.Constants.Enums;
 
 /// <summary>
-/// Transaction filter options for transaction list view.
+/// Denotes the type of transaction.
 /// </summary>
 public enum TransactionType
 {
