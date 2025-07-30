@@ -1,4 +1,4 @@
-﻿namespace ErrorHandling;
+﻿namespace ErrorHandling.UI;
 
 /// <summary>
 /// Provide methods to get input from user and prompt user
@@ -38,7 +38,7 @@ public static class ConsoleUI
         bool success;
         do
         {
-            string numberString = ConsoleUI.GetUserInput(prompt);
+            string numberString = GetUserInput(prompt);
             success = int.TryParse(numberString, out int number);
             if (!success)
             {

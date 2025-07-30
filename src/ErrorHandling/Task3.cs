@@ -1,4 +1,5 @@
 ﻿using ErrorHandling.CustomExceptions;
+using ErrorHandling.UI;
 
 namespace ErrorHandling;
 

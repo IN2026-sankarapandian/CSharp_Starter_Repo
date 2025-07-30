@@ -1,4 +1,6 @@
-﻿namespace ErrorHandling;
+﻿using ErrorHandling.UI;
+
+namespace ErrorHandling;
 
 /// <summary>
 /// Have methods to list the numbers array and allow user to select any number in it.
@@ -11,27 +13,31 @@ public class Task2
     public void Run()
     {
         int[] numbers = { 1, 2, 3, 4, 5 };
-        ConsoleUI.Display(numbers);
 
-        int selectedIndex = 0;
+        int selectedNumber = 0;
         try
         {
-            selectedIndex = GetIndex();
-            Console.WriteLine($"Selected number at index [{selectedIndex}] is {numbers[selectedIndex]}.");
+            selectedNumber = GetValueAtIndex(numbers);
+            Console.WriteLine($"Selected number is {numbers[selectedNumber]}.");
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
             Console.WriteLine(ex.Message);
         }
     }
 
-    private static int GetIndex()
+    /// <summary>
+    /// Gets the value at numbers at user specified index
+    /// </summary>
+    /// <param name="numbers">Numbers array</param>
+    /// <returns>Selected number</returns>
+    private static int GetValueAtIndex(int[] numbers)
     {
         try
         {
+            ConsoleUI.Display(numbers);
             int selectedIndex = ConsoleUI.GetNumber("Select a index : ");
-            return selectedIndex;
+            return numbers[selectedIndex];
         }
         catch (IndexOutOfRangeException)
         {

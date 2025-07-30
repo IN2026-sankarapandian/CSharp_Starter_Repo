@@ -1,4 +1,4 @@
-﻿using System.Transactions;
+﻿using ErrorHandling.UI;
 
 namespace ErrorHandling;
 
@@ -30,6 +30,12 @@ public class Task1
         }
     }
 
+    /// <summary>
+    /// Divide the inputs and return the result
+    /// </summary>
+    /// <param name="dividend">Dividend</param>
+    /// <param name="divisor">Divisor</param>
+    /// <returns>Result</returns>
     private int Divide(int dividend, int divisor)
     {
         return dividend / divisor;

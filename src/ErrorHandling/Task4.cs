@@ -1,4 +1,4 @@
-﻿using ErrorHandling.CustomExceptions;
+﻿using ErrorHandling.UI;
 
 namespace ErrorHandling;
 
@@ -8,11 +8,11 @@ namespace ErrorHandling;
 public class Task4
 {
     /// <summary>
-    /// Entry point to run the task3.
+    /// Entry point to run the task4.
     /// </summary>
     public void Run()
     {
-        Task3 task3 = new Task3();
+        Task3 task3 = new ();
         int[] numbers = { 1, 2, 3, 4, 5 };
         ConsoleUI.Display(numbers);
         int selectedIndex = task3.GetUserInput("Select a index : ");
