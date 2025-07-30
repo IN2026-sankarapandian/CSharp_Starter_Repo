@@ -24,12 +24,10 @@ public class ConsoleUI : IUserInterface
     public void ShowInfoMessage(string info) => this.PromptLine($"{info}");
 
     /// <inheritdoc/>
-    public void ShowWarningMessage(string warningMessage) 
-        => this.PromptLine($"{warningMessage}", ConsoleColor.Yellow);
+    public void ShowWarningMessage(string warningMessage) => this.PromptLine($"{warningMessage}", ConsoleColor.Yellow);
 
     /// <inheritdoc/>
-    public void ShowSuccessMessage(string successMessage) 
-        => this.PromptLine($"{successMessage}", ConsoleColor.Green);
+    public void ShowSuccessMessage(string successMessage) => this.PromptLine($"{successMessage}", ConsoleColor.Green);
 
     /// <inheritdoc/>
     public void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionType type)
@@ -78,7 +76,7 @@ public class ConsoleUI : IUserInterface
     private void CreateNewPage(string title)
     {
         Console.Clear();
-        this.PromptLine($"{nameof(ExpenseTracker)} - {title}", ConsoleColor.DarkBlue);
+        this.PromptLine($"{Headings.ExpenseTracker} - {title}", ConsoleColor.DarkBlue);
         Console.WriteLine();
     }
 
@@ -117,9 +115,13 @@ public class ConsoleUI : IUserInterface
         table.Write();
     }
 
-    private List<ITransaction> GetIncomeTransactionDataList(List<ITransaction> transactionList) =>
-        transactionList.Where(transaction => transaction.TransactionType == TransactionType.Income).ToList();
+    private List<ITransaction> GetIncomeTransactionDataList(List<ITransaction> transactionList)
+    {
+        return transactionList.Where(transaction => transaction.TransactionType == TransactionType.Income).ToList();
+    }
 
-    private List<ITransaction> GetExpenseTransactionDataList(List<ITransaction> transactionList) =>
-        transactionList.Where(transaction => transaction.TransactionType == TransactionType.Expense).ToList();
+    private List<ITransaction> GetExpenseTransactionDataList(List<ITransaction> transactionList)
+    {
+        return transactionList.Where(transaction => transaction.TransactionType == TransactionType.Expense).ToList();
+    }
 }

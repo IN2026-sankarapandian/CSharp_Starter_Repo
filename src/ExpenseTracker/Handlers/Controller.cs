@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using ExpenseTracker.Constants;
+﻿using ExpenseTracker.Constants;
 using ExpenseTracker.Constants.Enums;
 using ExpenseTracker.Models;
 using ExpenseTracker.UserInterface;
@@ -161,9 +160,7 @@ public class Controller : IController
     /// <param name="totalExpense">Current total expense of user account.</param>
     /// <returns>Structured string format of account stats.</returns>
     private string AccountStatsFormat(decimal currentBalance, decimal totalIncome, decimal totalExpense)
-    {
-        return string.Format(PromptMessages.AccountStats, currentBalance, totalIncome, totalExpense);
-    }
+        => string.Format(PromptMessages.AccountStats, currentBalance, totalIncome, totalExpense);
 
     /// <summary>
     /// Gets the valid amount from user.
@@ -172,10 +169,9 @@ public class Controller : IController
     /// <returns>Amount value</returns>
     private decimal GetAmountFromUser(string prompt)
     {
-        string amountString;
         do
         {
-            amountString = this.GetInputFromUser(prompt);
+            string amountString = this.GetInputFromUser(prompt);
             if (!decimal.TryParse(amountString, out decimal amount))
             {
                 this._userInterface.ShowWarningMessage(ErrorMessages.NotValidAmount);
@@ -223,8 +219,8 @@ public class Controller : IController
         this._userInterface.ShowInfoMessage($"{tags.Count + 1}. {string.Format(PromptMessages.NewTag, tagName)}");
         do
         {
-            string? categoryIndexString = this._userInterface.PromptAndGetInput(prompt);
-            if (!int.TryParse(categoryIndexString, out int tagIndex))
+            string? tagIndexString = this._userInterface.PromptAndGetInput(prompt);
+            if (!int.TryParse(tagIndexString, out int tagIndex))
             {
                 this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, tags.Count + 1));
             }
@@ -234,9 +230,9 @@ public class Controller : IController
             }
             else if (tagIndex == tags.Count + 1)
             {
-                string newCategory = this.GetInputFromUser(string.Format(PromptMessages.EnterNewTag, tagName));
-                this._userAccount.Categories.Add(newCategory);
-                return newCategory;
+                string newTag = this.GetInputFromUser(string.Format(PromptMessages.EnterNewTag, tagName));
+                this._userAccount.Categories.Add(newTag);
+                return newTag;
             }
         }
         while (true);
@@ -269,10 +265,9 @@ public class Controller : IController
     /// <returns>User input string.</returns>
     private string GetInputFromUser(string prompt)
     {
-        string? input;
         do
         {
-            input = this._userInterface.PromptAndGetInput(prompt);
+            string? input = this._userInterface.PromptAndGetInput(prompt);
             if (string.IsNullOrEmpty(input))
             {
                 this._userInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
