@@ -112,9 +112,9 @@ public class Controller : IController
     /// <inheritdoc/>
     public void HandleViewTransactions()
     {
+        this._userInterface.MoveToAction(Headings.Entries);
         do
         {
-            this._userInterface.MoveToAction(Headings.Entries);
             this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.All);
             if (this._userAccount.TotalTransactionDataList.Count == 0)
             {
@@ -246,6 +246,7 @@ public class Controller : IController
         this._userInterface.MoveToAction(Headings.ExpenseEntries);
         this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Expense);
         this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this._userInterface.MoveToAction(Headings.Entries);
     }
 
     /// <summary>
@@ -256,6 +257,7 @@ public class Controller : IController
         this._userInterface.MoveToAction(Headings.IncomeEntries);
         this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Income);
         this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this._userInterface.MoveToAction(Headings.Entries);
     }
 
     /// <summary>
