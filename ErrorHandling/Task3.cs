@@ -2,17 +2,23 @@
 
 namespace ErrorHandling;
 
+/// <summary>
+/// Have methods to list the numbers array and allow user to select any number in it.
+/// </summary>
 public class Task3
 {
+    /// <summary>
+    /// Entry point to run the task3.
+    /// </summary>
     public void Run()
     {
         int[] numbers = { 1, 2, 3, 4, 5 };
         ConsoleUI.Display(numbers);
         try
         {
-            int selectedIndex = GetUserInput("Select a index : ");
+            int selectedIndex = this.GetUserInput("Select a index : ");
             Console.WriteLine($"Selected number at index [{selectedIndex}] is {numbers[selectedIndex]}.");
-        }1
+        }
         catch (InvalidUserInputException ex)
         {
             Console.WriteLine(ex);
@@ -25,13 +31,18 @@ public class Task3
         }
     }
 
-    private static int GetUserInput(string prompt)
+    /// <summary>
+    /// Get user input.
+    /// </summary>
+    /// <param name="prompt">Prompt to show the user.</param>
+    /// <returns>User's input.</returns>
+    /// <exception cref="InvalidUserInputException">The exception that is thrown when the users input is not valid. </exception>
+    public int GetUserInput(string prompt)
     {
-        string? selectedIndexString;
         do
         {
             Console.WriteLine(prompt);
-            selectedIndexString = Console.ReadLine();
+            string? selectedIndexString = Console.ReadLine();
             if (string.IsNullOrEmpty(selectedIndexString))
             {
                 throw new InvalidUserInputException("Input cannot be null", new ArgumentNullException());

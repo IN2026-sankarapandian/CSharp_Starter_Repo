@@ -3,21 +3,20 @@
 namespace ErrorHandling;
 
 /// <summary>
-/// This is the task 1.
-/// Where we create <see cref="DivideByZeroException"/> voluntarily and catch it.
+/// Have methods to execute divide operation with user inputs.
 /// </summary>
 public class Task1
 {
     /// <summary>
-    /// Run the task 1
+    /// Entry point to run the task1.
     /// </summary>
     public void Run()
     {
-        int dividend, divisor, result = 0;
+        int result = 0;
         try
         {
-            dividend = ConsoleUI.GetNumber("Enter the dividend : ");
-            divisor = ConsoleUI.GetNumber("Enter the divisor : ");
+            int dividend = ConsoleUI.GetNumber("Enter the dividend : ");
+            int divisor = ConsoleUI.GetNumber("Enter the divisor : ");
             result = this.Divide(dividend, divisor);
         }
         catch (DivideByZeroException)

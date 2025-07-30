@@ -1,7 +1,15 @@
 ﻿namespace ErrorHandling;
 
+/// <summary>
+/// Provide methods to get input from user and prompt user
+/// </summary>
 public static class ConsoleUI
 {
+    /// <summary>
+    /// Get user input
+    /// </summary>
+    /// <param name="prompt">Prompt to be shown to user.</param>
+    /// <returns>User's input.</returns>
     public static string GetUserInput(string prompt)
     {
         do
@@ -20,6 +28,11 @@ public static class ConsoleUI
         while (true);
     }
 
+    /// <summary>
+    /// Get a input integer from user and return it.
+    /// </summary>
+    /// <param name="prompt">Prompt to be shown to user.</param>
+    /// <returns>User's input.</returns>
     public static int GetNumber(string prompt)
     {
         bool success;
@@ -39,14 +52,17 @@ public static class ConsoleUI
         while (true);
     }
 
-    public static void Display(int[] array)
+    /// <summary>
+    /// Displays the integer array.
+    /// </summary>
+    /// <param name="numbers">Integer array to display.</param>
+    public static void Display(int[] numbers)
     {
         int index = 1;
-        foreach (int number in array)
+        foreach (int number in numbers)
         {
-            Console.Write("[");
-            Console.Write($"{index},{number}");
-            Console.WriteLine("]");
+            Console.Write($"{nameof(numbers)}[");
+            Console.WriteLine($"{index}] = {number}");
             index++;
         }
     }
