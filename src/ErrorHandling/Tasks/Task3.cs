@@ -17,7 +17,7 @@ public class Task3
         {
             int[] numbers = { 1, 2, 3, 4, 5 };
             ConsoleUI.Display(numbers);
-            int selectedIndex = this.GetUserInput("Select a index : ");
+            int selectedIndex = this.GetIndexInput("Select a index : ", numbers);
             Console.WriteLine($"Selected number at index [{selectedIndex}] is {numbers[selectedIndex]}.");
         }
         catch (InvalidUserInputException ex)
@@ -36,9 +36,10 @@ public class Task3
     /// Get user input.
     /// </summary>
     /// <param name="prompt">Prompt to show the user.</param>
+    /// <param name="numbers">Array to get index for.</param>
     /// <returns>User's input.</returns>
     /// <exception cref="InvalidUserInputException">The exception that is thrown when the users input is not valid. </exception>
-    public int GetUserInput(string prompt)
+    public int GetIndexInput(string prompt, int[] numbers)
     {
         do
         {
@@ -51,6 +52,10 @@ public class Task3
             else if (!int.TryParse(selectedIndexString, out int selectedIndex))
             {
                 throw new InvalidUserInputException("Input is not a valid number");
+            }
+            else if (numbers.Length <= selectedIndex || selectedIndex < 0)
+            {
+                throw new InvalidUserInputException("User attempted to access the element at array with an index that is out of bounds", new IndexOutOfRangeException());
             }
             else
             {

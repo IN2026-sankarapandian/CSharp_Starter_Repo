@@ -15,7 +15,7 @@ public class Task4
         Task3 task3 = new ();
         int[] numbers = { 1, 2, 3, 4, 5 };
         ConsoleUI.Display(numbers);
-        int selectedIndex = task3.GetUserInput("Select a index : ");
+        int selectedIndex = task3.GetIndexInput("Select a index : ", numbers);
         Console.WriteLine($"Selected number at index [{selectedIndex}] is {numbers[selectedIndex]}.");
     }
 }
