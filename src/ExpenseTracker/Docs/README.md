@@ -4,6 +4,8 @@ When you launch the app, you can see a menu with options of
 - Add Income
 - Add expense
 - View
+- Edit
+- Delete
 - Exit
 
 ---
@@ -26,6 +28,17 @@ When you launch the app, you can see a menu with options of
 - The app will list you all the transactions as a table.
 - You can filter with income and expenses.
 - After viewing it you can exit back to home.
+---
+## Edit transactions
+**Purpose :** Edit transactions.
+- The app will list you all the transactions as a table.
+- You can select the index of transaction to edit.
+- Choose the field to change and apply new value.
+---
+## Delete transactions
+**Purpose :** Delete transactions.
+- The app will list you all the transactions as a table.
+- You can select the index of transaction to delete.
 
 ---
 ## Exit

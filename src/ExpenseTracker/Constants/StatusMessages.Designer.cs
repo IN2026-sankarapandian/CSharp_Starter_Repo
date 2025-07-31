@@ -72,9 +72,9 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Edited successfully.
         /// </summary>
-        internal static string EditedSucccessfuly {
+        internal static string EditedSuccessfuly {
             get {
-                return ResourceManager.GetString("EditedSucccessfuly", resourceCulture);
+                return ResourceManager.GetString("EditedSuccessfuly", resourceCulture);
             }
         }
         

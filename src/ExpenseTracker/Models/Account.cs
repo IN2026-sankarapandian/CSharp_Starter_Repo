@@ -33,9 +33,10 @@ public class Account : IAccount
             Amount = incomeAmount,
             Source = source,
         };
+        this.TotalTransactionDataList.Add(newIncome);
+
         this.CurrentBalance += incomeAmount;
         this.TotalIncome += incomeAmount;
-        this.TotalTransactionDataList.Add(newIncome);
     }
 
     /// <inheritdoc/>
@@ -46,8 +47,69 @@ public class Account : IAccount
             Amount = expenseAmount,
             Category = category,
         };
+        this.TotalTransactionDataList.Add(newExpense);
+
         this.CurrentBalance -= expenseAmount;
         this.TotalExpense += expenseAmount;
-        this.TotalTransactionDataList.Add(newExpense);
+    }
+
+    /// <inheritdoc/>
+    public void EditTransactionAmount(int index, decimal newAmountValue)
+    {
+        ITransaction transaction = this.TotalTransactionDataList[index];
+        if (transaction is IncomeTransactionData income)
+        {
+            this.TotalIncome -= income.Amount;
+            this.TotalIncome += newAmountValue;
+            this.CurrentBalance -= income.Amount;
+            this.CurrentBalance += newAmountValue;
+            income.Amount = newAmountValue;
+        }
+        else if (transaction is ExpenseTransactionData expense)
+        {
+            this.TotalExpense -= expense.Amount;
+            this.TotalExpense += newAmountValue;
+            this.CurrentBalance += expense.Amount;
+            this.CurrentBalance -= newAmountValue;
+            expense.Amount = newAmountValue;
+        }
+    }
+
+    /// <inheritdoc/>
+    public void EditIncomeTransactionSource(int index, string newSourceValue)
+    {
+        ITransaction transaction = this.TotalTransactionDataList[index];
+        if (transaction is IncomeTransactionData income)
+        {
+            income.Source = newSourceValue;
+        }
+    }
+
+    /// <inheritdoc/>
+    public void EditExpenseTransactionCategory(int index, string newCategoryValue)
+    {
+        ITransaction transaction = this.TotalTransactionDataList[index];
+        if (transaction is ExpenseTransactionData income)
+        {
+            income.Category = newCategoryValue;
+        }
+    }
+
+    /// <inheritdoc/>
+    public void DeleteTransaction(int index)
+    {
+        ITransaction transaction = this.TotalTransactionDataList[index];
+        if (transaction is IncomeTransactionData income)
+        {
+            this.TotalIncome -= income.Amount;
+            this.CurrentBalance -= income.Amount;
+            this.TotalTransactionDataList.RemoveAt(index);
+        }
+        else if (transaction is ExpenseTransactionData expense)
+        {
+            this.TotalExpense -= expense.Amount;
+            this.CurrentBalance += expense.Amount;
+            this.TotalTransactionDataList.RemoveAt(index);
+        }
     }
 }

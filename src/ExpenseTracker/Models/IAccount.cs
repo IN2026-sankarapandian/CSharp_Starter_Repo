@@ -66,4 +66,31 @@ public interface IAccount
     /// <param name="expenseAmount">Expense amount.</param>
     /// <param name="category">Category of expense.</param>
     void AddExpense(decimal expenseAmount, string category);
+
+    /// <summary>
+    /// Edit the amount of transaction at specified index.
+    /// </summary>
+    /// <param name="index">Index of transaction to edit.</param>
+    /// <param name="newAmountValue">New amount value.</param>
+    void EditTransactionAmount(int index, decimal newAmountValue);
+
+    /// <summary>
+    /// Edits the source of income transaction of specified index.
+    /// </summary>
+    /// <param name="index">Index of transaction to edit.</param>
+    /// <param name="newSourceValue">New source value.</param>
+    void EditIncomeTransactionSource(int index, string newSourceValue);
+
+    /// <summary>
+    /// Edits category of expense transaction of specified index.
+    /// </summary>
+    /// <param name="index">Index of transaction to edit.</param>
+    /// <param name="newCategoryValue">New category value.</param>
+    void EditExpenseTransactionCategory(int index, string newCategoryValue);
+
+    /// <summary>
+    /// Deletes a transaction in a specified index.
+    /// </summary>
+    /// <param name="index">Index of transaction to delete.</param>
+    void DeleteTransaction(int index);
 }
