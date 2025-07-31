@@ -8,13 +8,6 @@ public class InvalidUserInputException : Exception
     /// <summary>
     /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class.
     /// </summary>
-    public InvalidUserInputException()
-    {
-    }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="InvalidUserInputException"/> class.
-    /// </summary>
     /// <param name="message">Message for the exception.</param>
     public InvalidUserInputException(string? message)
         : base(message)
