@@ -82,7 +82,7 @@ public class ConsoleUI : IUserInterface
 
     private void ShowTransactionListAsTable(List<ITransaction> userTransactionDataList, List<string> header, bool isFiltered)
     {
-        if (userTransactionDataList.Count == 0)
+        if (!userTransactionDataList.Any())
         {
             this.PromptLine(ErrorMessages.NoTransactionFound);
             return;
