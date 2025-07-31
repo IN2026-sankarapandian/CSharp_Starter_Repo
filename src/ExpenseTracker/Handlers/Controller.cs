@@ -106,7 +106,6 @@ public class Controller : IController
 
         this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
         this._userInterface.MoveToAction(string.Format(Headings.Menu));
-        return;
     }
 
     /// <inheritdoc/>
@@ -133,37 +132,34 @@ public class Controller : IController
         this._userInterface.MoveToAction(Headings.Entries);
         do
         {
-            bool hasTransactions = this.TryShowTransactions();
-            if (!hasTransactions)
+            if (!this.TryShowTransactions())
             {
                 return;
             }
-            else
+
+            this._userInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
+            string userViewChoice = this.GetInputFromUser(PromptMessages.EnterChoice);
+            switch (userViewChoice)
             {
-                this._userInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
-                string userViewChoice = this.GetInputFromUser(PromptMessages.EnterChoice);
-                switch (userViewChoice)
-                {
-                    // Show income entries
-                    case "1":
-                        this.ShowIncomeEntries();
-                        break;
+                // Show income entries
+                case "1":
+                    this.ShowIncomeEntries();
+                    break;
 
-                    // Show expense entries
-                    case "2":
-                        this.ShowExpenseEntries();
-                        break;
+                // Show expense entries
+                case "2":
+                    this.ShowExpenseEntries();
+                    break;
 
-                    // Go back
-                    case "3":
-                        this._userInterface.MoveToAction(string.Format(Headings.Menu));
-                        return;
+                // Go back
+                case "3":
+                    this._userInterface.MoveToAction(string.Format(Headings.Menu));
+                    return;
 
-                    // Invalid choice
-                    default:
-                        this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
-                        continue;
-                }
+                // Invalid choice
+                default:
+                    this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
+                    continue;
             }
         }
         while (true);
@@ -178,8 +174,7 @@ public class Controller : IController
     public void HandleEditTransaction()
     {
         this._userInterface.MoveToAction(Headings.Edit);
-        bool hasTransactions = this.TryShowTransactions();
-        if (!hasTransactions)
+        if (!this.TryShowTransactions())
         {
             return;
         }
@@ -226,8 +221,7 @@ public class Controller : IController
     {
         this._userInterface.MoveToAction(Headings.Delete);
 
-        bool hasTransactions = this.TryShowTransactions();
-        if (!hasTransactions)
+        if (!this.TryShowTransactions())
         {
             return;
         }
@@ -247,7 +241,7 @@ public class Controller : IController
     private bool TryShowTransactions()
     {
         this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.All);
-        if (this._userAccount.TotalTransactionDataList.Count == 0)
+        if (!this._userAccount.TotalTransactionDataList.Any())
         {
             this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
             this._userInterface.MoveToAction(string.Format(Headings.Menu));

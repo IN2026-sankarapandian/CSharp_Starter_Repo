@@ -57,26 +57,21 @@ public class Account : IAccount
     public void EditTransactionAmount(int index, decimal newAmountValue)
     {
         ITransaction transaction = this.TotalTransactionDataList[index];
-        switch (transaction)
+        if (transaction is IncomeTransactionData income)
         {
-            case IncomeTransactionData income:
-                this.TotalIncome -= income.Amount;
-                this.TotalIncome += newAmountValue;
-                this.CurrentBalance -= income.Amount;
-                this.CurrentBalance += newAmountValue;
-                income.Amount = newAmountValue;
-                break;
-
-            case ExpenseTransactionData expense:
-                this.TotalExpense -= expense.Amount;
-                this.TotalExpense += newAmountValue;
-                this.CurrentBalance += expense.Amount;
-                this.CurrentBalance -= newAmountValue;
-                expense.Amount = newAmountValue;
-                break;
-
-            default:
-                break;
+            this.TotalIncome -= income.Amount;
+            this.TotalIncome += newAmountValue;
+            this.CurrentBalance -= income.Amount;
+            this.CurrentBalance += newAmountValue;
+            income.Amount = newAmountValue;
+        }
+        else if (transaction is ExpenseTransactionData expense)
+        {
+            this.TotalExpense -= expense.Amount;
+            this.TotalExpense += newAmountValue;
+            this.CurrentBalance += expense.Amount;
+            this.CurrentBalance -= newAmountValue;
+            expense.Amount = newAmountValue;
         }
     }
 
@@ -104,22 +99,17 @@ public class Account : IAccount
     public void DeleteTransaction(int index)
     {
         ITransaction transaction = this.TotalTransactionDataList[index];
-        switch (transaction)
+        if (transaction is IncomeTransactionData income)
         {
-            case IncomeTransactionData income:
-                this.TotalIncome -= income.Amount;
-                this.CurrentBalance -= income.Amount;
-                this.TotalTransactionDataList.RemoveAt(index);
-                break;
-
-            case ExpenseTransactionData expense:
-                this.TotalExpense -= expense.Amount;
-                this.CurrentBalance += expense.Amount;
-                this.TotalTransactionDataList.RemoveAt(index);
-                break;
-
-            default:
-                break;
+            this.TotalIncome -= income.Amount;
+            this.CurrentBalance -= income.Amount;
+            this.TotalTransactionDataList.RemoveAt(index);
+        }
+        else if (transaction is ExpenseTransactionData expense)
+        {
+            this.TotalExpense -= expense.Amount;
+            this.CurrentBalance += expense.Amount;
+            this.TotalTransactionDataList.RemoveAt(index);
         }
     }
 }
