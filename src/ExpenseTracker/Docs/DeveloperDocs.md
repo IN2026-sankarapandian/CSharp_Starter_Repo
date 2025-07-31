@@ -63,14 +63,14 @@ public interface IUserInterface
 ```
 Represents the user interface and its methods to interact with user.
 
-| **Function**                                                                                      | **Description**                                                                 |
+| **Function**                                                                                      | **Description**                                                                  |
 |----------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------|
-| `string? PromptAndGetInput(string prompt)`                                                          | Prompts the user and returns a input.                                  |
+| `string? PromptAndGetInput(string prompt)`                                                          | Prompts the user and returns a input.                                          |
 | `void MoveToAction(string action)`                                                                 | Displays a title or action message to the user.                                 |
 | `void ShowInfoMessage(string info)`                                                                | Displays informational messages to the user.                                    |
 | `void ShowWarningMessage(string warningMessage)`                                                   | Displays warning messages to the user.                                          |
 | `void ShowSuccessMessage(string successMessage)`                                                   | Displays success messages to the user.                                          |
-| `void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionFilter filter)` | Displays a list of transactions with optional filters for income and expense.   |
+| `void ShowTransactionList(List<ITransaction> userTransactionDataList, TransactionType transactionType)` | Displays a list of transactions based on specified type                    |
 | `void ShowTransactionData(ITransaction transactionData)`                                           | Displays a single transaction's data to the user.                               |
 
 
