@@ -1,4 +1,6 @@
-﻿namespace ExpenseTracker.Models;
+﻿using ExpenseTracker.Constants;
+
+namespace ExpenseTracker.Models;
 
 /// <summary>
 /// Represents the account with name, balance, list of transactions.
@@ -18,10 +20,10 @@ public class Account : IAccount
     public List<ITransaction> TotalTransactionDataList { get; private set;  } = new List<ITransaction>();
 
     /// <inheritdoc/>
-    public List<string> Categories { get; set; } = new List<string> { "Rent", "Food", "Transport" };
+    public List<string> Categories { get; set; } = new List<string> { Headings.Category1, Headings.Category2 };
 
     /// <inheritdoc/>
-    public List<string> Sources { get; set; } = new List<string> { "Salary", "Stocks", "Petty cash" };
+    public List<string> Sources { get; set; } = new List<string> { Headings.Source1, Headings.Source2 };
 
     /// <inheritdoc/>
     public void AddIncome(decimal incomeAmount, string source)
@@ -31,9 +33,10 @@ public class Account : IAccount
             Amount = incomeAmount,
             Source = source,
         };
+        this.TotalTransactionDataList.Add(newIncome);
+
         this.CurrentBalance += incomeAmount;
         this.TotalIncome += incomeAmount;
-        this.TotalTransactionDataList.Add(newIncome);
     }
 
     /// <inheritdoc/>
@@ -44,9 +47,10 @@ public class Account : IAccount
             Amount = expenseAmount,
             Category = category,
         };
+        this.TotalTransactionDataList.Add(newExpense);
+
         this.CurrentBalance -= expenseAmount;
         this.TotalExpense += expenseAmount;
-        this.TotalTransactionDataList.Add(newExpense);
     }
 
     /// <inheritdoc/>
@@ -62,6 +66,7 @@ public class Account : IAccount
                 this.CurrentBalance += newAmountValue;
                 income.Amount = newAmountValue;
                 break;
+
             case ExpenseTransactionData expense:
                 this.TotalExpense -= expense.Amount;
                 this.TotalExpense += newAmountValue;
@@ -69,6 +74,7 @@ public class Account : IAccount
                 this.CurrentBalance -= newAmountValue;
                 expense.Amount = newAmountValue;
                 break;
+
             default:
                 break;
         }
@@ -105,11 +111,13 @@ public class Account : IAccount
                 this.CurrentBalance -= income.Amount;
                 this.TotalTransactionDataList.RemoveAt(index);
                 break;
+
             case ExpenseTransactionData expense:
                 this.TotalExpense -= expense.Amount;
                 this.CurrentBalance += expense.Amount;
                 this.TotalTransactionDataList.RemoveAt(index);
                 break;
+
             default:
                 break;
         }

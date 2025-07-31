@@ -46,8 +46,10 @@ public class Controller : IController
                 this._userAccount.TotalIncome,
                 this._userAccount.TotalIncome,
                 this._userAccount.TotalExpense));
+
             this._userInterface.ShowInfoMessage(PromptMessages.MenuPrompt);
-            string? userChoice = this._userInterface.PromptAndGetInput(PromptMessages.EnterChoice);
+
+            string userChoice = this.GetInputFromUser(PromptMessages.EnterChoice);
             switch (userChoice)
             {
                 // Add income transaction
@@ -82,7 +84,7 @@ public class Controller : IController
                 // Invalid choice
                 default:
                     this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
-                    continue;
+                    break;
             }
         }
         while (true);
@@ -95,10 +97,13 @@ public class Controller : IController
     public void HandleAddIncome()
     {
         this._userInterface.MoveToAction(Headings.AddIncome);
+
         decimal incomeAmount = this.GetAmountFromUser(PromptMessages.EnterIncome);
         string source = this.GetTagFromUser(PromptMessages.EnterSource, TransactionType.Income);
+
         this._userAccount.AddIncome(incomeAmount, source);
         this._userInterface.ShowSuccessMessage(StatusMessages.IncomeAddedSuccessfully);
+
         this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
         this._userInterface.MoveToAction(string.Format(Headings.Menu));
         return;
@@ -111,10 +116,13 @@ public class Controller : IController
     public void HandleAddExpense()
     {
         this._userInterface.MoveToAction(Headings.AddExpense);
+
         decimal expenseAmount = this.GetAmountFromUser(PromptMessages.EnterExpense);
         string category = this.GetTagFromUser(PromptMessages.EnterCategory, TransactionType.Expense);
+
         this._userAccount.AddExpense(expenseAmount, category);
         this._userInterface.ShowSuccessMessage(StatusMessages.ExpenseAddedSuccessfully);
+
         this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
         this._userInterface.MoveToAction(string.Format(Headings.Menu));
     }
@@ -122,46 +130,40 @@ public class Controller : IController
     /// <inheritdoc/>
     public void HandleViewTransactions()
     {
+        this._userInterface.MoveToAction(Headings.Entries);
         do
         {
-            this._userInterface.MoveToAction(Headings.Entries);
-            this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.All);
-            if (this._userAccount.TotalTransactionDataList.Count == 0)
+            bool hasTransactions = this.TryShowTransactions();
+            if (!hasTransactions)
             {
-                this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
-                this._userInterface.MoveToAction(string.Format(Headings.Menu));
                 return;
             }
-
-            this._userInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
-            string? userViewChoice = this._userInterface.PromptAndGetInput(PromptMessages.EnterChoice);
-            if (string.IsNullOrEmpty(userViewChoice))
+            else
             {
-                this._userInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
-                continue;
-            }
+                this._userInterface.ShowInfoMessage(PromptMessages.ViewPrompt);
+                string userViewChoice = this.GetInputFromUser(PromptMessages.EnterChoice);
+                switch (userViewChoice)
+                {
+                    // Show income entries
+                    case "1":
+                        this.ShowIncomeEntries();
+                        break;
 
-            switch (userViewChoice)
-            {
-                // Show income entries
-                case "1":
-                    this.ShowIncomeEntries();
-                    break;
+                    // Show expense entries
+                    case "2":
+                        this.ShowExpenseEntries();
+                        break;
 
-                // Show expense entries
-                case "2":
-                    this.ShowExpenseEntries();
-                    break;
+                    // Go back
+                    case "3":
+                        this._userInterface.MoveToAction(string.Format(Headings.Menu));
+                        return;
 
-                // Go back
-                case "3":
-                    this._userInterface.MoveToAction(string.Format(Headings.Menu));
-                    return;
-
-                // Invalid choice
-                default:
-                    this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
-                    continue;
+                    // Invalid choice
+                    default:
+                        this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
+                        continue;
+                }
             }
         }
         while (true);
@@ -176,11 +178,9 @@ public class Controller : IController
     public void HandleEditTransaction()
     {
         this._userInterface.MoveToAction(Headings.Edit);
-        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.All);
-        if (this._userAccount.TotalTransactionDataList.Count == 0)
+        bool hasTransactions = this.TryShowTransactions();
+        if (!hasTransactions)
         {
-            this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
-            this._userInterface.MoveToAction(string.Format(Headings.Menu));
             return;
         }
 
@@ -188,13 +188,8 @@ public class Controller : IController
         ITransaction selectedTransactionData = this._userAccount.TotalTransactionDataList[indexToEdit];
         do
         {
-            this._userInterface.ShowInfoMessage(string.Format(PromptMessages.EditPrompt, selectedTransactionData is IncomeTransactionData ? Headings.Source : Headings.Category));
-            string? fieldToEdit = this._userInterface.PromptAndGetInput(PromptMessages.EnterWhatToEdit);
-            if (string.IsNullOrEmpty(fieldToEdit))
-            {
-                this._userInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
-                continue;
-            }
+            this._userInterface.ShowInfoMessage(string.Format(PromptMessages.EditPrompt, selectedTransactionData.TransactionType == TransactionType.Income ? Headings.Source : Headings.Category));
+            string? fieldToEdit = this.GetInputFromUser(PromptMessages.EnterWhatToEdit);
 
             switch (fieldToEdit)
             {
@@ -202,23 +197,23 @@ public class Controller : IController
                 case "1":
                     this.EditAmountOfTransaction(indexToEdit);
                     this._userInterface.ShowSuccessMessage(StatusMessages.EditedSuccessfuly);
-                    this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
-                    this._userInterface.MoveToAction(string.Format(Headings.Menu));
-                    return;
+                    break;
 
                 // Edit source or category
                 case "2":
                     this.EditCategoryOrSourceFromUser(indexToEdit);
                     this._userInterface.ShowSuccessMessage(StatusMessages.EditedSuccessfuly);
-                    this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
-                    this._userInterface.MoveToAction(string.Format(Headings.Menu));
-                    return;
+                    break;
 
                 // Invalid choice
                 default:
                     this._userInterface.ShowWarningMessage(ErrorMessages.EnterValidChoice);
                     continue;
             }
+
+            this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+            this._userInterface.MoveToAction(string.Format(Headings.Menu));
+            return;
         }
         while (true);
     }
@@ -230,19 +225,36 @@ public class Controller : IController
     public void HandleDeleteTransaction()
     {
         this._userInterface.MoveToAction(Headings.Delete);
-        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.All);
-        if (this._userAccount.TotalTransactionDataList.Count == 0)
+
+        bool hasTransactions = this.TryShowTransactions();
+        if (!hasTransactions)
         {
-            this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
-            this._userInterface.MoveToAction(string.Format(Headings.Menu));
             return;
         }
 
         int indexToDelete = this.GetIndexFromUser(PromptMessages.EnterIndexToDelete);
         this._userAccount.DeleteTransaction(indexToDelete);
+
         this._userInterface.ShowSuccessMessage(StatusMessages.DeletedSuccessfully);
         this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
         this._userInterface.MoveToAction(string.Format(Headings.Menu));
+    }
+
+    /// <summary>
+    /// Shows the transaction if available else prompt the user accordingly.
+    /// </summary>
+    /// <returns><see cref="true"/> If transactions; otherwise false</returns>
+    private bool TryShowTransactions()
+    {
+        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.All);
+        if (this._userAccount.TotalTransactionDataList.Count == 0)
+        {
+            this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+            this._userInterface.MoveToAction(string.Format(Headings.Menu));
+            return false;
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -251,27 +263,34 @@ public class Controller : IController
     /// <returns>Selected index value by user.</returns>
     private int GetIndexFromUser(string prompt)
     {
-        int selectedIndex;
         do
         {
             string? selectedIndexString = this._userInterface.PromptAndGetInput(prompt);
-            if (!int.TryParse(selectedIndexString, out selectedIndex))
+            if (!int.TryParse(selectedIndexString, out int selectedIndex))
             {
                 this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, this._userAccount.TotalTransactionDataList.Count));
-                continue;
             }
-
-            if (selectedIndex <= 0 || selectedIndex - 1 >= this._userAccount.TotalTransactionDataList.Count)
+            else if (selectedIndex <= 0 || selectedIndex - 1 >= this._userAccount.TotalTransactionDataList.Count)
             {
                 this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, this._userAccount.TotalTransactionDataList.Count));
-                continue;
             }
-
-            break;
+            else
+            {
+                return selectedIndex - 1;
+            }
         }
         while (true);
-        return selectedIndex - 1;
     }
+
+    /// <summary>
+    /// Gives account stats as structured string format.
+    /// </summary>
+    /// <param name="currentBalance">Current balance of user account.</param>
+    /// <param name="totalIncome">Current total income of user account.</param>
+    /// <param name="totalExpense">Current total expense of user account.</param>
+    /// <returns>Structured string format of account stats.</returns>
+    private string AccountStatsFormat(decimal currentBalance, decimal totalIncome, decimal totalExpense)
+        => string.Format(PromptMessages.AccountStats, currentBalance, totalIncome, totalExpense);
 
     /// <summary>
     /// Gets the valid amount from user.
@@ -280,23 +299,21 @@ public class Controller : IController
     /// <returns>Amount value</returns>
     private decimal GetAmountFromUser(string prompt)
     {
-        string? amountString;
         do
         {
-            amountString = this._userInterface.PromptAndGetInput(prompt);
+            string amountString = this.GetInputFromUser(prompt);
             if (!decimal.TryParse(amountString, out decimal amount))
             {
                 this._userInterface.ShowWarningMessage(ErrorMessages.NotValidAmount);
-                continue;
             }
-
-            if (amount <= 0)
+            else if (amount <= 0)
             {
                 this._userInterface.ShowWarningMessage(ErrorMessages.AmountCantBeLessThanZero);
-                continue;
             }
-
-            return amount;
+            else
+            {
+                return amount;
+            }
         }
         while (true);
     }
@@ -332,74 +349,47 @@ public class Controller : IController
         this._userInterface.ShowInfoMessage($"{tags.Count + 1}. {string.Format(PromptMessages.NewTag, tagName)}");
         do
         {
-            string? categoryIndexString = this._userInterface.PromptAndGetInput(prompt);
-            if (!int.TryParse(categoryIndexString, out int tagIndex))
+            string? tagIndexString = this._userInterface.PromptAndGetInput(prompt);
+            if (!int.TryParse(tagIndexString, out int tagIndex))
             {
                 this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, tags.Count + 1));
-                continue;
             }
-
-            if (tagIndex > 0 && tagIndex <= tags.Count)
+            else if (tagIndex > 0 && tagIndex <= tags.Count)
             {
                 return tags[tagIndex - 1];
             }
             else if (tagIndex == tags.Count + 1)
             {
-                string newCategory = this.GetInputFromUser(string.Format(PromptMessages.EnterNewTag, tagName));
-                this._userAccount.Categories.Add(newCategory);
-                return newCategory;
-            }
-            else
-            {
-                this._userInterface.ShowWarningMessage(string.Format(ErrorMessages.EnterValidIndex, tags.Count + 1));
-                continue;
+                string newTag = this.GetInputFromUser(string.Format(PromptMessages.EnterNewTag, tagName));
+                this._userAccount.Categories.Add(newTag);
+                return newTag;
             }
         }
         while (true);
     }
 
     /// <summary>
-    /// Get non null string.
+    /// Shows all the expense entries.
     /// </summary>
-    /// <param name="prompt">Prompt to show.</param>
-    /// <returns>User input string.</returns>
-    private string GetInputFromUser(string prompt)
+    private void ShowExpenseEntries()
     {
-        string? input;
-        do
-        {
-            input = this._userInterface.PromptAndGetInput(prompt);
-            if (string.IsNullOrEmpty(input))
-            {
-                this._userInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
-                continue;
-            }
-            else
-            {
-                break;
-            }
-        }
-        while (true);
-        return input;
+        this._userInterface.MoveToAction(Headings.ExpenseEntries);
+        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Expense);
+
+        this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this._userInterface.MoveToAction(Headings.Entries);
     }
 
     /// <summary>
-    /// Edits the category or source of the specified transaction based on its type with user inputs.
+    /// Shows all the income entries.
     /// </summary>
-    /// <param name="indexToEdit">Index value of transaction in users account.</param>
-    private void EditCategoryOrSourceFromUser(int indexToEdit)
+    private void ShowIncomeEntries()
     {
-        ITransaction selectedTransactionData = this._userAccount.TotalTransactionDataList[indexToEdit];
-        if (selectedTransactionData is IncomeTransactionData)
-        {
-            string newSource = this.GetTagFromUser(string.Format(PromptMessages.NewTag, Headings.Source), TransactionType.Income);
-            this._userAccount.EditIncomeTransactionSource(indexToEdit, newSource);
-        }
-        else
-        {
-            string newCategory = this.GetTagFromUser(string.Format(PromptMessages.NewTag, Headings.Category), TransactionType.Expense);
-            this._userAccount.EditExpenseTransactionCategory(indexToEdit, newCategory);
-        }
+        this._userInterface.MoveToAction(Headings.IncomeEntries);
+        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Income);
+
+        this._userInterface.PromptAndGetInput(PromptMessages.PressEnterToGoBack);
+        this._userInterface.MoveToAction(Headings.Entries);
     }
 
     /// <summary>
@@ -412,36 +402,43 @@ public class Controller : IController
     }
 
     /// <summary>
-    /// Shows all the expense entries.
+    /// Edits the category or source of the specified transaction based on its type with user inputs.
     /// </summary>
-    private void ShowExpenseEntries()
+    /// <param name="indexToEdit">Index value of transaction in users account.</param>
+    private void EditCategoryOrSourceFromUser(int indexToEdit)
     {
-        this._userInterface.MoveToAction(Headings.ExpenseEntries);
-        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Expense);
-        this._userInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
-        Console.ReadKey();
+        ITransaction selectedTransactionData = this._userAccount.TotalTransactionDataList[indexToEdit];
+        if (selectedTransactionData.TransactionType is TransactionType.Income)
+        {
+            string newSource = this.GetTagFromUser(string.Format(PromptMessages.NewTag, Headings.Source), TransactionType.Income);
+            this._userAccount.EditIncomeTransactionSource(indexToEdit, newSource);
+        }
+        else if (selectedTransactionData.TransactionType is TransactionType.Expense)
+        {
+            string newCategory = this.GetTagFromUser(string.Format(PromptMessages.NewTag, Headings.Category), TransactionType.Expense);
+            this._userAccount.EditExpenseTransactionCategory(indexToEdit, newCategory);
+        }
     }
 
     /// <summary>
-    /// Shows all the income entries.
+    /// Get non null string.
     /// </summary>
-    private void ShowIncomeEntries()
+    /// <param name="prompt">Prompt to show.</param>
+    /// <returns>User input string.</returns>
+    private string GetInputFromUser(string prompt)
     {
-        this._userInterface.MoveToAction(Headings.IncomeEntries);
-        this._userInterface.ShowTransactionList(this._userAccount.TotalTransactionDataList, TransactionType.Income);
-        this._userInterface.ShowInfoMessage(PromptMessages.PressEnterToGoBack);
-        Console.ReadKey();
-    }
-
-    /// <summary>
-    /// Gives account stats as structured string format.
-    /// </summary>
-    /// <param name="currentBalance">Current balance of user account.</param>
-    /// <param name="totalIncome">Current total income of user account.</param>
-    /// <param name="totalExpense">Current total expense of user account.</param>
-    /// <returns>Structured string format of account stats.</returns>
-    private string AccountStatsFormat(decimal currentBalance, decimal totalIncome, decimal totalExpense)
-    {
-        return string.Format(PromptMessages.AccountStats, currentBalance, totalIncome, totalExpense);
+        do
+        {
+            string? input = this._userInterface.PromptAndGetInput(prompt);
+            if (string.IsNullOrEmpty(input))
+            {
+                this._userInterface.ShowWarningMessage(ErrorMessages.InputCannotBeEmpty);
+            }
+            else
+            {
+                return input;
+            }
+        }
+        while (true);
     }
 }

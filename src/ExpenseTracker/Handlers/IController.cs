@@ -1,7 +1,4 @@
-﻿using ExpenseTracker.Models;
-using ExpenseTracker.UserInterface;
-
-namespace ExpenseTracker.Handlers;
+﻿namespace ExpenseTracker.Handlers;
 
 /// <summary>
 /// Represents the controller for expense tracker.

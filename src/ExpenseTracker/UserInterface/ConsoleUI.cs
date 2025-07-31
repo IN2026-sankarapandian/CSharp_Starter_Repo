@@ -59,15 +59,13 @@ public class ConsoleUI : IUserInterface
     /// <param name="color">Color for the prompt. Default value is white.</param>
     private void PromptLine(string? prompt, ConsoleColor color = ConsoleColor.White)
     {
-        if (string.IsNullOrEmpty(prompt))
+        if (!string.IsNullOrEmpty(prompt))
         {
-            return;
+            Console.ForegroundColor = color;
+            Console.Write(prompt.Replace("\\n", "\n"));
+            Console.WriteLine();
+            Console.ResetColor();
         }
-
-        Console.ForegroundColor = color;
-        Console.Write(prompt.Replace("\\n", "\n"));
-        Console.WriteLine();
-        Console.ResetColor();
     }
 
     /// <summary>
@@ -78,7 +76,7 @@ public class ConsoleUI : IUserInterface
     private void CreateNewPage(string title)
     {
         Console.Clear();
-        this.PromptLine($"{nameof(ExpenseTracker)} - {title}", ConsoleColor.DarkBlue);
+        this.PromptLine($"{Headings.ExpenseTracker} - {title}", ConsoleColor.DarkBlue);
         Console.WriteLine();
     }
 
@@ -117,9 +115,13 @@ public class ConsoleUI : IUserInterface
         table.Write();
     }
 
-    private List<ITransaction> GetIncomeTransactionDataList(List<ITransaction> transactionList) =>
-        transactionList.Where(transaction => transaction.TransactionType == TransactionType.Income).ToList();
+    private List<ITransaction> GetIncomeTransactionDataList(List<ITransaction> transactionList)
+    {
+        return transactionList.Where(transaction => transaction.TransactionType == TransactionType.Income).ToList();
+    }
 
-    private List<ITransaction> GetExpenseTransactionDataList(List<ITransaction> transactionList) =>
-        transactionList.Where(transaction => transaction.TransactionType == TransactionType.Expense).ToList();
+    private List<ITransaction> GetExpenseTransactionDataList(List<ITransaction> transactionList)
+    {
+        return transactionList.Where(transaction => transaction.TransactionType == TransactionType.Expense).ToList();
+    }
 }

@@ -97,6 +97,24 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Rent.
+        /// </summary>
+        internal static string Category1 {
+            get {
+                return ResourceManager.GetString("Category1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Food.
+        /// </summary>
+        internal static string Category2 {
+            get {
+                return ResourceManager.GetString("Category2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         internal static string Delete {
@@ -142,6 +160,15 @@ namespace ExpenseTracker.Constants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expense Tracker.
+        /// </summary>
+        internal static string ExpenseTracker {
+            get {
+                return ResourceManager.GetString("ExpenseTracker", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Income.
         /// </summary>
         internal static string Income {
@@ -183,6 +210,24 @@ namespace ExpenseTracker.Constants {
         internal static string Source {
             get {
                 return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Salary.
+        /// </summary>
+        internal static string Source1 {
+            get {
+                return ResourceManager.GetString("Source1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stocks.
+        /// </summary>
+        internal static string Source2 {
+            get {
+                return ResourceManager.GetString("Source2", resourceCulture);
             }
         }
     }

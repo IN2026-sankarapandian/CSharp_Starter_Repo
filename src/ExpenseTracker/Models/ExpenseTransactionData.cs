@@ -14,18 +14,18 @@ public class ExpenseTransactionData : ITransaction
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     /// <summary>
-    /// Gets or sets description about transaction.
-    /// </summary>
-    /// <value>
-    /// Description about transaction.
-    /// </value>
-    public string Category { get; set; } = null!;
-
-    /// <summary>
     /// Gets the transaction type.
     /// </summary>
     /// <value>
     /// Type of transaction.
     /// </value>
     public TransactionType TransactionType { get; } = TransactionType.Expense;
+
+    /// <summary>
+    /// Gets or sets description about transaction.
+    /// </summary>
+    /// <value>
+    /// Description about transaction.
+    /// </value>
+    public string Category { get; set; } = null!;
 }
