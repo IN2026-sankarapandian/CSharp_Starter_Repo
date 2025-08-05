@@ -20,25 +20,31 @@ public class Task5
         List<Supplier> suppliers = new ();
         Helper.AddDummySuppliers(suppliers);
 
-        var result = new QueryBuilder<Product, Supplier>(products, suppliers)
+        var result = new QueryBuilder<Product>(products)
             .Filter(product => product.Category.Equals("Stationery"))
             .SortBy(product => product.Price)
-            .Join((product, supplier) => product.ID.Equals(supplier.ProductId))
+            .Join(suppliers,  (p, s) => p.ID == s.ProductId, (s, p) => new
+            {
+                s.ID,
+                s.Name,
+                s.Category,
+                s.Price,
+                p.SupplierName,
+                p.SupplierId,
+            })
             .Execute();
 
         Console.WriteLine("Filtered products using custom query builder : \n");
         ConsoleTable filteredProductTable = new ConsoleTable("Product ID", "Product Name", "Supplier ID", "Supplier Name", "Category", "Price");
         foreach (var product in result)
         {
-            Product item1 = ((Tuple<Product, Supplier>)product).Item1;
-            Supplier item2 = ((Tuple<Product, Supplier>)product).Item2;
             string[] fields = new string[6];
-            fields[0] = item1.ID;
-            fields[1] = item1.Name;
-            fields[2] = item2.SupplierId;
-            fields[3] = item2.SupplierName;
-            fields[4] = item1.Category;
-            fields[5] = item1.Price.ToString();
+            fields[0] = product.ID;
+            fields[1] = product.Name;
+            fields[2] = product.SupplierId;
+            fields[3] = product.SupplierName;
+            fields[4] = product.Category;
+            fields[5] = product.Price.ToString();
             filteredProductTable.AddRow(fields);
         }
 
