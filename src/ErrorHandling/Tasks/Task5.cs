@@ -17,10 +17,10 @@ public class Task5
         }
         catch (Exception unhandledException)
         {
-            Console.WriteLine($"Unhandled exception caught globally : " + unhandledException);
-            Console.WriteLine($"Message : " + unhandledException.Message);
-            Console.WriteLine($"Stack trace : " + unhandledException?.StackTrace?.ToString());
-            Console.WriteLine("Stack trace shows the exception path i.e the origin of the exception");
+            Console.WriteLine($"Unhandled exception caught globally : {unhandledException}" +
+                $"\nMessage : {unhandledException.Message}" +
+                $"\nStack trace : {unhandledException?.StackTrace?.ToString()}" +
+                $"\nStack trace shows the exception path i.e the origin of the exception");
         }
     }
 }

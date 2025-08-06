@@ -17,7 +17,7 @@ public class Assignment8
         currentDomain.UnhandledException += new UnhandledExceptionEventHandler(MyHandler);
         do
         {
-            Console.WriteLine("1. Task 1\n2. Task 2\n3. Task 3\n4. Task 4\n5. Task 5");
+            Console.WriteLine("1. Task 1\n2. Task 2\n3. Task 3\n4. Task 4\n5. Task 5\n6. Exit");
             string userChoice = ConsoleUI.GetUserInput("Enter what to do : ");
             switch (userChoice)
             {
@@ -40,6 +40,11 @@ public class Assignment8
                 case "5":
                     Task5 task5 = new ();
                     task5.Run();
+                    break;
+                case "6":
+                    return;
+                default:
+                    Console.WriteLine("Enter a valid input !");
                     break;
             }
 

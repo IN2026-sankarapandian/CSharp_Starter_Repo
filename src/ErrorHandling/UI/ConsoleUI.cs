@@ -37,9 +37,9 @@ public static class ConsoleUI
     {
         do
         {
-            string numberString = GetUserInput(prompt);
-            bool success = int.TryParse(numberString, out int number);
-            if (!success)
+            string userInput = GetUserInput(prompt);
+            bool isNumber = int.TryParse(userInput, out int number);
+            if (!isNumber)
             {
                 Console.WriteLine("Enter a valid number !");
             }
