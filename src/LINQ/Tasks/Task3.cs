@@ -13,8 +13,10 @@ public class Task3
         int[] numbers = { 0, 1, 2, 3, 4, 5, 6, 7 };
         string numbersString = string.Join(',', numbers);
 
-        int secondLargestNumber = numbers.OrderByDescending(number => number).Skip(1).First();
-        Console.WriteLine("\n\nSecond largest number in array [{0}] : {0}\n", numbersString, secondLargestNumber);
+        int secondLargestNumber = numbers.OrderByDescending(number => number)
+            .Skip(1).First();
+
+        Console.WriteLine("\n\nSecond largest number in array [{0}] : {1}\n", numbersString, secondLargestNumber);
 
         int target = 5;
         var pairs = numbers.SelectMany(a => numbers

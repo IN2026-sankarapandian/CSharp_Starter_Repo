@@ -22,7 +22,7 @@ public class Task4
             .ToList();
 
         Console.WriteLine("All products under the category \"Books\" and sorted by price : \n");
-        ConsoleTable productTable = new ConsoleTable("Id", "Product", "Price", "Category");
+        ConsoleTable productTable = new ("Id", "Product", "Price", "Category");
         foreach (Product product in filteredProducts)
         {
             string[] fields = new string[4];
@@ -36,7 +36,9 @@ public class Task4
         productTable.Write();
 
         // Here we use sort to optimize the query as the sort wont create any duplicates.
-        List<Product> filtered = products.Where(product => product.Category.Equals("Books")).ToList();
+        List<Product> filtered = products.Where(product => product.Category
+        .Equals("Books")).ToList();
+
         filtered.Sort((productA, productB) => productA.Price.CompareTo(productB.Price));
 
         Console.WriteLine("Press enter to go back...");

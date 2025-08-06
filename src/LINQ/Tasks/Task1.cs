@@ -19,9 +19,12 @@ public class Task1
         Console.WriteLine("All products");
         PrintTable(products);
 
-        var filteredProducts = products.Where(product => product.Price > 500 && product.Category.Equals("Electronics")).Select(product => new { product.Name, product.Price }).ToList();
+        var filteredProducts = products.Where(product => product.Price > 500 && product.Category.Equals("Electronics"))
+            .Select(product => new { product.Name, product.Price })
+            .ToList();
+
         Console.WriteLine("\n\nFiltered products under the category \"Electronics\" with a price greater than $500 and with only ProductName and Price : ");
-        ConsoleTable filteredProductTable = new ConsoleTable("Product", "Price");
+        ConsoleTable filteredProductTable = new ("Product", "Price");
         foreach (var product in filteredProducts)
         {
             string[] fields = new string[2];
@@ -34,7 +37,7 @@ public class Task1
 
         Console.WriteLine("Ordered products based on price : ");
         var sortedProducts = filteredProducts.OrderBy(product => product.Price).ToList();
-        ConsoleTable sortedProductTable = new ConsoleTable("Product", "Price");
+        ConsoleTable sortedProductTable = new ("Product", "Price");
         foreach (var product in sortedProducts)
         {
             string[] fields = new string[2];
@@ -55,7 +58,7 @@ public class Task1
 
     private static void PrintTable(List<Product> products)
     {
-        ConsoleTable productTable = new ConsoleTable("Id", "Product", "Price", "Category");
+        ConsoleTable productTable = new ("Id", "Product", "Price", "Category");
         foreach (Product product in products)
         {
             string[] fields = new string[4];

@@ -41,14 +41,14 @@ public class Task2
                              {
                                  ProductId = product.ID,
                                  ProductName = product.Name,
-                                 SupplierId = supplier.SupplierId,
-                                 SupplierName = supplier.SupplierName,
-                                 Category = product.Category,
-                                 Price = product.Price,
+                                 supplier.SupplierId,
+                                 supplier.SupplierName,
+                                 product.Category,
+                                 product.Price,
                              };
 
         Console.WriteLine("\n\nProducts with suppliers data : ");
-        ConsoleTable productDetailsTable = new ConsoleTable("Product ID", "Product Name", "Supplier ID", "Supplier Name", "Category", "Price");
+        ConsoleTable productDetailsTable = new ("Product ID", "Product Name", "Supplier ID", "Supplier Name", "Category", "Price");
         foreach (var product in productDetails)
         {
             string[] fields = new string[6];

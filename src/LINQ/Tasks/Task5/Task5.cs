@@ -35,7 +35,8 @@ public class Task5
             .Execute();
 
         Console.WriteLine("Filtered products using custom query builder : \n");
-        ConsoleTable filteredProductTable = new ConsoleTable("Product ID", "Product Name", "Supplier ID", "Supplier Name", "Category", "Price");
+        ConsoleTable filteredProductTable =
+            new ("Product ID", "Product Name", "Supplier ID", "Supplier Name", "Category", "Price");
         foreach (var product in result)
         {
             string[] fields = new string[6];

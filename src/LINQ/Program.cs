@@ -1,9 +1,7 @@
-﻿using ConsoleTables;
-using LINQ.Models;
-using LINQ.Tasks;
+﻿using LINQ.Tasks;
 using LINQ.Tasks.Task5;
 
-namespace Assignments;
+namespace LINQ;
 
 /// <summary>
 /// Its the main class of the project contains main function which is an entry point of the project.

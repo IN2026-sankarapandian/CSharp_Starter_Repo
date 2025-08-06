@@ -82,7 +82,7 @@ public class QueryBuilder<T1>
     /// <returns>Result</returns>
     public IEnumerable<T1> Execute()
     {
-        List<T1> enumerableUpdated = new List<T1>();
+        List<T1> enumerableUpdated = new ();
         if (this.Predicate is not null)
         {
             foreach (var item in this.Enu1)
@@ -175,7 +175,7 @@ public class QueryBuilder<T1, TInner, TResult> : QueryBuilder<T1>
     public new IEnumerable<TResult> Execute()
     {
         IEnumerable<T1> result = base.Execute();
-        List<TResult> joinedResult = new List<TResult>();
+        List<TResult> joinedResult = new ();
 
         foreach (var e1 in result)
         {
