@@ -1,23 +1,33 @@
 ﻿using ConsoleTables;
+using LINQ.Helpers;
 using LINQ.Models;
 
 namespace LINQ.Tasks;
 
 /// <summary>
-/// Task4 of the LINQ assignment.
+/// Task 4 of the LINQ assignment.
 /// </summary>
+/// <remarks>Performance Considerations with LINQ </remarks>
 public class Task4
 {
     /// <summary>
-    /// Runs the task4.
+    /// Runs the task 4.
     /// </summary>
     public void Run()
     {
         List<Product> products = new ();
-        this.AddDummyProducts(products);
+        Helper.AddDummyProducts(products);
 
         List<Product> filteredProducts = products
-            .Where(product => product.Category.Equals("Books"))
+            .Where(product =>
+            {
+                if (product is not null && product.Category is not null)
+                {
+                    return product.Category.Equals("Books");
+                }
+
+                return false;
+            })
             .OrderBy(product => product.Price)
             .ToList();
 
@@ -25,43 +35,31 @@ public class Task4
         ConsoleTable productTable = new ("Id", "Product", "Price", "Category");
         foreach (Product product in filteredProducts)
         {
-            string[] fields = new string[4];
-            fields[0] = product.ID;
-            fields[1] = product.Name;
-            fields[2] = product.Price.ToString();
-            fields[3] = product.Category;
+            string?[] fields = new string[4];
+            fields[0] = product?.ID;
+            fields[1] = product?.Name;
+            fields[2] = product?.Price.ToString();
+            fields[3] = product?.Category;
             productTable.AddRow(fields);
         }
 
         productTable.Write();
 
         // Here we use sort to optimize the query as the sort wont create any duplicates.
-        List<Product> filtered = products.Where(product => product.Category
-        .Equals("Books")).ToList();
+        List<Product>? filtered = products.Where(product =>
+        {
+            if (product is not null && product.Category is not null)
+            {
+                product.Category.Equals("Books");
+            }
+
+            return false;
+        }).ToList();
 
         filtered.Sort((productA, productB) => productA.Price.CompareTo(productB.Price));
 
         Console.WriteLine("Press enter to go back...");
         Console.ReadLine();
         Console.Clear();
-    }
-
-    private void AddDummyProducts(List<Product> products)
-    {
-        products.Add(new Product { ID = "001", Name = "Keychain", Price = 2000, Category = "Others" });
-        products.Add(new Product { ID = "002", Name = "USB Cable", Price = 1500, Category = "Electronics" });
-        products.Add(new Product { ID = "003", Name = "Notebook", Price = 500, Category = "Stationery" });
-        products.Add(new Product { ID = "004", Name = "Bluetooth Speaker", Price = 3500, Category = "Electronics" });
-        products.Add(new Product { ID = "005", Name = "Pen", Price = 100, Category = "Stationery" });
-        products.Add(new Product { ID = "006", Name = "Book - C# Programming", Price = 1200, Category = "Books" });
-        products.Add(new Product { ID = "007", Name = "Book - LINQ Essentials", Price = 1300, Category = "Books" });
-        products.Add(new Product { ID = "008", Name = "Book - ASP.NET Core Guide", Price = 1400, Category = "Books" });
-        products.Add(new Product { ID = "009", Name = "Book - Entity Framework Deep Dive", Price = 1500, Category = "Books" });
-        products.Add(new Product { ID = "010", Name = "Book - Clean Code", Price = 1600, Category = "Books" });
-        products.Add(new Product { ID = "011", Name = "Smartwatch", Price = 10000, Category = "Electronics" });
-        products.Add(new Product { ID = "012", Name = "Desk Organizer", Price = 1800, Category = "Stationery" });
-        products.Add(new Product { ID = "013", Name = "Laptop Stand", Price = 3000, Category = "Electronics" });
-        products.Add(new Product { ID = "014", Name = "Book - Design Patterns", Price = 1700, Category = "Books" });
-        products.Add(new Product { ID = "015", Name = "Book - The Pragmatic Programmer", Price = 1800, Category = "Books" });
     }
 }

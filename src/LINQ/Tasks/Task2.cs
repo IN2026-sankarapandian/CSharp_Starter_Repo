@@ -12,6 +12,7 @@ public class Task2
     /// <summary>
     /// Runs the task 2.
     /// </summary>
+    /// <remarks>Complex LINQ Queries</remarks>
     public void Run()
     {
         List<Product> products = new ();

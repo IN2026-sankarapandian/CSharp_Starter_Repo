@@ -7,6 +7,7 @@ namespace LINQ.Tasks.Task5;
 /// <summary>
 /// Task5 of the LINQ assignment.
 /// </summary>
+/// <remarks>Query Builder</remarks>
 public class Task5
 {
     /// <summary>
@@ -21,16 +22,24 @@ public class Task5
         Helper.AddDummySuppliers(suppliers);
 
         var result = new QueryBuilder<Product>(products)
-            .Filter(product => product.Category.Equals("Stationery"))
-            .SortBy(product => product.Price)
-            .Join(suppliers,  (p, s) => p.ID == s.ProductId, (s, p) => new
+            .Filter(product =>
             {
-                s.ID,
-                s.Name,
-                s.Category,
-                s.Price,
-                p.SupplierName,
-                p.SupplierId,
+                if (product is not null && product.Category is not null)
+                {
+                    return product.Category.Equals("Stationery");
+                }
+
+                return false;
+            })
+            .SortBy(product => product.Price)
+            .Join(suppliers,  (product, supplier) => product.ID == supplier.ProductId, (supplier, product) => new
+            {
+                supplier.ID,
+                supplier.Name,
+                supplier.Category,
+                supplier.Price,
+                product.SupplierName,
+                product.SupplierId,
             })
             .Execute();
 
@@ -39,13 +48,18 @@ public class Task5
             new ("Product ID", "Product Name", "Supplier ID", "Supplier Name", "Category", "Price");
         foreach (var product in result)
         {
-            string[] fields = new string[6];
-            fields[0] = product.ID;
-            fields[1] = product.Name;
-            fields[2] = product.SupplierId;
-            fields[3] = product.SupplierName;
-            fields[4] = product.Category;
-            fields[5] = product.Price.ToString();
+            if (product is null)
+            {
+                continue;
+            }
+
+            string?[] fields = new string[6];
+            fields[0] = product?.ID;
+            fields[1] = product?.Name;
+            fields[2] = product?.SupplierId;
+            fields[3] = product?.SupplierName;
+            fields[4] = product?.Category;
+            fields[5] = product?.Price.ToString();
             filteredProductTable.AddRow(fields);
         }
 

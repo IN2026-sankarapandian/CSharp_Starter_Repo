@@ -1,7 +1,7 @@
 ﻿namespace LINQ.Tasks.Task5;
 
 /// <summary>
-/// allows users to construct complex LINQ queries using a fluent API pattern.
+/// Allows users to construct complex LINQ queries using a fluent API pattern.
 /// </summary>
 /// <typeparam name="T1">Type of first object to query.</typeparam>
 public class QueryBuilder<T1>
@@ -9,11 +9,10 @@ public class QueryBuilder<T1>
     /// <summary>
     /// Initializes a new instance of the <see cref="QueryBuilder{T1}"/> class.
     /// </summary>
-    /// <param name="enumerable1"><see cref="IEnumerable"/> 1 to query.</param>
-    /// <param name="input2"><see cref="IEnumerable"/> 2 to query.</param>
-    public QueryBuilder(IEnumerable<T1> enumerable1)
+    /// <param name="source"><see cref="IEnumerable"/> 1 to query.</param>
+    public QueryBuilder(IEnumerable<T1> source)
     {
-        this.Enu1 = enumerable1;
+        this.Source = source;
     }
 
     /// <summary>
@@ -22,7 +21,7 @@ public class QueryBuilder<T1>
     /// <value>
     /// Input enumerable.
     /// </value>
-    protected IEnumerable<T1> Enu1 { get; set; }
+    protected IEnumerable<T1> Source { get; set; }
 
     /// <summary>
     /// Gets or sets predicate function to filter.
@@ -73,7 +72,7 @@ public class QueryBuilder<T1>
     /// <returns>Joined result.</returns>
     public QueryBuilder<T1, T2, TResult> Join<TResult, T2>(IEnumerable<T2> outer, Func<T1, T2, bool> joinCondition, Func<T1, T2, TResult> resultSelector)
     {
-        return new QueryBuilder<T1, T2, TResult>(this.Enu1, outer, joinCondition, resultSelector, this.Predicate, this.KeySelector);
+        return new QueryBuilder<T1, T2, TResult>(this.Source, outer, joinCondition, resultSelector, this.Predicate, this.KeySelector);
     }
 
     /// <summary>
@@ -82,24 +81,24 @@ public class QueryBuilder<T1>
     /// <returns>Result</returns>
     public IEnumerable<T1> Execute()
     {
-        List<T1> enumerableUpdated = new ();
+        List<T1> result = new ();
         if (this.Predicate is not null)
         {
-            foreach (var item in this.Enu1)
+            foreach (var item in this.Source)
             {
                 if (this.Predicate(item))
                 {
-                    enumerableUpdated.Add(item);
+                    result.Add(item);
                 }
             }
         }
 
         if (this.KeySelector is not null)
         {
-            enumerableUpdated = enumerableUpdated.OrderBy(this.KeySelector).ToList();
+            result = result.OrderBy(this.KeySelector).ToList();
         }
 
-        return enumerableUpdated;
+        return result;
     }
 }
 
@@ -123,7 +122,7 @@ public class QueryBuilder<T1, TInner, TResult> : QueryBuilder<T1>
     public QueryBuilder(IEnumerable<T1> outer, IEnumerable<TInner> inner, Func<T1, TInner, bool>? joinCondition, Func<T1, TInner, TResult>? resultSelector, Func<T1, bool>? filterPredicate, Func<T1, object>? keySelector)
         : base(outer)
     {
-        this.Enu1 = outer;
+        this.Source = outer;
         this.Inner = inner;
         this.JoinCondition = joinCondition;
         this.ResultSelector = resultSelector;
@@ -156,7 +155,7 @@ public class QueryBuilder<T1, TInner, TResult> : QueryBuilder<T1>
     protected Func<T1, TInner, TResult>? ResultSelector { get; set; }
 
     /// <summary>
-    /// Joins the two enumerable..
+    /// Joins the two enumerable.
     /// </summary>
     /// <param name="joinCondition">Join condition</param>
     /// <param name="resultSelector">Final object</param>
@@ -174,20 +173,20 @@ public class QueryBuilder<T1, TInner, TResult> : QueryBuilder<T1>
     /// <returns>Result</returns>
     public new IEnumerable<TResult> Execute()
     {
-        IEnumerable<T1> result = base.Execute();
-        List<TResult> joinedResult = new ();
+        IEnumerable<T1> preJoinResult = base.Execute();
+        List<TResult> result = new ();
 
-        foreach (var e1 in result)
+        foreach (var e1 in preJoinResult)
         {
             foreach (var e2 in this.Inner)
             {
                 if (this.JoinCondition is not null && this.ResultSelector is not null && this.JoinCondition(e1, e2))
                 {
-                    joinedResult.Add(this.ResultSelector(e1, e2));
+                    result.Add(this.ResultSelector(e1, e2));
                 }
             }
         }
 
-        return joinedResult;
+        return result;
     }
 }

@@ -3,6 +3,7 @@
 /// <summary>
 /// Task 3 of the LINQ assignment.
 /// </summary>
+/// <remarks>LINQ to Objects</remarks>
 public class Task3
 {
     /// <summary>
