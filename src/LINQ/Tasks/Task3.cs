@@ -15,14 +15,14 @@ public class Task3
         string numbersString = string.Join(',', numbers);
 
         int secondLargestNumber = numbers.OrderByDescending(number => number)
-            .Skip(1).First();
+                                         .Skip(1).First();
 
         Console.WriteLine("\n\nSecond largest number in array [{0}] : {1}\n", numbersString, secondLargestNumber);
 
         int target = 5;
         var pairs = numbers.SelectMany(a => numbers
-        .Where(b => a != b && a + b == target && a < b)
-        .Select(b => new { numberA = a, numberB = b }));
+                           .Where(b => a != b && a + b == target && a < b)
+                           .Select(b => new { numberA = a, numberB = b }));
 
         Console.WriteLine("Unique pairs of numbers in the array [{0}] that add up to a target = {1}", numbersString, target);
         foreach (var pair in pairs)

@@ -1,6 +1,6 @@
 ﻿using ConsoleTables;
-using LINQ.Helpers;
 using LINQ.Models;
+using LINQ.Utilities;
 
 namespace LINQ.Tasks;
 
@@ -16,14 +16,14 @@ public class Task2
     public void Run()
     {
         List<Product> products = new ();
-        Helper.AddDummyProducts(products);
+        Utility.AddDummyProducts(products);
         var groupedProducts = products.GroupBy(product => product.Category)
-            .Select(category => new
-            {
-                Category = category.Key,
-                Count = category.Count(),
-                ExpensiveProduct = category.OrderByDescending(product => product.Price).First(),
-            });
+                                      .Select(category => new
+                                      {
+                                          Category = category.Key,
+                                          Count = category.Count(),
+                                          ExpensiveProduct = category.OrderByDescending(product => product.Price).First(),
+                                      });
         foreach (var category in groupedProducts)
         {
             Console.WriteLine();
@@ -33,7 +33,7 @@ public class Task2
         }
 
         List<Supplier> suppliers = new ();
-        Helper.AddDummySuppliers(suppliers);
+        Utility.AddDummySuppliers(suppliers);
 
         var productDetails = from product in products
                              join supplier in suppliers

@@ -1,6 +1,6 @@
 ﻿using ConsoleTables;
-using LINQ.Helpers;
 using LINQ.Models;
+using LINQ.Utilities;
 
 namespace LINQ.Tasks;
 
@@ -16,60 +16,32 @@ public class Task1
     public void Run()
     {
         List<Product> products = new ();
-        Helper.AddDummyProducts(products);
+        Utility.AddDummyProducts(products);
         Console.WriteLine("All products");
-        PrintData(products);
+        Utility.PrintProducts(products);
 
         var filteredProducts = products.Where(product => product.Category == "Electronics" && product.Price > 500)
-            .Select(product => new { product.Name, product.Price })
-            .ToList();
+                                       .OrderByDescending(product => product.Price).ToList()
+                                       .Select(product => new { product.Name, product.Price })
+                                       .ToList();
 
-        Console.WriteLine("\n\nFiltered products under the category \"Electronics\" with a price greater than $500 and with only ProductName and Price : ");
-        ConsoleTable filteredProductTable = new ("Product", "Price");
+        Console.WriteLine("\n\nFiltered products under the category \"Electronics\" with a price greater than $500 and with only ProductName and Price ( In descending order by price ) : ");
+        ConsoleTable filteredProductsTable = new ("Product", "Price");
         foreach (var product in filteredProducts)
         {
             string?[] fields = new string[2];
             fields[0] = product?.Name;
             fields[1] = product?.Price.ToString();
-            filteredProductTable.AddRow(fields);
+            filteredProductsTable.AddRow(fields);
         }
 
-        filteredProductTable.Write();
+        filteredProductsTable.Write();
 
-        Console.WriteLine("Ordered products based on price : ");
-        var sortedProducts = filteredProducts.OrderBy(product => product.Price).ToList();
-        ConsoleTable sortedProductTable = new ("Product", "Price");
-        foreach (var product in sortedProducts)
-        {
-            string?[] fields = new string[2];
-            fields[0] = product?.Name;
-            fields[1] = product?.Price.ToString();
-            sortedProductTable.AddRow(fields);
-        }
-
-        sortedProductTable.Write();
-
-        decimal average = sortedProducts.Average(product => product.Price);
+        decimal average = filteredProducts.Average(product => product.Price);
         Console.WriteLine("Average price : {0}", average.ToString());
 
         Console.WriteLine("Press enter to go back...");
         Console.ReadLine();
         Console.Clear();
-    }
-
-    private static void PrintData(List<Product> products)
-    {
-        ConsoleTable productTable = new ("Id", "Product", "Price", "Category");
-        foreach (Product product in products)
-        {
-            string?[] fields = new string[4];
-            fields[0] = product?.ID;
-            fields[1] = product?.Name;
-            fields[2] = product?.Price.ToString();
-            fields[3] = product?.Category;
-            productTable.AddRow(fields);
-        }
-
-        productTable.Write();
     }
 }

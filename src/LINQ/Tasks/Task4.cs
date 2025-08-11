@@ -1,6 +1,5 @@
-﻿using ConsoleTables;
-using LINQ.Helpers;
-using LINQ.Models;
+﻿using LINQ.Models;
+using LINQ.Utilities;
 
 namespace LINQ.Tasks;
 
@@ -16,7 +15,7 @@ public class Task4
     public void Run()
     {
         List<Product> products = new ();
-        Helper.AddDummyProducts(products);
+        Utility.AddDummyProducts(products);
 
         List<Product> filteredProducts = products
             .Where(product => product.Category == "Books")
@@ -24,18 +23,7 @@ public class Task4
             .ToList();
 
         Console.WriteLine("All products under the category \"Books\" and sorted by price : \n");
-        ConsoleTable productTable = new ("Id", "Product", "Price", "Category");
-        foreach (Product product in filteredProducts)
-        {
-            string?[] fields = new string[4];
-            fields[0] = product?.ID;
-            fields[1] = product?.Name;
-            fields[2] = product?.Price.ToString();
-            fields[3] = product?.Category;
-            productTable.AddRow(fields);
-        }
-
-        productTable.Write();
+        Utility.PrintProducts(filteredProducts);
 
         // Here we use sort to optimize the query as the sort wont create any duplicates.
         List<Product>? filtered = products.Where(product => product.Category == "Books").ToList();

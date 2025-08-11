@@ -18,8 +18,8 @@ public class Supplier
     public string? SupplierName { get; set; }
 
     /// <summary>
-    /// Gets or sets the Id of the product.
+    /// Gets or sets the Product Id of the supplier.
     /// </summary>
-    /// <value>Holds the Id of the product.</value>
+    /// <value>Holds the Product Id of the supplier.</value>
     public string? ProductId { get; set; }
 }
