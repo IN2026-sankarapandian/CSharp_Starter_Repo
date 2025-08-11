@@ -27,10 +27,7 @@
  ## Role of Global Assembly Cache.
  
 * Global assembly cache is the global storage for all code assemblies that are accessible to all application running in a specific machine.
-* It is advised to share a assembly by installing it in an GAC to all application only when it is explicitly needed because it can cause a problem if a application depends on GAC, it wont run on the another computer unless that dependency assembly is also installed in that computer.## Global assembly cache
- 
-* Global assembly cache is the global storage for all code assemblies that are accessible to all application running in a specific machine.
-* It is advised to share a assembly by installing it in an GAC to all application only when it is explicitly needed because it can cause a problem if a application depends on GAC, it wont run on the another computer unless that dependency assembly is also installed in that computer.
+* It is advised to share a assembly by installing it in an GAC to all application only when it is explicitly needed because it can cause a problem if a application depends on GAC is shared, it wont run on the another computer unless that dependency assembly is also installed in that computer.
 
 
 ## Value types and reference types.
