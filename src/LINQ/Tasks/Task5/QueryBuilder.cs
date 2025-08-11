@@ -103,7 +103,7 @@ public class QueryBuilder<T1>
 }
 
 /// <summary>
-/// allows users to construct complex LINQ queries using a fluent API pattern.
+/// Allows users to construct complex LINQ queries using a fluent API pattern.
 /// </summary>
 /// <typeparam name="T1">Type of first object to query.</typeparam>
 /// <typeparam name="TInner">Type of inner object.</typeparam>
@@ -176,13 +176,13 @@ public class QueryBuilder<T1, TInner, TResult> : QueryBuilder<T1>
         IEnumerable<T1> preJoinResult = base.Execute();
         List<TResult> result = new ();
 
-        foreach (var e1 in preJoinResult)
+        foreach (var outerItem in preJoinResult)
         {
-            foreach (var e2 in this.Inner)
+            foreach (var innerItem in this.Inner)
             {
-                if (this.JoinCondition is not null && this.ResultSelector is not null && this.JoinCondition(e1, e2))
+                if (this.JoinCondition is not null && this.ResultSelector is not null && this.JoinCondition(outerItem, innerItem))
                 {
-                    result.Add(this.ResultSelector(e1, e2));
+                    result.Add(this.ResultSelector(outerItem, innerItem));
                 }
             }
         }
