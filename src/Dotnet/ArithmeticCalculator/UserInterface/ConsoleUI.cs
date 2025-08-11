@@ -5,22 +5,15 @@ namespace Dotnet.ArithmeticCalculator.UserInterface;
 /// <summary>
 /// Provides operations to interact with user via console.
 /// </summary>
-public class ConsoleUI
+public class ConsoleUI : IUserInterface
 {
-    /// <summary>
-    /// Gets user input and returns it.
-    /// </summary>
-    /// <returns>User's input</returns>
+    /// <inheritdoc/>
     public string? GetInput()
     {
         return Console.ReadLine();
     }
 
-    /// <summary>
-    /// Shows the message to user as a specified type.
-    /// </summary>
-    /// <param name="message">Message shown to user.</param>
-    /// <param name="type">Type of the message to show.</param>
+    /// <inheritdoc/>
     public void ShowMessage(string message, MessageType type)
     {
         switch (type)
@@ -41,6 +34,7 @@ public class ConsoleUI
                 Console.WriteLine(message);
                 break;
         }
+
         Console.ResetColor();
     }
 }
