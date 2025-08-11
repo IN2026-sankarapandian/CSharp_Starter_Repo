@@ -34,6 +34,6 @@ public class MathUtils
     /// </summary>
     /// <param name="dividend">Integer to be divided.</param>
     /// <param name="divisor">Integer to divide with.</param>
-    /// <returns>The sum <paramref name="dividend"> and <paramref name="divisor"></returns>
+    /// <returns>The result of <paramref name="dividend"> / <paramref name="divisor"></returns>
     public int Divide(int dividend, int divisor) => dividend / divisor;
 }
