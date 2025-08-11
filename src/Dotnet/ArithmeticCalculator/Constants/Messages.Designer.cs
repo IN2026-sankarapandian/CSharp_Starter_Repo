@@ -109,7 +109,7 @@ namespace Dotnet.ArithmeticCalculator.Constants
         /// <summary>
         ///   Looks up a localized string similar to Enter a expression (eg: 2*2, 7-3) : .
         /// </summary>
-        internal static string PromptForExpression {
+        internal static string InputPrompt {
             get {
                 return ResourceManager.GetString("PromptForExpression", resourceCulture);
             }

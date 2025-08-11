@@ -133,7 +133,7 @@
     <value>Maximum retry count reached ! Exiting app ...</value>
   </data>
   <data name="PromptForExpression" xml:space="preserve">
-    <value>Enter a expression (eg: 2*2, 7-3) : </value>
+    <value>Enter a expression (eg: 2*2, 7-3) or type '{0}' to quit  : </value>
   </data>
   <data name="Result" xml:space="preserve">
     <value>Result : {0}</value>

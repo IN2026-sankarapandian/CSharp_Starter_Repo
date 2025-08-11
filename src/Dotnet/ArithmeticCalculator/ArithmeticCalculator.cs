@@ -24,13 +24,18 @@ public class ArithmeticCalculator
 
         do
         {
-            consoleUI.ShowMessage(Messages.PromptForExpression, MessageType.Prompt);
+            consoleUI.ShowMessage(string.Format(Messages.InputPrompt, AppSettings.ExitCommand), MessageType.Prompt);
             string? inputExpression = consoleUI.GetInput();
             if (string.IsNullOrEmpty(inputExpression))
             {
                 consoleUI.ShowMessage(Messages.EmptyExpressionWarning, MessageType.Warning);
                 currentRetryCount++;
                 continue;
+            }
+
+            if (inputExpression.Equals(AppSettings.ExitCommand))
+            {
+                return;
             }
 
             string expressionPattern = RegexPatterns.ArithmeticExpressionRegex;

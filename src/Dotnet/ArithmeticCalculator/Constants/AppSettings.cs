@@ -9,4 +9,9 @@ public static class AppSettings
     /// Maximum retry attempts allowed for the user.
     /// </summary>
     public const int MaximumRetryCount = 5;
+
+    /// <summary>
+    /// It's an exit command expected from user to quit app.
+    /// </summary>
+    public const string ExitCommand = "exit";
 }
