@@ -30,7 +30,7 @@ public class MathUtils
     public int Multiply(int a, int b) => a * b;
 
     /// <summary>
-    /// Adds two integers and returns the result.
+    /// Divides two integers and returns the result.
     /// </summary>
     /// <param name="dividend">Integer to be divided.</param>
     /// <param name="divisor">Integer to divide with.</param>
