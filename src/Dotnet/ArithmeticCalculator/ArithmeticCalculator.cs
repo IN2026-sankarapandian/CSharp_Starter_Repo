@@ -24,6 +24,7 @@ public class ArithmeticCalculator
 
         do
         {
+            // Exit command is passed to input prompt, so that user will know the exit command to quit the app.
             consoleUI.ShowMessage(string.Format(Messages.InputPrompt, AppSettings.ExitCommand), MessageType.Prompt);
             string? inputExpression = consoleUI.GetInput();
             if (string.IsNullOrEmpty(inputExpression))
@@ -42,8 +43,6 @@ public class ArithmeticCalculator
             Match match = Regex.Match(inputExpression, expressionPattern);
             if (match.Success)
             {
-                string numberAString = match.Groups[1].Value;
-                int numberA = int.Parse(numberAString);
                 string operatorSymbol = match.Groups[2].Value;
                 string numberBString = match.Groups[3].Value;
                 int numberB = int.Parse(numberBString);
@@ -54,6 +53,9 @@ public class ArithmeticCalculator
                     currentRetryCount++;
                     continue;
                 }
+
+                string numberAString = match.Groups[1].Value;
+                int numberA = int.Parse(numberAString);
 
                 int result = operatorSymbol switch
                 {

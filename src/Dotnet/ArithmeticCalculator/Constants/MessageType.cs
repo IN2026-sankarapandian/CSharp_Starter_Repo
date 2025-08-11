@@ -11,12 +11,12 @@ public enum MessageType
     Warning = 0,
 
     /// <summary>
-    /// Represents the result to shown to the user after an operation
+    /// Represents the result to shown to the user after an operation.
     /// </summary>
     Result,
 
     /// <summary>
-    /// Represents the prompt message the requests user's input.
+    /// Represents the prompt message that requests user's input.
     /// </summary>
     Prompt,
 
