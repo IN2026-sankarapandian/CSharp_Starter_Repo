@@ -1,6 +1,6 @@
 ﻿using ConsoleTables;
+using LINQ.Datasets;
 using LINQ.Models;
-using LINQ.Utilities;
 
 namespace LINQ.Tasks.Task5;
 
@@ -16,10 +16,10 @@ public class Task5
     public void Run()
     {
         List<Product> products = new ();
-        Utility.AddDummyProducts(products);
+        Dataset.AddDummyProducts(products);
 
         List<Supplier> suppliers = new ();
-        Utility.AddDummySuppliers(suppliers);
+        Dataset.AddDummySuppliers(suppliers);
 
         var result = new QueryBuilder<Product>(products)
             .Filter(product => product.Category == "Stationery")

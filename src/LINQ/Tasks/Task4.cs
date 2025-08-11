@@ -1,4 +1,5 @@
-﻿using LINQ.Models;
+﻿using LINQ.Datasets;
+using LINQ.Models;
 using LINQ.Utilities;
 
 namespace LINQ.Tasks;
@@ -15,7 +16,7 @@ public class Task4
     public void Run()
     {
         List<Product> products = new ();
-        Utility.AddDummyProducts(products);
+        Dataset.AddDummyProducts(products);
 
         List<Product> filteredProducts = products
             .Where(product => product.Category == "Books")

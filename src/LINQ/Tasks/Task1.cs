@@ -1,4 +1,5 @@
 ﻿using ConsoleTables;
+using LINQ.Datasets;
 using LINQ.Models;
 using LINQ.Utilities;
 
@@ -16,7 +17,7 @@ public class Task1
     public void Run()
     {
         List<Product> products = new ();
-        Utility.AddDummyProducts(products);
+        Dataset.AddDummyProducts(products);
         Console.WriteLine("All products");
         Utility.PrintProducts(products);
 

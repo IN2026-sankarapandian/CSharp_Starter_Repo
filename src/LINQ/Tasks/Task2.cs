@@ -1,6 +1,6 @@
 ﻿using ConsoleTables;
+using LINQ.Datasets;
 using LINQ.Models;
-using LINQ.Utilities;
 
 namespace LINQ.Tasks;
 
@@ -16,7 +16,7 @@ public class Task2
     public void Run()
     {
         List<Product> products = new ();
-        Utility.AddDummyProducts(products);
+        Dataset.AddDummyProducts(products);
         var groupedProducts = products.GroupBy(product => product.Category)
                                       .Select(category => new
                                       {
@@ -33,7 +33,7 @@ public class Task2
         }
 
         List<Supplier> suppliers = new ();
-        Utility.AddDummySuppliers(suppliers);
+        Dataset.AddDummySuppliers(suppliers);
 
         var productDetails = from product in products
                              join supplier in suppliers
