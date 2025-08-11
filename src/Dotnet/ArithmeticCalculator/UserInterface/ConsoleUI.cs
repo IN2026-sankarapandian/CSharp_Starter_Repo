@@ -31,18 +31,16 @@ public class ConsoleUI
             case MessageType.Warning:
                 Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine(message);
-                Console.ResetColor();
                 break;
             case MessageType.Result:
-                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine(message);
-                Console.ResetColor();
                 break;
             case MessageType.Title:
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine(message);
-                Console.ResetColor();
                 break;
         }
+        Console.ResetColor();
     }
 }
