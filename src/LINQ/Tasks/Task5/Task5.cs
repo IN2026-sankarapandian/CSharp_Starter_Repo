@@ -22,15 +22,7 @@ public class Task5
         Helper.AddDummySuppliers(suppliers);
 
         var result = new QueryBuilder<Product>(products)
-            .Filter(product =>
-            {
-                if (product is not null && product.Category is not null)
-                {
-                    return product.Category.Equals("Stationery");
-                }
-
-                return false;
-            })
+            .Filter(product => product.Category == "Stationery")
             .SortBy(product => product.Price)
             .Join(suppliers,  (product, supplier) => product.ID == supplier.ProductId, (supplier, product) => new
             {

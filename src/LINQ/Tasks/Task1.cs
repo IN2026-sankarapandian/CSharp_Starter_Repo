@@ -20,15 +20,7 @@ public class Task1
         Console.WriteLine("All products");
         PrintData(products);
 
-        var filteredProducts = products.Where(product =>
-        {
-            if (product is not null && product.Category is not null)
-            {
-                return product.Price > 500 && product.Category.Equals("Electronics");
-            }
-
-            return false;
-        })
+        var filteredProducts = products.Where(product => product.Category == "Electronics" && product.Price > 500)
             .Select(product => new { product.Name, product.Price })
             .ToList();
 

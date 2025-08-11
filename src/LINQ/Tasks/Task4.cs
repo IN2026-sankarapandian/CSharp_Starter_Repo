@@ -19,15 +19,7 @@ public class Task4
         Helper.AddDummyProducts(products);
 
         List<Product> filteredProducts = products
-            .Where(product =>
-            {
-                if (product is not null && product.Category is not null)
-                {
-                    return product.Category.Equals("Books");
-                }
-
-                return false;
-            })
+            .Where(product => product.Category == "Books")
             .OrderBy(product => product.Price)
             .ToList();
 
@@ -46,15 +38,7 @@ public class Task4
         productTable.Write();
 
         // Here we use sort to optimize the query as the sort wont create any duplicates.
-        List<Product>? filtered = products.Where(product =>
-        {
-            if (product is not null && product.Category is not null)
-            {
-                product.Category.Equals("Books");
-            }
-
-            return false;
-        }).ToList();
+        List<Product>? filtered = products.Where(product => product.Category == "Books").ToList();
 
         filtered.Sort((productA, productB) => productA.Price.CompareTo(productB.Price));
 
