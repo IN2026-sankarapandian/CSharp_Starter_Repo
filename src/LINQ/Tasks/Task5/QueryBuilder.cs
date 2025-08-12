@@ -84,13 +84,7 @@ public class QueryBuilder<T1>
         List<T1> result = new ();
         if (this.Predicate is not null)
         {
-            foreach (var item in this.Source)
-            {
-                if (this.Predicate(item))
-                {
-                    result.Add(item);
-                }
-            }
+            result = this.Source.Where(item => this.Predicate(item)).ToList();
         }
 
         if (this.KeySelector is not null)
@@ -174,16 +168,14 @@ public class QueryBuilder<T1, TInner, TResult> : QueryBuilder<T1>
     public new IEnumerable<TResult> Execute()
     {
         IEnumerable<T1> preJoinResult = base.Execute();
-        List<TResult> result = new ();
+        List<TResult> result = new List<TResult>();
 
-        foreach (var outerItem in preJoinResult)
+        if (this.JoinCondition != null && this.ResultSelector != null)
         {
-            foreach (var innerItem in this.Inner)
+            foreach (var outerItem in preJoinResult)
             {
-                if (this.JoinCondition is not null && this.ResultSelector is not null && this.JoinCondition(outerItem, innerItem))
-                {
-                    result.Add(this.ResultSelector(outerItem, innerItem));
-                }
+                var innerResults = this.Inner.Where(innerItem => this.JoinCondition(outerItem, innerItem)).Select(innerItem => this.ResultSelector(outerItem, innerItem));
+                result.AddRange(innerResults);
             }
         }
 
