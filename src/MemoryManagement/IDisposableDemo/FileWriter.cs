@@ -28,16 +28,8 @@ public class FileWriter : IDisposable
     /// Appends the given string (<paramref name="content"/>) at end of the file.
     /// </summary>
     /// <param name="content">Content to append with the file.</param>
-    public void Append(string content)
-    {
-        this._writer.WriteLine(content);
-    }
+    public void Append(string content) => this._writer.WriteLine(content);
 
-    /// <summary>
-    /// Release all the resources used by <see cref="FileWriter"/>.
-    /// </summary>
-    public void Dispose()
-    {
-        this._writer.Dispose();
-    }
+    /// <inheritdoc/>
+    public void Dispose() => this._writer.Dispose();
 }
