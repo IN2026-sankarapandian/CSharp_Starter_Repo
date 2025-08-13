@@ -1,15 +1,17 @@
 ﻿namespace IDisposableDemo;
 
+// Task 4
+
 /// <summary>
 /// Demonstrates the purpose of <see cref="IDisposable"/> and how <see cref="using"/> statement automatically dispose objects and release the files.
 /// </summary>
 public class IDisposableDemo
 {
     /// <summary>
-    /// This is an entry point of the <see cref="IDisposableDemo"/>
+    /// This is an entry point of the <see cref="IDisposableDemo"/>.
     /// </summary>
     /// <remarks>
-    /// It try to write and read a file with using statement.
+    /// It will write and read a file with using statement.
     /// </remarks>
     public static void Main()
     {

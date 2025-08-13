@@ -1,6 +1,6 @@
-﻿using ValueAndReferenceTypes;
+﻿namespace ValueAndReferenceTypes;
 
-namespace Assignments;
+// Task 1 & 2
 
 /// <summary>
 /// Demonstrates the difference between the reference and value types.

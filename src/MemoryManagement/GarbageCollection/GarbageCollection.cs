@@ -1,5 +1,7 @@
 ﻿namespace GarbageCollection;
 
+// Task 3
+
 /// <summary>
 /// Demonstrates how a garbage collection works and how can it impact the app performance.
 /// </summary>
@@ -33,12 +35,12 @@ public class GarbageCollection
     /// <param name="size">Amount of data in mb to create and dereference.</param>
     private static void CreateAndDestroyObjects(int size)
     {
-        List<byte[]> lists = new List<byte[]>();
+        List<byte[]> data = new List<byte[]>();
         for (int count = 0; count < size; count++)
         {
-            lists.Add(new byte[1024 * 1024]);
+            data.Add(new byte[1024 * 1024]);
         }
 
-        lists.Clear();
+        data.Clear();
     }
 }

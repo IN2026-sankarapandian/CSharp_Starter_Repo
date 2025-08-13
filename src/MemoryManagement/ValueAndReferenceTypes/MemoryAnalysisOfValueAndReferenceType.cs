@@ -1,5 +1,7 @@
 ﻿namespace ValueAndReferenceTypes;
 
+// Task 2
+
 /// <summary>
 /// Demonstrates how value and reference types stores in memory ( heap/ stack frame).
 /// </summary>
@@ -20,7 +22,7 @@ public class MemoryAnalysisOfValueAndReferenceType
     }
 
     /// <summary>
-    /// Ity create few number of decimals and perform some calculations with those.
+    /// It create few number of decimals and perform some calculations with those.
     /// </summary>
     private void CreateValueTypes()
     {
@@ -42,10 +44,10 @@ public class MemoryAnalysisOfValueAndReferenceType
     /// </summary>
     private void CreateReferenceTypes()
     {
-        decimal[] integerArray = new decimal[100000];
+        decimal[] decimalArray = new decimal[100000];
         for (int count = 0; count < 100000; count++)
         {
-            integerArray[count] = count++;
+            decimalArray[count] = count++;
         }
     }
 }
