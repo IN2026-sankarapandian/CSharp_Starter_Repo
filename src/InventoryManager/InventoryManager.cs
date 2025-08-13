@@ -3,7 +3,7 @@ using InventoryManager.Constants;
 using InventoryManager.Models;
 using InventoryManager.UI;
 
-namespace Assignments;
+namespace InventoryManager;
 
 /// <summary>
 /// The main class contains the main method, entry point of a inventory manager, c# application.
