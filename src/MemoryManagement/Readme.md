@@ -4,13 +4,15 @@
 
 ### Task 1
 
-It demonstrates the copying behaviour of the value and reference types. A value type and reference type were defined at main function and passes to a method which will change the value of it.
+It demonstrates the copying behaviour of the value and reference types. A value type and reference type were defined at main function and passes to a method which will change the value of it. It will change the value type integer to 1 and sort the reference type integer list in descending order.
 
-![task2](..\ValueAndReferenceTypes\Assets\task1-screenshot.png)
+![task1](ValueAndReferenceTypes/Assets/task-1-screenshot.png)
+
 **Inference :** The value type are copied as value so when it passed to a method it was actually duplicated in the method scope so, when it got changed by a method it doesn't reflected in main scope.
 
-Reference type was copied by reference so when it is passed to the method, it stilol points to the data stored at heap. So when the method changes it via reference it was reflected in main method scope too.
+Reference type was copied by reference so when it is passed to the method, it still points to the data stored at heap. So when the method changes it via reference it was reflected in main method scope too.
 
+---
 
 ### Task 2
 
@@ -49,21 +51,24 @@ private void CreateReferenceTypes()
 }
 ```
 
-![task2](..\ValueAndReferenceTypes\Assets\snapshot.png)
+![task2](ValueAndReferenceTypes/Assets/snapshot.png)
 
-**Inference :** When the first function called there isn't a huge difference in heap size but every data was directly stored in stack frame.
+**Inference :** When the first function called there isn't a huge difference in heap size as every data was directly stored in stack frame.
 
-When the second function called, heap size increased but only the reference was stored at stack frame.
+When the second function called, heap size increased and only the reference was stored at stack frame.
+
+---
 
 ### Task 3
 
-Demonstrates how garbage collection works and its impact in application process. We will method which will define a huge number of reference objects and destroys them followed by a manual GC call. The heap memory is monitored throught entire execution.
+Demonstrates how garbage collection works and its impact in application process. I have called a method which will create a specified amount of data in mb in heap and dereference it followed by a forced GC call. The heap memory is monitored through out entire execution.
 
-![task2](..\GarbageCollection\Assets\memory-graph.png)
-![task2](..\GarbageCollection\Assets\console-screenshot.png)
+![task2](GarbageCollection/Assets/memory-graph.png)
+![task2](GarbageCollection/Assets/console-screenshot.png)
 
-**Inference :** The heap size has increased from the intial stage after creating the products. Which remained same even after derefrencing the created objects. The same amount of decrease can be observed after calling GC collect.
+**Inference :** The heap size has increased by 500mb from the intial stage after creating the objects. Which remained same even after derefrencing until forced GC collect. After the forced GC collect, decrease in heap memory is observed.
 
+---
 
 ### Task 4
 

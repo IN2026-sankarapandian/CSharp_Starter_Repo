@@ -16,13 +16,13 @@ public class ValueAndReferenceType
     {
         // Task 1
         int integer = 0;
-        List<int> integerArray = new List<int> { 1, 2, 3, 4, 5 };
+        List<int> integerList = new List<int> { 1, 2, 3, 4, 5 };
 
-        Console.WriteLine("Before function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(integer), integer, nameof(integerArray), string.Join(",", integerArray));
+        Console.WriteLine("Before function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(integer), integer, nameof(integerList), string.Join(",", integerList));
 
-        Change(integer, integerArray);
+        Change(integer, integerList);
 
-        Console.WriteLine("After function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(integer), integer, nameof(integerArray), string.Join(",", integerArray));
+        Console.WriteLine("After function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(integer), integer, nameof(integerList), string.Join(",", integerList));
 
         Console.ReadKey();
 
@@ -36,10 +36,10 @@ public class ValueAndReferenceType
     /// Change the values of the specified value type and one reference type.
     /// </summary>
     /// <param name="integer">Value type.</param>
-    /// <param name="integerArray">Reference type.</param>
-    private static void Change(int integer, List<int> integerArray)
+    /// <param name="integerList">Reference type.</param>
+    private static void Change(int integer, List<int> integerList)
     {
         integer = 1;
-        integerArray.Sort((integerLeft, integerRight) => integerRight.CompareTo(integerLeft));
+        integerList.Sort((integerLeft, integerRight) => integerRight.CompareTo(integerLeft));
     }
 }
