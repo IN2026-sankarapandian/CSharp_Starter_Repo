@@ -20,6 +20,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQ", "src\LINQ\LINQ.cspro
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorHandling", "src\ErrorHandling\ErrorHandling.csproj", "{4DDC4D05-9E05-8E46-3F45-589A30F32A79}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MemoryManagement", "MemoryManagement", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+	ProjectSection(SolutionItems) = preProject
+		src\MemoryManagement\Readme.md = src\MemoryManagement\Readme.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarbageCollection", "src\MemoryManagement\GarbageCollection\GarbageCollection.csproj", "{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDisposableDemo", "src\MemoryManagement\IDisposableDemo\IDisposableDemo.csproj", "{45ADCEDC-6535-31F3-E602-B59B404296F7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ValueAndReferenceTypes", "src\MemoryManagement\ValueAndReferenceTypes\ValueAndReferenceTypes.csproj", "{2836C813-9603-D467-36E0-D90FBA1C8CC0}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet", "src\Dotnet\Dotnet.csproj", "{35FBDBA1-307C-D567-8853-D7A8448A1769}"
 EndProject
 Global
@@ -52,6 +63,18 @@ Global
 		{4DDC4D05-9E05-8E46-3F45-589A30F32A79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DDC4D05-9E05-8E46-3F45-589A30F32A79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DDC4D05-9E05-8E46-3F45-589A30F32A79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45ADCEDC-6535-31F3-E602-B59B404296F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45ADCEDC-6535-31F3-E602-B59B404296F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45ADCEDC-6535-31F3-E602-B59B404296F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45ADCEDC-6535-31F3-E602-B59B404296F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2836C813-9603-D467-36E0-D90FBA1C8CC0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2836C813-9603-D467-36E0-D90FBA1C8CC0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2836C813-9603-D467-36E0-D90FBA1C8CC0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2836C813-9603-D467-36E0-D90FBA1C8CC0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -59,6 +82,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{45ADCEDC-6535-31F3-E602-B59B404296F7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{2836C813-9603-D467-36E0-D90FBA1C8CC0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4CECB66-8E11-49D9-AA1E-464EE0231450}
