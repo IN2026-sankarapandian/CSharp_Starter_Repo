@@ -7,6 +7,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContactManager", "src\ContactManager\ContactManager.csproj", "{C447C2B8-4C00-881A-1603-B24ED0CF770A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTracker", "src\ExpenseTracker\ExpenseTracker.csproj", "{EF12D631-1681-5BA0-9C6F-B5F1FCB5D47F}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{06861454-9561-492A-9F93-A33B6F7AE3AB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "unit", "unit", "{C778E127-C02C-4A37-8E85-3D86DCC063DC}"
@@ -18,6 +19,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LINQ", "src\LINQ\LINQ.csproj", "{C17AAFFA-8B2A-4F24-804B-9569981B8016}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorHandling", "src\ErrorHandling\ErrorHandling.csproj", "{4DDC4D05-9E05-8E46-3F45-589A30F32A79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet", "src\Dotnet\Dotnet.csproj", "{35FBDBA1-307C-D567-8853-D7A8448A1769}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,6 +52,10 @@ Global
 		{4DDC4D05-9E05-8E46-3F45-589A30F32A79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DDC4D05-9E05-8E46-3F45-589A30F32A79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DDC4D05-9E05-8E46-3F45-589A30F32A79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
