@@ -58,16 +58,22 @@ public class ArithmeticCalculator
                 string numberAString = match.Groups[1].Value;
                 int numberA = int.Parse(numberAString);
 
-                int result = operatorSymbol switch
+                if (operatorSymbol.Equals("+"))
                 {
-                    "+" => mathUtils.Add(numberA, numberB),
-                    "-" => mathUtils.Subtract(numberA, numberB),
-                    "*" => mathUtils.Multiply(numberA, numberB),
-                    "/" => mathUtils.Divide(numberA, numberB),
-                    _ => 0,
-                };
-
-                userInterface.ShowMessage(MessageType.Result, string.Format(Messages.Result, result));
+                    userInterface.ShowMessage(MessageType.Result, string.Format(Messages.Result, mathUtils.Add(numberA, numberB)));
+                }
+                else if (operatorSymbol.Equals("-"))
+                {
+                    userInterface.ShowMessage(MessageType.Result, string.Format(Messages.Result, mathUtils.Subtract(numberA, numberB)));
+                }
+                else if (operatorSymbol.Equals("*"))
+                {
+                    userInterface.ShowMessage(MessageType.Result, string.Format(Messages.Result, mathUtils.Multiply(numberA, numberB)));
+                }
+                else if (operatorSymbol.Equals("/"))
+                {
+                    userInterface.ShowMessage(MessageType.Result, string.Format(Messages.Result, mathUtils.Divide(numberA, numberB)));
+                }
             }
             else
             {
