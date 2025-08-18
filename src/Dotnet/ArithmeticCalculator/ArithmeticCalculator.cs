@@ -1,5 +1,6 @@
 ﻿using System.Text.RegularExpressions;
 using Dotnet.ArithmeticCalculator.Constants;
+using Dotnet.ArithmeticCalculator.Enums;
 using Dotnet.ArithmeticCalculator.UserInterface;
 using Dotnet.ArithmeticCalculator.Utilities;
 
@@ -18,18 +19,18 @@ public class ArithmeticCalculator
         MathUtils mathUtils = new ();
         IUserInterface userInterface = new ConsoleUI();
 
-        userInterface.ShowMessage(Messages.ArithmeticCalculatorTitle, MessageType.Title);
+        userInterface.ShowMessage(MessageType.Title, Messages.ArithmeticCalculatorTitle);
         int maxRetryCount = AppSettings.MaximumRetryCount;
         int currentRetryCount = 0;
 
         do
         {
             // Exit command is passed to input prompt, so that user will know the exit command to quit the app.
-            userInterface.ShowMessage(string.Format(Messages.InputPrompt, AppSettings.ExitCommand), MessageType.Prompt);
+            userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.InputPrompt, AppSettings.ExitCommand));
             string? inputExpression = userInterface.GetInput();
             if (string.IsNullOrEmpty(inputExpression))
             {
-                userInterface.ShowMessage(Messages.EmptyExpressionWarning, MessageType.Warning);
+                userInterface.ShowMessage(MessageType.Warning, Messages.EmptyExpressionWarning);
                 currentRetryCount++;
                 continue;
             }
@@ -49,7 +50,7 @@ public class ArithmeticCalculator
 
                 if (operatorSymbol == "/" && numberB == 0)
                 {
-                    userInterface.ShowMessage(Messages.DivisorCantBeZeroWarning, MessageType.Warning);
+                    userInterface.ShowMessage(MessageType.Warning, Messages.DivisorCantBeZeroWarning);
                     currentRetryCount++;
                     continue;
                 }
@@ -65,11 +66,11 @@ public class ArithmeticCalculator
                     "/" => mathUtils.Divide(numberA, numberB)
                 };
 
-                userInterface.ShowMessage(string.Format(Messages.Result, result), MessageType.Result);
+                userInterface.ShowMessage(MessageType.Result, string.Format(Messages.Result, result));
             }
             else
             {
-                userInterface.ShowMessage(Messages.InvalidExpressionWarning, MessageType.Warning);
+                userInterface.ShowMessage(MessageType.Warning, Messages.InvalidExpressionWarning);
                 currentRetryCount++;
             }
         }
@@ -77,7 +78,7 @@ public class ArithmeticCalculator
 
         if (currentRetryCount > maxRetryCount)
         {
-            userInterface.ShowMessage(Messages.MaximumRetryReachedWarning, MessageType.Warning);
+            userInterface.ShowMessage(MessageType.Warning, Messages.MaximumRetryReachedWarning);
         }
 
         Thread.Sleep(1500);

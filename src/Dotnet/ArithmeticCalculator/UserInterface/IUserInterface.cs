@@ -1,4 +1,4 @@
-﻿using Dotnet.ArithmeticCalculator.Constants;
+﻿using Dotnet.ArithmeticCalculator.Enums;
 
 namespace Dotnet.ArithmeticCalculator.UserInterface;
 
@@ -16,7 +16,7 @@ public interface IUserInterface
     /// <summary>
     /// Shows the message to user as a specified type.
     /// </summary>
-    /// <param name="message">Message shown to user.</param>
     /// <param name="type">Type of the message to show.</param>
-    public void ShowMessage(string message, MessageType type);
+    /// <param name="message">Message shown to user.</param>
+    public void ShowMessage(MessageType type, string message);
 }

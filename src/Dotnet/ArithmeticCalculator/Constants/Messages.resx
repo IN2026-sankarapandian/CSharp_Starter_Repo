@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ArithmeticCalculatorTitle" xml:space="preserve">
-    <value>Arithmetic calculator</value>
+    <value>Arithmetic Calculator</value>
   </data>
   <data name="DivisorCantBeZeroWarning" xml:space="preserve">
     <value>Invalid expression, Divisor can't be zero</value>
@@ -130,7 +130,7 @@
     <value>Invalid expression !</value>
   </data>
   <data name="MaximumRetryReachedWarning" xml:space="preserve">
-    <value>Maximum retry count reached ! Exiting app ...</value>
+    <value>Maximum retry count reached ! Closing the application...</value>
   </data>
   <data name="PromptForExpression" xml:space="preserve">
     <value>Enter a expression (eg: 2*2, 7-3) or type '{0}' to quit  : </value>

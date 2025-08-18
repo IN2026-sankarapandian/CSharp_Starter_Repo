@@ -1,4 +1,4 @@
-﻿using Dotnet.ArithmeticCalculator.Constants;
+﻿using Dotnet.ArithmeticCalculator.Enums;
 
 namespace Dotnet.ArithmeticCalculator.UserInterface;
 
@@ -14,7 +14,7 @@ public class ConsoleUI : IUserInterface
     }
 
     /// <inheritdoc/>
-    public void ShowMessage(string message, MessageType type)
+    public void ShowMessage(MessageType type, string message)
     {
         switch (type)
         {

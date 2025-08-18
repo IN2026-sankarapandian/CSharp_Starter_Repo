@@ -1,4 +1,4 @@
-﻿namespace Dotnet.ArithmeticCalculator.Constants;
+﻿namespace Dotnet.ArithmeticCalculator.Enums;
 
 /// <summary>
 /// Specifies the type of message for displaying.
@@ -8,7 +8,7 @@ public enum MessageType
     /// <summary>
     /// Represents the warning message that's indicates some issues.
     /// </summary>
-    Warning = 0,
+    Warning,
 
     /// <summary>
     /// Represents the result to shown to the user after an operation.
