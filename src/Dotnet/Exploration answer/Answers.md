@@ -11,7 +11,7 @@
 ## Key components of .NET platform.
  
 * The key component of the .NET platform is its runtime environment and its base class library.
-  * Common Language runtime is a virtual machine with a goal to make programming easy. It manages all the low level operations on its own makes the .NET languages simpler (C# is simpler than C++). The main features of the CLR is garabage collection, cross language, type safety, threading, program isolation with app domains, etc.
+  * Common Language runtime is a virtual machine with a goal to make programming easy. It manages all the low level operations on its own makes the .NET languages simpler (C# is simpler than C++). The main features of the CLR is garbage collection, cross language, type safety, threading, program isolation with app domains, etc.
   * Base class library is a standard set of libraries containing reusable classes and types like string, int, collections, file handling, task etc.. It can used by all .NET languages
 
 
@@ -19,7 +19,7 @@
  
 | Common Language Runtime                                                                            | Common Type System                                                                      |
 | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
-| CLR is an runtime environment that is responsible runs the program, manage memory and threads etc. | CTS is a part of CLR that ensures type safety of code as .NET supports cross languages. |
+| CLR is a runtime environment that is responsible runs the program, manage memory and threads etc. | CTS is a part of CLR that ensures type safety of code as .NET supports cross languages. |
 | It provides an environment to run the code.                                                        | It enables type safety between languages by ensuring common set of data types.          |
 | It is an implementation as software.                                                               | It is a specification like set of rules.                                                |
  
