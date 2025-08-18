@@ -38,8 +38,7 @@ public class MemoryEater
 
 *Solution* : 
 - Here the `memAlloc` is only used within the loop so it can be moved into the function scope.
-- The `System.OutOfMemoryException` is not handled so, it may crash the app immediately without any clear message. So in the optimized version I have handled that exception to clear all the allocations.
-- There is no data was added to the integer array only empty arrays were created. Therefore I have cleared all the allocations.
+- The `System.OutOfMemoryException` is not handled so, it may crash the app immediately without any clear message. So in the optimized version I have handled that `System.OutOfMemoryException` exception.
 
 
 ## Task 3
