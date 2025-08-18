@@ -63,7 +63,8 @@ public class ArithmeticCalculator
                     "+" => mathUtils.Add(numberA, numberB),
                     "-" => mathUtils.Subtract(numberA, numberB),
                     "*" => mathUtils.Multiply(numberA, numberB),
-                    "/" => mathUtils.Divide(numberA, numberB)
+                    "/" => mathUtils.Divide(numberA, numberB),
+                    _ => 0,
                 };
 
                 userInterface.ShowMessage(MessageType.Result, string.Format(Messages.Result, result));
