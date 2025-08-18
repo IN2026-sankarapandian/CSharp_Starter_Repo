@@ -48,7 +48,7 @@ Objective: To understand and demonstrate the use of the memory profiling tool in
 > This screenshots are based on the modified code.
 
 - Before the optimization the process memory was increased until the app crashes with the exception.
- ![screenshot before optimization](Assets/before.png)
+ ![screenshot before optimization](Assets/Before.png)
 
 - After optimization the object doesn't held by the class instead it was collected by GC after the function ends.
-![screenshot before optimization](Assets/after.png)
+![screenshot before optimization](Assets/After.png)
