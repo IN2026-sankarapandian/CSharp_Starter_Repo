@@ -26,12 +26,12 @@ public class Task5
             .SortBy(product => product.Price)
             .Join(suppliers,  (product, supplier) => product.ID == supplier.ProductId, (supplier, product) => new
             {
-                supplier.ID,
-                supplier.Name,
-                supplier.Category,
+                ID = (string?)supplier.ID,
+                Name = (string?)supplier.Name,
+                Category = (string?)supplier.Category,
                 supplier.Price,
-                product.SupplierName,
-                product.SupplierId,
+                SupplierName = (string?)product.SupplierName,
+                SupplierId = (string?)product.SupplierId,
             })
             .Execute();
 

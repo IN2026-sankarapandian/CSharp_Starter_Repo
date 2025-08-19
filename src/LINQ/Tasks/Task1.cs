@@ -23,7 +23,7 @@ public class Task1
 
         var filteredProducts = products.Where(product => product.Category == "Electronics" && product.Price > 500)
                                        .OrderByDescending(product => product.Price).ToList()
-                                       .Select(product => new { product.Name, product.Price })
+                                       .Select(product => new { Name = (string?)product.Name, product.Price })
                                        .ToList();
 
         Console.WriteLine("\n\nFiltered products under the category \"Electronics\" with a price greater than $500 and with only ProductName and Price ( In descending order by price ) : ");
