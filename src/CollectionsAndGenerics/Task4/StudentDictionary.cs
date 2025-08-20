@@ -30,14 +30,8 @@ public class StudentDictionary<TKey, TValue> : IEnumerable<KeyValuePair<TKey, TV
     public void Remove(TKey name) => this.KeyValuePairs.Remove(name);
 
     /// <inheritdoc/>
-    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
-    {
-        return this.KeyValuePairs.GetEnumerator();
-    }
+    public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator() => this.KeyValuePairs.GetEnumerator();
 
     /// <inheritdoc/>
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return this.KeyValuePairs.GetEnumerator();
-    }
+    IEnumerator IEnumerable.GetEnumerator() => this.KeyValuePairs.GetEnumerator();
 }
