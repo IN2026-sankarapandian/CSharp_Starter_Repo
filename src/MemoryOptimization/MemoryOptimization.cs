@@ -11,6 +11,7 @@ public class MemoryOptimization
     public static void Main()
     {
         MemoryEaterOptimized.MemoryEater memoryEater = new ();
+
         // MemoryEater.MemoryEater memoryEater = new ();
         memoryEater.Allocate();
         GC.Collect();
