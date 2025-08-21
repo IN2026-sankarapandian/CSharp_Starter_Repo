@@ -15,14 +15,14 @@ public class ValueAndReferenceType
     public static void Main()
     {
         // Task 1
-        int integer = 0;
+        Item item = new Item { Id = 0 };
         List<int> integerList = new List<int> { 1, 2, 3, 4, 5 };
 
-        Console.WriteLine("Before function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(integer), integer, nameof(integerList), string.Join(",", integerList));
+        Console.WriteLine("Before function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(item.Id), item.Id, nameof(integerList), string.Join(",", integerList));
 
-        Change(integer, integerList);
+        Change(item, integerList);
 
-        Console.WriteLine("After function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(integer), integer, nameof(integerList), string.Join(",", integerList));
+        Console.WriteLine("After function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(item.Id), item.Id, nameof(integerList), string.Join(",", integerList));
 
         Console.ReadKey();
 
@@ -35,11 +35,16 @@ public class ValueAndReferenceType
     /// <summary>
     /// Change the values of the specified value type and one reference type.
     /// </summary>
-    /// <param name="integer">Value type.</param>
+    /// <param name="item">Value type.</param>
     /// <param name="integerList">Reference type.</param>
-    private static void Change(int integer, List<int> integerList)
+    private static void Change(Item item, List<int> integerList)
     {
-        integer = 1;
+        item.Id = 1;
         integerList.Sort((integerLeft, integerRight) => integerRight.CompareTo(integerLeft));
+    }
+
+    private struct Item
+    {
+        public int Id;
     }
 }
