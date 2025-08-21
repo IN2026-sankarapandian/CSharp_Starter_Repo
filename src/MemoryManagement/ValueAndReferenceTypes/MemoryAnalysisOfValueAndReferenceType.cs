@@ -13,11 +13,16 @@ public class MemoryAnalysisOfValueAndReferenceType
     public void Run()
     {
         this.CreateValueTypes();
-        Console.WriteLine("Value types created.");
+        Console.WriteLine("\nPress enter to create value types...");
         Console.ReadKey();
+        Console.WriteLine("Value types created.");
 
+        Console.WriteLine("\nPress enter to create reference types...");
+        Console.ReadKey();
         this.CreateReferenceTypes();
         Console.WriteLine("Reference types created.");
+
+        Console.WriteLine("\nPress enter to close the app...");
         Console.ReadKey();
     }
 

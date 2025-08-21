@@ -15,16 +15,21 @@ public class ValueAndReferenceType
     public static void Main()
     {
         // Task 1
+        Console.WriteLine("Task 1");
         Item item = new Item { Id = 0 };
         List<int> integerList = new List<int> { 1, 2, 3, 4, 5 };
 
-        Console.WriteLine("Before function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(item.Id), item.Id, nameof(integerList), string.Join(",", integerList));
+        Console.WriteLine("\nBefore function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(item.Id), item.Id, nameof(integerList), string.Join(",", integerList));
 
         Change(item, integerList);
 
-        Console.WriteLine("After function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(item.Id), item.Id, nameof(integerList), string.Join(",", integerList));
+        Console.WriteLine("\nAfter function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(item.Id), item.Id, nameof(integerList), string.Join(",", integerList));
 
+        Console.WriteLine("\n\nPress enter to execute task 2");
         Console.ReadKey();
+        Console.Clear();
+
+        Console.WriteLine("Task 2");
 
         /// This two lines of code is related to task 2 where it creates a instance of <see cref="MemoryAnalysisOfValueAndReferenceType"/>
         /// which demonstrates how memory changes for value and reference types.
