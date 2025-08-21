@@ -1,4 +1,4 @@
-﻿namespace DisplayApp.Enums;
+﻿namespace ConsoleDisplays.Enums;
 
 /// <summary>
 /// Specifies the type of message for displaying.
