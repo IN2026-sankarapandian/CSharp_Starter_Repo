@@ -24,6 +24,8 @@ public class GarbageCollection
 
         // Forces GC collect.
         GC.Collect();
+        GC.WaitForPendingFinalizers();
+        GC.Collect();
         Console.WriteLine("Memory after GC Collect : {0}mb", GC.GetTotalMemory(false) / (1024 * 1024));
 
         Console.ReadKey();
