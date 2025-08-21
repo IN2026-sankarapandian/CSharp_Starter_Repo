@@ -6,7 +6,7 @@ using CollectionsAndGenerics.Task4;
 namespace CollectionsAndGenerics;
 
 /// <summary>
-/// Demonstrates the generics.
+/// Demonstrates generics and collections.
 /// </summary>
 public class CollectionAndGenerics
 {
@@ -126,7 +126,7 @@ public class CollectionAndGenerics
         IReadOnlyDictionary<string, int> keyValuePairs = GenerateDictionary();
         PrintDictionary(keyValuePairs);
 
-        /// This line throws a error as the <see cref="IReadOnlyDictionary{TKey, TValue}"/> was attempted edit.
+        /// This line will throw a error as the <see cref="IReadOnlyDictionary{TKey, TValue}"/> was attempted to edit.
         // keyValuePairs["one"] = 2;
         Console.ReadKey();
     }
@@ -163,9 +163,9 @@ public class CollectionAndGenerics
     }
 
     /// <summary>
-    /// It generates a dictionary with some sample values.
+    /// It prints the key and value pairs in the specified <see cref="IReadOnlyDictionary{TKey, TValue}"/>.
     /// </summary>
-    /// <param name="keyValuePairs">Key  and value pairs to print.</param>
+    /// <param name="keyValuePairs">Key and value pairs to print.</param>
     public static void PrintDictionary(IReadOnlyDictionary<string, int> keyValuePairs)
     {
         foreach (KeyValuePair<string, int> keyValuePair in keyValuePairs)
