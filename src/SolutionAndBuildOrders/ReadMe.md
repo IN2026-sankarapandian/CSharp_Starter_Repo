@@ -7,16 +7,16 @@
 
 # Issue faced : Circular dependency
 
-![Error](Assests/Screenshots/Error.png)
+![Error](Assets/Screenshots/Error.png)
 
-while implementing the assignment, I have encountered an circular dependency between MathApp and DisplayApp
+While implementing the assignment, I have encountered an circular dependency between MathApp and DisplayApp
 - MathApp had DisplayApp as dependency.
 - DisplayApp needed to use the functionalities from MathApp.
 
 # Solution : Dependency injection
 
 
-![Error](Assests/SequenceDiagram/SequenceDiagram.png)
+![Error](Assets/SequenceDiagram/SequenceDiagram.png)
 
 
 We should change the build order to solve the issue, but as the assignment asks to maintain the same build order we can still solve this using dependency injection.
@@ -25,4 +25,4 @@ We should change the build order to solve the issue, but as the assignment asks 
 - DisplayApp uses dependency injection to access the implementation math interface from MathApp.
 
 The final build order : 
-![Error](Assests/Screenshots/BuildOrder.png)
+![Error](Assets/Screenshots/BuildOrder.png)
