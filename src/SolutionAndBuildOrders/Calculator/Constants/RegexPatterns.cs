@@ -6,7 +6,7 @@
 public static class RegexPatterns
 {
     /// <summary>
-    /// Its and regex pattern to validate a arithmetic expression.
+    /// Its a regex pattern to validate a arithmetic expression.
     /// </summary>
     public const string ArithmeticExpressionRegex = @"^(-?\d+)\s*([-+*/])\s*(-?\d+)$";
 }
