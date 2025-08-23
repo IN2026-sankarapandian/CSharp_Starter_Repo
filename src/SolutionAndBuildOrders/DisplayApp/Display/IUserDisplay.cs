@@ -3,7 +3,7 @@
 namespace DisplayApp.Display;
 
 /// <summary>
-/// Defines a contract for console display.
+/// Defines a contract for user display.
 /// </summary>
 public interface IUserDisplay
 {

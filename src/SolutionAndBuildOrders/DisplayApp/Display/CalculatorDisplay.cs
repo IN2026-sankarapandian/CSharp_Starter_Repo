@@ -4,7 +4,7 @@ using DisplayApp.Enums;
 namespace DisplayApp.Display;
 
 /// <summary>
-/// represents the calculator display used to display results.
+/// Represents the calculator display used to display results.
 /// </summary>
 public class CalculatorDisplay : ConsoleDisplay, ICalculatorDisplay
 {

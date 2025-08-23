@@ -1,7 +1,7 @@
 ﻿namespace DisplayApp.Display;
 
 /// <summary>
-/// Defines a contract for calculator console display.
+/// Defines a contract for calculator display.
 /// </summary>
 public interface ICalculatorDisplay : IUserDisplay
 {

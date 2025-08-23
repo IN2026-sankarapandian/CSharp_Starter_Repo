@@ -1,7 +1,7 @@
 ﻿namespace UtilityApp.UserInput;
 
 /// <summary>
-/// Defines a contract for user interface.
+/// Defines a contract for user input interface.
 /// </summary>
 public interface IUserInput
 {
