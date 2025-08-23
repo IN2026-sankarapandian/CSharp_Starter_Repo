@@ -21,7 +21,7 @@ public class ValueAndReferenceType
 
         Console.WriteLine("\nBefore function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(item.Id), item.Id, nameof(integerList), string.Join(",", integerList));
 
-        Change(item, integerList);
+        UpdateValueAndReferenceType(item, integerList);
 
         Console.WriteLine("\nAfter function call:\nValue of {0} : {1}\nValue of {2} : {3}", nameof(item.Id), item.Id, nameof(integerList), string.Join(",", integerList));
 
@@ -38,16 +38,19 @@ public class ValueAndReferenceType
     }
 
     /// <summary>
-    /// Change the values of the specified value type and one reference type.
+    /// Update the values of the specified value type and one reference type.
     /// </summary>
     /// <param name="item">Value type.</param>
     /// <param name="integerList">Reference type.</param>
-    private static void Change(Item item, List<int> integerList)
+    private static void UpdateValueAndReferenceType(Item item, List<int> integerList)
     {
         item.Id = 1;
         integerList.Sort((integerLeft, integerRight) => integerRight.CompareTo(integerLeft));
     }
 
+    /// <summary>
+    /// Represents a sample item with id.
+    /// </summary>
     private struct Item
     {
         public int Id;

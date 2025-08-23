@@ -21,9 +21,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorHandling", "src\ErrorHandling\ErrorHandling.csproj", "{4DDC4D05-9E05-8E46-3F45-589A30F32A79}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MemoryManagement", "MemoryManagement", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
-	ProjectSection(SolutionItems) = preProject
-		src\MemoryManagement\Readme.md = src\MemoryManagement\Readme.md
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GarbageCollection", "src\MemoryManagement\GarbageCollection\GarbageCollection.csproj", "{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4}"
 EndProject
@@ -84,6 +81,7 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{93EBAE55-A8BA-40FF-93AA-7D9E4359B6B9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{45ADCEDC-6535-31F3-E602-B59B404296F7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{2836C813-9603-D467-36E0-D90FBA1C8CC0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
