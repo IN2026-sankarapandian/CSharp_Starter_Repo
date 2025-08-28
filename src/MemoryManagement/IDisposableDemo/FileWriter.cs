@@ -25,11 +25,24 @@ public class FileWriter : IDisposable
     }
 
     /// <summary>
+    /// Finalizes an instance of the <see cref="FileWriter"/> class.
+    /// Calls dispose method during finalizer execution.
+    /// </summary>
+    ~FileWriter()
+    {
+        this._writer.Dispose();
+    }
+
+    /// <summary>
     /// Appends the given string (<paramref name="content"/>) at end of the file.
     /// </summary>
     /// <param name="content">Content to append with the file.</param>
     public void Append(string content) => this._writer.WriteLine(content);
 
     /// <inheritdoc/>
-    public void Dispose() => this._writer.Dispose();
+    public void Dispose()
+    {
+        this._writer.Dispose();
+        GC.SuppressFinalize(this);
+    }
 }

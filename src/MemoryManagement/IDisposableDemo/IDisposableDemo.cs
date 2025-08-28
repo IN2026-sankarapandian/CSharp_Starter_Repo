@@ -17,12 +17,11 @@ public class IDisposableDemo
     {
         string rootPath = AppDomain.CurrentDomain.BaseDirectory;
         string newFilePath = Path.Combine(rootPath, "newfile.txt");
-        using (FileWriter writer = new FileWriter(newFilePath))
-        {
-            writer.Append("Hello world !");
-        }
+        WriteHelloWorld(newFilePath);
+        GC.Collect();
+        GC.WaitForPendingFinalizers();
 
-        StreamReader reader = new StreamReader(newFilePath);
+        StreamReader reader = new (newFilePath);
         while (!reader.EndOfStream)
         {
             Console.WriteLine(reader.ReadLine());
@@ -30,5 +29,15 @@ public class IDisposableDemo
 
         reader.Dispose();
         Console.ReadKey();
+    }
+
+    /// <summary>
+    /// Write Hello world to the specified file.
+    /// </summary>
+    /// <param name="filePath">Path of the file to write Hello world.</param>
+    private static void WriteHelloWorld(string filePath)
+    {
+        FileWriter writer = new (filePath);
+        writer.Append("Hello world !");
     }
 }
