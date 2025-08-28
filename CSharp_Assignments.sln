@@ -22,6 +22,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ErrorHandling", "src\ErrorH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet", "src\Dotnet\Dotnet.csproj", "{35FBDBA1-307C-D567-8853-D7A8448A1769}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilesAndStreams", "src\FilesAndStreams\FilesAndStreams.csproj", "{80A59590-0453-4CC6-BE50-ED414AC0E1BB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -56,6 +58,10 @@ Global
 		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{35FBDBA1-307C-D567-8853-D7A8448A1769}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80A59590-0453-4CC6-BE50-ED414AC0E1BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80A59590-0453-4CC6-BE50-ED414AC0E1BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80A59590-0453-4CC6-BE50-ED414AC0E1BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80A59590-0453-4CC6-BE50-ED414AC0E1BB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
