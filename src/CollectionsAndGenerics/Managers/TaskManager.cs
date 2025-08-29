@@ -62,7 +62,7 @@ public class TaskManager
     }
 
     /// <summary>
-    /// Executes task 1
+    /// Executes task 1.
     /// </summary>
     private void ExecuteTask1()
     {
@@ -91,7 +91,7 @@ public class TaskManager
     }
 
     /// <summary>
-    /// Executes task 2
+    /// Executes task 2.
     /// </summary>
     private void ExecuteTask2()
     {
@@ -117,7 +117,7 @@ public class TaskManager
     }
 
     /// <summary>
-    /// Executes task 3
+    /// Executes task 3.
     /// </summary>
     private void ExecuteTask3()
     {
@@ -147,7 +147,7 @@ public class TaskManager
     }
 
     /// <summary>
-    /// Executes task 4
+    /// Executes task 4.
     /// </summary>
     private void ExecuteTask4()
     {
@@ -174,7 +174,7 @@ public class TaskManager
     }
 
     /// <summary>
-    /// Executes task 6
+    /// Executes task 6.
     /// </summary>
     private void ExecuteTask6()
     {
