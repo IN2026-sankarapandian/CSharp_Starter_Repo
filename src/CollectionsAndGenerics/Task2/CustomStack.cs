@@ -6,13 +6,13 @@
 /// <typeparam name="T">Specifies the type of elements in the stack.</typeparam>
 public class CustomStack<T>
 {
-    private Stack<T> _elements = new ();
+    private readonly Stack<T> _elements = new ();
 
     /// <summary>
     /// Push an element to the stack.
     /// </summary>
     /// <param name="item">Element to push.</param>
-    public void Add(T item) => this._elements.Push(item);
+    public void Push(T item) => this._elements.Push(item);
 
     /// <summary>
     /// Pop an element from the stack.
