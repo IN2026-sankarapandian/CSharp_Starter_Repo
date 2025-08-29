@@ -27,7 +27,7 @@ public class MemoryEater
                 }
 
                 // Assume memAlloc variable is used only within this loop.
-                //Thread.Sleep(1000);
+                // Thread.Sleep(1000);
             }
         }
         catch (OutOfMemoryException ex)
