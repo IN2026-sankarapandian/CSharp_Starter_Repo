@@ -51,7 +51,7 @@ public class Task4
     /// </summary>
     /// <param name="message">Error message to write.</param>
     /// <param name="userID">Id of the user.</param>
-    public void LogError(string message, string userID)
+    private void LogError(string message, string userID)
     {
         Stopwatch watch1 = Stopwatch.StartNew();
         lock (_lock)
