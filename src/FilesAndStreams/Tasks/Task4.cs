@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
 using FilesAndStreams.UserInterface;
 
@@ -27,13 +28,22 @@ public class Task4
     /// </summary>
     public void Run()
     {
-        this._consoleUI.ShowMessage(MessageType.Title, "Task 2");
+        this._consoleUI.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 4));
+        this.SimulateLoggingErrors();
+        this._consoleUI.ShowMessage(MessageType.Information, Messages.ErrorLogFilesSimulated);
+        this._consoleUI.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 4));
+        this._consoleUI.GetInput();
+    }
+
+    /// <summary>
+    /// Simulate multiple users logging errors at the same time.
+    /// </summary>
+    private void SimulateLoggingErrors()
+    {
         Task loggingErrorForUser1 = Task.Run(() => this.LogError("Error a", "001"));
         Task loggingErrorForUser2 = Task.Run(() => this.LogError("Error b", "002"));
         Task loggingErrorForUser3 = Task.Run(() => this.LogError("Error c", "003"));
         Task.WaitAll(loggingErrorForUser1, loggingErrorForUser2, loggingErrorForUser3);
-        this._consoleUI.ShowMessage(MessageType.Information, "Enter any key to exit task 4...");
-        Console.ReadKey();
     }
 
     /// <summary>
@@ -46,13 +56,12 @@ public class Task4
         Stopwatch watch1 = Stopwatch.StartNew();
         lock (_lock)
         {
-            string errorFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, $"{userID}-ErrorLog.txt");
+            string errorFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, string.Format(FileResources.ErrorLogFileName, userID));
             using FileStream fileStream = new (errorFilePath, FileMode.Append);
             byte[] error = Encoding.UTF8.GetBytes(message);
             fileStream.Write(error, 0, error.Length);
         }
 
         watch1.Stop();
-        this._consoleUI.ShowMessage(MessageType.Information, $"Time taken by provided code {watch1.ElapsedMilliseconds}");
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
+using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
 using FilesAndStreams.UserInterface;
 
@@ -29,45 +30,44 @@ public class Task2
     {
         string rootPath = AppDomain.CurrentDomain.BaseDirectory;
 
-        string filePath1 = Path.Combine(rootPath, $"machine-data1.txt");
-        string filePath2 = Path.Combine(rootPath, $"machine-data2.txt");
-        long targetSize = 1024L * 1024L * 512L;
+        string filePath1 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 1));
+        string filePath2 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 2));
 
         Console.Clear();
         Console.SetCursorPosition(0, 0);
-        this._consoleUI.ShowMessage(MessageType.Title, "Task 2");
-        this._consoleUI.ShowMessage(MessageType.Information, "Sample files creation started");
+        this._consoleUI.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 2));
+        this._consoleUI.ShowMessage(MessageType.Information, Messages.SampleFileCreationStarted);
         Console.SetCursorPosition(0, 2);
         Task createSampleFile1 = Task.Run(()
-            => this.CreateLargeTextFile(filePath1, targetSize, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar("Creating sample file 1", progress, 2, elapsedTime)));
+            => this.CreateLargeTextFile(filePath1, FileResources.TargetSize, (progress, elapsedTime)
+            => this._consoleUI.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 1), progress, 2, elapsedTime)));
         Task createSampleFile2 = Task.Run(()
-            => this.CreateLargeTextFile(filePath2, targetSize, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar("Creating sample file 2", progress, 3, elapsedTime)));
+            => this.CreateLargeTextFile(filePath2, FileResources.TargetSize, (progress, elapsedTime)
+            => this._consoleUI.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 2), progress, 3, elapsedTime)));
         createSampleFile1.Wait();
         createSampleFile2.Wait();
 
         Console.SetCursorPosition(0, 5);
-        this._consoleUI.ShowMessage(MessageType.Information, "Reading sample files creation started");
+        this._consoleUI.ShowMessage(MessageType.Information, Messages.ReadingSampleFiles);
         Task readFileWithFileStream = this.ReadFileInChunks(FileReader.FileStream, filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar("Reading sample file with file stream", progress, 6, elapsedTime));
+            => this._consoleUI.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, 6, elapsedTime));
         Task readFileWithBufferedStream = this.ReadFileInChunks(FileReader.BufferedStream, filePath2, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar("Reading sample file with buffered stream", progress, 7, elapsedTime));
+            => this._consoleUI.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, 7, elapsedTime));
         readFileWithFileStream.Wait();
         readFileWithBufferedStream.Wait();
 
         Console.SetCursorPosition(0, 9);
-        this._consoleUI.ShowMessage(MessageType.Information, "File processing started");
+        this._consoleUI.ShowMessage(MessageType.Information, Messages.FileProcessingStarted);
         Task<string> readFileForProcessing = this.ReadFile(filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar("Reading sample file.", progress, 10, elapsedTime));
+            => this._consoleUI.DrawProgressBar(Messages.ReadingSampleFiles, progress, 10, elapsedTime));
         string content = readFileForProcessing.Result;
         string filteredContent = this.FilterByTemperature(content, 100);
-        string filteredFilePath = Path.Combine(rootPath, $"filtered-machine-data.txt");
+        string filteredFilePath = Path.Combine(rootPath, FileResources.SampleFilteredMachineDataFileName);
         this.WriteData(filteredFilePath, filteredContent, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar("Writing processed data", progress, 11, elapsedTime));
+            => this._consoleUI.DrawProgressBar(Messages.WritingProcessedData, progress, 11, elapsedTime));
         Console.SetCursorPosition(0, 12);
 
-        this._consoleUI.ShowMessage(MessageType.Information, "Enter any key to exit task 2...");
+        this._consoleUI.ShowMessage(MessageType.Information, string.Format(Messages.PressEnterToExitTask, 2));
         Console.ReadKey();
     }
 
@@ -85,10 +85,9 @@ public class Task2
     {
         File.Create(filePath).Dispose();
 
-        int bufferSize = 1024 * 1024;
         Random random = new ();
 
-        using FileStream writer = new (filePath, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize, useAsync: true);
+        using FileStream writer = new (filePath, FileMode.Create, FileAccess.Write, FileShare.None, FileResources.BufferSize, useAsync: true);
         decimal currentSize = 0;
         int currentLine = 0;
         DateTime startTime = DateTime.Now;
@@ -97,13 +96,13 @@ public class Task2
         stopwatch.Start();
         while (currentSize < targetSize)
         {
-            string timeStamp = startTime.AddSeconds(currentLine).ToString("yyyy-MM-dd HH:mm:ss");
+            string timeStamp = startTime.AddSeconds(currentLine).ToString(FileResources.SampleDateFormat);
             double temperature = 50 + (random.NextDouble() * 100);
             double pressure = 1 + (random.NextDouble() * 9);
             double vibration = random.NextDouble() * 25;
 
-            string line = 
-                string.Format("{0}: temperature : {1:F2}°C, pressure : {2:F2} bar, vibration : {3:F2}mm/s \n", timeStamp, temperature, pressure, vibration);
+            string line =
+                string.Format(FileResources.SampleFileTemplate + Environment.NewLine, timeStamp, temperature, pressure, vibration);
             byte[] bytes = Encoding.UTF8.GetBytes(line);
             writer.WriteAsync(bytes, 0, bytes.Length);
             if (currentSize % (1024 * 1024) == 0)
@@ -135,12 +134,12 @@ public class Task2
         string data = string.Empty;
         if (fileReader == FileReader.FileStream)
         {
-            using Stream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true);
+            using Stream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: FileResources.BufferSize, useAsync: true);
             await this.ReadStreamInChunks(fileStream, progressCallBack);
         }
         else if (fileReader == FileReader.BufferedStream)
         {
-            using Stream bufferedStream = new BufferedStream(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true));
+            using Stream bufferedStream = new BufferedStream(new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: FileResources.BufferSize, useAsync: true));
             await this.ReadStreamInChunks(bufferedStream, progressCallBack);
         }
     }
@@ -159,7 +158,7 @@ public class Task2
     {
         int bytesRead;
         byte[] buffer = new byte[chunkSize];
-        decimal totalSize = 1024L * 1024 * 1024;
+        decimal totalSize = stream.Length;
         decimal currentSize = 0;
 
         StringBuilder content = new ();
@@ -192,7 +191,8 @@ public class Task2
     /// </param>
     private async Task<string> ReadFile(string filePath, Action<int, long>? progressCallBack = null)
     {
-        using FileStream fileStream = new (filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: 4096, useAsync: true);
+        using FileStream fileStream =
+            new (filePath, FileMode.Open, FileAccess.Read, FileShare.None, bufferSize: FileResources.BufferSize, useAsync: true);
         using StreamReader reader = new (fileStream);
         Stopwatch stopwatch = new ();
         stopwatch.Start();
@@ -219,7 +219,7 @@ public class Task2
         string[] data = content.Split('\n');
         int totalLine = data.Length;
         int currentLine = 0;
-        string pattern = @"temperature\s*:\s*(\d{2,3}\.\d{2})";
+        string pattern = RegexPatterns.ExtractTemperature;
         StringBuilder filteredContent = new ();
         Stopwatch stopwatch = new ();
         stopwatch.Start();
@@ -261,7 +261,8 @@ public class Task2
         memoryStream.Write(bytes, 0, bytes.Length);
         Stopwatch stopwatch = new ();
         stopwatch.Start();
-        using (FileStream fileStream = new (path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 4096, useAsync: true))
+        using (FileStream fileStream =
+            new (path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: FileResources.BufferSize, useAsync: true))
         {
             progressCallBack?.Invoke(0, stopwatch.ElapsedMilliseconds);
             memoryStream.Position = 0;

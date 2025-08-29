@@ -25,20 +25,16 @@ public class App
             switch (userInput)
             {
                 case "1":
-                    Task1 task1 = new (consoleUI);
-                    task1.Run();
+                    new Task1(consoleUI).Run();
                     break;
                 case "2":
-                    Task2 task2 = new (consoleUI);
-                    task2.Run();
+                    new Task2(consoleUI).Run();
                     break;
                 case "3":
-                    Task3 task3 = new (consoleUI);
-                    task3.EfficientFileHandler();
+                    new Task3(consoleUI).Run();
                     break;
                 case "4":
-                    Task4 task4 = new (consoleUI);
-                    task4.Run();
+                    new Task4(consoleUI).Run();
                     break;
                 case "5":
                     return;

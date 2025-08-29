@@ -1,4 +1,5 @@
-﻿using FilesAndStreams.Enums;
+﻿using FilesAndStreams.Constants;
+using FilesAndStreams.Enums;
 
 namespace FilesAndStreams.UserInterface;
 
@@ -43,6 +44,13 @@ public class ConsoleUI
     }
 
     /// <summary>
+    /// Sets the position of the cursor.
+    /// </summary>
+    /// <param name="line">The line position of the cursor.</param>
+    /// <param name="column">The column position of the cursor.</param>
+    public void SetCursorPosition(int line, int column = 0) => Console.SetCursorPosition(column, line);
+
+    /// <summary>
     /// Prints a progress bar with the name of the task, and time elapsed.
     /// </summary>
     /// <param name="taskName">Name of the task.</param>
@@ -53,8 +61,8 @@ public class ConsoleUI
     {
         int total = 30;
         int currentProgress = progressPercentage * total / 100;
-        string bar = new string('|', currentProgress).PadRight(total, '-');
+        string bar = new string(ProgressBarConstants.BarFilled, currentProgress).PadRight(total, ProgressBarConstants.BarEmpty);
         Console.SetCursorPosition(0, lineIndex);
-        Console.WriteLine("{0} : [{1}] {2}%, time : {3}ms", taskName, bar, progressPercentage, elapsedTime);
+        Console.WriteLine(ProgressBarConstants.ProgressBarTemplate, taskName, bar, progressPercentage, elapsedTime);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Text;
+using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
 using FilesAndStreams.UserInterface;
 
@@ -22,13 +23,23 @@ public class Task3
     }
 
     /// <summary>
+    /// Its an entry point for <see cref="Task4"/>
+    /// </summary>
+    public void Run()
+    {
+        this._consoleUI.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 3));
+        this.EfficientFileHandler();
+        this._consoleUI.ShowMessage(MessageType.Information, string.Format(Messages.PressEnterToExitTask, 3));
+        Console.ReadKey();
+    }
+
+    /// <summary>
     /// Its an optimized version of give code snippet.
     /// </summary>
-    public void EfficientFileHandler()
+    private void EfficientFileHandler()
     {
-        this._consoleUI.ShowMessage(MessageType.Title, "Task 2");
-        string path = "sample.text";
-        string data = "This is Some test Data";
+        string path = FileResources.SampleFilePath;
+        string data = FileResources.SampleData;
         Stopwatch stopwatch = new ();
         stopwatch.Start();
         using (FileStream fileStream = new (path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 1024 * 16))
@@ -47,12 +58,9 @@ public class Task3
             }
         }
 
-        this._consoleUI.ShowMessage(MessageType.Information, "Efficient file handle");
+        this._consoleUI.ShowMessage(MessageType.Information, Messages.EfficientFilehandle);
         stopwatch.Stop();
         TimeSpan elapsed = stopwatch.Elapsed;
-        this._consoleUI.ShowMessage(MessageType.Information, $"Elapsed time: {elapsed.TotalMilliseconds} ms");
-
-        this._consoleUI.ShowMessage(MessageType.Information, "Enter any key to exit task 3...");
-        Console.ReadKey();
+        this._consoleUI.ShowMessage(MessageType.Information, string.Format(Messages.Elapsedtime, elapsed.TotalMilliseconds));
     }
 }
