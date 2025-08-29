@@ -12,8 +12,13 @@ public class MemoryOptimization
     {
         MemoryEaterOptimized.MemoryEater memoryEater = new ();
 
-        // MemoryEater.MemoryEater memoryEater = new ();
-        memoryEater.Allocate();
+        CancellationTokenSource cancellationTokenSource = new ();
+        Console.WriteLine("Started memory allocation");
+        Task.Run(() => memoryEater.Allocate(cancellationTokenSource.Token));
+
+        Console.WriteLine("Press any key to stop allocation");
+        Console.ReadKey();
+        cancellationTokenSource.Cancel();
         GC.Collect();
         Console.ReadKey();
     }
