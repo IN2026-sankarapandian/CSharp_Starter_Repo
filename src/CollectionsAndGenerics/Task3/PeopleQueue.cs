@@ -8,16 +8,13 @@ namespace CollectionsAndGenerics.Task3;
 /// <typeparam name="T">Specifies the type of people in the queue.</typeparam>
 public class PeopleQueue<T> : IEnumerable<T>, IEnumerable
 {
-    private Queue<T> _peoples = new ();
+    private readonly Queue<T> _peoples = new ();
 
     /// <summary>
     /// Enqueue the specified people to queue.
     /// </summary>
     /// <param name="item">People to enqueue.</param>
-    public void Enqueue(T item)
-    {
-        this._peoples.Enqueue(item);
-    }
+    public void Enqueue(T item) => this._peoples.Enqueue(item);
 
     /// <summary>
     /// Dequeue the people at queue.

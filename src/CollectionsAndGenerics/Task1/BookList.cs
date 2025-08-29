@@ -8,7 +8,7 @@ namespace CollectionsAndGenerics.Task1;
 /// <typeparam name="T">Specifies the type of book title.</typeparam>
 public class BookList<T> : IEnumerable<T>, IEnumerable
 {
-    private List<T> _bookTitles = new ();
+    private readonly List<T> _bookTitles = new ();
 
     /// <summary>
     /// Adds a new book title.
