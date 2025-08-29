@@ -61,78 +61,38 @@ public class TaskManager
         }
     }
 
-    private void ExecuteTask6()
+    /// <summary>
+    /// Executes task 1
+    /// </summary>
+    private void ExecuteTask1()
     {
-        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 6));
-
-        List<int> integerList = new () { 1, 2, 3, 4, 5 };
-        int[] integerArray = new int[] { 1, 2, 3, 4, 5 };
-        Stack<int> integerStack = new (new[] { 1, 2, 3, 4, 5 });
-
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SumOfIntegerList, this.SumOfElements(integerList)));
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SumOfIntegerArray, this.SumOfElements(integerArray)));
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SumOfIntegerStack, this.SumOfElements(integerStack)));
-
-        IReadOnlyDictionary<string, int> keyValuePairs = this.GenerateDictionary();
-        this.PrintDictionary(keyValuePairs);
-
-        /// This line throws a error as the <see cref="IReadOnlyDictionary{TKey, TValue}"/> was attempted edit.
-        // keyValuePairs["one"] = 2;
-        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 6));
-        this._userInterface.GetInput();
-    }
-
-    private void ExecuteTask4()
-    {
-        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 4));
-
-        StudentDictionary<string, int> studentDictionary = new ()
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 1));
+        BookList<string> bookList = new()
                 {
-                    { "Sankar", 1 },
-                    { "Arthur", 2 },
-                    { "Guru", 3 },
-                    { "Uttand", 4 },
-                    { "Harish", 5 },
+                    "The sapiens",
+                    "The secret history",
+                    "Ponniyan Selvan",
+                    "Crime and punishment",
+                    "White nights",
                 };
 
-        studentDictionary.Remove("Harish");
+        bookList.Remove("Ponniyan Selvan");
 
-        foreach (KeyValuePair<string, int> student in studentDictionary)
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.DoItemExistInList, "Ponniyan Selvan", nameof(bookList), bookList.Contains("Ponniyan Selvan")));
+
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.BookTitlesInTheList, nameof(bookList)));
+        foreach (string item in bookList)
         {
-            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.NameGrade, student.Key, student.Value));
+            this._userInterface.ShowMessage(MessageType.Information, item);
         }
 
-        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 4));
+        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 1));
         this._userInterface.GetInput();
     }
 
-    private void ExecuteTask3()
-    {
-        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 3));
-
-        PeopleQueue<string> peopleQueue = new ();
-
-        peopleQueue.Enqueue("Sankar");
-        peopleQueue.Enqueue("Arthur");
-        peopleQueue.Enqueue("Guru");
-        peopleQueue.Enqueue("Uttand");
-        peopleQueue.Enqueue("Harish");
-
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.PeoplesInQueue, nameof(peopleQueue)));
-        foreach (string people in peopleQueue)
-        {
-            this._userInterface.ShowMessage(MessageType.Information, people);
-        }
-
-        while (peopleQueue.HasPeople())
-        {
-            peopleQueue.Dequeue();
-        }
-
-        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 3));
-        this._userInterface.GetInput();
-    }
-
+    /// <summary>
+    /// Executes task 2
+    /// </summary>
     private void ExecuteTask2()
     {
         this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 2));
@@ -170,29 +130,84 @@ public class TaskManager
         this._userInterface.GetInput();
     }
 
-    private void ExecuteTask1()
+    /// <summary>
+    /// Executes task 3
+    /// </summary>
+    private void ExecuteTask3()
     {
-        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 1));
-        BookList<string> bookList = new ()
-                {
-                    "The sapiens",
-                    "The secret history",
-                    "Ponniyan Selvan",
-                    "Crime and punishment",
-                    "White nights",
-                };
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 3));
 
-        bookList.Remove("Ponniyan Selvan");
+        PeopleQueue<string> peopleQueue = new ();
 
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.DoItemExistInList, "Ponniyan Selvan", nameof(bookList), bookList.Contains("Ponniyan Selvan")));
+        peopleQueue.Enqueue("Sankar");
+        peopleQueue.Enqueue("Arthur");
+        peopleQueue.Enqueue("Guru");
+        peopleQueue.Enqueue("Uttand");
+        peopleQueue.Enqueue("Harish");
 
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.BookTitlesInTheList, nameof(bookList)));
-        foreach (string item in bookList)
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.PeoplesInQueue, nameof(peopleQueue)));
+        foreach (string people in peopleQueue)
         {
-            this._userInterface.ShowMessage(MessageType.Information, item);
+            this._userInterface.ShowMessage(MessageType.Information, people);
         }
 
-        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 1));
+        while (peopleQueue.HasPeople())
+        {
+            peopleQueue.Dequeue();
+        }
+
+        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 3));
+        this._userInterface.GetInput();
+    }
+
+    /// <summary>
+    /// Executes task 4
+    /// </summary>
+    private void ExecuteTask4()
+    {
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 4));
+
+        StudentDictionary<string, int> studentDictionary = new ()
+                {
+                    { "Sankar", 1 },
+                    { "Arthur", 2 },
+                    { "Guru", 3 },
+                    { "Uttand", 4 },
+                    { "Harish", 5 },
+                };
+
+        studentDictionary.Remove("Harish");
+
+        foreach (KeyValuePair<string, int> student in studentDictionary)
+        {
+            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.NameGrade, student.Key, student.Value));
+        }
+
+        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 4));
+        this._userInterface.GetInput();
+    }
+
+    /// <summary>
+    /// Executes task 6
+    /// </summary>
+    private void ExecuteTask6()
+    {
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 6));
+
+        List<int> integerList = new () { 1, 2, 3, 4, 5 };
+        int[] integerArray = new int[] { 1, 2, 3, 4, 5 };
+        Stack<int> integerStack = new (new[] { 1, 2, 3, 4, 5 });
+
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SumOfIntegerList, this.SumOfElements(integerList)));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SumOfIntegerArray, this.SumOfElements(integerArray)));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SumOfIntegerStack, this.SumOfElements(integerStack)));
+
+        IReadOnlyDictionary<string, int> keyValuePairs = this.GenerateDictionary();
+        this.PrintDictionary(keyValuePairs);
+
+        /// This line throws a error as the <see cref="IReadOnlyDictionary{TKey, TValue}"/> was attempted edit.
+        // keyValuePairs["one"] = 2;
+        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 6));
         this._userInterface.GetInput();
     }
 
