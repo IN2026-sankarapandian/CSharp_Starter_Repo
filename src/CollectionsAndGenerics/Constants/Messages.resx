@@ -132,8 +132,8 @@
   <data name="PressEnterToExitTask" xml:space="preserve">
     <value>\nPress enter to exit task {0}</value>
   </data>
-  <data name="ReversedOutputForGivenInput" xml:space="preserve">
-    <value>The reversed string of given input {0} is : {1}</value>
+  <data name="ReversedStringOfSampleString" xml:space="preserve">
+    <value>The reversed string of {0} is : {1}</value>
   </data>
   <data name="SumOfIntegerArray" xml:space="preserve">
     <value>Sum of integer array : {0}</value>

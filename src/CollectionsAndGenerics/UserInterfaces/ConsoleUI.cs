@@ -17,6 +17,7 @@ public class ConsoleUI : IUserInterface
     /// <inheritdoc/>
     public void ShowMessage(MessageType type, string message)
     {
+        message = message.Replace("\\n", "\n");
         switch (type)
         {
             case MessageType.Prompt:

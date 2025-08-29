@@ -169,11 +169,11 @@ namespace CollectionsAndGenerics.Constants {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The reversed string of given input {0} is : {1}.
+        ///   Looks up a localized string similar to The reversed string of {0} is : {1}.
         /// </summary>
-        public static string ReversedOutputForGivenInput {
+        public static string ReversedStringOfSampleString {
             get {
-                return ResourceManager.GetString("ReversedOutputForGivenInput", resourceCulture);
+                return ResourceManager.GetString("ReversedStringOfSampleString", resourceCulture);
             }
         }
         
