@@ -48,8 +48,7 @@ public class Task7 : ITask
 
         this._userInterface.ShowMessage(
             MessageType.Information,
-            Messages.DisplayShapes
-            );
+            Messages.DisplayShapes);
         foreach (Shape shape in shapes)
         {
             this.DisplayShapeDetails(shape);

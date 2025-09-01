@@ -42,5 +42,5 @@ You can choose which task to run in the main menu.
 
 ## Task 7 : Pattern matching
 
-- Pattern matching is used to simplify conditional logic using patterns
-- Here I have used pattern matching to identify the type of the shape and prints details according to its type
+- Pattern matching is used to simplify conditional logic using patterns.
+- Here I have used pattern matching to identify the type of the shape and prints details according to its type.
