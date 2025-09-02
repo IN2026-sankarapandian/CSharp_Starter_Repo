@@ -32,6 +32,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet", "src\Dotnet\Dotnet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryOptimization", "src\MemoryOptimization\MemoryOptimization.csproj", "{2E081DFF-D959-85DF-C06C-12648079071E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Reflections", "src\Reflections\Reflections.csproj", "{31150C35-392F-737E-9E2E-9360220D3E77}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssemblyMetdataInspector", "src\ReflectionsTasks\ReflectionTask1\AssemblyMetdataInspector.csproj", "{349EB9A4-B8F0-4CE1-A99C-7075F63B015D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,12 +86,19 @@ Global
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{31150C35-392F-737E-9E2E-9360220D3E77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31150C35-392F-737E-9E2E-9360220D3E77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31150C35-392F-737E-9E2E-9360220D3E77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31150C35-392F-737E-9E2E-9360220D3E77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{349EB9A4-B8F0-4CE1-A99C-7075F63B015D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{349EB9A4-B8F0-4CE1-A99C-7075F63B015D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{349EB9A4-B8F0-4CE1-A99C-7075F63B015D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{349EB9A4-B8F0-4CE1-A99C-7075F63B015D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{93EBAE55-A8BA-40FF-93AA-7D9E4359B6B9} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{D6F29AFE-23F9-4EEA-5962-E833D77DDBF4} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{45ADCEDC-6535-31F3-E602-B59B404296F7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{2836C813-9603-D467-36E0-D90FBA1C8CC0} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
