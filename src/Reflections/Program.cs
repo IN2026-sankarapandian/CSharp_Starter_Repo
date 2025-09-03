@@ -1,10 +1,12 @@
-﻿using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Reflections.Enums;
+using Reflections.Handlers;
 using Reflections.TaskManagers;
 using Reflections.Tasks;
 using Reflections.Tasks.Task1;
 using Reflections.Tasks.Task2;
+using Reflections.Tasks.Task4;
 using Reflections.UserInterface;
 
 namespace Reflections;
@@ -23,10 +25,15 @@ public class Program
         Type taskInterface = typeof(ITask);
 
         services.AddSingleton<IUserInterface, ConsoleUI>();
+        services.AddSingleton<FormHandlers>();
+        services.AddSingleton<AssemblyHelper>();
         services.AddTransient<TaskManager>();
 
+        ServiceProvider serviceProvider = services.BuildServiceProvider();
+        IUserInterface? userInterface = serviceProvider.GetService<IUserInterface>();
+
         string rootPath = Path.GetFullPath("../../../TaskPlugins/");
-        List<Assembly> assemblies = new List<Assembly> ();
+        List<Assembly> assemblies = new List<Assembly>();
         foreach (string dllPath in Directory.GetFiles(rootPath, "*.dll"))
         {
             try
@@ -35,34 +42,37 @@ public class Program
                 assemblies.Add(assembly);
 
                 IUserInterface co = new ConsoleUI();
-                Task1 to = new Task1(co);
                 Type? taskImplementation = assembly.GetTypes().Where(type => type.IsClass && type.Name == "Task").FirstOrDefault();
                 if (taskImplementation is not null)
                 {
-                    services.AddTransient(taskInterface, taskImplementation);
+                    //services.AddTransient(taskInterface, taskImplementation);
                 }
 
-                Console.WriteLine(assembly.FullName + " Loaded Successfully");
+                userInterface.ShowMessage(MessageType.Prompt, assembly.FullName + " Loaded Successfully");
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("No file exists in the specified path !");
+                userInterface.ShowMessage(MessageType.Prompt, "No file exists in the specified path !");
             }
             catch (BadImageFormatException)
             {
-                Console.WriteLine("The file is not a valid .NET assembly !");
+                userInterface.ShowMessage(MessageType.Prompt, "The file is not a valid .NET assembly !");
             }
             catch (FileLoadException ex)
             {
-                Console.WriteLine("The file can't be load {0}", ex.Message);
+                userInterface.ShowMessage(MessageType.Prompt, string.Format("The file can't be load {0}", ex.Message));
             }
         }
 
-        Thread.Sleep(2000);
+        //Thread.Sleep(2000);
 
+        services.AddTransient<ITask, Task1>();
         services.AddTransient<ITask, Task2>();
+        services.AddTransient<ITask, Task3>();
+        services.AddTransient<ITask, Task4>();
+        services.AddTransient<ITask, Task6>();
 
-        ServiceProvider serviceProvider = services.BuildServiceProvider();
+        serviceProvider = services.BuildServiceProvider();
 
         TaskManager? taskManager = serviceProvider.GetService<TaskManager>();
         taskManager?.HandleMenu();

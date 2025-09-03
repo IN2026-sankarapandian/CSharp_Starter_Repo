@@ -69,21 +69,49 @@ public class ConsoleUI : IUserInterface
     {
         if (properties.Length != 0)
         {
-            ConsoleTable typesTable = new ConsoleTable("Index", "Name", "Value");
+            ConsoleTable typesTable = new ConsoleTable("Index", "Name", "Property Type", "Value");
+
+            object? typeInstance = null;
+            if (!type.IsInterface && !type.IsAbstract && type.GetConstructor(Type.EmptyTypes) != null && !type.ContainsGenericParameters)
+            {
+                try
+                {
+                    typeInstance = Activator.CreateInstance(type);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Type instantiation failed");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Type can't be initiated, so unable to get values.");
+            }
+
             for (int index = 0; index < properties.Length; index++)
             {
-                object? typeInstance = Activator.CreateInstance(type);
+                object? value = "N/A";
+                if (properties[index].GetMethod?.IsStatic == true)
+                {
+                    value = properties[index].GetValue(null) ?? "null";
+                }
+                else if (typeInstance != null)
+                {
+                    value = properties[index].GetValue(typeInstance) ?? "null";
+                    }
+
                 typesTable.AddRow(
                     index + 1,
                     properties[index].Name,
-                    properties[index]?.GetValue(typeInstance) ?? "null");
+                    properties[index].PropertyType.Name,
+                    value);
             }
 
             typesTable.Write();
         }
         else
         {
-            Console.WriteLine("No properties exists");
+            Console.WriteLine("No properties exist");
         }
     }
 
@@ -152,7 +180,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine("No events exists");
+            Console.WriteLine(  "No events exists");
         }
     }
 }
