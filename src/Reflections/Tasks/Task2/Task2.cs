@@ -2,6 +2,7 @@
 using Reflections.Enums;
 using Reflections.Handlers;
 using Reflections.UserInterface;
+using Reflections.Validators;
 
 namespace Reflections.Tasks.Task2;
 
@@ -13,16 +14,18 @@ public class Task2 : ITask
     private readonly IUserInterface _userInterface;
     private readonly FormHandlers _formHandlers;
     private readonly AssemblyHelper _assemblyHelper;
+    private readonly Validator _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task2"/> class.
     /// </summary>
     /// <param name="userInterface"> Provides operations to interact with user.</param>
-    public Task2(IUserInterface userInterface, FormHandlers formHandlers, AssemblyHelper assemblyHelper)
+    public Task2(IUserInterface userInterface, FormHandlers formHandlers, AssemblyHelper assemblyHelper, Validator validator)
     {
         this._userInterface = userInterface;
         this._formHandlers = formHandlers;
         this._assemblyHelper = assemblyHelper;
+        this._validator = validator;
     }
 
     /// <inheritdoc/>
@@ -104,11 +107,11 @@ public class Task2 : ITask
     {
         do
         {
-            PropertyInfo? propertyInfo = this._formHandlers.GetTargetPropertyInfo(type, "\nEnter which property to change value : ");
+            PropertyInfo? propertyInfo = this._formHandlers.GetTargetPropertyInfo(type, "\nEnter which property to change value : ", this._validator.IsSupportedParameter);
             if (propertyInfo.CanWrite)
             {
                 string? newValue = this._formHandlers.GetUserInput(string.Format("Enter new value for parameter {0}({1}) : ", propertyInfo.Name, propertyInfo.PropertyType.Name));
-                Result<bool> isChanged = this._assemblyHelper.ChangePropertyValue(typeInstance, propertyInfo, newValue);
+                Result<bool> isChanged = ChangePropertyValue(typeInstance, propertyInfo, newValue);
                 if (isChanged.IsSuccess)
                 {
                     this._userInterface.ShowMessage(MessageType.Highlight, "Property value updated !");
@@ -127,5 +130,41 @@ public class Task2 : ITask
             }
         }
         while (true);
+    }
+
+
+    /// <summary>
+    /// Attempts to change the value of specified property.
+    /// </summary>
+    /// <param name="typeInstance">Type instance of the specified property.</param>
+    /// <param name="propertyInfo">Target property to change its value.</param>
+    /// <param name="newValue">New value to be assigned for target property.</param>
+    /// <returns><see cref="Result{Assembly}"/> object indicating success with changing property value or failure with error message.</returns>
+    public Result<bool> ChangePropertyValue(object? typeInstance, PropertyInfo propertyInfo, string? newValue)
+    {
+        if (!propertyInfo.CanWrite)
+        {
+            return Result<bool>.Failure("Property is read only !");
+        }
+
+        try
+        {
+            Result<object?> convertedValue = this._utility.ConvertType(newValue, propertyInfo.PropertyType);
+            if (!convertedValue.IsSuccess)
+            {
+                return Result<bool>.Failure(convertedValue.ErrorMessage);
+            }
+
+            propertyInfo.SetValue(typeInstance, convertedValue.Value);
+            return Result<bool>.Success(true);
+        }
+        catch (NotSupportedException ex)
+        {
+            return Result<bool>.Failure(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            return Result<bool>.Failure(ex.Message);
+        }
     }
 }

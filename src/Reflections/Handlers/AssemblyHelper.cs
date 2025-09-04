@@ -5,9 +5,9 @@ namespace Reflections.Handlers;
 
 public class AssemblyHelper
 {
-    private readonly Utility _utility;
+    //private readonly Utility _utility;
 
-    public AssemblyHelper(Utility utility)
+    public AssemblyHelper()
     {
         this._utility = utility;
     }
@@ -64,72 +64,6 @@ public class AssemblyHelper
             return Result<object>.Failure($"Exception caught while invoking method : {ex.Message}");
         }
     }
-
-    /// <summary>
-    /// Attempts to change the value of specified property.
-    /// </summary>
-    /// <param name="typeInstance">Type instance of the specified property.</param>
-    /// <param name="propertyInfo">Target property to change its value.</param>
-    /// <param name="newValue">New value to be assigned for target property.</param>
-    /// <returns><see cref="Result{Assembly}"/> object indicating success with changing property value or failure with error message.</returns>
-    public Result<bool> ChangePropertyValue(object? typeInstance, PropertyInfo propertyInfo, string? newValue)
-    {
-        if (!propertyInfo.CanWrite)
-        {
-            return Result<bool>.Failure("Property is read only !");
-        }
-
-        try
-        {
-            Result<object?> convertedValue = this._utility.ConvertType(newValue, propertyInfo.PropertyType);
-            if (!convertedValue.IsSuccess)
-            {
-                return Result<bool>.Failure(convertedValue.ErrorMessage);
-            }
-
-            propertyInfo.SetValue(typeInstance, convertedValue.Value);
-            return Result<bool>.Success(true);
-        }
-        catch (NotSupportedException ex)
-        {
-            return Result<bool>.Failure(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            return Result<bool>.Failure(ex.Message);
-        }
-    }
-
-    //private object? HandleCreateTypeInstance(Type type)
-    //{
-    //    if (!type.IsInterface && !type.IsAbstract && type.GetConstructor(Type.EmptyTypes) != null && !type.ContainsGenericParameters)
-    //    {
-    //        try
-    //        {
-    //            object? typeInstance = Activator.CreateInstance(type);
-    //            return typeInstance;
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //        }
-    //    }
-    //    return null;
-    //}
-
-    //private object? ConvertParameter1(string? input, Type type)
-    //{
-    //    if (type == typeof(string))
-    //    {
-    //        return input;
-    //    }
-
-    //    if (type.IsPrimitive || type == typeof(decimal))
-    //    {
-    //        return Convert.ChangeType(input, type);
-    //    }
-
-    //    throw new NotSupportedException($"Type {type.Name} not supported");
-    //}
 
     public Result<object?> CreateTypeInstance(Type type)
     {

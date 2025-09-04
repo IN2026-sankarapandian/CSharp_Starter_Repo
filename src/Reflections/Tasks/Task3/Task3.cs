@@ -1,6 +1,7 @@
 ﻿using Reflections.Enums;
 using Reflections.Handlers;
 using Reflections.UserInterface;
+using Reflections.Validators;
 using System.Reflection;
 
 namespace Reflections.Tasks.Task2;
@@ -13,17 +14,19 @@ public class Task3 : ITask
     private readonly IUserInterface _userInterface;
     private readonly FormHandlers _formHandlers;
     private readonly AssemblyHelper _assemblyHelper;
+    private readonly Validator _validator;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task3"/> class.
     /// </summary>
     /// <param name="userInterface"> Provides operations to interact with user.</param>
     /// <param name="formHandlers"> Gets required data from user.</param>
-    public Task3(IUserInterface userInterface, FormHandlers formHandlers, AssemblyHelper assembly)
+    public Task3(IUserInterface userInterface, FormHandlers formHandlers, AssemblyHelper assembly, Validator validator)
     {
         this._userInterface = userInterface;
         this._formHandlers = formHandlers;
         this._assemblyHelper = assembly;
+        this._validator = validator;
     }
 
     /// <inheritdoc/>
@@ -78,7 +81,7 @@ public class Task3 : ITask
                         continue;
                     }
 
-                    MethodInfo methodinfo = this._formHandlers.GetTargetMethodInfo(methodInfos, "\nEnter which method to invoke : ");
+                    MethodInfo methodinfo = this._formHandlers.GetTargetMethodInfo(methodInfos, "\nEnter which method to invoke : ", this._validator.IsSupportedMethod);
                     Result<object?> typeInstance = this._assemblyHelper.CreateTypeInstance(type);
 
                     if (typeInstance.IsSuccess)

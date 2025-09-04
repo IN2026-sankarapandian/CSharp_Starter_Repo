@@ -147,7 +147,7 @@ public class FormHandlers
     /// </summary>
     /// <param name="type">Properties of this type is prompted to user to select.</param>
     /// <returns>Property info of property selected by user.</returns>
-    public PropertyInfo GetTargetPropertyInfo(Type type, string prompt)
+    public PropertyInfo GetTargetPropertyInfo(Type type, string prompt, Func<PropertyInfo, Result<bool>>? isSupported = null)
     {
         PropertyInfo[] propertyInfos = type.GetProperties();
         this._userInterface.DisplayTypeProperties(type, propertyInfos);
@@ -155,14 +155,22 @@ public class FormHandlers
         do
         {
             int propertyInfoIndex = this.GetIndex(propertyInfos.Length, prompt);
-            Result<bool> isSupportedParameter = this._validator.IsSupportedParameter(propertyInfos[propertyInfoIndex]);
-            if (isSupportedParameter.IsSuccess && isSupportedParameter.Value)
+            if (isSupported is not null)
+            {
+                Result<bool> isSupportedParameter = isSupported(propertyInfos[propertyInfoIndex]);
+                if (isSupportedParameter.IsSuccess && isSupportedParameter.Value)
+                {
+                    return propertyInfos[propertyInfoIndex];
+                }
+
+                this._userInterface.ShowMessage(MessageType.Warning, isSupportedParameter.ErrorMessage);
+            }
+            else
             {
                 return propertyInfos[propertyInfoIndex];
             }
-
-            this._userInterface.ShowMessage(MessageType.Warning, isSupportedParameter.ErrorMessage);
         }
+
         while (true);
     }
 
@@ -171,19 +179,26 @@ public class FormHandlers
     /// </summary>
     /// <param name="methodInfos">Methods info shown to the user to select.</param>
     /// <returns>Method info of method selected by user.</returns>
-    public MethodInfo GetTargetMethodInfo(MethodInfo[] methodInfos, string prompt)
+    public MethodInfo GetTargetMethodInfo(MethodInfo[] methodInfos, string prompt, Func<MethodInfo, bool>? isSupported = null)
     {
         this._userInterface.DisplayTypeMethods(methodInfos);
         int methodInfoIndex;
         do
         {
             methodInfoIndex = this.GetIndex(methodInfos.Length, "\nEnter which method to invoke : ");
-            if (this._validator.IsSupportedMethod(methodInfos[methodInfoIndex]))
+            if (isSupported is not null)
+            {
+                if (isSupported(methodInfos[methodInfoIndex]))
+                {
+                    return methodInfos[methodInfoIndex];
+                }
+
+                this._userInterface.ShowMessage(MessageType.Warning, "Method invoke for this method is not supported !");
+            }
+            else
             {
                 return methodInfos[methodInfoIndex];
             }
-
-            this._userInterface.ShowMessage(MessageType.Warning, "Method invoking for this method is not supported");
         }
         while (true);
     }
