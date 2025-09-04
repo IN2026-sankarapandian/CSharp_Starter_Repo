@@ -117,6 +117,7 @@ public class Task3 : ITask
         if (!arguments.IsSuccess)
         {
             this._userInterface.ShowMessage(MessageType.Warning, "Invalid arguments, method invoking failed !");
+            return;
         }
 
         // If there is no parameters, the method can be invoked otherwise arguments should not be null

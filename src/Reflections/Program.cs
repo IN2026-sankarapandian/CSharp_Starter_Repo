@@ -8,6 +8,8 @@ using Reflections.Tasks.Task1;
 using Reflections.Tasks.Task2;
 using Reflections.Tasks.Task4;
 using Reflections.UserInterface;
+using Reflections.Utilities;
+using Reflections.Validators;
 
 namespace Reflections;
 
@@ -26,6 +28,8 @@ public class Program
 
         services.AddSingleton<IUserInterface, ConsoleUI>();
         services.AddSingleton<FormHandlers>();
+        services.AddSingleton<Utility>();
+        services.AddSingleton<Validator>();
         services.AddSingleton<AssemblyHelper>();
         services.AddTransient<TaskManager>();
 

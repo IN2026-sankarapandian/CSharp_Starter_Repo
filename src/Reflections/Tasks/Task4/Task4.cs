@@ -1,7 +1,9 @@
-﻿using Reflections.Enums;
+﻿using Microsoft.CodeAnalysis.CSharp;
+using Reflections.Enums;
 using Reflections.Handlers;
 using Reflections.UserInterface;
 using System;
+using System.ComponentModel;
 using System.Reflection;
 using System.Reflection.Emit;
 
