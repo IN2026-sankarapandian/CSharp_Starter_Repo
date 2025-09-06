@@ -1,4 +1,5 @@
-﻿using Reflections.Enums;
+﻿using Reflections.Constants;
+using Reflections.Enums;
 using Reflections.Tasks;
 using Reflections.UserInterface;
 
@@ -30,15 +31,15 @@ public class TaskManager
     {
         while (true)
         {
-            this._userInterface.ShowMessage(MessageType.Title, "Advanced languages features");
+            this._userInterface.ShowMessage(MessageType.Title, Messages.ReflectionTitle);
             this.ShowMenuOptions();
 
-            this._userInterface.ShowMessage(MessageType.Prompt, "Enter which task to run : ");
+            this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterWhichTaskToRun);
             string? userInput = this._userInterface.GetInput()?.Trim();
 
             if (string.IsNullOrEmpty(userInput))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, "Input cannot be empty !");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.InputCannotEmpty);
                 Thread.Sleep(1000);
             }
             else if (int.TryParse(userInput, out var userChoice) && userChoice >= 1 && userChoice <= this._tasks.Count)
@@ -51,7 +52,7 @@ public class TaskManager
             }
             else
             {
-                this._userInterface.ShowMessage(MessageType.Warning, "Enter a valid option !");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
                 Thread.Sleep(1000);
             }
         }
@@ -67,6 +68,6 @@ public class TaskManager
             this._userInterface.ShowMessage(MessageType.Information, string.Format("{0}. {1}", i + 1, this._tasks[i].Name));
         }
 
-        this._userInterface.ShowMessage(MessageType.Information, string.Format("{0}. Exit", this._tasks.Count + 1));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format("{0}. {1}", this._tasks.Count + 1, Messages.Exit));
     }
 }

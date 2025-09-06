@@ -1,9 +1,10 @@
-﻿using Reflections.Handlers;
+﻿using Reflections.Constants;
+using Reflections.Handlers;
 
 namespace Reflections.Utilities;
 
 /// <summary>
-/// Provide utilities methods required for dynamic assembly.
+/// Provide utilities methods required for reflection based operations.
 /// </summary>
 public class Utility
 {
@@ -34,6 +35,6 @@ public class Utility
             }
         }
 
-        return Result<object?>.Failure($"Type {type.Name} not supported");
+        return Result<object?>.Failure(string.Format(Messages.TypeNotSupported, type.Name));
     }
 }

@@ -2,11 +2,11 @@
 using Microsoft.Extensions.DependencyInjection;
 using Reflections.Enums;
 using Reflections.Handlers;
+using Reflections.Helpers;
 using Reflections.TaskManagers;
 using Reflections.Tasks;
-using Reflections.Tasks.Task1;
-using Reflections.Tasks.Task2;
-using Reflections.Tasks.Task4;
+using Reflections.Tasks.Task6;
+using Reflections.Tasks.Task7;
 using Reflections.UserInterface;
 using Reflections.Utilities;
 using Reflections.Validators;
@@ -24,61 +24,29 @@ public class Program
     public static void Main()
     {
         ServiceCollection services = new ();
-        Type taskInterface = typeof(ITask);
 
         services.AddSingleton<IUserInterface, ConsoleUI>();
-        services.AddSingleton<FormHandlers>();
-        services.AddSingleton<Utility>();
-        services.AddSingleton<Validator>();
         services.AddSingleton<AssemblyHelper>();
-        services.AddTransient<TaskManager>();
+        services.AddTransient<PluginHandler>();
 
-        ServiceProvider serviceProvider = services.BuildServiceProvider();
-        IUserInterface? userInterface = serviceProvider.GetService<IUserInterface>();
-
-        string rootPath = Path.GetFullPath("../../../TaskPlugins/");
-        List<Assembly> assemblies = new List<Assembly>();
-        foreach (string dllPath in Directory.GetFiles(rootPath, "*.dll"))
+        // Adding plugin tasks
+        using (var tempServiceProvider = services.BuildServiceProvider())
         {
-            try
-            {
-                Assembly assembly = Assembly.LoadFile(dllPath);
-                assemblies.Add(assembly);
-
-                IUserInterface co = new ConsoleUI();
-                Type? taskImplementation = assembly.GetTypes().Where(type => type.IsClass && type.Name == "Task").FirstOrDefault();
-                if (taskImplementation is not null)
-                {
-                    //services.AddTransient(taskInterface, taskImplementation);
-                }
-
-                userInterface.ShowMessage(MessageType.Prompt, assembly.FullName + " Loaded Successfully");
-            }
-            catch (FileNotFoundException)
-            {
-                userInterface.ShowMessage(MessageType.Prompt, "No file exists in the specified path !");
-            }
-            catch (BadImageFormatException)
-            {
-                userInterface.ShowMessage(MessageType.Prompt, "The file is not a valid .NET assembly !");
-            }
-            catch (FileLoadException ex)
-            {
-                userInterface.ShowMessage(MessageType.Prompt, string.Format("The file can't be load {0}", ex.Message));
-            }
+            PluginHandler? pluginHandler = tempServiceProvider.GetService<PluginHandler>();
+            pluginHandler?.LoadPlugins(services);
         }
 
-        //Thread.Sleep(2000);
+        services.AddSingleton<FormHandler>();
+        services.AddSingleton<Utility>();
+        services.AddSingleton<Validator>();
+        services.AddTransient<TaskManager>();
 
-        services.AddTransient<ITask, Task1>();
-        services.AddTransient<ITask, Task2>();
-        services.AddTransient<ITask, Task3>();
-        services.AddTransient<ITask, Task4>();
-        services.AddTransient<ITask, Task6>();
+        // Adding built in tasks
+        services.AddTransient<ITask, MockingFrameworkTask>();
+        services.AddTransient<ITask, SerializationAPI>();
 
-        serviceProvider = services.BuildServiceProvider();
-
-        TaskManager? taskManager = serviceProvider.GetService<TaskManager>();
+        ServiceProvider serviceProvider = services.BuildServiceProvider();
+        TaskManager? taskManager = serviceProvider.GetRequiredService<TaskManager>();
         taskManager?.HandleMenu();
         Console.ReadKey();
     }

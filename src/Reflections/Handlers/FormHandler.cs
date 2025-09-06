@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using Microsoft.CodeAnalysis.CSharp;
+using Reflections.Constants;
 using Reflections.Enums;
 using Reflections.UserInterface;
 using Reflections.Utilities;
@@ -7,17 +7,22 @@ using Reflections.Validators;
 
 namespace Reflections.Handlers;
 
-public class FormHandlers
+/// <summary>
+/// Provides method for user input handling.
+/// </summary>
+public class FormHandler
 {
     private readonly IUserInterface _userInterface;
     private readonly Validator _validator;
     private readonly Utility _utility;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="FormHandlers"/> class.
+    /// Initializes a new instance of the <see cref="FormHandler"/> class.
     /// </summary>
-    /// <param name="userInterface"></param>
-    public FormHandlers(IUserInterface userInterface, Validator validator, Utility utility)
+    /// <param name="userInterface">Provides operations to interact with user.</param>
+    /// <param name="validator">Provide validation methods</param>
+    /// <param name="utility">Provide utilities to manipulate type for reflection based methods.</param>
+    public FormHandler(IUserInterface userInterface, Validator validator, Utility utility)
     {
         this._userInterface = userInterface;
         this._validator = validator;
@@ -37,7 +42,7 @@ public class FormHandlers
             string? userInput = Console.ReadLine();
             if (string.IsNullOrEmpty(userInput))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, "Input cannot be empty !");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.InputCannotEmpty);
             }
             else
             {
@@ -55,16 +60,16 @@ public class FormHandlers
     {
         do
         {
-            this._userInterface.ShowMessage(MessageType.Prompt, "Enter a path of the file to inspect : ");
+            this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterPath);
             string? path = Console.ReadLine();
 
             if (string.IsNullOrEmpty(path))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, "Input cannot be empty !");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.InputCannotEmpty);
             }
             else if (!File.Exists(path))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, "No file exists in the specified path !");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.NoFileExists);
             }
             else
             {
@@ -78,6 +83,7 @@ public class FormHandlers
     /// Gets value index of any set of values from the user.
     /// </summary>
     /// <param name="valuesLength">Total length of the values.</param>
+    /// <param name="prompt">Prompt shown to the user</param>
     /// <returns>Index given by user.</returns>
     public int GetIndex(int valuesLength, string prompt)
     {
@@ -90,13 +96,14 @@ public class FormHandlers
                 return indexValue - 1;
             }
 
-            this._userInterface.ShowMessage(MessageType.Warning, "Enter a valid index !");
+            this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidIndex);
         }
         while (true);
     }
 
     /// <summary>
     /// Gets the arguments from user for specified parameters.
+    /// Arguments are recieved as string from user and converted to respective parameter types using utilities.
     /// </summary>
     /// <param name="parameters">Parameters to get argument from user.</param>
     /// <returns>Arguments given by the user</returns>
@@ -109,7 +116,7 @@ public class FormHandlers
             {
                 do
                 {
-                    string userInput = this.GetUserInput(string.Format("Enter value for parameter {0}({1}) : ", parameters[i].Name, parameters[i].ParameterType.Name));
+                    string userInput = this.GetUserInput(string.Format(Messages.EnterArgumentValue, parameters[i].Name, parameters[i].ParameterType.Name));
                     Result<object?> argument = this._utility.ConvertType(userInput, parameters[i].ParameterType);
                     if (argument.IsSuccess)
                     {
@@ -131,21 +138,50 @@ public class FormHandlers
     }
 
     /// <summary>
-    /// Prompts the user to select the type from the listed available types and return the selected type.
+    /// Displays all the available types and prompts the user and return the type selected by user.
     /// </summary>
     /// <param name="types">Available types.</param>
+    /// <param name="prompt">Prompt shown to the user.</param>
+    /// <param name="isSupported">
+    /// Optional delegate that validates whether a type is supported.
+    /// It should return a <see cref="Result{Boolean}"/> indicating success if the type can be selected
+    /// or failure with an error message if the type is not allowed.
+    /// </param>
     /// <returns>Type selected by user.</returns>
-    public Type GetTargetType(Type[] types, string prompt)
+    public Type GetTargetType(Type[] types, string prompt, Func<Type, Result<bool>>? isSupported = null)
     {
         this._userInterface.DisplayTypes(types);
-        int typeIndex = this.GetIndex(types.Length, prompt);
-        return types[typeIndex];
+        do
+        {
+            int typeIndex = this.GetIndex(types.Length, prompt);
+            if (isSupported is not null)
+            {
+                Result<bool> isSupportedType = isSupported(types[typeIndex]);
+                if (isSupportedType.IsSuccess && isSupportedType.Value)
+                {
+                    return types[typeIndex];
+                }
+
+                this._userInterface.ShowMessage(MessageType.Warning, isSupportedType.ErrorMessage);
+            }
+            else
+            {
+                return types[typeIndex];
+            }
+        }
+        while (true);
     }
 
     /// <summary>
     /// Prompts the user to select the property from the listed available properties and return the selected property info.
     /// </summary>
     /// <param name="type">Properties of this type is prompted to user to select.</param>
+    /// <param name="prompt">Prompt shown to the user.</param>
+    /// <param name="isSupported">
+    /// Optional delegate that validates whether a property is supported.
+    /// It should return a <see cref="Result{Boolean}"/> indicating success if the property can be selected
+    /// or failure with an error message if the type is not allowed.
+    /// </param>
     /// <returns>Property info of property selected by user.</returns>
     public PropertyInfo GetTargetPropertyInfo(Type type, string prompt, Func<PropertyInfo, Result<bool>>? isSupported = null)
     {
@@ -170,7 +206,6 @@ public class FormHandlers
                 return propertyInfos[propertyInfoIndex];
             }
         }
-
         while (true);
     }
 
@@ -178,6 +213,12 @@ public class FormHandlers
     /// Prompts the user to select the method from the listed available methods and return the selected method info.
     /// </summary>
     /// <param name="methodInfos">Methods info shown to the user to select.</param>
+    /// <param name="prompt">Prompt shown to the user.</param>
+    /// <param name="isSupported">
+    /// Optional delegate that validates whether a method is supported.
+    /// It should return a <see cref="Result{Boolean}"/> indicating success if the method can be selected
+    /// or failure with an error message if the type is not allowed.
+    /// </param>
     /// <returns>Method info of method selected by user.</returns>
     public MethodInfo GetTargetMethodInfo(MethodInfo[] methodInfos, string prompt, Func<MethodInfo, bool>? isSupported = null)
     {
@@ -185,7 +226,7 @@ public class FormHandlers
         int methodInfoIndex;
         do
         {
-            methodInfoIndex = this.GetIndex(methodInfos.Length, "\nEnter which method to invoke : ");
+            methodInfoIndex = this.GetIndex(methodInfos.Length, prompt);
             if (isSupported is not null)
             {
                 if (isSupported(methodInfos[methodInfoIndex]))
@@ -193,7 +234,7 @@ public class FormHandlers
                     return methodInfos[methodInfoIndex];
                 }
 
-                this._userInterface.ShowMessage(MessageType.Warning, "Method invoke for this method is not supported !");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.MethodInvokeNotSupported);
             }
             else
             {
@@ -220,7 +261,7 @@ public class FormHandlers
             }
             else
             {
-                continue;
+                return userInput;
             }
         }
         while (true);

@@ -1,17 +1,14 @@
 ﻿using System.Reflection;
-using Reflections.Utilities;
+using Reflections.Constants;
+using Reflections.Handlers;
 
-namespace Reflections.Handlers;
+namespace Reflections.Helpers;
 
+/// <summary>
+/// Provide helper methods to manipulate and work assembly and it related types.
+/// </summary>
 public class AssemblyHelper
 {
-    //private readonly Utility _utility;
-
-    public AssemblyHelper()
-    {
-        this._utility = utility;
-    }
-
     /// <summary>
     /// Attempts to load the assembly in specified path.
     /// </summary>
@@ -26,15 +23,15 @@ public class AssemblyHelper
         }
         catch (FileNotFoundException)
         {
-            return Result<Assembly>.Failure("No file exists in the specified path !");
+            return Result<Assembly>.Failure(Messages.NoFileExists);
         }
         catch (BadImageFormatException)
         {
-            return Result<Assembly>.Failure("The file is not a valid .NET assembly !");
+            return Result<Assembly>.Failure(Messages.NotValidAssembly);
         }
         catch (FileLoadException ex)
         {
-            return Result<Assembly>.Failure($"The file can't be load {ex.Message}");
+            return Result<Assembly>.Failure(string.Format(Messages.FileCantLoaded, ex.Message));
         }
     }
 
@@ -45,7 +42,7 @@ public class AssemblyHelper
     /// <param name="method">Method info of method to invoke.</param>
     /// <param name="arguments">Arguments to the method</param>
     /// <returns><see cref="Result{Assembly}"/> object indicating success with invoking method or failure with error message.</returns>
-    public Result<object> InvokeMethod(object instance, MethodInfo method, object?[]? arguments)
+    public Result<object?> InvokeMethod(object instance, MethodInfo method, object?[] ? arguments)
     {
         try
         {
@@ -54,55 +51,44 @@ public class AssemblyHelper
 
             if (method.ReturnType != typeof(void))
             {
-                return Result<object>.Success(result);
+                return Result<object?>.Success(result);
             }
 
-            return Result<object>.Success(null);
+            return Result<object?>.Success(null);
         }
         catch (Exception ex)
         {
-            return Result<object>.Failure($"Exception caught while invoking method : {ex.Message}");
+            return Result<object?>.Failure(string.Format(Messages.ExceptionCaught, ex.Message));
         }
     }
 
-    public Result<object?> CreateTypeInstance(Type type)
+    /// <summary>
+    /// Attempts to create a new instance of given type.
+    /// </summary>
+    /// <param name="type">Type of the object to create instance for.</param>
+    /// <returns><see cref="Result{Assembly}"/> object indicating success with creating instance or failure with error message.</returns>
+    public Result<object> CreateTypeInstance(Type type)
     {
         if (!type.IsInterface && !type.IsAbstract && type.GetConstructor(Type.EmptyTypes) != null && !type.ContainsGenericParameters)
         {
             try
             {
                 object? typeInstance = Activator.CreateInstance(type);
-                return Result<object?>.Success(typeInstance);
+                if (typeInstance is not null)
+                {
+                    return Result<object>.Success(typeInstance);
+                }
+                else
+                {
+                    return Result<object>.Failure(Messages.NullInstance);
+                }
             }
             catch (Exception ex)
             {
-                return Result<object?>.Failure($"Unexpected error got while creating instance for type : {type.Name} error : {ex}");
+                return Result<object>.Failure(string.Format(Messages.ExceptionCaught, ex.Message));
             }
         }
 
-        return Result<object?>.Failure("Type can't be initiated, so unable to edit values !");
-    }
-
-    private Result<object?> ConvertParameter(string? input, Type type)
-    {
-        if (type == typeof(string))
-        {
-            return Result<object?>.Success(input);
-        }
-
-        if (type.IsPrimitive || type == typeof(decimal))
-        {
-            try
-            {
-                object? converted = Convert.ChangeType(input, type);
-                return Result<object?>.Success(converted);
-            }
-            catch (Exception ex)
-            {
-                return Result<object?>.Failure(ex.Message);
-            }
-        }
-
-        return Result<object?>.Failure($"Type {type.Name} not supported");
+        return Result<object>.Failure(Messages.TypeCantInitiated);
     }
 }

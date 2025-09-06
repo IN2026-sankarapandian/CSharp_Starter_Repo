@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using ConsoleTables;
+using Reflections.Constants;
 using Reflections.Enums;
 
 namespace Reflections.UserInterface;
@@ -47,7 +48,7 @@ public class ConsoleUI : IUserInterface
     {
         if (types.Length != 0)
         {
-            ConsoleTable typesTable = new ConsoleTable("Index", "Name", "Namespace");
+            ConsoleTable typesTable = new ConsoleTable(Messages.Index, Messages.Name, Messages.Namespace);
             for (int index = 0; index < types.Length; index++)
             {
                 typesTable.AddRow(
@@ -60,7 +61,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine("No types exist");
+            Console.WriteLine(Messages.NoTypeExists);
         }
     }
 
@@ -69,7 +70,7 @@ public class ConsoleUI : IUserInterface
     {
         if (properties.Length != 0)
         {
-            ConsoleTable typesTable = new ConsoleTable("Index", "Name", "Property Type", "Value");
+            ConsoleTable typesTable = new ConsoleTable(Messages.Index, Messages.Name, Messages.PropertyType, Messages.Value);
 
             object? typeInstance = null;
             if (!type.IsInterface && !type.IsAbstract && type.GetConstructor(Type.EmptyTypes) != null && !type.ContainsGenericParameters)
@@ -78,14 +79,14 @@ public class ConsoleUI : IUserInterface
                 {
                     typeInstance = Activator.CreateInstance(type);
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine($"Type instantiation failed");
+                    Console.WriteLine(Messages.TypeInstatiationFailed);
                 }
             }
             else
             {
-                Console.WriteLine("Type can't be initiated, so unable to get values.");
+                Console.WriteLine(Messages.CantGetValues);
             }
 
             for (int index = 0; index < properties.Length; index++)
@@ -93,11 +94,11 @@ public class ConsoleUI : IUserInterface
                 object? value = "N/A";
                 if (properties[index].GetMethod?.IsStatic == true)
                 {
-                    value = properties[index].GetValue(null) ?? "null";
+                    value = properties[index].GetValue(null) ?? Messages.Null;
                 }
                 else if (typeInstance != null)
                 {
-                    value = properties[index].GetValue(typeInstance) ?? "null";
+                    value = properties[index].GetValue(typeInstance) ?? Messages.Null;
                     }
 
                 typesTable.AddRow(
@@ -111,7 +112,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine("No properties exist");
+            Console.WriteLine(Messages.NoPropertyExists);
         }
     }
 
@@ -120,7 +121,7 @@ public class ConsoleUI : IUserInterface
     {
         if (fields.Length != 0)
         {
-            ConsoleTable typesTable = new ConsoleTable("Index", "Name", "Value");
+            ConsoleTable typesTable = new ConsoleTable(Messages.Index, Messages.Name, Messages.Value);
             for (int index = 0; index < fields.Length; index++)
             {
                 typesTable.AddRow(
@@ -133,7 +134,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine("No fields exists");
+            Console.WriteLine(Messages.NoFieldExists);
         }
     }
 
@@ -142,7 +143,7 @@ public class ConsoleUI : IUserInterface
     {
         if (methods.Length != 0)
         {
-            ConsoleTable typesTable = new ConsoleTable("Index", "Name", "Return type", "Parameters");
+            ConsoleTable typesTable = new ConsoleTable(Messages.Index, Messages.Name, Messages.ReturnType, Messages.Parameters);
             for (int index = 0; index < methods.Length; index++)
             {
                 ParameterInfo[] parametersInfo = methods[index].GetParameters();
@@ -152,14 +153,14 @@ public class ConsoleUI : IUserInterface
                     index + 1,
                     methods[index].Name,
                     methods[index].ReturnType,
-                    string.Join(", ", parameters) ?? "empty");
+                    string.Join(", ", parameters) ?? Messages.Empty);
             }
 
             typesTable.Write();
         }
         else
         {
-            Console.WriteLine("No methods exists");
+            Console.WriteLine(Messages.NoMethodExists);
         }
     }
 
@@ -168,7 +169,7 @@ public class ConsoleUI : IUserInterface
     {
         if (events.Length != 0)
         {
-            ConsoleTable typesTable = new ConsoleTable("Index", "Name");
+            ConsoleTable typesTable = new ConsoleTable(Messages.Index, Messages.Name);
             for (int index = 0; index < events.Length; index++)
             {
                 typesTable.AddRow(
@@ -180,7 +181,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine(  "No events exists");
+            Console.WriteLine(Messages.NoEventExists);
         }
     }
 }

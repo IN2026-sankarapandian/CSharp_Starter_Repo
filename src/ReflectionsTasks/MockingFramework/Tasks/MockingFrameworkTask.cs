@@ -1,37 +1,23 @@
-﻿using Reflections.Enums;
-using Reflections.Handlers;
-using Reflections.UserInterface;
-using System;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Reflection.Emit;
+using Reflections.Enums;
+using Reflections.Handlers;
+using Reflections.Tasks;
+using Reflections.UserInterface;
 
-namespace Reflections.Tasks.Task4;
+namespace MockingFramework.Tasks;
 
 /// <summary>
 /// Its an dynamic type builder used to create assemblies
 /// </summary>
-public class Task6 : ITask
+public class MockingFrameworkTask
 {
-    private readonly IUserInterface _userInterface;
-    private readonly FormHandlers _formHandlers;
-
     /// <summary>
-    /// Initializes a new instance of the <see cref="Task6"/> class.
+    /// Creates and return a mock type.
     /// </summary>
-    /// <param name="userInterface"> Provides operations to interact with user.</param>
-    public Task6(IUserInterface userInterface, FormHandlers formHandlers)
+    /// <returns>Mock type created.</returns>
+    public Type? CreateMockType()
     {
-        this._userInterface = userInterface;
-        this._formHandlers = formHandlers;
-    }
-
-    /// <inheritdoc/>
-    public string Name => "Mocking Framework";
-
-    /// <inheritdoc/>
-    public void Run()
-    {
-        this._userInterface.ShowMessage(MessageType.Title, this.Name);
         Type interfaceType = typeof(ITask);
 
         AssemblyName assemblyName = new AssemblyName("FrameworkMock");
@@ -76,17 +62,10 @@ public class Task6 : ITask
         MethodInfo? runAtInterface = interfaceType.GetMethod("Run");
         if (runAtInterface is not null)
         {
-            typeBuilder.DefineMethodOverride(runMethod, interfaceType.GetMethod("Run"));
+            typeBuilder.DefineMethodOverride(runMethod, runAtInterface);
         }
 
         Type? mockType = typeBuilder.CreateType();
-        if (mockType is not null)
-        {
-            ITask obj = (ITask)Activator.CreateInstance(mockType)!;
-            obj.Run();
-            Console.WriteLine(obj.Name);
-        }
-
-        Console.ReadKey();
+        return mockType;
     }
 }
