@@ -1,6 +1,6 @@
 ﻿# Reflections
 
-In the assignment I have learned about the use of reflection and implemented via tasks given in the assignment. I 
+In this assignment, I have learned about the use of reflection and implemented via tasks given in the assignment. I 
 have developed this as a single console app which accepts plugins for each task. 
 
 - Main app provide all the required methods to interact with user, form handler, utilities, assembly helpers.
@@ -8,9 +8,8 @@ have developed this as a single console app which accepts plugins for each task.
 - `formHandlers` provide methods to get assembly related from user like path, type, properties, arguments etc. It also allows filters to restrict user asking for unsupported types.
 - `AssemblyHelper` provide methods to handle assembly related things like loading a assembly, invoking a method, creating a instance.
 - It also provide a template for task plugin through interface `ITask`, each task class implementing `ITask` represents a subtask from assignment which can be added as a plugin to the main app.
-- Plugins can use all the classes provided by main app.
+- Plugins can only use all the service classes provided by main app, it cant have create any service classes outside the task type.
 
-- 
 
 ## Task 1: Inspect Assembly Metadata 
 
@@ -57,4 +56,10 @@ I have developed this entire assignments in this way, here each task is consider
 
 ## Task 7: Serialization API
 
-- 
+- This task also added with the main project
+- This task demonstrates the limitation and advantages of reflection and reflection emit
+- It performs serialization with timer to see the performance difference
+- When using just reflection it took some time to serialize every time
+- But when using emit with op codes it only took more time on first time, and for further serialization the results was way more faster.
+
+![screenshot](Assets/taskScreenshot.png)
