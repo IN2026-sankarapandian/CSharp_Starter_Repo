@@ -1,4 +1,5 @@
-﻿using FilesAndStreams.Enums;
+﻿using FilesAndStreams.Constants;
+using FilesAndStreams.Enums;
 using FilesAndStreams.Tasks;
 using FilesAndStreams.UserInterface;
 
@@ -12,15 +13,14 @@ public class App
     /// <summary>
     /// Its an entry point of files and streams app.
     /// </summary>
-    /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
-    public static async Task Main()
+    public static void Main()
     {
         ConsoleUI consoleUI = new ();
         do
         {
-            consoleUI.ShowMessage(MessageType.Title, "Files and streams");
-            consoleUI.ShowMessage(MessageType.Information, "1. Task 1\n2. Task 2\n3. Task 3\n4. Task 4\n5. Exit");
-            consoleUI.ShowMessage(MessageType.Prompt, "Enter which task to run : ");
+            consoleUI.ShowMessage(MessageType.Title, Messages.FileAndStreams);
+            consoleUI.ShowMessage(MessageType.Information, Messages.TaskOptions);
+            consoleUI.ShowMessage(MessageType.Prompt, Messages.EnterTaskToRun);
             string? userInput = consoleUI.GetInput();
             switch (userInput)
             {
@@ -39,7 +39,7 @@ public class App
                 case "5":
                     return;
                 default:
-                    consoleUI.ShowMessage(MessageType.Information, "Enter a valid option !");
+                    consoleUI.ShowMessage(MessageType.Information, Messages.EnterValidOption);
                     break;
             }
         }

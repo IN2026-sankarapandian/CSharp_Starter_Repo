@@ -42,7 +42,12 @@ public class Task3
         string data = FileResources.SampleData;
         Stopwatch stopwatch = new ();
         stopwatch.Start();
-        using (FileStream fileStream = new (path, FileMode.Create, FileAccess.Write, FileShare.None, bufferSize: 1024 * 16))
+        using (FileStream fileStream = new (
+            path,
+            FileMode.Create,
+            FileAccess.Write,
+            FileShare.None,
+            bufferSize: 1024 * 16))
         {
             byte[] buffer = Encoding.ASCII.GetBytes(data);
             fileStream.Write(buffer, 0, buffer.Length);

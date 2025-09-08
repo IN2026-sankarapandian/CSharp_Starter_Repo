@@ -56,7 +56,9 @@ public class Task4
         Stopwatch watch1 = Stopwatch.StartNew();
         lock (_lock)
         {
-            string errorFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, string.Format(FileResources.ErrorLogFileName, userID));
+            string errorFilePath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                string.Format(FileResources.ErrorLogFileName, userID));
             using FileStream fileStream = new (errorFilePath, FileMode.Append);
             byte[] error = Encoding.UTF8.GetBytes(message);
             fileStream.Write(error, 0, error.Length);

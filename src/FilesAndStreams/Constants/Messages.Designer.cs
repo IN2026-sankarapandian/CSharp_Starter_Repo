@@ -88,11 +88,38 @@ namespace FilesAndStreams.Constants {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter which task to run : .
+        /// </summary>
+        public static string EnterTaskToRun {
+            get {
+                return ResourceManager.GetString("EnterTaskToRun", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter a valid option !.
+        /// </summary>
+        public static string EnterValidOption {
+            get {
+                return ResourceManager.GetString("EnterValidOption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Simulated multiple users logging errors at the same time. Check bin for generated error log files..
         /// </summary>
         public static string ErrorLogFilesSimulated {
             get {
                 return ResourceManager.GetString("ErrorLogFilesSimulated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Files and streams.
+        /// </summary>
+        public static string FileAndStreams {
+            get {
+                return ResourceManager.GetString("FileAndStreams", resourceCulture);
             }
         }
         
@@ -138,6 +165,15 @@ namespace FilesAndStreams.Constants {
         public static string SampleFileCreationStarted {
             get {
                 return ResourceManager.GetString("SampleFileCreationStarted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. Task 1\n2. Task 2\n3. Task 3\n4. Task 4\n5. Exit.
+        /// </summary>
+        public static string TaskOptions {
+            get {
+                return ResourceManager.GetString("TaskOptions", resourceCulture);
             }
         }
         

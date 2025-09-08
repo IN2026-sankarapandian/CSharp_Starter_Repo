@@ -33,21 +33,55 @@ public class Task1
         string filePath1 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 1));
         string filePath2 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 2));
 
-        Console.Clear();
+        this.HandleCreateSampleFiles(filePath1, filePath2);
+        this.HandleReadSampleFiles(filePath1);
+        this.HandleCreateFilteredFile(rootPath, filePath1);
+
+        this._consoleUI.SetCursorPosition(12);
+        this._consoleUI.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 1));
+        this._consoleUI.GetInput();
+    }
+
+    /// <summary>
+    /// It will create sample files needed for the task
+    /// </summary>
+    /// <param name="filePath1">Path to create sample file 1.</param>
+    /// <param name="filePath2">Path to create sample file 2.</param>
+    private void HandleCreateSampleFiles(string filePath1, string filePath2)
+    {
         this._consoleUI.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 1));
         this._consoleUI.ShowMessage(MessageType.Information, Messages.SampleFileCreationStarted);
         this.CreateLargeTextFile(filePath1, FileResources.TargetSize, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 1), progress, 2, elapsedTime));
+            => this._consoleUI.DrawProgressBar(
+                string.Format(Messages.CreatingSampleFile, 1), progress, 2, elapsedTime));
         this.CreateLargeTextFile(filePath2, FileResources.TargetSize, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 2), progress, 3, elapsedTime));
+            => this._consoleUI.DrawProgressBar(
+                string.Format(Messages.CreatingSampleFile, 2), progress, 3, elapsedTime));
+    }
 
+    /// <summary>
+    /// Read the sample files with different streams
+    /// </summary>
+    /// <param name="filePath1">Path of the file to read.</param>
+    private void HandleReadSampleFiles(string filePath1)
+    {
         this._consoleUI.SetCursorPosition(5);
         this._consoleUI.ShowMessage(MessageType.Information, Messages.ReadingSampleFiles);
         this.ReadFileInChunks(FileReader.FileStream, filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, 6, elapsedTime));
-        this.ReadFileInChunks(FileReader.BufferedStream, filePath2, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, 7, elapsedTime));
+            => this._consoleUI.DrawProgressBar(
+                string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, 6, elapsedTime));
+        this.ReadFileInChunks(FileReader.BufferedStream, filePath1, (progress, elapsedTime)
+            => this._consoleUI.DrawProgressBar(
+                string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, 7, elapsedTime));
+    }
 
+    /// <summary>
+    /// Filter the given data by temperature and write the filtered data in new file.
+    /// </summary>
+    /// <param name="rootPath">Root path to save the file.</param>
+    /// <param name="filePath1">Path of the file to filter.</param>
+    private void HandleCreateFilteredFile(string rootPath, string filePath1)
+    {
         this._consoleUI.SetCursorPosition(9);
         this._consoleUI.ShowMessage(MessageType.Information, Messages.FileProcessingStarted);
         string content = this.ReadFile(filePath1, (progress, elapsedTime)
@@ -56,10 +90,6 @@ public class Task1
         string filteredFilePath = Path.Combine(rootPath, FileResources.SampleFilteredMachineDataFileName);
         this.WriteData(filteredFilePath, filteredContent, (progress, elapsedTime)
             => this._consoleUI.DrawProgressBar(Messages.WritingProcessedData, progress, 11, elapsedTime));
-        this._consoleUI.SetCursorPosition(12);
-
-        this._consoleUI.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 1));
-        this._consoleUI.GetInput();
     }
 
     /// <summary>
@@ -78,8 +108,13 @@ public class Task1
 
         Random random = new ();
 
-        using FileStream writer =
-            new (filePath, FileMode.Create, FileAccess.Write, FileShare.None, FileResources.BufferSize, useAsync: false);
+        using FileStream writer = new (
+            filePath,
+            FileMode.Create,
+            FileAccess.Write,
+            FileShare.None,
+            FileResources.BufferSize,
+            useAsync: false);
         decimal currentSize = 0;
         int currentLine = 0;
         DateTime startTime = DateTime.Now;
@@ -186,7 +221,11 @@ public class Task1
     private string ReadFile(string filePath, Action<int, long>? progressCallBack = null)
     {
         StringBuilder content = new ();
-        using (FileStream fileStream = new (filePath, FileMode.Open, FileAccess.Read, FileShare.None))
+        using (FileStream fileStream = new (
+            filePath,
+            FileMode.Open,
+            FileAccess.Read,
+            FileShare.None))
         {
             decimal totalSize = fileStream.Length;
             using StreamReader reader = new (fileStream);

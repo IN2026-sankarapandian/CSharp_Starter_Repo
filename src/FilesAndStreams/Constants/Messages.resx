@@ -126,8 +126,17 @@
   <data name="Elapsedtime" xml:space="preserve">
     <value>Elapsed time: {0} ms</value>
   </data>
+  <data name="EnterTaskToRun" xml:space="preserve">
+    <value>Enter which task to run : </value>
+  </data>
+  <data name="EnterValidOption" xml:space="preserve">
+    <value>Enter a valid option !</value>
+  </data>
   <data name="ErrorLogFilesSimulated" xml:space="preserve">
     <value>Simulated multiple users logging errors at the same time. Check bin for generated error log files.</value>
+  </data>
+  <data name="FileAndStreams" xml:space="preserve">
+    <value>Files and streams</value>
   </data>
   <data name="FileProcessingStarted" xml:space="preserve">
     <value>File processing started</value>
@@ -143,6 +152,9 @@
   </data>
   <data name="SampleFileCreationStarted" xml:space="preserve">
     <value>Sample files creation started</value>
+  </data>
+  <data name="TaskOptions" xml:space="preserve">
+    <value>1. Task 1\n2. Task 2\n3. Task 3\n4. Task 4\n5. Exit</value>
   </data>
   <data name="TaskTitle" xml:space="preserve">
     <value>Task {0}</value>
