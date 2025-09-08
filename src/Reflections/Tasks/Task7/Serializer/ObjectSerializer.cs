@@ -22,12 +22,12 @@ public class ObjectSerializer
         StringBuilder stringBuilder = new StringBuilder("{\n");
         foreach (FieldInfo field in fields)
         {
-            stringBuilder.AppendLine($"{field.Name} : {field.GetValue(obj).ToString()},");
+            stringBuilder.AppendLine($"{field.Name} : {field.GetValue(obj)?.ToString()},");
         }
 
         foreach (PropertyInfo property in props)
         {
-            stringBuilder.AppendLine($"{property.Name} : {property.GetValue(obj).ToString()}");
+            stringBuilder.AppendLine($"{property.Name} : {property.GetValue(obj)?.ToString()}");
         }
 
         stringBuilder.AppendLine("}");
@@ -50,61 +50,71 @@ public class ObjectSerializer
             new Type[] { typeof(object) },
             typeof(ObjectSerializer).Module);
 
-        Type stringBuilderType = typeof(StringBuilder);
+        Type? stringBuilderType = typeof(StringBuilder);
         MethodInfo? appendInfo = stringBuilderType.GetMethod("Append", new Type[] { typeof(string) });
         MethodInfo? toString = stringBuilderType.GetMethod("ToString", Type.EmptyTypes);
         ILGenerator iLGenerator = dynamicMethod.GetILGenerator();
 
-        LocalBuilder localBuilder = iLGenerator.DeclareLocal(stringBuilderType);
-        iLGenerator.Emit(OpCodes.Newobj, stringBuilderType.GetConstructor(Type.EmptyTypes));
-        iLGenerator.Emit(OpCodes.Stloc, localBuilder);
-        iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
-        iLGenerator.Emit(OpCodes.Ldstr, "{\n");
-        iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
-        iLGenerator.Emit(OpCodes.Pop);
+        string result = string.Empty;
 
-        foreach (PropertyInfo property in props)
+        if (stringBuilderType is not null && appendInfo is not null && toString is not null)
         {
-            string propName = $"{property.Name} : ";
-            string propValue = $"{property.GetValue(obj).ToString()},\n";
+            LocalBuilder localBuilder = iLGenerator.DeclareLocal(stringBuilderType);
+            iLGenerator.Emit(OpCodes.Newobj, stringBuilderType.GetConstructor(Type.EmptyTypes));
+            iLGenerator.Emit(OpCodes.Stloc, localBuilder);
+            iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
+            iLGenerator.Emit(OpCodes.Ldstr, "{\n");
+            iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
+            iLGenerator.Emit(OpCodes.Pop);
+
+            foreach (PropertyInfo property in props)
+            {
+                string propName = $"{property.Name} : ";
+                string propValue = $"{property.GetValue(obj)?.ToString()},\n";
+
+                iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
+                iLGenerator.Emit(OpCodes.Ldstr, propName);
+                iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
+                iLGenerator.Emit(OpCodes.Pop);
+
+                iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
+                iLGenerator.Emit(OpCodes.Ldstr, propValue);
+                iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
+                iLGenerator.Emit(OpCodes.Pop);
+            }
+
+            foreach (FieldInfo field in fields)
+            {
+                string fieldName = $"{field.Name} : ";
+                string fieldValue = $"{field.GetValue(obj)},\n";
+
+                iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
+                iLGenerator.Emit(OpCodes.Ldstr, fieldName);
+                iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
+                iLGenerator.Emit(OpCodes.Pop);
+
+                iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
+                iLGenerator.Emit(OpCodes.Ldstr, fieldValue);
+                iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
+            }
 
             iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
-            iLGenerator.Emit(OpCodes.Ldstr, propName);
+            iLGenerator.Emit(OpCodes.Ldstr, "}");
             iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
             iLGenerator.Emit(OpCodes.Pop);
 
             iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
-            iLGenerator.Emit(OpCodes.Ldstr, propValue);
-            iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
-            iLGenerator.Emit(OpCodes.Pop);
+            iLGenerator.Emit(OpCodes.Callvirt, toString);
+            iLGenerator.Emit(OpCodes.Ret);
+
+            this._serializer = dynamicMethod.CreateDelegate(typeof(Func<object, string>)) as Func<object, string>;
+
+            if (this._serializer != null)
+            {
+                result = this._serializer(obj);
+            }
         }
 
-        foreach (FieldInfo field in fields)
-        {
-            string fieldName = $"{field.Name} : ";
-            string fieldValue = $"{field.GetValue(obj)},\n";
-
-            iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
-            iLGenerator.Emit(OpCodes.Ldstr, fieldName);
-            iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
-            iLGenerator.Emit(OpCodes.Pop);
-
-            iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
-            iLGenerator.Emit(OpCodes.Ldstr, fieldValue);
-            iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
-        }
-
-        iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
-        iLGenerator.Emit(OpCodes.Ldstr, "}");
-        iLGenerator.Emit(OpCodes.Callvirt, appendInfo);
-        iLGenerator.Emit(OpCodes.Pop);
-
-        iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
-        iLGenerator.Emit(OpCodes.Callvirt, toString);
-        iLGenerator.Emit(OpCodes.Ret);
-
-        this._serializer = dynamicMethod.CreateDelegate(typeof(Func<object, string>)) as Func<object, string>;
-
-        return this._serializer(obj);
+        return result;
     }
 }
