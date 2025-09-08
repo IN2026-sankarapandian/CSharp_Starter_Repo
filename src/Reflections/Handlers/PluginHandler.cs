@@ -34,7 +34,7 @@ public class PluginHandler
     {
         using (ServiceProvider tempServiceProvider = services.BuildServiceProvider())
         {
-            string rootPath = Path.GetFullPath("../../../TaskPlugins/Debug/net6.0/");
+            string rootPath = Path.GetFullPath("../../../TaskPlugins/");
             foreach (string dllPath in Directory.GetFiles(rootPath, "*.dll"))
             {
                 Result<Assembly> assemblyResult = this._assemblyHelper.LoadAssemblyFile(dllPath);
