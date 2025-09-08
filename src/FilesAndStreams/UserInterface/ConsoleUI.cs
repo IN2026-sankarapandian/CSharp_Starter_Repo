@@ -6,63 +6,96 @@ namespace FilesAndStreams.UserInterface;
 /// <summary>
 /// Provide methods to interact with user via console UI.
 /// </summary>
-public class ConsoleUI
+public class ConsoleUI : IUserInterface
 {
+    private readonly object _consoleLock = new object();
+    private Dictionary<string, int> _taskLineMap;
+
     /// <summary>
-    /// Gets user input and returns it.
+    /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
     /// </summary>
-    /// <returns>User's input</returns>
+    public ConsoleUI()
+    {
+        this._taskLineMap = new Dictionary<string, int>();
+    }
+
+    /// <inheritdoc/>
     public string? GetInput()
     {
-        return Console.ReadLine();
+        lock (this._consoleLock)
+        {
+            return Console.ReadLine();
+        }
     }
 
-    /// <summary>
-    /// Shows the message to user as a specified type.
-    /// </summary>
-    /// <param name="type">Type of the message to show.</param>
-    /// <param name="message">Message shown to user.</param>
+    /// <inheritdoc/>
     public void ShowMessage(MessageType type, string message)
     {
-        switch (type)
+        lock (this._consoleLock)
         {
-            case MessageType.Prompt:
-                Console.Write(message);
-                break;
-            case MessageType.Information:
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.WriteLine(message);
-                break;
-            case MessageType.Title:
-                Console.Clear();
-                Console.ForegroundColor = ConsoleColor.Blue;
-                Console.WriteLine(message);
-                break;
-        }
+            message = message.Replace("\\n", Environment.NewLine);
+            switch (type)
+            {
+                case MessageType.Prompt:
+                    Console.Write(message);
+                    break;
+                case MessageType.Information:
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine(message);
+                    break;
+                case MessageType.Title:
+                    Console.Clear();
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine(message);
+                    break;
+            }
 
-        Console.ResetColor();
+            Console.ResetColor();
+        }
     }
 
-    /// <summary>
-    /// Sets the position of the cursor.
-    /// </summary>
-    /// <param name="line">The line position of the cursor.</param>
-    /// <param name="column">The column position of the cursor.</param>
-    public void SetCursorPosition(int line, int column = 0) => Console.SetCursorPosition(column, line);
-
-    /// <summary>
-    /// Prints a progress bar with the name of the task, and time elapsed.
-    /// </summary>
-    /// <param name="taskName">Name of the task.</param>
-    /// <param name="progressPercentage">Current progress in percentage</param>
-    /// <param name="lineIndex">Index of the line at console.</param>
-    /// <param name="elapsedTime">Elapsed time of the progress.</param>
-    public void DrawProgressBar(string taskName, int progressPercentage, int lineIndex, long elapsedTime = 0)
+    /// <inheritdoc/>
+    public void DrawProgressBar(string taskName, int progressPercentage, long elapsedTime = 0)
     {
-        int total = 30;
-        int currentProgress = progressPercentage * total / 100;
-        string bar = new string(ProgressBarConstants.BarFilled, currentProgress).PadRight(total, ProgressBarConstants.BarEmpty);
-        Console.SetCursorPosition(0, lineIndex);
-        Console.WriteLine(ProgressBarConstants.ProgressBarTemplate, taskName, bar, progressPercentage, elapsedTime);
+        lock (this._consoleLock)
+        {
+            // Stores the position of the cursor before writing progress bar.
+            int left = Console.CursorLeft;
+            int top = Console.CursorTop;
+
+            // Checks whether the progress bar already exists.
+            // If exist map it with the existing on create a new one.
+            if (this._taskLineMap.ContainsKey(taskName))
+            {
+                int lineIndex = this._taskLineMap[taskName];
+                Console.SetCursorPosition(0, lineIndex);
+            }
+            else
+            {
+                // If the new progress bar is created immediately after writing another
+                // overlapping happens as the previous bar resets the position.
+                // So, this condition checks if the line is already used if yes
+                // Move down to the next line.
+                while (this._taskLineMap.ContainsValue(top))
+                {
+                    top++;
+                }
+
+                this._taskLineMap[taskName] = top;
+                Console.SetCursorPosition(0, top);
+            }
+
+            int total = 30;
+            int currentProgress = progressPercentage * total / 100;
+            string bar = new string(ProgressBarConstants.BarFilled, currentProgress).PadRight(total, ProgressBarConstants.BarEmpty);
+            Console.WriteLine(ProgressBarConstants.ProgressBarTemplate, taskName, bar, progressPercentage, elapsedTime);
+            if (progressPercentage == 100)
+            {
+                top++;
+                this._taskLineMap.Remove(taskName);
+            }
+
+            Console.SetCursorPosition(left, top);
+        }
     }
 }

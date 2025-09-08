@@ -12,15 +12,15 @@ namespace FilesAndStreams.Tasks;
 public class Task4
 {
     private static readonly object _lock = new ();
-    private readonly ConsoleUI _consoleUI;
+    private readonly IUserInterface _userInterface;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task4"/> class.
     /// </summary>
-    /// <param name="consoleUI">Gives access to console UI</param>
-    public Task4(ConsoleUI consoleUI)
+    /// <param name="userInterface">Gives access to UI</param>
+    public Task4(IUserInterface userInterface)
     {
-        this._consoleUI = consoleUI;
+        this._userInterface = userInterface;
     }
 
     /// <summary>
@@ -28,11 +28,11 @@ public class Task4
     /// </summary>
     public void Run()
     {
-        this._consoleUI.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 4));
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 4));
         this.SimulateLoggingErrors();
-        this._consoleUI.ShowMessage(MessageType.Information, Messages.ErrorLogFilesSimulated);
-        this._consoleUI.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 4));
-        this._consoleUI.GetInput();
+        this._userInterface.ShowMessage(MessageType.Information, Messages.ErrorLogFilesSimulated);
+        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 4));
+        this._userInterface.GetInput();
     }
 
     /// <summary>

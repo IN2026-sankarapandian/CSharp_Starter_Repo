@@ -12,15 +12,15 @@ namespace FilesAndStreams.Tasks;
 /// </summary>
 public class Task1
 {
-    private readonly ConsoleUI _consoleUI;
+    private readonly IUserInterface _userInterface;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task1"/> class.
     /// </summary>
-    /// <param name="consoleUI">Gives access to console UI</param>
-    public Task1(ConsoleUI consoleUI)
+    /// <param name="userInterface">Gives access to UI</param>
+    public Task1(IUserInterface userInterface)
     {
-        this._consoleUI = consoleUI;
+        this._userInterface = userInterface;
     }
 
     /// <summary>
@@ -33,13 +33,14 @@ public class Task1
         string filePath1 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 1));
         string filePath2 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 2));
 
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 1));
+
         this.HandleCreateSampleFiles(filePath1, filePath2);
         this.HandleReadSampleFiles(filePath1);
         this.HandleCreateFilteredFile(rootPath, filePath1);
 
-        this._consoleUI.SetCursorPosition(12);
-        this._consoleUI.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 1));
-        this._consoleUI.GetInput();
+        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 1));
+        this._userInterface.GetInput();
     }
 
     /// <summary>
@@ -49,14 +50,13 @@ public class Task1
     /// <param name="filePath2">Path to create sample file 2.</param>
     private void HandleCreateSampleFiles(string filePath1, string filePath2)
     {
-        this._consoleUI.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 1));
-        this._consoleUI.ShowMessage(MessageType.Information, Messages.SampleFileCreationStarted);
+        this._userInterface.ShowMessage(MessageType.Information, Messages.SampleFileCreationStarted);
         this.CreateLargeTextFile(filePath1, FileResources.TargetSize, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(
-                string.Format(Messages.CreatingSampleFile, 1), progress, 2, elapsedTime));
+            => this._userInterface.DrawProgressBar(
+                string.Format(Messages.CreatingSampleFile, 1), progress, elapsedTime));
         this.CreateLargeTextFile(filePath2, FileResources.TargetSize, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(
-                string.Format(Messages.CreatingSampleFile, 2), progress, 3, elapsedTime));
+            => this._userInterface.DrawProgressBar(
+                string.Format(Messages.CreatingSampleFile, 2), progress, elapsedTime));
     }
 
     /// <summary>
@@ -65,14 +65,13 @@ public class Task1
     /// <param name="filePath1">Path of the file to read.</param>
     private void HandleReadSampleFiles(string filePath1)
     {
-        this._consoleUI.SetCursorPosition(5);
-        this._consoleUI.ShowMessage(MessageType.Information, Messages.ReadingSampleFiles);
+        this._userInterface.ShowMessage(MessageType.Information, Messages.ReadingSampleFiles);
         this.ReadFileInChunks(FileReader.FileStream, filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(
-                string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, 6, elapsedTime));
+            => this._userInterface.DrawProgressBar(
+                string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, elapsedTime));
         this.ReadFileInChunks(FileReader.BufferedStream, filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(
-                string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, 7, elapsedTime));
+            => this._userInterface.DrawProgressBar(
+                string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, elapsedTime));
     }
 
     /// <summary>
@@ -82,14 +81,13 @@ public class Task1
     /// <param name="filePath1">Path of the file to filter.</param>
     private void HandleCreateFilteredFile(string rootPath, string filePath1)
     {
-        this._consoleUI.SetCursorPosition(9);
-        this._consoleUI.ShowMessage(MessageType.Information, Messages.FileProcessingStarted);
+        this._userInterface.ShowMessage(MessageType.Information, Messages.FileProcessingStarted);
         string content = this.ReadFile(filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(Messages.ReadingSampleFiles, progress, 10, elapsedTime));
+            => this._userInterface.DrawProgressBar(Messages.ReadingSampleFiles, progress, elapsedTime));
         string filteredContent = this.FilterByTemperature(content, 100);
         string filteredFilePath = Path.Combine(rootPath, FileResources.SampleFilteredMachineDataFileName);
         this.WriteData(filteredFilePath, filteredContent, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(Messages.WritingProcessedData, progress, 11, elapsedTime));
+            => this._userInterface.DrawProgressBar(Messages.WritingProcessedData, progress, elapsedTime));
     }
 
     /// <summary>

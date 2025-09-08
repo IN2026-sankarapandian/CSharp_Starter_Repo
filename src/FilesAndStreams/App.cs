@@ -15,31 +15,31 @@ public class App
     /// </summary>
     public static void Main()
     {
-        ConsoleUI consoleUI = new ();
+        IUserInterface userInterface = new ConsoleUI();
         do
         {
-            consoleUI.ShowMessage(MessageType.Title, Messages.FileAndStreams);
-            consoleUI.ShowMessage(MessageType.Information, Messages.TaskOptions);
-            consoleUI.ShowMessage(MessageType.Prompt, Messages.EnterTaskToRun);
-            string? userInput = consoleUI.GetInput();
+            userInterface.ShowMessage(MessageType.Title, Messages.FileAndStreams);
+            userInterface.ShowMessage(MessageType.Information, Messages.TaskOptions);
+            userInterface.ShowMessage(MessageType.Prompt, Messages.EnterTaskToRun);
+            string? userInput = userInterface.GetInput();
             switch (userInput)
             {
                 case "1":
-                    new Task1(consoleUI).Run();
+                    new Task1(userInterface).Run();
                     break;
                 case "2":
-                    new Task2(consoleUI).Run();
+                    new Task2(userInterface).Run();
                     break;
                 case "3":
-                    new Task3(consoleUI).Run();
+                    new Task3(userInterface).Run();
                     break;
                 case "4":
-                    new Task4(consoleUI).Run();
+                    new Task4(userInterface).Run();
                     break;
                 case "5":
                     return;
                 default:
-                    consoleUI.ShowMessage(MessageType.Information, Messages.EnterValidOption);
+                    userInterface.ShowMessage(MessageType.Information, Messages.EnterValidOption);
                     break;
             }
         }

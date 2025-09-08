@@ -12,15 +12,15 @@ namespace FilesAndStreams.Tasks;
 /// </summary>
 public class Task2
 {
-    private readonly ConsoleUI _consoleUI;
+    private readonly IUserInterface _userInterface;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task2"/> class.
     /// </summary>
-    /// <param name="consoleUI">Gives access to console UI</param>
-    public Task2(ConsoleUI consoleUI)
+    /// <param name="userInterface">Gives access to UI</param>
+    public Task2(IUserInterface userInterface)
     {
-        this._consoleUI = consoleUI;
+        this._userInterface = userInterface;
     }
 
     /// <summary>
@@ -33,12 +33,13 @@ public class Task2
         string filePath1 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 1));
         string filePath2 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 2));
 
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 2));
+
         this.HandleCreateSampleFilesAsync(filePath1, filePath2);
-        this.HandleReadSampleFilesAsync(filePath1);
+        this.HandleReadSampleFilesAsync(filePath1, filePath2);
         this.HandleCreateFilteredFileAsync(rootPath, filePath1);
 
-        Console.SetCursorPosition(0, 12);
-        this._consoleUI.ShowMessage(MessageType.Information, string.Format(Messages.PressEnterToExitTask, 2));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.PressEnterToExitTask, 2));
         Console.ReadKey();
     }
 
@@ -49,16 +50,14 @@ public class Task2
     /// <param name="filePath2">Path to create sample file 2.</param>
     private void HandleCreateSampleFilesAsync(string filePath1, string filePath2)
     {
-        Console.SetCursorPosition(0, 0);
-        this._consoleUI.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 2));
-        this._consoleUI.ShowMessage(MessageType.Information, Messages.SampleFileCreationStarted);
+        this._userInterface.ShowMessage(MessageType.Information, Messages.SampleFileCreationStarted);
         Console.SetCursorPosition(0, 2);
         Task createSampleFile1 = Task.Run(()
             => this.CreateLargeTextFile(filePath1, FileResources.TargetSize, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 1), progress, 2, elapsedTime)));
+            => this._userInterface.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 1), progress, elapsedTime)));
         Task createSampleFile2 = Task.Run(()
             => this.CreateLargeTextFile(filePath2, FileResources.TargetSize, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 2), progress, 3, elapsedTime)));
+            => this._userInterface.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 2), progress, elapsedTime)));
         createSampleFile1.Wait();
         createSampleFile2.Wait();
     }
@@ -66,15 +65,15 @@ public class Task2
     /// <summary>
     /// Read the sample files with different streams
     /// </summary>
-    /// <param name="filePath1">Path of the file to read.</pa
-    private void HandleReadSampleFilesAsync(string filePath1)
+    /// <param name="filePath1">Path of the file to read with file stream.</pa
+    /// <param name="filePath2">Path of the file to read with buffered stream.</pa
+    private void HandleReadSampleFilesAsync(string filePath1, string filePath2)
     {
-        Console.SetCursorPosition(0, 5);
-        this._consoleUI.ShowMessage(MessageType.Information, Messages.ReadingSampleFiles);
+        this._userInterface.ShowMessage(MessageType.Information, Messages.ReadingSampleFiles);
         Task readFileWithFileStream = this.ReadFileInChunks(FileReader.FileStream, filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, 6, elapsedTime));
-        Task readFileWithBufferedStream = this.ReadFileInChunks(FileReader.BufferedStream, filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, 7, elapsedTime));
+            => this._userInterface.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, elapsedTime));
+        Task readFileWithBufferedStream = this.ReadFileInChunks(FileReader.BufferedStream, filePath2, (progress, elapsedTime)
+            => this._userInterface.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, elapsedTime));
         readFileWithFileStream.Wait();
         readFileWithBufferedStream.Wait();
     }
@@ -86,15 +85,14 @@ public class Task2
     /// <param name="filePath1">Path of the file to filter.</param>
     private void HandleCreateFilteredFileAsync(string rootPath, string filePath1)
     {
-        Console.SetCursorPosition(0, 9);
-        this._consoleUI.ShowMessage(MessageType.Information, Messages.FileProcessingStarted);
+        this._userInterface.ShowMessage(MessageType.Information, Messages.FileProcessingStarted);
         Task<string> readFileForProcessing = this.ReadFile(filePath1, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(Messages.ReadingSampleFiles, progress, 10, elapsedTime));
+            => this._userInterface.DrawProgressBar(Messages.ReadingSampleFiles, progress, elapsedTime));
         string content = readFileForProcessing.Result;
         string filteredContent = this.FilterByTemperature(content, 100);
         string filteredFilePath = Path.Combine(rootPath, FileResources.SampleFilteredMachineDataFileName);
         this.WriteData(filteredFilePath, filteredContent, (progress, elapsedTime)
-            => this._consoleUI.DrawProgressBar(Messages.WritingProcessedData, progress, 11, elapsedTime));
+            => this._userInterface.DrawProgressBar(Messages.WritingProcessedData, progress, elapsedTime));
     }
 
     /// <summary>

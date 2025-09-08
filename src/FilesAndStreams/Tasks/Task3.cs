@@ -11,15 +11,15 @@ namespace FilesAndStreams.Tasks;
 /// </summary>
 public class Task3
 {
-    private readonly ConsoleUI _consoleUI;
+    private readonly IUserInterface _userInterface;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task3"/> class.
     /// </summary>
-    /// <param name="consoleUI">Gives access to console UI</param>
-    public Task3(ConsoleUI consoleUI)
+    /// <param name="userInterface">Gives access to UI</param>
+    public Task3(IUserInterface userInterface)
     {
-        this._consoleUI = consoleUI;
+        this._userInterface = userInterface;
     }
 
     /// <summary>
@@ -27,9 +27,9 @@ public class Task3
     /// </summary>
     public void Run()
     {
-        this._consoleUI.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 3));
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 3));
         this.EfficientFileHandler();
-        this._consoleUI.ShowMessage(MessageType.Information, string.Format(Messages.PressEnterToExitTask, 3));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.PressEnterToExitTask, 3));
         Console.ReadKey();
     }
 
@@ -59,13 +59,13 @@ public class Task3
             int bytesRead;
             while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
             {
-                this._consoleUI.ShowMessage(MessageType.Information, Encoding.ASCII.GetString(buffer));
+                this._userInterface.ShowMessage(MessageType.Information, Encoding.ASCII.GetString(buffer));
             }
         }
 
-        this._consoleUI.ShowMessage(MessageType.Information, Messages.EfficientFilehandle);
+        this._userInterface.ShowMessage(MessageType.Information, Messages.EfficientFilehandle);
         stopwatch.Stop();
         TimeSpan elapsed = stopwatch.Elapsed;
-        this._consoleUI.ShowMessage(MessageType.Information, string.Format(Messages.Elapsedtime, elapsed.TotalMilliseconds));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.Elapsedtime, elapsed.TotalMilliseconds));
     }
 }
