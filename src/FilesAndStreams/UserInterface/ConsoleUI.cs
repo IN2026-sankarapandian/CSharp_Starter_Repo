@@ -64,7 +64,7 @@ public class ConsoleUI : IUserInterface
             int top = Console.CursorTop;
 
             // Checks whether the progress bar already exists.
-            // If exist map it with the existing on create a new one.
+            // If exists, map it with the existing one else create a new one.
             if (this._taskLineMap.ContainsKey(taskName))
             {
                 int lineIndex = this._taskLineMap[taskName];
@@ -72,10 +72,10 @@ public class ConsoleUI : IUserInterface
             }
             else
             {
-                // If the new progress bar is created immediately after writing another
-                // overlapping happens as the previous bar resets the position.
-                // So, this condition checks if the line is already used if yes
-                // Move down to the next line.
+                // If the new progress bar is created immediately after writing another,
+                // then overlapping happen as the previous bar resets the position after writing.
+                // So, this condition checks if the line is already used
+                // if yes, move down to the next available line.
                 while (this._taskLineMap.ContainsValue(top))
                 {
                     top++;
@@ -89,12 +89,14 @@ public class ConsoleUI : IUserInterface
             int currentProgress = progressPercentage * total / 100;
             string bar = new string(ProgressBarConstants.BarFilled, currentProgress).PadRight(total, ProgressBarConstants.BarEmpty);
             Console.WriteLine(ProgressBarConstants.ProgressBarTemplate, taskName, bar, progressPercentage, elapsedTime);
+
             if (progressPercentage == 100)
             {
                 top++;
                 this._taskLineMap.Remove(taskName);
             }
 
+            // Resets the position after writing the progress bar
             Console.SetCursorPosition(left, top);
         }
     }
