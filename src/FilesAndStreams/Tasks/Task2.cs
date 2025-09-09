@@ -1,8 +1,11 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
+using FilesAndStreams.FormHandlers;
 using FilesAndStreams.UserInterface;
 
 namespace FilesAndStreams.Tasks;
@@ -13,86 +16,105 @@ namespace FilesAndStreams.Tasks;
 public class Task2
 {
     private readonly IUserInterface _userInterface;
+    private readonly FormHandler _formHandler;
+    private readonly HashSet<string> _currentlyProcessingPaths;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task2"/> class.
     /// </summary>
     /// <param name="userInterface">Gives access to UI</param>
-    public Task2(IUserInterface userInterface)
+    public Task2(IUserInterface userInterface, FormHandler formHandler)
     {
         this._userInterface = userInterface;
+        this._formHandler = formHandler;
+        this._currentlyProcessingPaths = new HashSet<string>();
     }
 
     /// <summary>
     /// Its an entry point for <see cref="Task2"/>
     /// </summary>
-    public void Run()
+    public void Run() => this.HandleMenu();
+
+    /// <summary>
+    /// Handles the menu for task 1.
+    /// </summary>
+    private void HandleMenu()
     {
-        string rootPath = AppDomain.CurrentDomain.BaseDirectory;
-
-        string filePath1 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 1));
-        string filePath2 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 2));
-
-        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 2));
-
-        this.HandleCreateSampleFilesAsync(filePath1, filePath2);
-        this.HandleReadSampleFilesAsync(filePath1, filePath2);
-        this.HandleCreateFilteredFileAsync(rootPath, filePath1);
-
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.PressEnterToExitTask, 2));
-        Console.ReadKey();
+        do
+        {
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 2));
+            this._userInterface.ShowMessage(MessageType.Information, "1. Create sample files\n2. Read sample files\n3. Process sample files\n4. Exit");
+            string userChoice = this._formHandler.GetUserInput("Enter what do you want to do : ");
+            switch (userChoice)
+            {
+                case "1":
+                    this.HandleCreateSampleFilesAsync();
+                    break;
+                case "2":
+                    this.HandleReadSampleFilesAsync();
+                    break;
+                case "3":
+                    this.HandleCreateFilteredFileAsync();
+                    break;
+                case "4":
+                    return;
+                default:
+                    this._userInterface.ShowMessage(MessageType.Information, "Enter a valid option");
+                    break;
+            }
+        }
+        while (true);
     }
 
     /// <summary>
     /// It will create sample files needed for the task
     /// </summary>
-    /// <param name="filePath1">Path to create sample file 1.</param>
-    /// <param name="filePath2">Path to create sample file 2.</param>
-    private void HandleCreateSampleFilesAsync(string filePath1, string filePath2)
+    private async Task HandleCreateSampleFilesAsync()
     {
-        this._userInterface.ShowMessage(MessageType.Information, Messages.SampleFileCreationStarted);
-        Console.SetCursorPosition(0, 2);
-        Task createSampleFile1 = Task.Run(()
-            => this.CreateLargeTextFile(filePath1, FileResources.TargetSize, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 1), progress, elapsedTime)));
-        Task createSampleFile2 = Task.Run(()
-            => this.CreateLargeTextFile(filePath2, FileResources.TargetSize, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(string.Format(Messages.CreatingSampleFile, 2), progress, elapsedTime)));
-        createSampleFile1.Wait();
-        createSampleFile2.Wait();
+        this._userInterface.ShowMessage(MessageType.Title, "Create");
+        string sampleFileSavePath = this._formHandler.GetTxtFileSavePath("Enter a path to save sample file : ");
+        string taskName = string.Format("Writing {0}", Path.GetFileName(sampleFileSavePath));
+        this._userInterface.DrawProgressBar(taskName, 0, 0);
+        await Task.Run(()
+            => this.CreateLargeTextFile(sampleFileSavePath, FileResources.TargetSize, (progress, elapsedTime)
+            => this._userInterface.DrawProgressBar(taskName, progress, elapsedTime)));
     }
 
     /// <summary>
     /// Read the sample files with different streams
     /// </summary>
-    /// <param name="filePath1">Path of the file to read with file stream.</pa
-    /// <param name="filePath2">Path of the file to read with buffered stream.</pa
-    private void HandleReadSampleFilesAsync(string filePath1, string filePath2)
+    private async Task HandleReadSampleFilesAsync()
     {
+        this._userInterface.ShowMessage(MessageType.Title, "Read");
+        string sampleFileSavePath = this._formHandler.GetTxtFilePath("Enter a path of sample file to read  : ");
         this._userInterface.ShowMessage(MessageType.Information, Messages.ReadingSampleFiles);
-        Task readFileWithFileStream = this.ReadFileInChunks(FileReader.FileStream, filePath1, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, elapsedTime));
-        Task readFileWithBufferedStream = this.ReadFileInChunks(FileReader.BufferedStream, filePath2, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, elapsedTime));
-        readFileWithFileStream.Wait();
-        readFileWithBufferedStream.Wait();
+        string taskName = string.Format("Reading {0}", Path.GetFileName(sampleFileSavePath));
+        this._userInterface.DrawProgressBar(taskName, 0, 0);
+        await Task.Run(() => this.ReadFileInChunks(FileReader.FileStream, sampleFileSavePath, (progress, elapsedTime)
+            => this._userInterface.DrawProgressBar(taskName, progress, elapsedTime)));
     }
 
     /// <summary>
     /// Filter the given data by temperature and write the filtered data in new file.
     /// </summary>
-    /// <param name="rootPath">Root path to save the file.</param>
-    /// <param name="filePath1">Path of the file to filter.</param>
-    private void HandleCreateFilteredFileAsync(string rootPath, string filePath1)
+    private async void HandleCreateFilteredFileAsync()
     {
-        this._userInterface.ShowMessage(MessageType.Information, Messages.FileProcessingStarted);
-        Task<string> readFileForProcessing = this.ReadFile(filePath1, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(Messages.ReadingSampleFiles, progress, elapsedTime));
-        string content = readFileForProcessing.Result;
-        string filteredContent = this.FilterByTemperature(content, 100);
-        string filteredFilePath = Path.Combine(rootPath, FileResources.SampleFilteredMachineDataFileName);
-        this.WriteData(filteredFilePath, filteredContent, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(Messages.WritingProcessedData, progress, elapsedTime));
+        this._userInterface.ShowMessage(MessageType.Title, "Process");
+        string sampleFilePath = this._formHandler.GetTxtFilePath("Enter a path of file to filter with temperature : ");
+        string filterFilePath = this._formHandler.GetTxtFileSavePath("Enter a path to save sample file : ");
+        decimal temperatureThreshold = this._formHandler.GetTemperatureThreshold("Enter a higher threshold temperature to filter : ");
+        string readingTaskName = string.Format("Reading {0} for filtering", Path.GetFileName(sampleFilePath));
+        string filteringTaskName = string.Format("Filtering {0}", Path.GetFileName(sampleFilePath));
+        string writingTaskName = string.Format("Writing filtered data to {0}", Path.GetFileName(filterFilePath));
+        this._userInterface.DrawProgressBar(readingTaskName, 0, 0);
+        this._userInterface.DrawProgressBar(filteringTaskName, 0, 0);
+        this._userInterface.DrawProgressBar(writingTaskName, 0, 0);
+        string content = await Task.Run(() => this.ReadFile(sampleFilePath, (progress, elapsedTime)
+            => this._userInterface.DrawProgressBar(readingTaskName, progress, elapsedTime)));
+        string filteredContent = this.FilterByTemperature(content, 100, (progress, elapsedTime)
+            => this._userInterface.DrawProgressBar(filteringTaskName, progress, elapsedTime));
+        this.WriteData(filterFilePath, filteredContent, (progress, elapsedTime)
+            => this._userInterface.DrawProgressBar(writingTaskName, progress, elapsedTime));
     }
 
     /// <summary>
@@ -109,7 +131,7 @@ public class Task2
     {
         File.Create(filePath).Dispose();
 
-        Random random = new ();
+        Random random = new();
 
         using FileStream writer = new (
             filePath,
@@ -203,15 +225,15 @@ public class Task2
         decimal totalSize = stream.Length;
         decimal currentSize = 0;
 
-        StringBuilder content = new ();
+        StringBuilder content = new();
 
-        Stopwatch stopwatch = new ();
+        Stopwatch stopwatch = new();
         stopwatch.Start();
 
         while ((bytesRead = await stream.ReadAsync(buffer.AsMemory(0, chunkSize))) > 1)
         {
             currentSize += chunkSize;
-            if (currentSize % (1024 * 1024) == 0)
+            if (currentSize % (1024 * 10) == 0)
             {
                 int progress = (int)(currentSize / totalSize * 100L);
                 progressCallBack?.Invoke(progress, stopwatch.ElapsedMilliseconds);
@@ -233,15 +255,15 @@ public class Task2
     /// </param>
     private async Task<string> ReadFile(string filePath, Action<int, long>? progressCallBack = null)
     {
-        using FileStream fileStream = new (
+        using FileStream fileStream = new(
             filePath,
             FileMode.Open,
             FileAccess.Read,
             FileShare.None,
             bufferSize: FileResources.BufferSize,
             useAsync: true);
-        using StreamReader reader = new (fileStream);
-        Stopwatch stopwatch = new ();
+        using StreamReader reader = new(fileStream);
+        Stopwatch stopwatch = new();
         stopwatch.Start();
         progressCallBack?.Invoke(0, stopwatch.ElapsedMilliseconds);
         string res = await reader.ReadToEndAsync();
@@ -264,11 +286,11 @@ public class Task2
     private string FilterByTemperature(string content, decimal lowerThreshold, Action<int, long>? progressCallBack = null)
     {
         string[] data = content.Split('\n');
-        int totalLine = data.Length;
-        int currentLine = 0;
+        decimal totalLine = data.Length;
+        decimal currentLine = 0;
         string pattern = RegexPatterns.ExtractTemperature;
-        StringBuilder filteredContent = new ();
-        Stopwatch stopwatch = new ();
+        StringBuilder filteredContent = new();
+        Stopwatch stopwatch = new();
         stopwatch.Start();
         foreach (string line in data)
         {
@@ -286,6 +308,7 @@ public class Task2
                 progressCallBack?.Invoke(progress, stopwatch.ElapsedMilliseconds);
             }
         }
+        progressCallBack?.Invoke(100, stopwatch.ElapsedMilliseconds);
 
         stopwatch.Stop();
         return filteredContent.ToString();
@@ -303,12 +326,12 @@ public class Task2
     /// </param>
     private void WriteData(string path, string content, Action<int, long>? progressCallBack = null)
     {
-        using MemoryStream memoryStream = new ();
+        using MemoryStream memoryStream = new();
         byte[] bytes = Encoding.UTF8.GetBytes(content);
         memoryStream.Write(bytes, 0, bytes.Length);
-        Stopwatch stopwatch = new ();
+        Stopwatch stopwatch = new();
         stopwatch.Start();
-        using (FileStream fileStream = new (
+        using (FileStream fileStream = new(
             path, FileMode.Create,
             FileAccess.Write,
             FileShare.None,

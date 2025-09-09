@@ -19,4 +19,9 @@ public enum MessageType
     /// Represents the title shown to the user.
     /// </summary>
     Title,
+
+    /// <summary>
+    /// Represents the warning message that's indicates some issues.
+    /// </summary>
+    Warning,
 }

@@ -3,6 +3,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
+using FilesAndStreams.FormHandlers;
 using FilesAndStreams.UserInterface;
 
 namespace FilesAndStreams.Tasks;
@@ -13,81 +14,103 @@ namespace FilesAndStreams.Tasks;
 public class Task1
 {
     private readonly IUserInterface _userInterface;
+    private readonly FormHandler _formHandler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task1"/> class.
     /// </summary>
     /// <param name="userInterface">Gives access to UI</param>
-    public Task1(IUserInterface userInterface)
+    /// <param name="formHandler">Get data from user.</param>
+    public Task1(IUserInterface userInterface, FormHandler formHandler)
     {
         this._userInterface = userInterface;
+        this._formHandler = formHandler;
     }
 
     /// <summary>
     /// Its an entry point for <see cref="Task1"/>
     /// </summary>
-    public void Run()
+    public void Run() => this.HandleMenu();
+
+    /// <summary>
+    /// Handles the menu for task 1.
+    /// </summary>
+    public void HandleMenu()
     {
-        string rootPath = AppDomain.CurrentDomain.BaseDirectory;
-
-        string filePath1 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 1));
-        string filePath2 = Path.Combine(rootPath, string.Format(FileResources.SampleMachineDataFileName, 2));
-
-        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 1));
-
-        this.HandleCreateSampleFiles(filePath1, filePath2);
-        this.HandleReadSampleFiles(filePath1);
-        this.HandleCreateFilteredFile(rootPath, filePath1);
-
-        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 1));
-        this._userInterface.GetInput();
+        do
+        {
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 1));
+            this._userInterface.ShowMessage(MessageType.Information, "1. Create sample files\n2. Read sample files\n3. Process sample files\n4. Exit");
+            string userChoice = this._formHandler.GetUserInput("Enter what do you want to do : ");
+            switch (userChoice)
+            {
+                case "1":
+                    this.HandleCreateSampleFiles();
+                    break;
+                case "2":
+                    this.HandleReadSampleFiles();
+                    break;
+                case "3":
+                    this.HandleCreateFilteredFile();
+                    break;
+                case "4":
+                    return;
+                default:
+                    this._userInterface.ShowMessage(MessageType.Information, "Enter a valid option");
+                    break;
+            }
+        }
+        while (true);
     }
 
     /// <summary>
     /// It will create sample files needed for the task
     /// </summary>
-    /// <param name="filePath1">Path to create sample file 1.</param>
-    /// <param name="filePath2">Path to create sample file 2.</param>
-    private void HandleCreateSampleFiles(string filePath1, string filePath2)
+    private void HandleCreateSampleFiles()
     {
-        this._userInterface.ShowMessage(MessageType.Information, Messages.SampleFileCreationStarted);
-        this.CreateLargeTextFile(filePath1, FileResources.TargetSize, (progress, elapsedTime)
+        this._userInterface.ShowMessage(MessageType.Title, "Create");
+        string sampleFileSavePath = this._formHandler.GetTxtFileSavePath("Enter a path to save sample file : ");
+        this.CreateLargeTextFile(sampleFileSavePath, FileResources.TargetSize, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(
                 string.Format(Messages.CreatingSampleFile, 1), progress, elapsedTime));
-        this.CreateLargeTextFile(filePath2, FileResources.TargetSize, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(
-                string.Format(Messages.CreatingSampleFile, 2), progress, elapsedTime));
+        this._userInterface.ShowMessage(MessageType.Warning, "Press enter to exit");
+        this._userInterface.GetInput();
     }
 
     /// <summary>
     /// Read the sample files with different streams
     /// </summary>
-    /// <param name="filePath1">Path of the file to read.</param>
-    private void HandleReadSampleFiles(string filePath1)
+    private void HandleReadSampleFiles()
     {
-        this._userInterface.ShowMessage(MessageType.Information, Messages.ReadingSampleFiles);
-        this.ReadFileInChunks(FileReader.FileStream, filePath1, (progress, elapsedTime)
+        this._userInterface.ShowMessage(MessageType.Title, "Read");
+        string filePath = this._formHandler.GetTxtFilePath("Enter a path of sample file to read : ");
+        this.ReadFileInChunks(FileReader.FileStream, filePath, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(
                 string.Format(Messages.ReadingSampleFileWith, nameof(FileStream)), progress, elapsedTime));
-        this.ReadFileInChunks(FileReader.BufferedStream, filePath1, (progress, elapsedTime)
+        this.ReadFileInChunks(FileReader.BufferedStream, filePath, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(
                 string.Format(Messages.ReadingSampleFileWith, nameof(BufferedStream)), progress, elapsedTime));
+        this._userInterface.ShowMessage(MessageType.Warning, "Press enter to exit");
+        this._userInterface.GetInput();
     }
 
     /// <summary>
     /// Filter the given data by temperature and write the filtered data in new file.
     /// </summary>
-    /// <param name="rootPath">Root path to save the file.</param>
-    /// <param name="filePath1">Path of the file to filter.</param>
-    private void HandleCreateFilteredFile(string rootPath, string filePath1)
+    private void HandleCreateFilteredFile()
     {
-        this._userInterface.ShowMessage(MessageType.Information, Messages.FileProcessingStarted);
-        string content = this.ReadFile(filePath1, (progress, elapsedTime)
+        this._userInterface.ShowMessage(MessageType.Title, "Process");
+        string sampleFilePath = this._formHandler.GetTxtFilePath("Enter a path of file to filter with temperature : ");
+        string filterFilePath = this._formHandler.GetTxtFileSavePath("Enter a path to save sample file : ");
+        decimal temperatureThreshold = this._formHandler.GetTemperatureThreshold("Enter a higher threshold temperature to filter : ");
+        string content = this.ReadFile(sampleFilePath, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(Messages.ReadingSampleFiles, progress, elapsedTime));
-        string filteredContent = this.FilterByTemperature(content, 100);
-        string filteredFilePath = Path.Combine(rootPath, FileResources.SampleFilteredMachineDataFileName);
-        this.WriteData(filteredFilePath, filteredContent, (progress, elapsedTime)
+        string filteredContent = this.FilterByTemperature(content, 100, (progress, elapsedTime)
+            => this._userInterface.DrawProgressBar("Filtering data", progress, elapsedTime));
+        this.WriteData(filterFilePath, filteredContent, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(Messages.WritingProcessedData, progress, elapsedTime));
+        this._userInterface.ShowMessage(MessageType.Warning, "Press enter to exit");
+        this._userInterface.GetInput();
     }
 
     /// <summary>
@@ -119,6 +142,7 @@ public class Task1
 
         Stopwatch stopwatch = new ();
         stopwatch.Start();
+        progressCallBack?.Invoke(0, stopwatch.ElapsedMilliseconds);
         while (currentSize < targetSize)
         {
             string timeStamp = startTime.AddSeconds(currentLine).ToString(FileResources.SampleDateFormat);
@@ -230,6 +254,7 @@ public class Task1
             Stopwatch stopwatch = new ();
             stopwatch.Start();
             string? line;
+            progressCallBack?.Invoke(0, stopwatch.ElapsedMilliseconds);
             while ((line = reader.ReadLine()) != null)
             {
                 content.AppendLine(line);
@@ -248,11 +273,11 @@ public class Task1
     }
 
     /// <summary>
-    /// Filters the data with mentioned lower temperature threshold.
+    /// Filters the data with mentioned temperature threshold.
     /// </summary>
     /// <param name="content">Data to filter.</param>
     /// <param name="lowerThreshold">Threshold temperature to filter with.</param>
-    /// <returns>All the data with temperature higher than lower threshold temperature.</returns>
+    /// <returns>All the data with temperature higher than threshold temperature.</returns>
     /// <param name="progressCallBack">
     /// An optional callback invoked to report about the progress.
     /// First argument return the percentage of current progress
@@ -261,12 +286,13 @@ public class Task1
     private string FilterByTemperature(string content, decimal lowerThreshold, Action<int, long>? progressCallBack = null)
     {
         string[] data = content.Split('\n');
-        int totalLine = data.Length;
-        int currentLine = 0;
+        decimal totalLine = data.Length;
+        decimal currentLine = 0;
         string pattern = RegexPatterns.ExtractTemperature;
         StringBuilder filteredContent = new ();
         Stopwatch stopwatch = new ();
         stopwatch.Start();
+        progressCallBack?.Invoke(0, stopwatch.ElapsedMilliseconds);
         foreach (string line in data)
         {
             Match match = Regex.Match(line, pattern);
@@ -283,6 +309,8 @@ public class Task1
                 progressCallBack?.Invoke(progress, stopwatch.ElapsedMilliseconds);
             }
         }
+
+        progressCallBack?.Invoke(100, stopwatch.ElapsedMilliseconds);
 
         stopwatch.Stop();
         return filteredContent.ToString();
