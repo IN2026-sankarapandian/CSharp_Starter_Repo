@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using FilesAndStreams.Common;
+﻿using FilesAndStreams.Common;
+using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
 using FilesAndStreams.UserInterface;
 using FilesAndStreams.Validators;
@@ -59,12 +59,12 @@ public class FormHandler
             string userInput = this.GetUserInput(prompt);
             if (!decimal.TryParse(userInput, out decimal temperatureThreshold))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, "Not a valid temperature");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.NotValidTemperature);
                 continue;
             }
             else if (temperatureThreshold >= 150 || temperatureThreshold <= 50)
             {
-                this._userInterface.ShowMessage(MessageType.Warning, "Threshold must be between 50 C and 150 C");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.TemperatureRangeMismatches);
                 continue;
             }
 
@@ -108,7 +108,7 @@ public class FormHandler
             string? userInput = this._userInterface.GetInput();
             if (string.IsNullOrEmpty(userInput))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, "Input cannot be empty");
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.InputCannotBeEmpty);
                 continue;
             }
 

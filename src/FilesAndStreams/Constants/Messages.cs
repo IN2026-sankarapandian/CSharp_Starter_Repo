@@ -31,12 +31,12 @@ public static class Messages
     public const string Task2MenuPrompt = "1. Create sample files\n2. Read sample files\n3. Process sample files\n4. Exit";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string AskUserChoice = "Enter what do you want to do : ";
 
     /// <summary>
-    /// To display to prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string EnterValidOption = "Enter a valid option";
 
@@ -51,7 +51,7 @@ public static class Messages
     public const string CreateAsync = "Create async";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string EnterPathToSaveFile = "Enter a path to save sample file : ";
 
@@ -66,12 +66,12 @@ public static class Messages
     public const string ReadAsync = "Read async";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string EnterPathToReadFile = "Enter a path of sample file to read : ";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string PressEnterToExit = "Press enter to exit";
 
@@ -86,82 +86,97 @@ public static class Messages
     public const string ProcessAsync = "Process async";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string EnterPathToFilterFile = "Enter a path of file to filter with temperature : ";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string EnterPathToSaveFilteredFile = "Enter a path to save filtered file : ";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string EnterTemperatureThresholdValue = "Enter a higher threshold temperature to filter : ";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string PromptErrorAndGoBack = "{0}. Please press enter to go back to menu ...";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string WritingFile = "Writing {0}";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string FileReadOptions = "1. File stream\n2. Buffered stream";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string EnterWhichStreamToUse = "Enter which stream to use to read file : ";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string ReadingFileWithFileStream = "Reading {0} with file stream";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string ReadingFileWithBufferedStream = "Reading {0} with buffered stream";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string ReadingFileForFiltering = "Reading {0} for filtering";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string FilteringFile = "Filtering {0}";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string WritingFilteredFile = "Writing filtered data to {0}";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string EnterValue = "Enter some value to write in the file : ";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string ElapsedTime = "Elapsed time to write {0}";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string ErrorLogFilesSimulated = "Error were simulated and logged, check bin for the log file...";
 
     /// <summary>
-    /// To display prompt user.
+    /// To display prompt to the user.
     /// </summary>
     public const string Unknown = "Unknown";
+
+    /// <summary>
+    /// To display prompt to the user.
+    /// </summary>
+    public const string NotValidTemperature = "Not a valid temperature";
+
+    /// <summary>
+    /// To display prompt to the user.
+    /// </summary>
+    public const string TemperatureRangeMismatches = "Threshold must be between 50 C and 150 C";
+
+    /// <summary>
+    /// To display prompt to the user.
+    /// </summary>
+    public const string InputCannotBeEmpty = "Input cannot be empty";
 }

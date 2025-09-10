@@ -8,16 +8,6 @@ namespace FilesAndStreams.Constants;
 public static class FileResources
 {
     /// <summary>
-    /// Denotes the name of sample machine data with index.
-    /// </summary>
-    public const string SampleMachineDataFileName = "machine - data{0}.txt";
-
-    /// <summary>
-    /// Denotes the name of sample filtered machine data.
-    /// </summary>
-    public const string SampleFilteredMachineDataFileName = "filtered-machine-data.txt";
-
-    /// <summary>
     /// Denotes the name of error log file.
     /// </summary>
     public const string ErrorLogFileName = "{0}-ErrorLog.txt";
@@ -26,16 +16,6 @@ public static class FileResources
     /// Denotes the date format used to generate sample files.
     /// </summary>
     public const string SampleDateFormat = "yyyy-MM-dd HH:mm:ss";
-
-    /// <summary>
-    /// Denotes the name of the sample files.
-    /// </summary>
-    public const string SampleFilePath = "sample.text";
-
-    /// <summary>
-    /// Denotes the sample data for sample file.
-    /// </summary>
-    public const string SampleData = "This is Some test Data";
 
     /// <summary>
     /// Denotes the template to generate sample files.
