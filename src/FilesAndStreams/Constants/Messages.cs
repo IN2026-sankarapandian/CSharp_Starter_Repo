@@ -179,4 +179,24 @@ public static class Messages
     /// To display prompt to the user.
     /// </summary>
     public const string InputCannotBeEmpty = "Input cannot be empty";
+
+    /// <summary>
+    /// Denotes sample error data
+    /// </summary>
+    public const string SampleErrorData = "Error A";
+
+    /// <summary>
+    /// Denotes sample user id
+    /// </summary>
+    public const string SampleUserID1 = "001";
+
+    /// <summary>
+    /// Denotes sample user id
+    /// </summary>
+    public const string SampleUserID2 = "002";
+
+    /// <summary>
+    /// Denotes sample user id
+    /// </summary>
+    public const string SampleUserID3 = "003";
 }

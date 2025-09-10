@@ -50,7 +50,7 @@ public class Task3
     }
 
     /// <summary>
-    /// Its an optimized version of give code snippet.
+    /// Its an optimized version of given code snippet.
     /// </summary>
     private void EfficientFileHandler(string path, string data)
     {

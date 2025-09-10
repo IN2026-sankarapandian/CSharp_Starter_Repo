@@ -1,7 +1,7 @@
 ﻿namespace FilesAndStreams.Constants;
 
 /// <summary>
-/// Have constants related t.
+/// Have constants related to the progress bar component.
 /// </summary>
 public static class ProgressBarConstants
 {

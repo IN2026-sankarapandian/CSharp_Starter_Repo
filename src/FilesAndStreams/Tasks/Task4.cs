@@ -42,9 +42,9 @@ public class Task4
     /// </summary>
     private void SimulateLoggingErrors()
     {
-        Task loggingErrorForUser1 = Task.Run(() => this.LogError("Error a", "001"));
-        Task loggingErrorForUser2 = Task.Run(() => this.LogError("Error b", "002"));
-        Task loggingErrorForUser3 = Task.Run(() => this.LogError("Error c", "003"));
+        Task loggingErrorForUser1 = Task.Run(() => this.LogError(Messages.SampleErrorData, Messages.SampleUserID1));
+        Task loggingErrorForUser2 = Task.Run(() => this.LogError(Messages.SampleErrorData, Messages.SampleUserID2));
+        Task loggingErrorForUser3 = Task.Run(() => this.LogError(Messages.SampleErrorData, Messages.SampleUserID3));
         Task.WaitAll(loggingErrorForUser1, loggingErrorForUser2, loggingErrorForUser3);
     }
 

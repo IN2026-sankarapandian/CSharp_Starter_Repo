@@ -63,7 +63,7 @@ public class Task1
                         break;
                 }
             }
-            catch (IOException ex)
+            catch (Exception ex)
             {
                 this._userInterface.ShowMessage(MessageType.Warning, string.Format(Messages.PromptErrorAndGoBack, ex.Message));
                 this._userInterface.GetInput();

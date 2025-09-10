@@ -30,17 +30,17 @@ In this task I have optimized the given code
 - To enable multiuser logging, I have created individual error lo files for every user."# gb" 
 
 > ## Error handling
-- Path by user are validated
-	- Path should not have in valid characters.
+- Path given by user are validated
+	- Path should not have invalid characters.
 	- Path must not be relative.
 	- File existence will be checked.
 	- Only text files are supported
-- As asynchronous process involved, restricts file operation on a file that already used by other process.
+- As asynchronous process involved, file operations on a file that already used by other process is restricted.
 
 > ## Additional things
 
-I have created the progress bar UI component which can bes used as both static for synchronous process and dynamic for
-asynchronous where the progress bar will stays at top when move to other pages.
+I have created the progress bar UI component which can be used as both static for synchronous process and dynamic for
+asynchronous where currently running progress bar will move to top of the console when user moves to other pages.
 
 This is how the progress bar works for synchronous processes
 

@@ -7,7 +7,7 @@ using FilesAndStreams.UserInterface;
 namespace FilesAndStreams.Tasks;
 
 /// <summary>
-/// Demonstrates the how different streams work in asynchronous mode.
+/// Demonstrates how different streams work in asynchronous mode.
 /// </summary>
 public class Task2
 {
@@ -80,7 +80,7 @@ public class Task2
             await this._fileService.CreateLargeTextFileAsync(sampleFileSavePath, FileResources.TargetSize, (progress, elapsedTime)
                 => this._userInterface.DrawProgressBar(taskName, progress, elapsedTime));
         }
-        catch (IOException ex)
+        catch (Exception ex)
         {
             this._userInterface.ShowMessage(MessageType.Warning, string.Format(Messages.PromptErrorAndGoBack, ex.Message));
             this._userInterface.GetInput();
@@ -119,7 +119,7 @@ public class Task2
                     break;
             }
         }
-        catch (IOException ex)
+        catch (Exception ex)
         {
             this._userInterface.ShowMessage(MessageType.Warning, string.Format(Messages.PromptErrorAndGoBack, ex.Message));
             this._userInterface.GetInput();
@@ -153,7 +153,7 @@ public class Task2
             await this._fileService.WriteDataAsync(filterFilePath, filteredContent, (progress, elapsedTime)
                 => this._userInterface.DrawProgressBar(writingTaskName, progress, elapsedTime));
         }
-        catch (IOException ex)
+        catch (Exception ex)
         {
             this._userInterface.ShowMessage(MessageType.Warning, string.Format(Messages.PromptErrorAndGoBack, ex.Message));
             this._userInterface.GetInput();
