@@ -26,23 +26,25 @@ public class FileService
     {
         File.Create(filePath).Dispose();
 
-        Random random = new();
+        Random random = new ();
 
-        using FileStream writer = new(
+        using FileStream writer = new (
             filePath,
             FileMode.Create,
             FileAccess.Write,
             FileShare.None,
             FileResources.BufferSize,
             useAsync: true);
+
         long onePercentageSize = targetSize / 100;
-        long nextThresoldValue = 0;
+        long nextThresholdValue = 0;
         long currentSize = 0;
         int currentLine = 0;
         DateTime startTime = DateTime.Now;
 
-        Stopwatch stopwatch = new();
+        Stopwatch stopwatch = new ();
         stopwatch.Start();
+
         while (currentSize < targetSize)
         {
             string timeStamp = startTime.AddSeconds(currentLine).ToString(FileResources.SampleDateFormat);
@@ -54,11 +56,11 @@ public class FileService
                 string.Format(FileResources.SampleFileTemplate + Environment.NewLine, timeStamp, temperature, pressure, vibration);
             byte[] bytes = Encoding.UTF8.GetBytes(line);
             await writer.WriteAsync(bytes, 0, bytes.Length);
-            if (onePercentageSize > 0 && currentSize >= nextThresoldValue)
+            if (onePercentageSize > 0 && currentSize >= nextThresholdValue)
             {
                 int progress = (int)((currentSize * 100L) / targetSize);
                 progressCallBack?.Invoke(progress, stopwatch.ElapsedMilliseconds);
-                nextThresoldValue += onePercentageSize;
+                nextThresholdValue += onePercentageSize;
             }
 
             currentSize += bytes.Length;
@@ -119,7 +121,7 @@ public class FileService
     /// <returns>>A <see cref="Task{string}"/> with read string value representing the asynchronous operation.</returns>
     public async Task<string> ReadFileAsync(string filePath, Action<int, long>? progressCallBack = null)
     {
-        using FileStream fileStream = new(
+        using FileStream fileStream = new (
             filePath,
             FileMode.Open,
             FileAccess.Read,
@@ -127,18 +129,18 @@ public class FileService
             bufferSize: FileResources.BufferSize,
             useAsync: true);
 
-        using StreamReader streamReader = new(fileStream);
-        Stopwatch stopwatch = new();
-        stopwatch.Start();
+        using StreamReader streamReader = new (fileStream);
 
         long totalBytes = fileStream.Length;
         long readBytes = 0;
         long onePercentBytes = totalBytes / 100;
         long nextThreshold = 0;
-
         char[] buffer = new char[FileResources.BufferSize];
         int bytesRead;
-        StringBuilder sb = new();
+        StringBuilder sb = new ();
+
+        Stopwatch stopwatch = new ();
+        stopwatch.Start();
         while ((bytesRead = await streamReader.ReadAsync(buffer, 0, buffer.Length)) > 0)
         {
             sb.Append(buffer, 0, bytesRead);
@@ -151,6 +153,7 @@ public class FileService
                 nextThreshold += onePercentBytes;
             }
         }
+
         progressCallBack?.Invoke(100, stopwatch.ElapsedMilliseconds);
 
         stopwatch.Stop();
@@ -176,8 +179,9 @@ public class FileService
         long onePercentageOfLines = totalLine / 100;
         long nextThreshold = 0;
         string pattern = RegexPatterns.ExtractTemperature;
-        StringBuilder filteredContent = new();
-        Stopwatch stopwatch = new();
+        StringBuilder filteredContent = new ();
+
+        Stopwatch stopwatch = new ();
         stopwatch.Start();
         foreach (string line in data)
         {
@@ -216,12 +220,13 @@ public class FileService
     /// <returns>>A <see cref="Task"/> representing the asynchronous operation.</returns>
     public async Task WriteDataAsync(string path, string content, Action<int, long>? progressCallBack = null)
     {
-        using MemoryStream memoryStream = new();
+        using MemoryStream memoryStream = new ();
         byte[] bytes = Encoding.UTF8.GetBytes(content);
         memoryStream.Write(bytes, 0, bytes.Length);
-        Stopwatch stopwatch = new();
+
+        Stopwatch stopwatch = new ();
         stopwatch.Start();
-        using (FileStream fileStream = new(
+        using (FileStream fileStream = new (
             path, FileMode.Create,
             FileAccess.Write,
             FileShare.None,
@@ -251,22 +256,23 @@ public class FileService
     {
         File.Create(filePath).Dispose();
 
-        Random random = new();
+        Random random = new ();
 
-        using FileStream writer = new(
+        using FileStream writer = new (
             filePath,
             FileMode.Create,
             FileAccess.Write,
             FileShare.None,
             FileResources.BufferSize,
             useAsync: false);
+
         long onePercentageSize = targetSize / 100;
-        long nextThresoldValue = 0;
+        long nextThresholdValue = 0;
         decimal currentSize = 0;
         int currentLine = 0;
         DateTime startTime = DateTime.Now;
 
-        Stopwatch stopwatch = new();
+        Stopwatch stopwatch = new ();
         stopwatch.Start();
         while (currentSize < targetSize)
         {
@@ -279,11 +285,11 @@ public class FileService
                 string.Format(FileResources.SampleFileTemplate + Environment.NewLine, timeStamp, temperature, pressure, vibration);
             byte[] bytes = Encoding.UTF8.GetBytes(line);
             writer.Write(bytes, 0, bytes.Length);
-            if (onePercentageSize > 0 && currentSize >= nextThresoldValue)
+            if (onePercentageSize > 0 && currentSize >= nextThresholdValue)
             {
                 int progress = (int)((currentSize * 100L) / targetSize);
                 progressCallBack?.Invoke(progress, stopwatch.ElapsedMilliseconds);
-                nextThresoldValue += onePercentageSize;
+                nextThresholdValue += onePercentageSize;
             }
 
             currentSize += bytes.Length;
@@ -333,8 +339,8 @@ public class FileService
     /// <returns>Content read from the file  as string.</returns>
     public string ReadFile(string filePath, Action<int, long>? progressCallBack = null)
     {
-        StringBuilder content = new();
-        using (FileStream fileStream = new(
+        StringBuilder content = new ();
+        using (FileStream fileStream = new (
             filePath,
             FileMode.Open,
             FileAccess.Read,
@@ -343,8 +349,8 @@ public class FileService
             long totalSize = fileStream.Length;
             long onePercentBytes = totalSize / 100;
             long nextThreshold = 0;
-            using StreamReader reader = new(fileStream);
-            Stopwatch stopwatch = new();
+            using StreamReader reader = new (fileStream);
+            Stopwatch stopwatch = new ();
             stopwatch.Start();
             string? line;
             progressCallBack?.Invoke(0, stopwatch.ElapsedMilliseconds);
@@ -378,12 +384,13 @@ public class FileService
     /// </param>
     public void WriteData(string path, string content, Action<int, long>? progressCallBack = null)
     {
-        using MemoryStream memoryStream = new();
+        using MemoryStream memoryStream = new ();
         byte[] bytes = Encoding.UTF8.GetBytes(content);
         memoryStream.Write(bytes, 0, bytes.Length);
-        Stopwatch stopwatch = new();
+
+        Stopwatch stopwatch = new ();
         stopwatch.Start();
-        using (FileStream fileStream = new(path, FileMode.Create, FileAccess.Write, FileShare.None))
+        using (FileStream fileStream = new (path, FileMode.Create, FileAccess.Write, FileShare.None))
         {
             progressCallBack?.Invoke(0, stopwatch.ElapsedMilliseconds);
             memoryStream.Position = 0;
@@ -393,6 +400,7 @@ public class FileService
 
         stopwatch.Stop();
     }
+
     /// <summary>
     /// Asynchronously read chunk of data with the specified chunk size.
     /// </summary>
@@ -412,9 +420,9 @@ public class FileService
         long nextThreshold = onePercentageSize;
         long currentSize = 0;
 
-        StringBuilder content = new();
+        StringBuilder content = new ();
 
-        Stopwatch stopwatch = new();
+        Stopwatch stopwatch = new ();
         stopwatch.Start();
 
         while ((bytesRead = await stream.ReadAsync(buffer.AsMemory(0, chunkSize))) > 1)
@@ -447,10 +455,9 @@ public class FileService
         byte[] buffer = new byte[chunkSize];
         decimal totalSize = stream.Length;
         decimal currentSize = 0;
+        StringBuilder content = new ();
 
-        StringBuilder content = new();
-
-        Stopwatch stopwatch = new();
+        Stopwatch stopwatch = new ();
         stopwatch.Start();
 
         while ((bytesRead = stream.Read(buffer, 0, chunkSize)) > 1)

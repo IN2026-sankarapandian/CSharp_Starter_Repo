@@ -12,8 +12,10 @@ public class Result<T>
     private Result(bool isSuccess, T? value, string? errorMessage)
     {
         this.IsSuccess = isSuccess;
+#pragma warning disable CS8601 // Possible null reference assignment.
         this.Value = value;
         this.ErrorMessage = errorMessage;
+#pragma warning restore CS8601 // Possible null reference assignment.
     }
 
     /// <summary>
@@ -45,12 +47,12 @@ public class Result<T>
     /// </summary>
     /// <param name="value">Value of result.</param>
     /// <returns>A <see cref="Result{T}"/> representing success.</returns>
-    public static Result<T> Success(T value) => new Result<T>(true, value, null);
+    public static Result<T> Success(T value) => new (true, value, null);
 
     /// <summary>
     /// Create a failure object of <see cref="Result{T}"/> with the error message.
     /// </summary>
     /// <param name="errorMessage">Error message describing the failure.</param>
     /// <returns>A <see cref="Result{T}"/> representing failure.</returns>
-    public static Result<T> Failure(string errorMessage) => new Result<T>(false, default, errorMessage);
+    public static Result<T> Failure(string errorMessage) => new (false, default, errorMessage);
 }
