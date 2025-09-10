@@ -39,10 +39,11 @@ public class FormHandler
             if (!isValidTxtFilePathResult.IsSuccess && !isValidTxtFilePathResult.Value)
             {
                 this._userInterface.ShowMessage(MessageType.Warning, isValidTxtFilePathResult.ErrorMessage);
-                continue;
             }
-
-            return filePath;
+            else
+            {
+                return filePath;
+            }
         }
         while (true);
     }
@@ -60,15 +61,15 @@ public class FormHandler
             if (!decimal.TryParse(userInput, out decimal temperatureThreshold))
             {
                 this._userInterface.ShowMessage(MessageType.Warning, Messages.NotValidTemperature);
-                continue;
             }
             else if (temperatureThreshold >= 150 || temperatureThreshold <= 50)
             {
                 this._userInterface.ShowMessage(MessageType.Warning, Messages.TemperatureRangeMismatches);
-                continue;
             }
-
-            return temperatureThreshold;
+            else
+            {
+                return temperatureThreshold;
+            }
         }
         while (true);
     }
@@ -87,10 +88,11 @@ public class FormHandler
             if (!isValidTxtFilePathResult.IsSuccess && !isValidTxtFilePathResult.Value)
             {
                 this._userInterface.ShowMessage(MessageType.Warning, isValidTxtFilePathResult.ErrorMessage);
-                continue;
             }
-
-            return filePath;
+            else
+            {
+                return filePath;
+            }
         }
         while (true);
     }
@@ -109,10 +111,11 @@ public class FormHandler
             if (string.IsNullOrEmpty(userInput))
             {
                 this._userInterface.ShowMessage(MessageType.Warning, Messages.InputCannotBeEmpty);
-                continue;
             }
-
-            return userInput;
+            else
+            {
+                return userInput;
+            }
         }
         while (true);
     }

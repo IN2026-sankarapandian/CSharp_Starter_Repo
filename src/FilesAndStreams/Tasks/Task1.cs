@@ -78,10 +78,13 @@ public class Task1
     private void HandleCreateSampleFiles()
     {
         this._userInterface.ShowMessage(MessageType.Title, Messages.Create);
+
         string sampleFileSavePath = this._formHandler.GetTxtFileSavePath(Messages.EnterPathToSaveFile);
         string taskName = string.Format(Messages.WritingFile, Path.GetFileName(sampleFileSavePath));
+
         this._fileService.CreateLargeTextFile(sampleFileSavePath, FileResources.TargetSize, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(taskName, progress, elapsedTime));
+
         this._userInterface.ShowMessage(MessageType.Warning, Messages.PressEnterToExit);
         this._userInterface.GetInput();
     }
@@ -92,15 +95,18 @@ public class Task1
     private void HandleReadSampleFiles()
     {
         this._userInterface.ShowMessage(MessageType.Title, Messages.Read);
+
         string sampleFileSavePath = this._formHandler.GetTxtFilePath(Messages.EnterPathToReadFile);
         string taskNameForFileStream = string.Format(Messages.ReadingFileWithFileStream, Path.GetFileName(sampleFileSavePath));
         string taskNameForBufferedStream = string.Format(Messages.ReadingFileWithBufferedStream, Path.GetFileName(sampleFileSavePath));
+
         this._fileService.ReadFileInChunks(FileReader.FileStream, sampleFileSavePath, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(
                 string.Format(taskNameForFileStream, nameof(FileStream)), progress, elapsedTime));
         this._fileService.ReadFileInChunks(FileReader.BufferedStream, sampleFileSavePath, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(
                 string.Format(taskNameForBufferedStream, nameof(BufferedStream)), progress, elapsedTime));
+
         this._userInterface.ShowMessage(MessageType.Warning, Messages.PressEnterToExit);
         this._userInterface.GetInput();
     }
@@ -111,18 +117,21 @@ public class Task1
     private void HandleCreateFilteredFile()
     {
         this._userInterface.ShowMessage(MessageType.Title, Messages.Process);
+
         string sampleFilePath = this._formHandler.GetTxtFilePath(Messages.EnterPathToFilterFile);
         string filterFilePath = this._formHandler.GetTxtFileSavePath(Messages.EnterPathToSaveFilteredFile);
         decimal temperatureThreshold = this._formHandler.GetTemperatureThreshold(Messages.EnterTemperatureThresholdValue);
         string readingTaskName = string.Format(Messages.ReadingFileForFiltering, Path.GetFileName(sampleFilePath));
         string filteringTaskName = string.Format(Messages.FilteringFile, Path.GetFileName(sampleFilePath));
         string writingTaskName = string.Format(Messages.WritingFilteredFile, Path.GetFileName(filterFilePath));
+
         string content = this._fileService.ReadFile(sampleFilePath, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(readingTaskName, progress, elapsedTime));
         string filteredContent = this._fileService.FilterByTemperature(content, 100, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(filteringTaskName, progress, elapsedTime));
         this._fileService.WriteData(filterFilePath, filteredContent, (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(writingTaskName, progress, elapsedTime));
+
         this._userInterface.ShowMessage(MessageType.Warning, Messages.PressEnterToExit);
         this._userInterface.GetInput();
     }

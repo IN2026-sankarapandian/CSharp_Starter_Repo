@@ -32,8 +32,10 @@ public class Task3
     public void Run()
     {
         this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 3));
+
         string sampleFileSavePath = this._formHandler.GetTxtFileSavePath(Messages.EnterPathToSaveFile);
         string sampleData = this._formHandler.GetUserInput(Messages.EnterValue);
+
         try
         {
             this.EfficientFileHandler(sampleFileSavePath, sampleData);

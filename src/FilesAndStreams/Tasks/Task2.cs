@@ -72,8 +72,10 @@ public class Task2
         try
         {
             this._userInterface.ShowMessage(MessageType.Title, Messages.CreateAsync);
+
             string sampleFileSavePath = this._formHandler.GetTxtFileSavePath(Messages.EnterPathToSaveFile);
             string taskName = string.Format(Messages.WritingFile, Path.GetFileName(sampleFileSavePath));
+
             this._userInterface.DrawProgressBar(taskName, 0, 0);
             await this._fileService.CreateLargeTextFileAsync(sampleFileSavePath, FileResources.TargetSize, (progress, elapsedTime)
                 => this._userInterface.DrawProgressBar(taskName, progress, elapsedTime));
@@ -93,12 +95,13 @@ public class Task2
         try
         {
             this._userInterface.ShowMessage(MessageType.Title, Messages.ReadAsync);
+
             string sampleFileSavePath = this._formHandler.GetTxtFilePath(Messages.EnterPathToReadFile);
             string taskNameForFileStream = string.Format(Messages.ReadingFileWithFileStream, Path.GetFileName(sampleFileSavePath));
             string taskNameForBufferedStream = string.Format(Messages.ReadingFileWithBufferedStream, Path.GetFileName(sampleFileSavePath));
+
             this._userInterface.ShowMessage(MessageType.Information, Messages.FileReadOptions);
             string userChoice = this._formHandler.GetUserInput(Messages.EnterWhichStreamToUse);
-
             switch (userChoice)
             {
                 case "1":
@@ -131,15 +134,18 @@ public class Task2
         try
         {
             this._userInterface.ShowMessage(MessageType.Title, Messages.ProcessAsync);
+
             string sampleFilePath = this._formHandler.GetTxtFilePath(Messages.EnterPathToFilterFile);
             string filterFilePath = this._formHandler.GetTxtFileSavePath(Messages.EnterPathToSaveFilteredFile);
             decimal temperatureThreshold = this._formHandler.GetTemperatureThreshold(Messages.EnterTemperatureThresholdValue);
             string readingTaskName = string.Format(Messages.ReadingFileForFiltering, Path.GetFileName(sampleFilePath));
             string filteringTaskName = string.Format(Messages.FilteringFile, Path.GetFileName(sampleFilePath));
             string writingTaskName = string.Format(Messages.WritingFilteredFile, Path.GetFileName(filterFilePath));
+
             this._userInterface.DrawProgressBar(readingTaskName, 0, 0);
             this._userInterface.DrawProgressBar(filteringTaskName, 0, 0);
             this._userInterface.DrawProgressBar(writingTaskName, 0, 0);
+
             string content = await this._fileService.ReadFileAsync(sampleFilePath, (progress, elapsedTime)
                 => this._userInterface.DrawProgressBar(readingTaskName, progress, elapsedTime));
             string filteredContent = this._fileService.FilterByTemperature(content, 100, (progress, elapsedTime)
