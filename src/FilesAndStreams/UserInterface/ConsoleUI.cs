@@ -1,5 +1,6 @@
 ﻿using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
+using FilesAndStreams.UserInterface.Components;
 
 namespace FilesAndStreams.UserInterface;
 
@@ -8,8 +9,8 @@ namespace FilesAndStreams.UserInterface;
 /// </summary>
 public class ConsoleUI : IUserInterface
 {
-    private readonly object _consoleLock = new object();
-    private List<ProgressBar> _progressBars;
+    private readonly object _consoleLock = new ();
+    private readonly List<ProgressBar> _progressBars;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="ConsoleUI"/> class.
@@ -111,10 +112,7 @@ public class ConsoleUI : IUserInterface
                 Console.SetCursorPosition(0, top);
             }
 
-            int total = 30;
-            int currentProgress = progressPercentage * total / 100;
-            string bar = new string(ProgressBarConstants.BarFilled, currentProgress).PadRight(total, ProgressBarConstants.BarEmpty);
-            Console.WriteLine(ProgressBarConstants.ProgressBarTemplate, taskName, bar, progressPercentage, elapsedTime);
+            Console.WriteLine(progressBar.ToString());
 
             if (progressPercentage == 100)
             {
@@ -131,6 +129,9 @@ public class ConsoleUI : IUserInterface
         }
     }
 
+    /// <summary>
+    /// Resets running progress bar to top of the page when page changes.
+    /// </summary>
     private void ResetProgressBars()
     {
         int line = 0;
@@ -138,7 +139,7 @@ public class ConsoleUI : IUserInterface
         {
             progressBar.LineIndex = line;
             progressBar.IsStatic = true;
-            this.DrawProgressBar(progressBar.TaskName, progressBar.Progress, progressBar.ElapsedTime);
+            this.DrawProgressBar(progressBar.TaskName ?? Messages.Unknown, progressBar.Progress, progressBar.ElapsedTime);
             line++;
         }
 

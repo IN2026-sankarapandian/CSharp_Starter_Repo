@@ -8,5 +8,5 @@ public static class RegexPatterns
     /// <summary>
     /// Its and regex pattern to extract temperature from machine data
     /// </summary>
-    public const string ExtractTemperature = @"^(-?\d+)\s*([-+*/])\s*(-?\d+)$";
+    public const string ExtractTemperature = @"temperature\s*:\s*([-+]?\d+(?:\.\d+)?)";
 }

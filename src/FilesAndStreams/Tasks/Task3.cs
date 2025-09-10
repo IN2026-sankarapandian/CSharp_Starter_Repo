@@ -2,6 +2,7 @@
 using System.Text;
 using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
+using FilesAndStreams.FormHandlers;
 using FilesAndStreams.UserInterface;
 
 namespace FilesAndStreams.Tasks;
@@ -12,14 +13,17 @@ namespace FilesAndStreams.Tasks;
 public class Task3
 {
     private readonly IUserInterface _userInterface;
+    private readonly FormHandler _formHandler;
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Task3"/> class.
     /// </summary>
     /// <param name="userInterface">Gives access to UI</param>
-    public Task3(IUserInterface userInterface)
+    /// <param name="formHandler">Get data from user.</param>
+    public Task3(IUserInterface userInterface, FormHandler formHandler)
     {
         this._userInterface = userInterface;
+        this._formHandler = formHandler;
     }
 
     /// <summary>
@@ -28,18 +32,26 @@ public class Task3
     public void Run()
     {
         this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 3));
-        this.EfficientFileHandler();
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.PressEnterToExitTask, 3));
+        string sampleFileSavePath = this._formHandler.GetTxtFileSavePath(Messages.EnterPathToSaveFile);
+        string sampleData = this._formHandler.GetUserInput(Messages.EnterValue);
+        try
+        {
+            this.EfficientFileHandler(sampleFileSavePath, sampleData);
+        }
+        catch (IOException ex)
+        {
+            this._userInterface.ShowMessage(MessageType.Warning, string.Format(Messages.PromptErrorAndGoBack, ex.Message));
+        }
+
+        this._userInterface.ShowMessage(MessageType.Information, Messages.PressEnterToExit);
         Console.ReadKey();
     }
 
     /// <summary>
     /// Its an optimized version of give code snippet.
     /// </summary>
-    private void EfficientFileHandler()
+    private void EfficientFileHandler(string path, string data)
     {
-        string path = FileResources.SampleFilePath;
-        string data = FileResources.SampleData;
         Stopwatch stopwatch = new ();
         stopwatch.Start();
         using (FileStream fileStream = new (
@@ -63,9 +75,8 @@ public class Task3
             }
         }
 
-        this._userInterface.ShowMessage(MessageType.Information, Messages.EfficientFilehandle);
         stopwatch.Stop();
         TimeSpan elapsed = stopwatch.Elapsed;
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.Elapsedtime, elapsed.TotalMilliseconds));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.ElapsedTime, elapsed.TotalMilliseconds));
     }
 }

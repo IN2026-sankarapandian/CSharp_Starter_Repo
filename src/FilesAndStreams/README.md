@@ -27,4 +27,29 @@ In this task I have optimized the given code
 In this task I have optimized the given code
 - Fix : Message parameter haven't used, instead the previous code snippet written empty data into file.
 - I have implemented the lock() to enforce thread safety while more number of threads tries to the same resources.
-- To enable multiuser logging, I have created individual error lo files for every user.
+- To enable multiuser logging, I have created individual error lo files for every user."# gb" 
+
+> ## Error handling
+- Path by user are validated
+	- Path should not have in valid characters.
+	- Path must not be relative.
+	- File existence will be checked.
+	- Only text files are supported
+- As asynchronous process involved, restricts file operation on a file that already used by other process.
+
+> ## Additional things
+
+I have created the progress bar UI component which can bes used as both static for synchronous process and dynamic for
+asynchronous where the progress bar will stays at top when move to other pages.
+
+This is how the progress bar works for synchronous processes
+
+<video width="320" height="240" controls>
+  <source src="./Assets/Videos/SyncScreenRecording.mp4" type="video/mp4">
+</video>
+
+This is how the progress bar works for asynchronous processes
+
+<video width="320" height="240" controls>
+  <source src="./Assets/Videos/AsyncScreenRecording.mp4" type="video/mp4">
+</video>

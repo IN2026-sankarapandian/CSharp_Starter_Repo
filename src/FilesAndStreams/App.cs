@@ -1,5 +1,6 @@
 ﻿using FilesAndStreams.Constants;
 using FilesAndStreams.Enums;
+using FilesAndStreams.FileServices;
 using FilesAndStreams.FormHandlers;
 using FilesAndStreams.Tasks;
 using FilesAndStreams.UserInterface;
@@ -18,24 +19,25 @@ public class App
     public static void Main()
     {
         IUserInterface userInterface = new ConsoleUI();
-        FileValidator validator = new FileValidator();
-        FormHandler formHandler = new FormHandler(userInterface, validator);
+        FileValidator validator = new ();
+        FormHandler formHandler = new (userInterface, validator);
+        FileService fileService = new ();
         do
         {
             userInterface.ShowMessage(MessageType.Title, Messages.FileAndStreams);
             userInterface.ShowMessage(MessageType.Information, Messages.TaskOptions);
-            userInterface.ShowMessage(MessageType.Prompt, Messages.EnterTaskToRun);
+            userInterface.ShowMessage(MessageType.Prompt, Messages.AskUserChoice);
             string? userInput = userInterface.GetInput();
             switch (userInput)
             {
                 case "1":
-                    new Task1(userInterface, formHandler).Run();
+                    new Task1(userInterface, formHandler, fileService).Run();
                     break;
                 case "2":
-                    new Task2(userInterface, formHandler).Run();
+                    new Task2(userInterface, formHandler, fileService).Run();
                     break;
                 case "3":
-                    new Task3(userInterface).Run();
+                    new Task3(userInterface, formHandler).Run();
                     break;
                 case "4":
                     new Task4(userInterface).Run();

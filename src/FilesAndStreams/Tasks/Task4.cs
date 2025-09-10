@@ -31,7 +31,7 @@ public class Task4
         this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.TaskTitle, 4));
         this.SimulateLoggingErrors();
         this._userInterface.ShowMessage(MessageType.Information, Messages.ErrorLogFilesSimulated);
-        this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.PressEnterToExitTask, 4));
+        this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
         this._userInterface.GetInput();
     }
 
