@@ -12,10 +12,8 @@ public class Result<T>
     private Result(bool isSuccess, T? value, string? errorMessage)
     {
         this.IsSuccess = isSuccess;
-#pragma warning disable CS8601 // Possible null reference assignment.
-        this.Value = value;
-        this.ErrorMessage = errorMessage;
-#pragma warning restore CS8601 // Possible null reference assignment.
+        this.Value = value!;
+        this.ErrorMessage = errorMessage ?? string.Empty;
     }
 
     /// <summary>
