@@ -1,6 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
-
-namespace FilesAndStreams.Constants;
+﻿namespace FilesAndStreams.Constants;
 
 /// <summary>
 /// Have constants related t.

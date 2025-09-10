@@ -1,8 +1,8 @@
-﻿using FilesAndStreams.Constants;
-using FilesAndStreams.Enums;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Text;
 using System.Text.RegularExpressions;
+using FilesAndStreams.Constants;
+using FilesAndStreams.Enums;
 
 namespace FilesAndStreams.FileServices;
 

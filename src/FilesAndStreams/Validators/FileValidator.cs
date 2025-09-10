@@ -1,5 +1,4 @@
-﻿using System.IO;
-using FilesAndStreams.Common;
+﻿using FilesAndStreams.Common;
 
 namespace FilesAndStreams.Validators;
 
