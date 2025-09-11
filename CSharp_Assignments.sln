@@ -32,6 +32,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dotnet", "src\Dotnet\Dotnet
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryOptimization", "src\MemoryOptimization\MemoryOptimization.csproj", "{2E081DFF-D959-85DF-C06C-12648079071E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InventoryManager.Tests", "src\InventoryManager.Tests\InventoryManager.Tests.csproj", "{B110D66D-05EB-4DA1-AC70-32F4E91721D0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -82,6 +84,10 @@ Global
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B110D66D-05EB-4DA1-AC70-32F4E91721D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B110D66D-05EB-4DA1-AC70-32F4E91721D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B110D66D-05EB-4DA1-AC70-32F4E91721D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B110D66D-05EB-4DA1-AC70-32F4E91721D0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
