@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DynamicAndType" xml:space="preserve">
+    <value>dynamic {0} = {1}, Type : {2}</value>
+  </data>
+  <data name="VarAndDynamicDescription" xml:space="preserve">
+    <value>This task demonstrate the working of var and dynamic keyword\n\n</value>
+  </data>
+  <data name="VarAndDynamicMessage2" xml:space="preserve">
+    <value>After changing the value of dynamic variable with another type</value>
+  </data>
+  <data name="VarAndType" xml:space="preserve">
+    <value>var {0} = {1}, Type : {2}</value>
+  </data>
+  <data name="VarAndDynamicMessage1" xml:space="preserve">
+    <value>The type of {0} can't be changed which will cause a runtime error\n</value>
+  </data>
+  <data name="TaskExitPrompt" xml:space="preserve">
+    <value>\n\nPress enter to exit task {0}</value>
+  </data>
+  <data name="RecordsDescription" xml:space="preserve">
+    <value>This task demonstrate the working of records\n\n</value>
+  </data>
+  <data name="Books" xml:space="preserve">
+    <value>\nBooks : </value>
+  </data>
+  <data name="IsEqual" xml:space="preserve">
+    <value>\nIs {0} == {1} : {2}</value>
+  </data>
+  <data name="OriginalBook" xml:space="preserve">
+    <value>\nOriginal book : </value>
+  </data>
+  <data name="NewBook" xml:space="preserve">
+    <value>New book : </value>
+  </data>
+  <data name="DisplayDetailsUsingDeconstruction" xml:space="preserve">
+    <value>\nDisplaying the details of book using deconstruction</value>
+  </data>
+  <data name="BookDetails" xml:space="preserve">
+    <value>Title : {0} Author : {1} ISBN : {2}</value>
+  </data>
+  <data name="PatternMatchingDescription" xml:space="preserve">
+    <value>This task demonstrate the the working of pattern matching\n\n</value>
+  </data>
+  <data name="DisplayShapes" xml:space="preserve">
+    <value>The following details are about shape objects with different properties, all these shapes types are found with pattern matching.\n</value>
+  </data>
+  <data name="DisplayCircle" xml:space="preserve">
+    <value>It is a circle in {0} color with radius : {1}, area : {2:f2}.</value>
+  </data>
+  <data name="DisplayRectangle" xml:space="preserve">
+    <value>It is a rectangle in {0} color with height : {1}, width : {2}, area : {3}.</value>
+  </data>
+  <data name="DisplayTriangle" xml:space="preserve">
+    <value>It is a triangle in {0} color with base : {1}, height : {2}, area : {3}.</value>
+  </data>
+  <data name="UnknownShape" xml:space="preserve">
+    <value>Unknown shape</value>
+  </data>
+  <data name="LambdaExpressionDescription" xml:space="preserve">
+    <value>This task demonstrate the the working of lambda expressions\n\n</value>
+  </data>
+  <data name="SquaredOddNumbers" xml:space="preserve">
+    <value>\nSquared odd numbers : </value>
+  </data>
+  <data name="EventAndDelegateDescription" xml:space="preserve">
+    <value>This task demonstrates the working of events and delegates \nWrite any message as a input to trigger the notifier class that displays the info about your message.\n\n</value>
+  </data>
+  <data name="EnterMessagePrompt" xml:space="preserve">
+    <value>Enter the message : </value>
+  </data>
+  <data name="InputCannotBeEmpty" xml:space="preserve">
+    <value>Input cannot be empty</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message : {0}</value>
+  </data>
+  <data name="MessageUppercase" xml:space="preserve">
+    <value>Message in upper case : {0}</value>
+  </data>
+  <data name="MessageLength" xml:space="preserve">
+    <value>Length of the message : {0}</value>
+  </data>
+  <data name="TriggeringNotifications" xml:space="preserve">
+    <value>Triggering notifications..</value>
+  </data>
+  <data name="DelegatesAdvancedDescription" xml:space="preserve">
+    <value>This task demonstrate the the working of delegates(Advanced)\n\n</value>
+  </data>
+  <data name="SortedByName" xml:space="preserve">
+    <value>Sorted by name : </value>
+  </data>
+  <data name="SortedByCategory" xml:space="preserve">
+    <value>\nSorted by category : </value>
+  </data>
+  <data name="SortedByPrice" xml:space="preserve">
+    <value>\nSorted by price : </value>
+  </data>
+  <data name="DisplayProduct" xml:space="preserve">
+    <value>Name : {0}, Category : {1} price {2}</value>
+  </data>
+  <data name="AnonymousDescription" xml:space="preserve">
+    <value>This task demonstrate the the working of anonymous methods\n</value>
+  </data>
+  <data name="ArrayBeforeSorting" xml:space="preserve">
+    <value>Array before sorting : </value>
+  </data>
+  <data name="ArrayAfterSorting" xml:space="preserve">
+    <value>\nArray after sorting : </value>
+  </data>
+  <data name="Exit" xml:space="preserve">
+    <value>{0}. Exit</value>
+  </data>
+  <data name="EnterValidOption" xml:space="preserve">
+    <value>Enter a valid option !</value>
+  </data>
+  <data name="EnterTask" xml:space="preserve">
+    <value>Enter which task to run : </value>
+  </data>
+</root>
