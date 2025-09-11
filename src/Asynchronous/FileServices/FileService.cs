@@ -25,7 +25,7 @@ public class FileService
             FileMode.Open,
             FileAccess.Read,
             FileShare.Read,
-            bufferSize: 1024*1024,
+            bufferSize: 1024 * 1024,
             useAsync: true);
 
         using StreamReader streamReader = new (fileStream);
@@ -34,11 +34,11 @@ public class FileService
         long readBytes = 0;
         long onePercentBytes = totalBytes / 100;
         long nextThreshold = 0;
-        char[] buffer = new char[1024*1024];
+        char[] buffer = new char[1024 * 1024];
         int bytesRead;
-        StringBuilder sb = new();
+        StringBuilder sb = new ();
 
-        Stopwatch stopwatch = new();
+        Stopwatch stopwatch = new ();
         stopwatch.Start();
         while ((bytesRead = await streamReader.ReadAsync(buffer, 0, buffer.Length)) > 0)
         {
