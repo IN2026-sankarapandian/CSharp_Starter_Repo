@@ -71,7 +71,7 @@ public class ProductListTest
 
         productList.Edit(0, ProductFieldNames.Name, "Arthur");
 
-        Assert.Equal(productList.Get()[0][ProductFieldNames.Name], "Arthur");
+        Assert.Equal("Arthur", productList.Get()[0][ProductFieldNames.Name]);
     }
 
     /// <summary>
@@ -120,7 +120,7 @@ public class ProductListTest
         productList.Add(product1);
         productList.Add(product2);
 
-        List<Product> result = productList.Search(null);
+        List<Product> result = productList.Search(null!);
         List<Product> expected = new List<Product>();
         Assert.Equal(result, expected);
     }

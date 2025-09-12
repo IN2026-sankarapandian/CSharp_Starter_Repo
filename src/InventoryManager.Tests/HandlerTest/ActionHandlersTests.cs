@@ -201,7 +201,7 @@ public class ActionHandlersTests
     }
 
     /// <summary>
-    /// Tests whether HandleSearchProduct says no matches found if keyword didn't mached with any.
+    /// Tests whether HandleSearchProduct says no matches found if keyword didn't matched with any.
     /// </summary>
     [Fact]
     public void HandleSearchProduct_ShouldFetchAndShowProductUnAvailable_IfMatchesNotFound()

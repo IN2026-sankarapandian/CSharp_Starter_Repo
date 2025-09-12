@@ -16,7 +16,7 @@ public class ValidatorTest
     public void IsValid_ShouldReturnTrue_WhenFieldIsNull()
     {
         ProductList productList = new ProductList();
-        bool result = Validator.IsValid(productList, null, "item", out string? error);
+        bool result = Validator.IsValid(productList, null!, "item", out string? error);
 
         Assert.True(result);
         Assert.Null(error);

@@ -28,17 +28,14 @@ public class ParserTest
     /// <summary>
     /// Tests tryParseValue for decimal valid inputs
     /// </summary>
-    /// <param name="input">Input value.</param>
-    /// <param name="expectedResult">Expected value.</param>
-    [Theory]
-    [InlineData("200.21", true)]
-    public void TryParseValue_ShouldReturnValue_ForDecimal(string input, bool expectedResult)
+    [Fact]
+    public void TryParseValue_ShouldReturnValue_ForDecimal()
     {
-        bool isParsed = Parser.TryParseValue(input, typeof(decimal), out object value, out string errorMessage);
+        bool isParsed = Parser.TryParseValue("200.21", typeof(decimal), out object value, out string errorMessage);
 
         Assert.True(isParsed);
         Assert.IsType<decimal>(value);
-        Assert.Equal(decimal.Parse(input), (decimal)value);
+        Assert.Equal(200.21M, (decimal)value);
     }
 
     /// <summary>
@@ -61,14 +58,10 @@ public class ParserTest
     /// <summary>
     /// Tests tryParseValue for decimal valid inputs
     /// </summary>
-    /// <param name="input">Input value.</param>
-    /// <param name="expectedResult">Expected result.</param>
-    /// <param name="expectedValue">Expected value.</param>
-    [Theory]
-    [InlineData("200.21a", false, 0)]
-    public void TryParseValue_ShouldReturnInput_ForNonDecimal(string input, bool expectedResult, object expectedValue)
+    [Fact]
+    public void TryParseValue_ShouldReturnInput_ForNonDecimal()
     {
-        bool isParsed = Parser.TryParseValue(input, typeof(decimal), out object value, out string errorMessage);
+        bool isParsed = Parser.TryParseValue("200.21a", typeof(decimal), out object value, out string errorMessage);
 
         Assert.False(isParsed);
         Assert.Equal(0M, value);
