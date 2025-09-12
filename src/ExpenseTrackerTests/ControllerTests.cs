@@ -169,7 +169,7 @@ public class ControllerTests
 
         controller.HandleViewTransactions();
 
-        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Exactly(2));
+        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Exactly(3));
         mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.Income), Times.Once);
     }
 
