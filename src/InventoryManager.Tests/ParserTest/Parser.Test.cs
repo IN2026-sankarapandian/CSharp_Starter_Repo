@@ -74,4 +74,15 @@ public class ParserTest
         Assert.Equal(0M, value);
         Assert.NotEmpty(errorMessage);
     }
+
+    /// <summary>
+    /// Test whether tyParse return false for unhandled types.
+    /// </summary>
+    [Fact]
+    public void TryParseValue_ShouldReturnInput_ForUnHandledType()
+    {
+        bool isParsed = Parser.TryParseValue("234", typeof(double), out object value, out string errorMessage);
+        Assert.Equal("234", value);
+        Assert.False(isParsed);
+    }
 }

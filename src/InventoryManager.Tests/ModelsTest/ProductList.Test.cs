@@ -98,6 +98,37 @@ public class ProductListTest
     /// Tests search method of <see cref="ProductList"/>.
     /// </summary>
     [Fact]
+    public void Search_ShouldReturnEmptyList_ForNullKeyword()
+    {
+        ProductList productList = new ProductList();
+        Product product1 = new Product(
+            new Dictionary<string, object>
+            {
+                { ProductFieldNames.Id, "1234567890" },
+                { ProductFieldNames.Name, "Sankar" },
+                { ProductFieldNames.Price, 2000.21M },
+                { ProductFieldNames.Quantity, 21 },
+            });
+        Product product2 = new Product(
+            new Dictionary<string, object>
+            {
+                { ProductFieldNames.Id, "1234567890" },
+                { ProductFieldNames.Name, "Arthur" },
+                { ProductFieldNames.Price, 2000.21M },
+                { ProductFieldNames.Quantity, 21 },
+            });
+        productList.Add(product1);
+        productList.Add(product2);
+
+        List<Product> result = productList.Search(null);
+        List<Product> expected = new List<Product>();
+        Assert.Equal(result, expected);
+    }
+
+    /// <summary>
+    /// Tests search method of <see cref="ProductList"/>.
+    /// </summary>
+    [Fact]
     public void Search_ShouldReturnMatchingList_SpecifiedKeyword()
     {
         ProductList productList = new ProductList();

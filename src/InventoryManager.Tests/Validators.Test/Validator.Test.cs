@@ -9,6 +9,22 @@ namespace InventoryManager.Tests.Validators;
 /// </summary>
 public class ValidatorTest
 {
+    /// <summary>
+    /// Tests isValid return true for unhandled fields.
+    /// </summary>
+    [Fact]
+    public void IsValid_ShouldReturnTrue_WhenFieldIsNull()
+    {
+        ProductList productList = new ProductList();
+        bool result = Validator.IsValid(productList, null, "item", out string? error);
+
+        Assert.True(result);
+        Assert.Null(error);
+    }
+
+    /// <summary>
+    /// Tests isValid return false if value is null.
+    /// </summary>
     [Fact]
     public void IsValid_ShouldReturnFalse_WhenValueIsNull()
     {
@@ -19,9 +35,14 @@ public class ValidatorTest
         Assert.Null(error);
     }
 
+    /// <summary>
+    /// Tests isValid return valid results for name.
+    /// </summary>
+    /// <param name="name">Name</param>
+    /// <param name="expected">Expected result</param>
     [Theory]
-    [InlineData("Sankar", true)]
-    [InlineData("HiBroHowAreYouDoingDude", false)]
+    [InlineData("TV", true)]
+    [InlineData("televisionwithartificialintelligence", false)]
     public void IsValid_ShouldPassForValidName_ShouldFailForInvalidName(string name, bool expected)
     {
         ProductList productList = new ProductList();
@@ -30,6 +51,11 @@ public class ValidatorTest
         Assert.Equal(expected, result);
     }
 
+    /// <summary>
+    /// Tests isValid return valid results for id.
+    /// </summary>
+    /// <param name="id">Id</param>
+    /// <param name="expected">Expected result</param>
     [Theory]
     [InlineData("1234567890", true)]
     [InlineData("12345678900", false)]
@@ -44,6 +70,11 @@ public class ValidatorTest
         Assert.Equal(expected, result);
     }
 
+    /// <summary>
+    /// Tests isValid return valid results for price.
+    /// </summary>
+    /// <param name="price">Price</param>
+    /// <param name="expected">Expected result</param>
     [Theory]
     [InlineData(20, true)]
     [InlineData(-10, false)]
@@ -55,6 +86,11 @@ public class ValidatorTest
         Assert.Equal(expected, result);
     }
 
+    /// <summary>
+    /// Tests isValid return valid results for quantity.
+    /// </summary>
+    /// <param name="quantity">Quantity</param>
+    /// <param name="expected">Expected result</param>
     [Theory]
     [InlineData(20, true)]
     [InlineData(-10, false)]
