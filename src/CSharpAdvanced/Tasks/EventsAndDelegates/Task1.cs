@@ -24,7 +24,7 @@ public class Task1 : ITask
     }
 
     /// <inheritdoc/>
-    public string Name => "Event and Delegates";
+    public string Name => Titles.TaskTitle1;
 
     /// <inheritdoc/>
     public void Run()

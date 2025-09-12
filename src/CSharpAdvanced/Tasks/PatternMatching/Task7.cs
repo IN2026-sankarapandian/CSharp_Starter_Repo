@@ -19,7 +19,7 @@ public class Task7 : ITask
     public Task7(IUserInterface userInterface) => this._userInterface = userInterface;
 
     /// <inheritdoc/>
-    public string Name => "Pattern matching";
+    public string Name => Titles.TaskTitle7;
 
     /// <inheritdoc/>
     public void Run()

@@ -18,7 +18,7 @@ public class Task3 : ITask
     public Task3(IUserInterface userInterface) => this._userInterface = userInterface;
 
     /// <inheritdoc/>
-    public string Name => "Anonymous methods";
+    public string Name => Titles.TaskTitle3;
 
     /// <inheritdoc/>
     public void Run()

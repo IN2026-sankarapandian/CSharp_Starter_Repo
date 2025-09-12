@@ -18,7 +18,7 @@ public class Task6 : ITask
     public Task6(IUserInterface userInterface) => this._userInterface = userInterface;
 
     /// <inheritdoc/>
-    public string Name => "Records";
+    public string Name => Titles.TaskTitle6;
 
     /// <summary>
     /// Will contain book details as record.

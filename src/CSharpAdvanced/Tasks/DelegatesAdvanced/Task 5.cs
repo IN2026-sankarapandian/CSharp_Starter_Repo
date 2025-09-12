@@ -18,7 +18,7 @@ public class Task5 : ITask
     public Task5(IUserInterface userInterface) => this._userInterface = userInterface;
 
     /// <inheritdoc/>
-    public string Name => "Delegates (Advanced)";
+    public string Name => Titles.TaskTitle5;
 
     /// <inheritdoc/>
     public void Run()

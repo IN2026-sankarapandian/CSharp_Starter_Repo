@@ -18,7 +18,7 @@ public class Task4 : ITask
     public Task4(IUserInterface userInterface) => this._userInterface = userInterface;
 
     /// <inheritdoc/>
-    public string Name => "Lambda expressions";
+    public string Name => Titles.TaskTitle4;
 
     /// <inheritdoc/>
     public void Run()

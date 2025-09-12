@@ -19,7 +19,7 @@ public class Task2 : ITask
     public Task2(IUserInterface userInterface) => this._userInterface = userInterface;
 
     /// <inheritdoc/>
-    public string Name => "Var and dynamic";
+    public string Name => Titles.TaskTitle2;
 
     /// <inheritdoc/>
     public void Run()
