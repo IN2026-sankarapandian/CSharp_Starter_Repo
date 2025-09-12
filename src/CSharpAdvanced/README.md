@@ -44,3 +44,11 @@ You can choose which task to run in the main menu.
 
 - Pattern matching is used to simplify conditional logic using patterns.
 - Here I have used pattern matching to identify the type of the shape and prints details according to its type.
+
+> ## Additional things
+
+### Microsoft dependency injection extension
+
+- I have used Microsoft dependency injection to inject services
+- I have chose singelton for UI service as it only need the single instance for entire application
+- I have chose transient for task as it is short lived and related only one specific action.

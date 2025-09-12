@@ -46,6 +46,8 @@ public class TaskManager
             {
                 this._tasks[userChoice - 1].Run();
             }
+
+            // The count that comes immediately after the total task count is exit.
             else if (userChoice == this._tasks.Count + 1)
             {
                 return;
