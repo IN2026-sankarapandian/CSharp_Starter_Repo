@@ -1,5 +1,5 @@
-﻿using InventoryManager.ActionHandlers;
-using InventoryManager.Constants;
+﻿using InventoryManager.Constants;
+using InventoryManager.Handlers;
 using InventoryManager.Models;
 using InventoryManager.UI;
 
@@ -17,32 +17,35 @@ public class InventoryManager
     /// <returns>A task that represents the asynchronous operation of the application.</returns>
     public static async Task Main(string[] args)
     {
-        ConsoleUI.CreateNewPageFor("Menu");
+        IUserInterface userInterface = new ConsoleUI();
+        IFormHandler formHandler = new FormHandler(userInterface);
+        ActionHandler actionHandler = new (userInterface, formHandler);
+        userInterface.CreateNewPageFor("Menu");
         ProductList productList = new ();
         while (true)
         {
-            ConsoleUI.Prompt("1. Add Product\n2. Show Product\n3. Edit Product\n4. Delete Product\n5. Search Product\n");
-            ConsoleUI.PromptLine("6. Exit\n", ConsoleColor.Red);
-            string choice = ConsoleUI.PromptAndGetInput("\nWhat do you want to do : ");
+            userInterface.Prompt("1. Add Product\n2. Show Product\n3. Edit Product\n4. Delete Product\n5. Search Product\n");
+            userInterface.PromptLine("6. Exit\n", ConsoleColor.Red);
+            string choice = userInterface.PromptAndGetInput("\nWhat do you want to do : ");
             switch (choice)
             {
                 case "1":
-                    ActionHandler.HandleAddProduct(productList);
+                    actionHandler.HandleAddProduct(productList);
                     break;
                 case "2":
-                    ActionHandler.HandleShowProducts(productList);
+                    actionHandler.HandleShowProducts(productList);
                     break;
                 case "3":
-                    ActionHandler.HandleEditProduct(productList);
+                    actionHandler.HandleEditProduct(productList);
                     break;
                 case "4":
-                    ActionHandler.HandleDeleteProduct(productList);
+                    actionHandler.HandleDeleteProduct(productList);
                     break;
                 case "5":
-                    ActionHandler.HandleSearchProduct(productList);
+                    actionHandler.HandleSearchProduct(productList);
                     break;
                 case "6":
-                    bool confirmExit = await ActionHandler.ConfirmExitAsync();
+                    bool confirmExit = await actionHandler.ConfirmExitAsync();
                     if (!confirmExit)
                     {
                         return;
@@ -50,7 +53,7 @@ public class InventoryManager
 
                     break;
                 default:
-                    ConsoleUI.PromptLine(ErrorMessages.InvalidActionChoice, ConsoleColor.Yellow);
+                    userInterface.PromptLine(ErrorMessages.InvalidActionChoice, ConsoleColor.Yellow);
                     break;
             }
         }
