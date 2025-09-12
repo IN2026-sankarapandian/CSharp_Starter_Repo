@@ -102,6 +102,7 @@ public class AccountTests
 
         mockAccount.DeleteTransaction(index);
 
-        Assert.Equal(1, mockAccount.TotalTransactionDataList.Count);
+        int listSize = mockAccount.TotalTransactionDataList.Count;
+        Assert.Equal(1, listSize);
     }
 }

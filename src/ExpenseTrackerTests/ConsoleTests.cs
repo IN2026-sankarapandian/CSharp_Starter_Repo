@@ -22,7 +22,7 @@ public class ConsoleTests
 
         ConsoleUI userInterface = new ConsoleUI();
 
-        string input = userInterface.PromptAndGetInput("Enter : ");
+        string? input = userInterface.PromptAndGetInput("Enter : ");
         Assert.Equal("Helo", input);
     }
 
@@ -134,8 +134,7 @@ public class ConsoleTests
 
         IUserInterface userInterface = new ConsoleUI();
 
-        userInterface.ShowTransactionList(transactions, TransactionType.Expense
-            );
+        userInterface.ShowTransactionList(transactions, TransactionType.Expense);
 
         Assert.DoesNotContain("100", stringWriter.ToString());
         Assert.Contains("200", stringWriter.ToString());

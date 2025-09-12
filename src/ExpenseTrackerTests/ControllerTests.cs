@@ -122,7 +122,7 @@ public class ControllerTests
         mockUI.SetupSequence(ui => ui.PromptAndGetInput(It.IsAny<string>()))
           .Returns("2")
           .Returns("4")
-          .Returns("")
+          .Returns(string.Empty)
           .Returns("3");
         mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>
         {
@@ -154,7 +154,7 @@ public class ControllerTests
           .Returns("5")
           .Returns("1")
           .Returns("4")
-          .Returns("")
+          .Returns(string.Empty)
           .Returns("3");
         mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>
         {
