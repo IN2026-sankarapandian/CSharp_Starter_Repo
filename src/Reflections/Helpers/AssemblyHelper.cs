@@ -23,15 +23,15 @@ public class AssemblyHelper
         }
         catch (FileNotFoundException)
         {
-            return Result<Assembly>.Failure(Messages.NoFileExists);
+            return Result<Assembly>.Failure(WarningMessages.NoFileExists);
         }
         catch (BadImageFormatException)
         {
-            return Result<Assembly>.Failure(Messages.NotValidAssembly);
+            return Result<Assembly>.Failure(WarningMessages.NotValidAssembly);
         }
         catch (FileLoadException ex)
         {
-            return Result<Assembly>.Failure(string.Format(Messages.FileCantLoaded, ex.Message));
+            return Result<Assembly>.Failure(string.Format(WarningMessages.FileCantLoaded, ex.Message));
         }
     }
 
@@ -60,7 +60,8 @@ public class AssemblyHelper
         }
         catch (Exception ex)
         {
-            return Result<object?>.Failure(string.Format(Messages.ExceptionCaught, ex.Message));
+            // Unexpected exception may get caught here as user may invoke any kind of method from any assemblies.
+            return Result<object?>.Failure(string.Format(WarningMessages.ExceptionCaught, ex.Message));
         }
     }
 
@@ -82,15 +83,15 @@ public class AssemblyHelper
                 }
                 else
                 {
-                    return Result<object>.Failure(Messages.NullInstance);
+                    return Result<object>.Failure(WarningMessages.NullInstance);
                 }
             }
             catch (Exception ex)
             {
-                return Result<object>.Failure(string.Format(Messages.ExceptionCaught, ex.Message));
+                return Result<object>.Failure(string.Format(WarningMessages.ExceptionCaught, ex.Message));
             }
         }
 
-        return Result<object>.Failure(Messages.TypeCantInitiated);
+        return Result<object>.Failure(WarningMessages.TypeCantInitiated);
     }
 }

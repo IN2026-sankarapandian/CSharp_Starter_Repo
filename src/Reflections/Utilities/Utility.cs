@@ -35,6 +35,6 @@ public class Utility
             }
         }
 
-        return Result<object?>.Failure(string.Format(Messages.TypeNotSupported, type.Name));
+        return Result<object?>.Failure(string.Format(WarningMessages.TypeNotSupported, type.Name));
     }
 }

@@ -42,7 +42,7 @@ public class FormHandler
             string? userInput = Console.ReadLine();
             if (string.IsNullOrEmpty(userInput))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, Messages.InputCannotEmpty);
+                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.InputCannotEmpty);
             }
             else
             {
@@ -60,16 +60,16 @@ public class FormHandler
     {
         do
         {
-            this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterPath);
+            this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.EnterPath);
             string? path = Console.ReadLine();
 
             if (string.IsNullOrEmpty(path))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, Messages.InputCannotEmpty);
+                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.InputCannotEmpty);
             }
             else if (!File.Exists(path))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, Messages.NoFileExists);
+                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.NoFileExists);
             }
             else
             {
@@ -96,7 +96,7 @@ public class FormHandler
                 return indexValue - 1;
             }
 
-            this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidIndex);
+            this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.EnterValidIndex);
         }
         while (true);
     }
@@ -118,7 +118,7 @@ public class FormHandler
             {
                 do
                 {
-                    string userInput = this.GetUserInput(string.Format(Messages.EnterArgumentValue, parameters[i].Name, parameters[i].ParameterType.Name));
+                    string userInput = this.GetUserInput(string.Format(PromptMessages.EnterArgumentValue, parameters[i].Name, parameters[i].ParameterType.Name));
                     Result<object?> argument = this._utility.ConvertType(userInput, parameters[i].ParameterType);
                     if (argument.IsSuccess)
                     {
@@ -240,7 +240,7 @@ public class FormHandler
                     return methodInfos[methodInfoIndex];
                 }
 
-                this._userInterface.ShowMessage(MessageType.Warning, Messages.MethodInvokeNotSupported);
+                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.MethodInvokeNotSupported);
             }
             else
             {

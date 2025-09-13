@@ -31,7 +31,7 @@ public class MockingFrameworkTask : ITask
     }
 
     /// <inheritdoc/>
-    public string Name => "Mocking Framework";
+    public string Name => KeyWords.MockingFrameworkTitle;
 
     /// <inheritdoc/>
     public void Run()
@@ -44,23 +44,22 @@ public class MockingFrameworkTask : ITask
         this._userInterface.ShowMessage(MessageType.Title, this.Name);
         ICalculator? instance = this.CreateCalculatorInstance();
         this._userInterface.ShowMessage(MessageType.Title, this.Name);
-        this._userInterface.ShowMessage(MessageType.Information, Messages.TestMenu);
-        string userChoice = this._formHandler.GetUserInput(Messages.PromptUserWhatToDo);
+        this._userInterface.ShowMessage(MessageType.Information, PromptMessages.MockingFrameworkMenuOptions);
+        string userChoice = this._formHandler.GetUserInput(PromptMessages.EnterWhichTestToRun);
         switch (userChoice)
         {
             case "1":
                 this.HandleTestAddMethod(instance);
-                this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
+                this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.PressEnterToExit);
                 this._userInterface.GetInput();
                 break;
             case "2":
                 this.HandleTestSubtractMethod(instance);
-                this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
+                this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.PressEnterToExit);
                 this._userInterface.GetInput();
                 break;
             case "3":
-                this._userInterface.ShowMessage(MessageType.Warning, Messages.PressEnterToExit);
-                break;
+                return;
             default:
                 break;
         }
@@ -81,11 +80,11 @@ public class MockingFrameworkTask : ITask
 
         if (sum == 8)
         {
-            this._userInterface.ShowMessage(MessageType.Information, Messages.SumTestPassed);
+            this._userInterface.ShowMessage(MessageType.Information, PromptMessages.SumTestPassed);
         }
         else
         {
-            this._userInterface.ShowMessage(MessageType.Information, Messages.SumTestFailed);
+            this._userInterface.ShowMessage(MessageType.Information, PromptMessages.SumTestFailed);
         }
     }
 
@@ -104,11 +103,11 @@ public class MockingFrameworkTask : ITask
 
         if (difference == 6)
         {
-            this._userInterface.ShowMessage(MessageType.Information, Messages.SubTestPassed);
+            this._userInterface.ShowMessage(MessageType.Information, PromptMessages.SubTestPassed);
         }
         else
         {
-            this._userInterface.ShowMessage(MessageType.Information, Messages.SubTestFailed);
+            this._userInterface.ShowMessage(MessageType.Information, PromptMessages.SubTestFailed);
         }
     }
 

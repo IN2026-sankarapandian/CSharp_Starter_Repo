@@ -31,15 +31,15 @@ public class TaskManager
     {
         while (true)
         {
-            this._userInterface.ShowMessage(MessageType.Title, Messages.ReflectionTitle);
+            this._userInterface.ShowMessage(MessageType.Title, KeyWords.ReflectionTitle);
             this.ShowMenuOptions();
 
-            this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterWhichTaskToRun);
+            this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.EnterWhichTaskToRun);
             string? userInput = this._userInterface.GetInput()?.Trim();
 
             if (string.IsNullOrEmpty(userInput))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, Messages.InputCannotEmpty);
+                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.InputCannotEmpty);
                 Thread.Sleep(1000);
             }
             else if (int.TryParse(userInput, out var userChoice) && userChoice >= 1 && userChoice <= this._tasks.Count)
@@ -52,7 +52,7 @@ public class TaskManager
             }
             else
             {
-                this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
+                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.EnterValidOption);
                 Thread.Sleep(1000);
             }
         }
@@ -68,6 +68,6 @@ public class TaskManager
             this._userInterface.ShowMessage(MessageType.Information, string.Format("{0}. {1}", i + 1, this._tasks[i].Name));
         }
 
-        this._userInterface.ShowMessage(MessageType.Information, string.Format("{0}. {1}", this._tasks.Count + 1, Messages.Exit));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format("{0}. {1}", this._tasks.Count + 1, KeyWords.Exit));
     }
 }

@@ -23,7 +23,7 @@ public class SerializationAPI : ITask
     }
 
     /// <inheritdoc/>
-    public string Name => "Serialization API";
+    public string Name => KeyWords.SerializationAPITitle;
 
     /// <inheritdoc/>
     public void Run()
@@ -36,19 +36,19 @@ public class SerializationAPI : ITask
         stopwatch.Start();
         string result = serializer.SerializeUsingReflection(rectangle);
         stopwatch.Stop();
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SerializationUsingReflection, stopwatch.ElapsedMilliseconds));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(PromptMessages.SerializationUsingReflection, stopwatch.ElapsedMilliseconds));
 
         stopwatch.Restart();
         string result1 = serializer.SerializeUsingOpcode(rectangle);
         stopwatch.Stop();
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SerializationUsingReflectionEmit, stopwatch.ElapsedMilliseconds));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(PromptMessages.SerializationUsingReflectionEmit, stopwatch.ElapsedMilliseconds));
 
         stopwatch.Restart();
         string result2 = serializer.SerializeUsingOpcode(rectangle);
         stopwatch.Stop();
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.SerializationUsingReflectionEmit, stopwatch.ElapsedMilliseconds));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(PromptMessages.SerializationUsingReflectionEmit, stopwatch.ElapsedMilliseconds));
 
-        this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
+        this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.PressEnterToExit);
         this._userInterface.GetInput();
     }
 }
