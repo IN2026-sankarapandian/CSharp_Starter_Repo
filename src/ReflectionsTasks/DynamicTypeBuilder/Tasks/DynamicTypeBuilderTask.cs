@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
+using DynamicTypeBuilder.Constants;
 using Reflections.Enums;
 using Reflections.Handlers;
 using Reflections.Tasks;
@@ -28,18 +29,18 @@ public class DynamicTypeBuilderTask : ITask
     }
 
     /// <inheritdoc/>
-    public string Name => "Dynamic type builder";
+    public string Name => Messages.DynamicTypeBuilderTitle;
 
     /// <inheritdoc/>
     public void Run()
     {
         this._userInterface.ShowMessage(MessageType.Title, this.Name);
 
-        string className = this._formHandlers.GetIdentifierName("Enter class name : ");
-        string propertyName = this._formHandlers.GetIdentifierName("\nEnter property (string) name : ");
-        string propertyValue = this._formHandlers.GetIdentifierName("Enter a value for the property : ");
-        string methodName = this._formHandlers.GetIdentifierName("\nEnter method name : ");
-        this._userInterface.ShowMessage(MessageType.Information, "This method will print the property value");
+        string className = this._formHandlers.GetIdentifierName(Messages.EnterClassName);
+        string propertyName = this._formHandlers.GetIdentifierName(Messages.EnterPropertyName);
+        string propertyValue = this._formHandlers.GetIdentifierName(Messages.EnterPropertyValue);
+        string methodName = this._formHandlers.GetIdentifierName(Messages.EnterMethodName);
+        this._userInterface.ShowMessage(MessageType.Information, Messages.UserDefinedMethodWillPrintPropertyValue);
 
         // Creates assembly, module and defines the type with user specified name
         AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("DynAsm"), AssemblyBuilderAccess.Run);
@@ -91,14 +92,14 @@ public class DynamicTypeBuilderTask : ITask
 
             // Sets the property with user specified value
             dynamicType?.GetProperty(propertyName)?.SetValue(obj, propertyValue);
-            this._userInterface.ShowMessage(MessageType.Information, string.Format("Property set with the value  : {0}", dynamicType?.GetProperty(propertyName)?.GetValue(obj)?.ToString()));
+            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.PropertySetWithValue, dynamicType?.GetProperty(propertyName)?.GetValue(obj)?.ToString()));
 
             // Calls the created method
-            this._userInterface.ShowMessage(MessageType.Prompt, string.Format("Calling method {0} : ", methodName));
+            this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.CallingMethod, methodName));
             dynamicType?.GetMethod(methodName)?.Invoke(obj, null);
         }
 
-        this._userInterface.ShowMessage(MessageType.Prompt, "\nPress any key to exit");
+        this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
         this._userInterface.GetInput();
     }
 }

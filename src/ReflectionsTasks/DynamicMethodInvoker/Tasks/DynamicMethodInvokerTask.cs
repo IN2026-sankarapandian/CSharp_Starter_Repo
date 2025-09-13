@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using DynamicMethodInvoker.Constants;
 using Reflections.Common;
 using Reflections.Enums;
 using Reflections.Handlers;
@@ -31,7 +32,7 @@ public class DynamicMethodInvokerTask : ITask
     }
 
     /// <inheritdoc/>
-    public string Name => "Dynamic method invoker";
+    public string Name => Messages.DynamicMethodInvokerTitle;
 
     /// <inheritdoc/>
     public void Run()
@@ -46,7 +47,7 @@ public class DynamicMethodInvokerTask : ITask
     /// <returns>The loaded assembly instance.</returns>
     private Assembly HandleGetAssembly()
     {
-        this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select assembly", this.Name));
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectAssemblyTitle, this.Name));
         do
         {
             string path = this._formHandlers.GetPath();
@@ -73,10 +74,10 @@ public class DynamicMethodInvokerTask : ITask
         bool isRunning = true;
         do
         {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select assembly > Inspect Type", this.Name));
-            this._userInterface.ShowMessage(MessageType.Information, string.Format("Assembly name : {0}", assembly.FullName));
-            this._userInterface.ShowMessage(MessageType.Prompt, "1. Inspect a type 2. Exit app");
-            this._userInterface.ShowMessage(MessageType.Prompt, "\nEnter what do you want to do : ");
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.InspectTypeTitle, this.Name));
+            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.AssemblyName, assembly.FullName));
+            this._userInterface.ShowMessage(MessageType.Prompt, Messages.SelectTargetTypeMenuOptions);
+            this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterOption);
             string? userChoice = Console.ReadLine();
             switch (userChoice)
             {
@@ -84,14 +85,14 @@ public class DynamicMethodInvokerTask : ITask
                     Type[] types = assembly.GetTypes();
                     object instance = this.HandleSelectTargetType(types);
                     this.HandleSelectTargetMethodMenu(instance);
-                    this._userInterface.ShowMessage(MessageType.Prompt, "\nPress any key to exit");
-                    Console.ReadKey();
+                    this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
+                    this._userInterface.GetInput();
                     break;
                 case "2":
                     isRunning = false;
                     break;
                 default:
-                    this._userInterface.ShowMessage(MessageType.Prompt, "Enter a valid option !");
+                    this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterValidOption);
                     break;
             }
         }
@@ -106,24 +107,24 @@ public class DynamicMethodInvokerTask : ITask
     {
         while (true)
         {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select assembly > Select Type > Select and update property", this.Name));
-            this._userInterface.ShowMessage(MessageType.Information, string.Format("Type name : {0}", typeInstance.GetType().Name));
-            this._userInterface.ShowMessage(MessageType.Information, "1. Invoke method 2. Go back");
-            string? userChoice = this._formHandlers.GetUserInput("\nEnter what do you want to do : ");
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectTargetMethodTitle, this.Name));
+            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.TypeName, typeInstance.GetType().Name));
+            this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetMethodOptions);
+            string? userChoice = this._formHandlers.GetUserInput(Messages.EnterOption);
             switch (userChoice)
             {
                 case "1":
                     Type type = typeInstance.GetType();
                     MethodInfo[] methodInfos = type.GetMethods();
-                    MethodInfo methodInfo = this._formHandlers.GetTargetMethodInfo(methodInfos, "\nEnter which method to invoke : ", this.IsSupportedMethod);
+                    MethodInfo methodInfo = this._formHandlers.GetTargetMethodInfo(methodInfos, Messages.EnterMethodToInvoke, this.IsSupportedMethod);
                     this.HandleInvokeMethod(typeInstance, methodInfo);
-                    this._userInterface.ShowMessage(MessageType.Prompt, "Press enter to exit");
-                    Console.ReadKey();
+                    this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
+                    this._userInterface.GetInput();
                     break;
                 case "2":
                     return;
                 default:
-                    this._userInterface.ShowMessage(MessageType.Warning, "Enter a valid option !");
+                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
                     Thread.Sleep(1000);
                     break;
             }
@@ -139,7 +140,7 @@ public class DynamicMethodInvokerTask : ITask
     {
         do
         {
-            Type type = this._formHandlers.GetTargetType(types, "\nEnter which type to inspect : ", this.IsSupportedType);
+            Type type = this._formHandlers.GetTargetType(types, Messages.EnterTypeToInspect, this.IsSupportedType);
 
             Result<object> typeInstance = this._assemblyHelper.CreateTypeInstance(type);
             if (!typeInstance.IsSuccess)
@@ -166,7 +167,7 @@ public class DynamicMethodInvokerTask : ITask
 
         if (!arguments.IsSuccess)
         {
-            this._userInterface.ShowMessage(MessageType.Warning, "Invalid arguments, method invoking failed !");
+            this._userInterface.ShowMessage(MessageType.Warning, Messages.InvalidArguments);
             return;
         }
 
@@ -178,11 +179,11 @@ public class DynamicMethodInvokerTask : ITask
             {
                 if (result.Value is not null)
                 {
-                    this._userInterface.ShowMessage(MessageType.Highlight, string.Format("Result : {0}", result.Value));
+                    this._userInterface.ShowMessage(MessageType.Highlight, string.Format(Messages.Result, result.Value));
                 }
                 else
                 {
-                    this._userInterface.ShowMessage(MessageType.Highlight, string.Format("Result : N/A (void function)"));
+                    this._userInterface.ShowMessage(MessageType.Highlight, Messages.NotApplicableResult);
                 }
             }
             else
@@ -202,14 +203,14 @@ public class DynamicMethodInvokerTask : ITask
     {
         if (type.IsInterface && type.IsAbstract && type.GetConstructor(Type.EmptyTypes) == null && type.ContainsGenericParameters)
         {
-            return Result<bool>.Failure("Type can't be initiated, so cant invoke methods values");
+            return Result<bool>.Failure(Messages.TypeCantBeInitiated);
         }
 
         var methods = type.GetMethods();
 
         if (methods.Length == 0)
         {
-            return Result<bool>.Failure("No methods found in this type");
+            return Result<bool>.Failure(Messages.NoMethodsFound);
         }
 
         return Result<bool>.Success(true);

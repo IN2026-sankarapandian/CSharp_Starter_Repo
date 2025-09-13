@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using DynamicObjectInspector.Constants;
 using Reflections.Common;
 using Reflections.Enums;
 using Reflections.Handlers;
@@ -31,7 +32,7 @@ public class DynamicObjectInspectorTask : ITask
     }
 
     /// <inheritdoc/>
-    public string Name => "Dynamic object inspector";
+    public string Name => Messages.DynamicObjectInspectorTitle;
 
     /// <inheritdoc/>
     public void Run()
@@ -46,7 +47,6 @@ public class DynamicObjectInspectorTask : ITask
     /// <returns>The loaded assembly instance.</returns>
     private Assembly HandleGetAssembly()
     {
-        this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select assembly", this.Name));
         do
         {
             string path = this._formHandlers.GetPath();
@@ -72,10 +72,10 @@ public class DynamicObjectInspectorTask : ITask
     {
         while (true)
         {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select assembly > Inspect Type", this.Name));
-            this._userInterface.ShowMessage(MessageType.Information, string.Format("Assembly name : {0}", assembly.FullName));
-            this._userInterface.ShowMessage(MessageType.Information, "1. Inspect a type 2. Exit app");
-            string? userChoice = this._formHandlers.GetUserInput("\nEnter what do you want to do : ");
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectTargetTypeTitle, this.Name));
+            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.AssemblyName, assembly.FullName));
+            this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetTypeOptions);
+            string? userChoice = this._formHandlers.GetUserInput(Messages.EnterOption);
             switch (userChoice)
             {
                 case "1":
@@ -86,7 +86,7 @@ public class DynamicObjectInspectorTask : ITask
                 case "2":
                     return;
                 default:
-                    this._userInterface.ShowMessage(MessageType.Warning, "Enter a valid option !");
+                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption;
                     Thread.Sleep(1000);
                     break;
             }
@@ -101,10 +101,10 @@ public class DynamicObjectInspectorTask : ITask
     {
         while (true)
         {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select assembly > Select Type > Select and update property", this.Name));
-            this._userInterface.ShowMessage(MessageType.Information, string.Format("Type name : {0}", typeInstance.GetType().Name));
-            this._userInterface.ShowMessage(MessageType.Information, "1. Select and update a property 2. Go back");
-            string? userChoice = this._formHandlers.GetUserInput("\nEnter what do you want to do : ");
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectTargetPropertyTitle, this.Name));
+            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.TypeName, typeInstance.GetType().Name));
+            this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetPropertyOptions);
+            string? userChoice = this._formHandlers.GetUserInput(Messages.PressEnterToExit);
             switch (userChoice)
             {
                 case "1":
@@ -113,7 +113,7 @@ public class DynamicObjectInspectorTask : ITask
                 case "2":
                     return;
                 default:
-                    this._userInterface.ShowMessage(MessageType.Warning, "Enter a valid option !");
+                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
                     Thread.Sleep(1000);
                     break;
             }
@@ -129,7 +129,7 @@ public class DynamicObjectInspectorTask : ITask
     {
         do
         {
-            Type type = this._formHandlers.GetTargetType(types, "\nEnter which type to inspect : ", this.IsSupportedType);
+            Type type = this._formHandlers.GetTargetType(types, Messages.EnterTypeToInspect, this.IsSupportedType);
 
             Result<object> typeInstance = this._assemblyHelper.CreateTypeInstance(type);
             if (!typeInstance.IsSuccess)
@@ -150,8 +150,8 @@ public class DynamicObjectInspectorTask : ITask
     {
         do
         {
-            PropertyInfo? propertyInfo = this._formHandlers.GetTargetPropertyInfo(typeInstance.GetType(), "\nEnter which property to change value : ", this.IsSupportedProperty);
-            string? newValue = this._formHandlers.GetUserInput(string.Format("Enter new value for parameter {0}({1}) : ", propertyInfo.Name, propertyInfo.PropertyType.Name));
+            PropertyInfo? propertyInfo = this._formHandlers.GetTargetPropertyInfo(typeInstance.GetType(), Messages.EnterPropertyToInspect, this.IsSupportedProperty);
+            string? newValue = this._formHandlers.GetUserInput(string.Format(Messages.EnterNewValue, propertyInfo.Name, propertyInfo.PropertyType.Name));
             Result<object> convertedResult = this.ConvertType(newValue, propertyInfo.PropertyType);
 
             if (convertedResult.IsSuccess)
@@ -159,8 +159,8 @@ public class DynamicObjectInspectorTask : ITask
                 Result<bool> propertyValueChangeResult = this.ChangePropertyValue(typeInstance, propertyInfo, convertedResult.Value);
                 if (propertyValueChangeResult.IsSuccess)
                 {
-                    this._userInterface.ShowMessage(MessageType.Highlight, "Property value updated !");
-                    this._userInterface.ShowMessage(MessageType.Prompt, "Press enter to exit");
+                    this._userInterface.ShowMessage(MessageType.Highlight, Messages.PropertyValueUpdated);
+                    this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
                     Console.ReadKey();
                     break;
                 }
@@ -212,7 +212,7 @@ public class DynamicObjectInspectorTask : ITask
     {
         if (input is null)
         {
-            return Result<object>.Failure("Input cannot be null");
+            return Result<object>.Failure(Messages.InputCannotBeNull);
         }
 
         if (type == typeof(string))
@@ -236,7 +236,7 @@ public class DynamicObjectInspectorTask : ITask
             }
         }
 
-        return Result<object>.Failure($"Type {type.Name} not supported");
+        return Result<object>.Failure(string.Format(Messages.TypeNotSupported, type.Name));
     }
 
     /// <summary>
@@ -248,7 +248,7 @@ public class DynamicObjectInspectorTask : ITask
     {
         if (!propertyInfo.CanWrite)
         {
-            return Result<bool>.Failure("Property restricts write");
+            return Result<bool>.Failure(Messages.NotWritableProperty);
         }
 
         Type propType = propertyInfo.PropertyType;
@@ -257,7 +257,7 @@ public class DynamicObjectInspectorTask : ITask
               propType == typeof(decimal) ||
               propType.IsPrimitive))
         {
-            return Result<bool>.Failure("Property type not supported");
+            return Result<bool>.Failure(Messages.NotSupportedProperty);
         }
 
         return Result<bool>.Success(true);
@@ -274,14 +274,14 @@ public class DynamicObjectInspectorTask : ITask
     {
         if (type.IsInterface && type.IsAbstract && type.GetConstructor(Type.EmptyTypes) == null && type.ContainsGenericParameters)
         {
-            return Result<bool>.Failure("Type can't be initiated, so cant update property values");
+            return Result<bool>.Failure(Messages.TypeCantInitiated);
         }
 
         var properties = type.GetProperties();
 
         if (properties.Length == 0)
         {
-            return Result<bool>.Failure("No properties found in this type");
+            return Result<bool>.Failure(Messages.NoProperties);
         }
 
         foreach (var prop in properties)
@@ -293,6 +293,6 @@ public class DynamicObjectInspectorTask : ITask
             }
         }
 
-        return Result<bool>.Failure("No supported properties found in this type");
+        return Result<bool>.Failure(Messages.NoSupportedProperties);
     }
 }

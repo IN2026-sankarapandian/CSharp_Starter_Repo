@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using InspectAssemblyMetadata.Constants;
 using Reflections.Common;
 using Reflections.Enums;
 using Reflections.Handlers;
@@ -31,7 +32,7 @@ public class InspectAssemblyMetadataTask : ITask
     }
 
     /// <inheritdoc/>
-    public string Name => "Inspect Assembly Metadata";
+    public string Name => Messages.InspectAssemblyDataTitle;
 
     /// <inheritdoc/>
     public void Run()
@@ -46,7 +47,7 @@ public class InspectAssemblyMetadataTask : ITask
     /// <returns>The loaded assembly instance.</returns>
     private Assembly HandleGetAssembly()
     {
-        this._userInterface.ShowMessage(MessageType.Title, this.Name);
+        this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectAssemblyTitle, this.Name));
         do
         {
             string path = this._formHandlers.GetPath();
@@ -72,22 +73,21 @@ public class InspectAssemblyMetadataTask : ITask
     {
         while (true)
         {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format("{0}", this.Name));
-            this._userInterface.ShowMessage(MessageType.Information, string.Format("Assembly name : {0}", assembly.FullName));
-            this._userInterface.ShowMessage(MessageType.Information, "1. Inspect a type 2. Exit app");
-            string? userChoice = this._formHandlers.GetUserInput("Enter what do you want to do : ");
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectTargetTypeTitle, this.Name));
+            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.AssemblyName, assembly.FullName));
+            this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetTypeOptions);
+            string? userChoice = this._formHandlers.GetUserInput(Messages.EnterOption);
             Type[] types = assembly.GetTypes();
             switch (userChoice)
             {
                 case "1":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select type\n", this.Name));
-                    Type targetType = this._formHandlers.GetTargetType(types, "\nEnter which type to inspect : ");
+                    Type targetType = this._formHandlers.GetTargetType(types, Messages.EnterTypeToInspect);
                     this.HandleShowTypeDetailsMenu(targetType);
                     break;
                 case "2":
                     return;
                 default:
-                    this._userInterface.ShowMessage(MessageType.Warning, "Enter a valid option !");
+                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
                     Thread.Sleep(1000);
                     break;
             }
@@ -102,38 +102,38 @@ public class InspectAssemblyMetadataTask : ITask
     {
         do
         {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select type > Select member kind", this.Name));
-            this._userInterface.ShowMessage(MessageType.Prompt, string.Format("\nType name : {0}", type.Name));
-            this._userInterface.ShowMessage(MessageType.Prompt, "\n1. Get properties\n2. Get fields\n3. Get methods\n4. Get events\n5. Go back\n");
-            string? userChoice = this._formHandlers.GetUserInput("Enter which kind of members you want to inspect : ");
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectMemberKindTitle, this.Name));
+            this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.TypeName, type.Name));
+            this._userInterface.ShowMessage(MessageType.Prompt, Messages.SelectMemberKindOptions);
+            string? userChoice = this._formHandlers.GetUserInput(Messages.EnterMemberKindToInspect);
 
             switch (userChoice)
             {
                 case "1":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select type > Select member kind > Properties\n", this.Name));
+                    this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.PropertyTitle, this.Name));
                     this._userInterface.DisplayTypeProperties(type, type.GetProperties());
                     break;
                 case "2":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select type > Select member kind > Fields\n", this.Name));
+                    this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.FieldTitle, this.Name));
                     this._userInterface.DisplayTypeFields(type, type.GetFields());
                     break;
                 case "3":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select type > Select member kind > Methods\n", this.Name));
+                    this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.MethodTitle, this.Name));
                     this._userInterface.DisplayTypeMethods(type.GetMethods());
                     break;
                 case "4":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format("{0} > Select type > Select member kind > Events\n", this.Name));
+                    this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.EventTitle, this.Name));
                     this._userInterface.DisplayTypeEvents(type.GetEvents());
                     break;
                 case "5":
                     return;
                 default:
-                    this._userInterface.ShowMessage(MessageType.Warning, "Not a valid input !");
+                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EventTitle);
                     Thread.Sleep(1000);
                     continue;
             }
 
-            this._userInterface.ShowMessage(MessageType.Prompt, "\nPress any key to exit");
+            this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
             this._userInterface.GetInput();
         }
         while (true);
