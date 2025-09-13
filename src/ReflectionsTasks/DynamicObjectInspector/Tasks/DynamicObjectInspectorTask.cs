@@ -86,7 +86,7 @@ public class DynamicObjectInspectorTask : ITask
                 case "2":
                     return;
                 default:
-                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption;
+                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
                     Thread.Sleep(1000);
                     break;
             }
