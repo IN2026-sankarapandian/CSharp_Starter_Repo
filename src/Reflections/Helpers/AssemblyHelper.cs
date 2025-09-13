@@ -42,7 +42,9 @@ public class AssemblyHelper
     /// <param name="method">Method info of method to invoke.</param>
     /// <param name="arguments">Arguments to the method</param>
     /// <returns><see cref="Result{Assembly}"/> object indicating success with invoking method or failure with error message.</returns>
-    public Result<object?> InvokeMethod(object instance, MethodInfo method, object?[] ? arguments)
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
+    public Result<object?> InvokeMethod(object instance, MethodInfo method, object?[]? arguments)
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
     {
         try
         {

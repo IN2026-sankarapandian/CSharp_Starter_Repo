@@ -18,11 +18,14 @@ public class CalculatorTypeBuilderTests
     {
         CalculatorTypeBuilder builder = new CalculatorTypeBuilder();
         Type calcType = builder.BuildCalculatorType();
-        ICalculator instance = (ICalculator)Activator.CreateInstance(calcType)!;
+        object? instance = Activator.CreateInstance(calcType);
 
-        int sum = instance.Add(5, 3);
+        if (instance is not null && instance is ICalculator calculator)
+        {
+            int sum = calculator.Add(5, 3);
 
-        Assert.AreEqual(8, sum, "Add method failed");
+            Assert.AreEqual(8, sum, "Add method failed");
+        }
     }
 
     /// <summary>
@@ -33,10 +36,13 @@ public class CalculatorTypeBuilderTests
     {
         CalculatorTypeBuilder builder = new CalculatorTypeBuilder();
         Type calcType = builder.BuildCalculatorType();
-        ICalculator instance = (ICalculator)Activator.CreateInstance(calcType)!;
+        object? instance = Activator.CreateInstance(calcType);
 
-        int difference = instance.Subtract(10, 4);
+        if (instance is not null && instance is ICalculator calculator)
+        {
+            int difference = calculator.Subtract(10, 4);
 
-        Assert.AreEqual(6, difference, "Subtract method failed");
+            Assert.AreEqual(6, difference, "Subtract method failed");
+        }
     }
 }

@@ -60,6 +60,6 @@ public class CalculatorTypeBuilder
         MethodInfo? subInterfaceMethod = interfaceType.GetMethod("Subtract");
         typeBuilder.DefineMethodOverride(subMethod, subInterfaceMethod!);
 
-        return typeBuilder.CreateType()!;
+        return typeBuilder.CreateType() !;
     }
 }

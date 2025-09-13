@@ -107,7 +107,9 @@ public class FormHandler
     /// </summary>
     /// <param name="parameters">Parameters to get argument from user.</param>
     /// <returns>Arguments given by the user</returns>
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
     public Result<object?[]?> GetArguments(ParameterInfo[] parameters)
+#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
     {
         object?[] arguments = new object?[parameters.Length];
         for (int i = 0; i < parameters.Length; i++)
@@ -130,11 +132,15 @@ public class FormHandler
             }
             catch (Exception ex)
             {
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
                 return Result<object?[]?>.Failure(ex.Message);
+#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
             }
         }
 
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
         return Result<object?[]?>.Success(arguments);
+#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
     }
 
     /// <summary>

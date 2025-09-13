@@ -60,7 +60,12 @@ public class ObjectSerializer
         if (stringBuilderType is not null && appendInfo is not null && toString is not null)
         {
             LocalBuilder localBuilder = iLGenerator.DeclareLocal(stringBuilderType);
-            iLGenerator.Emit(OpCodes.Newobj, stringBuilderType.GetConstructor(Type.EmptyTypes));
+            ConstructorInfo? constructorInfo = stringBuilderType.GetConstructor(Type.EmptyTypes);
+            if (constructorInfo is not null)
+            {
+                iLGenerator.Emit(OpCodes.Newobj, constructorInfo);
+            }
+
             iLGenerator.Emit(OpCodes.Stloc, localBuilder);
             iLGenerator.Emit(OpCodes.Ldloc, localBuilder);
             iLGenerator.Emit(OpCodes.Ldstr, "{\n");
