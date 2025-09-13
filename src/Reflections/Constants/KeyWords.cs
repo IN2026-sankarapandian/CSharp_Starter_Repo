@@ -66,7 +66,7 @@ public class KeyWords
     public const string MockingFrameworkTitle = "Mocking Framework";
 
     /// <summary>
-    /// Title message of mocking framework task.
+    /// Title message of serialization API task.
     /// </summary>
     public const string SerializationAPITitle = "Serialization API";
 }

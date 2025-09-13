@@ -34,17 +34,17 @@ public class SerializationAPI : ITask
         ObjectSerializer serializer = new ObjectSerializer();
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
-        string result = serializer.SerializeUsingReflection(rectangle);
+        serializer.SerializeUsingReflection(rectangle);
         stopwatch.Stop();
         this._userInterface.ShowMessage(MessageType.Information, string.Format(PromptMessages.SerializationUsingReflection, stopwatch.ElapsedMilliseconds));
 
         stopwatch.Restart();
-        string result1 = serializer.SerializeUsingOpcode(rectangle);
+        serializer.SerializeUsingOpcode(rectangle);
         stopwatch.Stop();
         this._userInterface.ShowMessage(MessageType.Information, string.Format(PromptMessages.SerializationUsingReflectionEmit, stopwatch.ElapsedMilliseconds));
 
         stopwatch.Restart();
-        string result2 = serializer.SerializeUsingOpcode(rectangle);
+        serializer.SerializeUsingOpcode(rectangle);
         stopwatch.Stop();
         this._userInterface.ShowMessage(MessageType.Information, string.Format(PromptMessages.SerializationUsingReflectionEmit, stopwatch.ElapsedMilliseconds));
 

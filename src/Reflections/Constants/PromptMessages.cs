@@ -16,7 +16,7 @@ public static class PromptMessages
     public const string EnterWhichTaskToRun = "Enter which task to run : ";
 
     /// <summary>
-    /// Prompt message displayed to the user to enter the desired option in mocking framework task.
+    /// Prompt message displayed to the user about the test options in mocking framework task.
     /// </summary>
     public const string MockingFrameworkMenuOptions = "1. Test add method\n2. Test subtract method\n3. Exit\n";
 
@@ -51,7 +51,7 @@ public static class PromptMessages
     public const string SerializationUsingReflection = "Type elapsed for serialization using reflection is {0}";
 
     /// <summary>
-    /// Prompt message displayed to the user about the time elapsed for serialization with reflection.
+    /// Prompt message displayed to the user about the time elapsed for serialization with reflection emit.
     /// </summary>
     public const string SerializationUsingReflectionEmit = "Type elapsed for serialization using reflection and op code is {0}";
 

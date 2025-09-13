@@ -11,7 +11,7 @@ public class WarningMessages
     public const string InputCannotEmpty = "Input cannot be empty !";
 
     /// <summary>
-    /// Warning message displayed to the user the no fields exists in the specified type.
+    /// Warning message displayed to the user that no fields exists in the specified type.
     /// </summary>
     public const string NoFieldExists = "No fields exists";
 
@@ -26,17 +26,17 @@ public class WarningMessages
     public const string EnterValidOption = "Enter a valid option !";
 
     /// <summary>
-    /// Warning message displayed to the user the no events exists in the specified type.
+    /// Warning message displayed to the user that no events exists in the specified type.
     /// </summary>
     public const string NoEventExists = "No events exists";
 
     /// <summary>
-    /// Warning message displayed to the user the no methods exists in the specified type.
+    /// Warning message displayed to the user that no methods exists in the specified type.
     /// </summary>
     public const string NoMethodExists = "No methods exists";
 
     /// <summary>
-    /// Warning message displayed to the user the no properties exists in the specified type.
+    /// Warning message displayed to the user that no properties exists in the specified type.
     /// </summary>
     public const string NoPropertyExists = "No properties exist";
 
@@ -96,7 +96,7 @@ public class WarningMessages
     public const string NameIsReservedKeyword = "{0} is a reserved keyword in c#";
 
     /// <summary>
-    /// Warning message displayed to the user the can't get value of the property as type can't be initiated.
+    /// Warning message displayed to the user that can't get value of the property as type can't be initiated.
     /// </summary>
     public const string CantGetValues = "Type can't be initiated, so unable to get values.";
 

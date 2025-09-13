@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using Reflections.Common;
 using Reflections.Constants;
 using Reflections.Enums;
 using Reflections.UserInterface;
@@ -80,7 +81,7 @@ public class FormHandler
     }
 
     /// <summary>
-    /// Gets value index of any set of values from the user.
+    /// Gets index of value selected by the user from any set of values.
     /// </summary>
     /// <param name="valuesLength">Total length of the values.</param>
     /// <param name="prompt">Prompt shown to the user</param>
@@ -103,7 +104,7 @@ public class FormHandler
 
     /// <summary>
     /// Gets the arguments from user for specified parameters.
-    /// Arguments are recieved as string from user and converted to respective parameter types using utilities.
+    /// Arguments are received as string from user and converted to respective parameter types using utilities.
     /// </summary>
     /// <param name="parameters">Parameters to get argument from user.</param>
     /// <returns>Arguments given by the user</returns>

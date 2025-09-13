@@ -1,4 +1,4 @@
-﻿namespace Reflections.Handlers;
+﻿namespace Reflections.Common;
 
 /// <summary>
 /// Represents the outcome of operations whether indicating success with result value
@@ -10,11 +10,11 @@ public class Result<T>
     /// <summary>
     /// Initializes a new instance of the <see cref="Result{T}"/> class.
     /// </summary>
-    private Result(bool success, T? value, string? errorMessage)
+    private Result(bool success, T value, string errorMessage)
     {
         this.IsSuccess = success;
-        this.Value = value!;
-        this.ErrorMessage = errorMessage ?? string.Empty;
+        this.Value = value;
+        this.ErrorMessage = errorMessage;
     }
 
     /// <summary>
@@ -46,12 +46,12 @@ public class Result<T>
     /// </summary>
     /// <param name="value">Value of result.</param>
     /// <returns>A <see cref="Result{T}"/> representing success.</returns>
-    public static Result<T> Success(T value) => new Result<T>(true, value, null);
+    public static Result<T> Success(T value) => new Result<T>(true, value, string.Empty);
 
     /// <summary>
     /// Create a failure object of <see cref="Result{T}"/> with the error message.
     /// </summary>
     /// <param name="errorMessage">Error message describing the failure.</param>
     /// <returns>A <see cref="Result{T}"/> representing failure.</returns>
-    public static Result<T> Failure(string errorMessage) => new Result<T>(false, default, errorMessage);
+    public static Result<T> Failure(string errorMessage) => new Result<T>(false, default!, errorMessage);
 }
