@@ -89,4 +89,3 @@ public static class Messages
     /// </summary>
     public const string EventTitle = "{0} > Select type > Select member kind > Events\n";
 }
-
