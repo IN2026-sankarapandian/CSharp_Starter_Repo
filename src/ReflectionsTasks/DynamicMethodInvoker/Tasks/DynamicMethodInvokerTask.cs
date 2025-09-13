@@ -159,7 +159,9 @@ public class DynamicMethodInvokerTask : ITask
     private void HandleInvokeMethod(object typeInstance, MethodInfo method)
     {
         ParameterInfo[] parameters = method.GetParameters();
-        Result<object?[] ?> arguments = this._formHandlers.GetArguments(parameters);
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
+        Result<object?[]?> arguments = this._formHandlers.GetArguments(parameters);
+#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
 
         if (!arguments.IsSuccess)
         {

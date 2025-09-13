@@ -75,20 +75,28 @@ public class DynamicTypeBuilderTask : ITask
         ILGenerator ilMethod = method.GetILGenerator();
         ilMethod.Emit(OpCodes.Ldarg_0);
         ilMethod.EmitCall(OpCodes.Call, getter, null);
-        ilMethod.EmitCall(OpCodes.Call, typeof(Console).GetMethod("WriteLine", new[] { typeof(string) })!, null);
+        MethodInfo? userSpecifiedMethodInfo = typeof(Console).GetMethod("WriteLine", new[] { typeof(string) });
+        if (userSpecifiedMethodInfo is not null)
+        {
+            ilMethod.EmitCall(OpCodes.Call, userSpecifiedMethodInfo, null);
+        }
+
         ilMethod.Emit(OpCodes.Ret);
 
         // Creates the type
-        Type dynamicType = typeBuilder.CreateType()!;
-        object? obj = Activator.CreateInstance(dynamicType)!;
+        Type? dynamicType = typeBuilder.CreateType();
+        if (dynamicType is not null)
+        {
+            object? obj = Activator.CreateInstance(dynamicType);
 
-        // Sets the property with user specified value
-        dynamicType.GetProperty(propertyName)!.SetValue(obj, propertyValue);
-        this._userInterface.ShowMessage(MessageType.Information, string.Format("Property set with the value  : {0}", dynamicType.GetProperty(propertyName)!.GetValue(obj)?.ToString()));
+            // Sets the property with user specified value
+            dynamicType?.GetProperty(propertyName)?.SetValue(obj, propertyValue);
+            this._userInterface.ShowMessage(MessageType.Information, string.Format("Property set with the value  : {0}", dynamicType?.GetProperty(propertyName)?.GetValue(obj)?.ToString()));
 
-        // Calls the created method
-        this._userInterface.ShowMessage(MessageType.Prompt, string.Format("Calling method {0} : ", methodName));
-        dynamicType.GetMethod(methodName)!.Invoke(obj, null);
+            // Calls the created method
+            this._userInterface.ShowMessage(MessageType.Prompt, string.Format("Calling method {0} : ", methodName));
+            dynamicType?.GetMethod(methodName)?.Invoke(obj, null);
+        }
 
         this._userInterface.ShowMessage(MessageType.Prompt, "\nPress any key to exit");
         this._userInterface.GetInput();
