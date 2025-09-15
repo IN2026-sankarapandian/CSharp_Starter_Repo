@@ -31,7 +31,7 @@ public class TaskManager
     {
         while (true)
         {
-            this._userInterface.ShowMessage(MessageType.Title, "Advanced languages features");
+            this._userInterface.ShowMessage(MessageType.Title, Titles.AppTitle);
             this.ShowMenuOptions();
 
             this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterTask);
@@ -47,7 +47,8 @@ public class TaskManager
                 this._tasks[userChoice - 1].Run();
             }
 
-            // The count that comes immediately after the total task count is exit.
+            // If the user selects the last menu option (which is always reserved for exit),
+            // terminate the loop and return to the caller.
             else if (userChoice == this._tasks.Count + 1)
             {
                 return;

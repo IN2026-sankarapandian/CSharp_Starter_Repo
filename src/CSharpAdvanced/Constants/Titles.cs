@@ -1,42 +1,47 @@
 ﻿namespace CSharpAdvanced.Constants;
 
 /// <summary>
-/// Have constants related to titles.
+/// Have constants titles of the task.
 /// </summary>
 public static class Titles
 {
     /// <summary>
-    /// Contains title of task 1
+    /// Title message of the console app.
+    /// </summary>
+    public const string AppTitle = "Advanced languages features";
+
+    /// <summary>
+    /// Title message of task 1 displayed to the user.
     /// </summary>
     public const string TaskTitle1 = "Event and Delegates";
 
     /// <summary>
-    /// Contains title of 2
+    /// Title message of task 2 displayed to the user.
     /// </summary>
     public const string TaskTitle2 = "Var and dynamic";
 
     /// <summary>
-    /// Contains title of 3
+    /// Title message of task 3 displayed to the user.
     /// </summary>
     public const string TaskTitle3 = "Anonymous methods";
 
     /// <summary>
-    /// Contains title of 4
+    /// Title message of task 4 displayed to the user.
     /// </summary>
     public const string TaskTitle4 = "Lambda expressions";
 
     /// <summary>
-    /// Contains title of 5
+    /// Title message of task 5 displayed to the user.
     /// </summary>
     public const string TaskTitle5 = "Delegates (Advanced)";
 
     /// <summary>
-    /// Contains title of 6
+    /// Title message of task 6 displayed to the user.
     /// </summary>
     public const string TaskTitle6 = "Records";
 
     /// <summary>
-    /// Contains title of 7
+    /// Title message of task 7 displayed to the user.
     /// </summary>
     public const string TaskTitle7 = "Pattern matching";
 }
