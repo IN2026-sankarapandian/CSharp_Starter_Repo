@@ -19,4 +19,9 @@ public static class ProgressBarConstants
     /// Denotes the template of the progress bar
     /// </summary>
     public const string ProgressBarTemplate = "{0} : [{1}] {2}%, time : {3}ms";
+
+    /// <summary>
+    /// Place holder for unknown tasks (If task name is null)
+    /// </summary>
+    public const string Unknown = "Unknown";
 }

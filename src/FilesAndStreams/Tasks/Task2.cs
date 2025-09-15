@@ -76,9 +76,9 @@ public class Task2
             string sampleFileSavePath = this._formHandler.GetTxtFileSavePath(Messages.EnterPathToSaveFile);
             string taskName = string.Format(Messages.WritingFile, Path.GetFileName(sampleFileSavePath));
 
-            this._userInterface.DrawProgressBar(taskName, 0, 0);
+            this._userInterface.UpdateProgressBar(taskName, 0, 0);
             await this._fileService.CreateLargeTextFileAsync(sampleFileSavePath, FileResources.TargetSize, (progress, elapsedTime)
-                => this._userInterface.DrawProgressBar(taskName, progress, elapsedTime));
+                => this._userInterface.UpdateProgressBar(taskName, progress, elapsedTime));
         }
         catch (Exception ex)
         {
@@ -105,14 +105,14 @@ public class Task2
             switch (userChoice)
             {
                 case "1":
-                    this._userInterface.DrawProgressBar(taskNameForFileStream, 0, 0);
+                    this._userInterface.UpdateProgressBar(taskNameForFileStream, 0, 0);
                     await Task.Run(() => this._fileService.ReadFileInChunksAsync(FileReader.FileStream, sampleFileSavePath, (progress, elapsedTime)
-                        => this._userInterface.DrawProgressBar(taskNameForFileStream, progress, elapsedTime)));
+                        => this._userInterface.UpdateProgressBar(taskNameForFileStream, progress, elapsedTime)));
                     break;
                 case "2":
-                    this._userInterface.DrawProgressBar(taskNameForBufferedStream, 0, 0);
+                    this._userInterface.UpdateProgressBar(taskNameForBufferedStream, 0, 0);
                     await Task.Run(() => this._fileService.ReadFileInChunksAsync(FileReader.FileStream, sampleFileSavePath, (progress, elapsedTime)
-                        => this._userInterface.DrawProgressBar(taskNameForBufferedStream, progress, elapsedTime)));
+                        => this._userInterface.UpdateProgressBar(taskNameForBufferedStream, progress, elapsedTime)));
                     break;
                 default:
                     this._userInterface.ShowMessage(MessageType.Information, Messages.EnterValidOption);
@@ -142,16 +142,16 @@ public class Task2
             string filteringTaskName = string.Format(Messages.FilteringFile, Path.GetFileName(sampleFilePath));
             string writingTaskName = string.Format(Messages.WritingFilteredFile, Path.GetFileName(filterFilePath));
 
-            this._userInterface.DrawProgressBar(readingTaskName, 0, 0);
-            this._userInterface.DrawProgressBar(filteringTaskName, 0, 0);
-            this._userInterface.DrawProgressBar(writingTaskName, 0, 0);
+            this._userInterface.UpdateProgressBar(readingTaskName, 0, 0);
+            this._userInterface.UpdateProgressBar(filteringTaskName, 0, 0);
+            this._userInterface.UpdateProgressBar(writingTaskName, 0, 0);
 
             string content = await this._fileService.ReadFileAsync(sampleFilePath, (progress, elapsedTime)
-                => this._userInterface.DrawProgressBar(readingTaskName, progress, elapsedTime));
+                => this._userInterface.UpdateProgressBar(readingTaskName, progress, elapsedTime));
             string filteredContent = this._fileService.FilterByTemperature(content, 100, (progress, elapsedTime)
-                => this._userInterface.DrawProgressBar(filteringTaskName, progress, elapsedTime));
+                => this._userInterface.UpdateProgressBar(filteringTaskName, progress, elapsedTime));
             await this._fileService.WriteDataAsync(filterFilePath, filteredContent, (progress, elapsedTime)
-                => this._userInterface.DrawProgressBar(writingTaskName, progress, elapsedTime));
+                => this._userInterface.UpdateProgressBar(writingTaskName, progress, elapsedTime));
         }
         catch (Exception ex)
         {

@@ -83,7 +83,7 @@ public class Task1
         string taskName = string.Format(Messages.WritingFile, Path.GetFileName(sampleFileSavePath));
 
         this._fileService.CreateLargeTextFile(sampleFileSavePath, FileResources.TargetSize, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(taskName, progress, elapsedTime));
+            => this._userInterface.UpdateProgressBar(taskName, progress, elapsedTime));
 
         this._userInterface.ShowMessage(MessageType.Warning, Messages.PressEnterToExit);
         this._userInterface.GetInput();
@@ -101,10 +101,10 @@ public class Task1
         string taskNameForBufferedStream = string.Format(Messages.ReadingFileWithBufferedStream, Path.GetFileName(sampleFileSavePath));
 
         this._fileService.ReadFileInChunks(FileReader.FileStream, sampleFileSavePath, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(
+            => this._userInterface.UpdateProgressBar(
                 string.Format(taskNameForFileStream, nameof(FileStream)), progress, elapsedTime));
         this._fileService.ReadFileInChunks(FileReader.BufferedStream, sampleFileSavePath, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(
+            => this._userInterface.UpdateProgressBar(
                 string.Format(taskNameForBufferedStream, nameof(BufferedStream)), progress, elapsedTime));
 
         this._userInterface.ShowMessage(MessageType.Warning, Messages.PressEnterToExit);
@@ -126,11 +126,11 @@ public class Task1
         string writingTaskName = string.Format(Messages.WritingFilteredFile, Path.GetFileName(filterFilePath));
 
         string content = this._fileService.ReadFile(sampleFilePath, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(readingTaskName, progress, elapsedTime));
+            => this._userInterface.UpdateProgressBar(readingTaskName, progress, elapsedTime));
         string filteredContent = this._fileService.FilterByTemperature(content, 100, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(filteringTaskName, progress, elapsedTime));
+            => this._userInterface.UpdateProgressBar(filteringTaskName, progress, elapsedTime));
         this._fileService.WriteData(filterFilePath, filteredContent, (progress, elapsedTime)
-            => this._userInterface.DrawProgressBar(writingTaskName, progress, elapsedTime));
+            => this._userInterface.UpdateProgressBar(writingTaskName, progress, elapsedTime));
 
         this._userInterface.ShowMessage(MessageType.Warning, Messages.PressEnterToExit);
         this._userInterface.GetInput();

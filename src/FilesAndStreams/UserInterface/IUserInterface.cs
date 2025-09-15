@@ -26,5 +26,5 @@ public interface IUserInterface
     /// <param name="taskName">Unique name of the task.(Used to map with the progress bar component)</param>
     /// <param name="progressPercentage">Current progress in percentage</param>
     /// <param name="elapsedTime">Elapsed time of the progress.</param>
-    public void DrawProgressBar(string taskName, int progressPercentage, long elapsedTime = 0);
+    public void UpdateProgressBar(string taskName, int progressPercentage, long elapsedTime = 0);
 }

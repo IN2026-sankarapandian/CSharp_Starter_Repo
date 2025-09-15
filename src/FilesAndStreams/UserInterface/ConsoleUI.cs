@@ -71,7 +71,7 @@ public class ConsoleUI : IUserInterface
     }
 
     /// <inheritdoc/>
-    public void DrawProgressBar(string taskName, int progressPercentage, long elapsedTime = 0)
+    public void UpdateProgressBar(string taskName, int progressPercentage, long elapsedTime = 0)
     {
         lock (this._consoleLock)
         {
@@ -139,7 +139,7 @@ public class ConsoleUI : IUserInterface
         {
             progressBar.LineIndex = line;
             progressBar.IsStatic = true;
-            this.DrawProgressBar(progressBar.TaskName ?? Messages.Unknown, progressBar.Progress, progressBar.ElapsedTime);
+            this.UpdateProgressBar(progressBar.TaskName ?? ProgressBarConstants.Unknown, progressBar.Progress, progressBar.ElapsedTime);
             line++;
         }
 

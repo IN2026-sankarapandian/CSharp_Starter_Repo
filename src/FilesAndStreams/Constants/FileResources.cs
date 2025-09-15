@@ -29,4 +29,24 @@ public static class FileResources
     /// Denotes the buffer size used to by all streams across the project.
     /// </summary>
     public const int BufferSize = 4096;
+
+    /// <summary>
+    /// Sample error message used in simulating logging errors.
+    /// </summary>
+    public const string SampleErrorData = "Error A";
+
+    /// <summary>
+    /// Sample user id used in simulating logging errors. (User 1)
+    /// </summary>
+    public const string SampleUserID1 = "001";
+
+    /// <summary>
+    /// Sample user id used in simulating logging errors. (User 2)
+    /// </summary>
+    public const string SampleUserID2 = "002";
+
+    /// <summary>
+    /// Sample user id used in simulating logging errors. (User 3)
+    /// </summary>
+    public const string SampleUserID3 = "003";
 }
