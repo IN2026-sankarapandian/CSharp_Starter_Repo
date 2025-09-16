@@ -4,7 +4,7 @@ using BoilerMachineApp.Common;
 namespace BoilerMachineApp.BoilerMachineStatuses;
 
 /// <summary>
-/// It provides the methods by boiler machine in pre purge state.
+/// It provides the methods by boiler machine in operational state.
 /// </summary>
 public class BoilerMachineOperationalState : IBoilerMachineStatus
 {
