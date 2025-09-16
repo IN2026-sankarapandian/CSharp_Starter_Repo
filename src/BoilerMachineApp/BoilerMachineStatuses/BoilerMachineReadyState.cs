@@ -1,0 +1,36 @@
+﻿using BoilerMachineApp.BoilerMachines;
+using BoilerMachineApp.Common;
+
+namespace BoilerMachineApp.BoilerMachineStatuses;
+
+/// <summary>
+/// It provides the methods by boiler machine in ready state.
+/// </summary>
+public class BoilerMachineReadyState : IBoilerMachineStatus
+{
+    private readonly BoilerMachine _boilerMachine;
+
+    /// <summary>
+    /// Initializes a new instance of the <see cref="BoilerMachineReadyState"/> class.
+    /// </summary>
+    /// <param name="boilerMachine">Its the main boiler machine.</param>
+    public BoilerMachineReadyState(BoilerMachine boilerMachine)
+    {
+        this._boilerMachine = boilerMachine;
+        this._boilerMachine.NotifyStateChange("Boiler is ready");
+        this._boilerMachine.Logger.Log("Boiler Status changed to Ready");
+    }
+
+    /// <inheritdoc/>
+    public Result StartBoiling()
+    {
+        this._boilerMachine.StartTimer(1000);
+        return Result.Success("Started boiling");
+    }
+
+    /// <inheritdoc/>
+    public Result StopBoiling()
+    {
+        return Result.Failure("Boiling is not started yet");
+    }
+}
