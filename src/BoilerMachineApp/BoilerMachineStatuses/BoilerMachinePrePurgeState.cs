@@ -34,4 +34,10 @@ public class BoilerMachinePrePurgeState : IBoilerMachineStatus
         this._boilerMachine.SetStatus(new BoilerMachineReadyState(this._boilerMachine));
         return Result.Success("Stopped operation at pre-purge state, moving back to ready state");
     }
+
+    /// <inheritdoc/>
+    public Result SimulateBoilerError()
+    {
+        return Result.Failure("Boiler is in pre-purge mode, Error can be only simulated when the boiler is in operational mode");
+    }
 }

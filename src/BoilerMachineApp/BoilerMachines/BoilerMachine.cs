@@ -57,6 +57,13 @@ public class BoilerMachine
     public Result StopBoiling() => this._currentStatus.StopBoiling();
 
     /// <summary>
+    /// Try to simulate some error in boiler operation.
+    /// </summary>
+    /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
+    /// otherwise with an error message indication why the operation failed</returns>
+    public Result SimulateBoilerError() => this._currentStatus.SimulateBoilerError();
+
+    /// <summary>
     /// Starts the timer with specified interval
     /// </summary>
     /// <param name="interval">Interval to configure the timer</param>

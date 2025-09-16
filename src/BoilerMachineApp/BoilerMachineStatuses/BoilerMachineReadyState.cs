@@ -33,4 +33,10 @@ public class BoilerMachineReadyState : IBoilerMachineStatus
     {
         return Result.Failure("Boiling is not started yet");
     }
+
+    /// <inheritdoc/>
+    public Result SimulateBoilerError()
+    {
+        return Result.Failure("Boiler is not yet started, Error can be only simulated when the boiler is in operational mode");
+    }
 }
