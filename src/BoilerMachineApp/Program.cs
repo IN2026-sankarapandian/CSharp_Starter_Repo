@@ -32,7 +32,7 @@ public class Program
 
         userInterface.ShowMessage(
             MessageType.Information,
-            "1. Start boiling\n2. Stop boiling\n3. Simulate Boiler error\n4. Exit");
+            "1. Start boiling\n2. Stop boiling\n3. Simulate Boiler error\n4. Rest to lockout\n5. Exit");
         do
         {
             userInterface.ShowMessage(MessageType.Prompt, "What do you want to do : ");
@@ -50,6 +50,9 @@ public class Program
                     result = boilerMachine.SimulateBoilerError();
                     break;
                 case "4":
+                    result = boilerMachine.ResetLockOut();
+                    break;
+                case "5":
                     return;
                 default:
                     userInterface.ShowMessage(MessageType.Error, "Enter a valid option");

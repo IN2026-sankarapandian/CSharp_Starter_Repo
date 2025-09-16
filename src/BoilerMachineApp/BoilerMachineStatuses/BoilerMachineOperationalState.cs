@@ -40,4 +40,11 @@ public class BoilerMachineOperationalState : IBoilerMachineStatus
         this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
         return Result.Success("Error simulated successfully, transitioning back to lockout state");
     }
+
+    /// <inheritdoc/>
+    public Result ResetLockOut()
+    {
+        this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        return Result.Success("Boiler machine reset to lockout state");
+    }
 }

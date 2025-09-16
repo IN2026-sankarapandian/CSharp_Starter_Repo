@@ -64,6 +64,13 @@ public class BoilerMachine
     public Result SimulateBoilerError() => this._currentStatus.SimulateBoilerError();
 
     /// <summary>
+    /// Resets the boiler machine to lockout state manually.
+    /// </summary>
+    /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
+    /// otherwise with an error message indication why the operation failed</returns>
+    public Result ResetLockOut() => this._currentStatus.ResetLockOut();
+
+    /// <summary>
     /// Starts the timer with specified interval
     /// </summary>
     /// <param name="interval">Interval to configure the timer</param>

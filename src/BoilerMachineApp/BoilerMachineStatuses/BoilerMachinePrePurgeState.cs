@@ -40,4 +40,11 @@ public class BoilerMachinePrePurgeState : IBoilerMachineStatus
     {
         return Result.Failure("Boiler is in pre-purge mode, Error can be only simulated when the boiler is in operational mode");
     }
+
+    /// <inheritdoc/>
+    public Result ResetLockOut()
+    {
+        this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        return Result.Success("Boiler machine reset to lockout state");
+    }
 }

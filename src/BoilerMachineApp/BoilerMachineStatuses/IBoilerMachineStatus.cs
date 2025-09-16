@@ -27,4 +27,11 @@ public interface IBoilerMachineStatus
     /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
     /// otherwise with an error message indication why the operation failed</returns>
     public Result SimulateBoilerError();
+
+    /// <summary>
+    /// Resets the boiler machine to lockout state manually.
+    /// </summary>
+    /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
+    /// otherwise with an error message indication why the operation failed</returns>
+    public Result ResetLockOut();
 }

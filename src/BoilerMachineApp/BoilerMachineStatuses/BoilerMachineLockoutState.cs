@@ -39,4 +39,11 @@ public class BoilerMachineLockoutState : IBoilerMachineStatus
     {
         return Result.Failure("Boiler is at now lockout mode, Error can be only simulated when the boiler is in operational mode");
     }
+
+    /// <inheritdoc/>
+    public Result ResetLockOut()
+    {
+        this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        return Result.Failure("Boiler machine reset to lockout state, can't reset again");
+    }
 }
