@@ -24,7 +24,7 @@ public class BoilerMachineReadyState : IBoilerMachineStatus
     /// <inheritdoc/>
     public Result StartBoiling()
     {
-        this._boilerMachine.StartTimer(1000);
+        this._boilerMachine.StartTimer(10000);
         return Result.Success("Started boiling");
     }
 

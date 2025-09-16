@@ -32,7 +32,7 @@ public class BoilerMachineLockoutState : IBoilerMachineStatus
     /// <inheritdoc/>
     public Result StartBoiling()
     {
-        this._boilerMachine.StartTimer(1000);
+        this._boilerMachine.StartTimer(10000);
         return Result.Failure("Boiler is at now lockout mode, can't start boiling");
     }
 
