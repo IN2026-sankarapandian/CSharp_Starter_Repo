@@ -136,11 +136,7 @@ public class BoilerMachine
     /// <param name="e">Event args</param>
     public void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        if (this._currentStatus is BoilerMachineReadyState)
-        {
-            this.SetStatus(new BoilerMachinePrePurgeState(this));
-        }
-        else if (this._currentStatus is BoilerMachinePrePurgeState)
+        if (this._currentStatus is BoilerMachinePrePurgeState)
         {
             this.Logger.Log("Pre-Purge completed in 10 seconds.");
             this.SetStatus(new BoilerMachineStatusIgnitionState(this));
