@@ -38,7 +38,16 @@ public class BoilerMachineOperationalState : IBoilerMachineStatus
     public Result SimulateBoilerError()
     {
         this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        this._boilerMachine.Logger.Log("Error: Simulated error. System in Lockout.");
         return Result.Success("Error simulated successfully, transitioning back to lockout state");
+    }
+
+    /// <inheritdoc/>
+    public Result ToggleRunInterlockSwitch()
+    {
+        this._boilerMachine.ToggleInterLock();
+        this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        return Result.Failure("Run interlock is turned open while machine is in operational mode, reset to lockout status");
     }
 
     /// <inheritdoc/>

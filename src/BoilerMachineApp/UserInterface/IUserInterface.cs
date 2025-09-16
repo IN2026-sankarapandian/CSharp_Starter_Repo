@@ -1,5 +1,6 @@
 ﻿using BoilerMachineApp.BoilerMachines;
 using BoilerMachineApp.Enums;
+using BoilerMachineApp.Loggers;
 
 namespace BoilerMachineApp.UserInterface;
 
@@ -26,4 +27,10 @@ public interface IUserInterface
     /// </summary>
     /// <param name="boilerMachine">Boiler machine to subscribe.</param>
     public void Subscribe(BoilerMachine boilerMachine);
+
+    /// <summary>
+    /// Show logs in a separate page
+    /// </summary>
+    /// <param name="logs">Logs to show</param>
+    public void ShowLogs(List<EventLog> logs);
 }

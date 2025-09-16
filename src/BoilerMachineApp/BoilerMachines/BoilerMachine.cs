@@ -28,13 +28,23 @@ public class BoilerMachine
         this._timer = new System.Timers.Timer();
         this._timer.Elapsed += this.OnTimerElapsed;
         this.Logger = logger;
-        this.SetStatus(new BoilerMachineReadyState(this));
+        this.RunInterLock = false;
+        this.SetStatus(new BoilerMachineLockoutState(this));
+        this.Logger.Log("Boiler Initialized");
     }
 
     /// <summary>
     /// Its an event triggered when the boiler machine changes it status.
     /// </summary>
     public event Action<string>? OnStateChange;
+
+    /// <summary>
+    /// Gets a value indicating whether its an safety feature restricts the boiler to move ready state if doesn't activated.
+    /// </summary>
+    /// <value>
+    /// State of run inter lock
+    /// </value>
+    public bool RunInterLock { get; private set; }
 
     /// <summary>
     /// Gets logger used to log events
@@ -62,6 +72,13 @@ public class BoilerMachine
     /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
     /// otherwise with an error message indication why the operation failed</returns>
     public Result SimulateBoilerError() => this._currentStatus.SimulateBoilerError();
+
+    /// <summary>
+    /// Toggles the run interlock switch of boiler machine.
+    /// </summary>
+    /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
+    /// otherwise with an error message indication why the operation failed</returns>
+    public Result ToggleRunInterlockSwitch() => this._currentStatus.ToggleRunInterlockSwitch();
 
     /// <summary>
     /// Resets the boiler machine to lockout state manually.
@@ -96,6 +113,20 @@ public class BoilerMachine
     public void SetStatus(IBoilerMachineStatus status)
     {
         this._currentStatus = status;
+    }
+
+    /// <summary>
+    /// Toggles the run interlock
+    /// </summary>
+    public void ToggleInterLock()
+    {
+        this.RunInterLock = !this.RunInterLock;
+        this.Logger.Log(string.Format("Interlock Switch toggled to {0}.", this.RunInterLock ? "Closed" : "Open"));
+
+        if (!this.RunInterLock)
+        {
+            this.SetStatus(new BoilerMachineLockoutState(this));
+        }
     }
 
     /// <summary>
