@@ -12,7 +12,7 @@ public class Result<T>
     private Result(bool isSuccess, T? value, string? errorMessage)
     {
         this.IsSuccess = isSuccess;
-        this.Value = value!;
+        this.Value = value;
         this.ErrorMessage = errorMessage ?? string.Empty;
     }
 
@@ -30,7 +30,7 @@ public class Result<T>
     /// <value>
     /// The value of the result if operation is successful.
     /// </value>
-    public T Value { get; }
+    public T? Value { get; }
 
     /// <summary>
     /// Gets the error message specifying what error happened when the operation failed.
