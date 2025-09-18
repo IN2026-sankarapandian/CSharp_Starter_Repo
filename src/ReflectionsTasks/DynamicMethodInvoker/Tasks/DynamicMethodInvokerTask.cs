@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#pragma warning disable SA1011 // Closing square brackets should be spaced correctlyusing System.Reflection;
+using System.Reflection;
 using DynamicMethodInvoker.Constants;
 using Reflections.Common;
 using Reflections.Enums;
@@ -161,9 +162,7 @@ public class DynamicMethodInvokerTask : ITask
     private void HandleInvokeMethod(object typeInstance, MethodInfo method)
     {
         ParameterInfo[] parameters = method.GetParameters();
-#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
         Result<object?[]?> arguments = this._formHandlers.GetArguments(parameters);
-#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
 
         if (!arguments.IsSuccess)
         {
@@ -231,3 +230,4 @@ public class DynamicMethodInvokerTask : ITask
             p.ParameterType == typeof(string));
     }
 }
+#pragma warning restore SA1011 // Closing square brackets should be spaced correctly

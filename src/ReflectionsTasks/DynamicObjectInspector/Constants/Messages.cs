@@ -40,7 +40,7 @@ public static class Messages
     public const string PressEnterToExit = "\nPress enter to exit";
 
     /// <summary>
-    /// Warning message displayed to the user to inform entered option is invalid and enter a valid option again.
+    /// Error message displayed to the user to inform entered option is invalid and enter a valid option again.
     /// </summary>
     public const string EnterValidOption = "Enter a valid option !";
 
@@ -80,27 +80,27 @@ public static class Messages
     public const string PropertyValueUpdated = "Property value updated !";
 
     /// <summary>
-    /// Warning message displayed to the user that input cannot be null.
+    /// Error message displayed to the user that input cannot be null.
     /// </summary>
     public const string InputCannotBeNull = "Input cannot be null";
 
     /// <summary>
-    /// Warning message displayed to the user that type is not supported.
+    /// Error message displayed to the user that type is not supported.
     /// </summary>
     public const string TypeNotSupported = "Type {0} not supported";
 
     /// <summary>
-    /// Warning message displayed to the user that property restricts writing.
+    /// Error message displayed to the user that property restricts writing.
     /// </summary>
     public const string NotWritableProperty = "Property restricts write";
 
     /// <summary>
-    /// Warning message displayed to the user that property type is not supported.
+    /// Error message displayed to the user that property type is not supported.
     /// </summary>
     public const string NotSupportedProperty = "Property type not supported";
 
     /// <summary>
-    /// Warning message displayed to the user that type can't be initiated.
+    /// Error message displayed to the user that type can't be initiated.
     /// </summary>
     public const string TypeCantInitiated = "Type can't be initiated, so cant update property values";
 

@@ -40,7 +40,7 @@ public static class Messages
     public const string PressEnterToExit = "\nPress enter to exit";
 
     /// <summary>
-    /// Warning message displayed to the user to inform entered option is invalid and enter a valid option again.
+    /// Error message displayed to the user to inform entered option is invalid and enter a valid option again.
     /// </summary>
     public const string EnterValidOption = "Enter a valid option !";
 

@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿#pragma warning disable SA1011 // Closing square brackets should be spaced correctlyusing System.Reflection;
+
+using System.Reflection;
 using Reflections.Common;
 using Reflections.Constants;
 using Reflections.Enums;
@@ -108,14 +110,12 @@ public class FormHandler
     /// </summary>
     /// <param name="parameters">Parameters to get argument from user.</param>
     /// <returns>Arguments given by the user</returns>
-#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
     public Result<object?[]?> GetArguments(ParameterInfo[] parameters)
-#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
     {
         object?[] arguments = new object?[parameters.Length];
-        for (int i = 0; i < parameters.Length; i++)
+        try
         {
-            try
+            for (int i = 0; i < parameters.Length; i++)
             {
                 do
                 {
@@ -131,17 +131,13 @@ public class FormHandler
                 }
                 while (true);
             }
-            catch (Exception ex)
-            {
-#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
-                return Result<object?[]?>.Failure(ex.Message);
-#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
-            }
+        }
+        catch (Exception ex)
+        {
+            return Result<object?[]?>.Failure(ex.Message);
         }
 
-#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
         return Result<object?[]?>.Success(arguments);
-#pragma warning restore SA1011 // Closing square brackets should be spaced correctly
     }
 
     /// <summary>
@@ -161,20 +157,19 @@ public class FormHandler
         do
         {
             int typeIndex = this.GetIndex(types.Length, prompt);
-            if (isSupported is not null)
-            {
-                Result<bool> isSupportedType = isSupported(types[typeIndex]);
-                if (isSupportedType.IsSuccess && isSupportedType.Value)
-                {
-                    return types[typeIndex];
-                }
 
-                this._userInterface.ShowMessage(MessageType.Warning, isSupportedType.ErrorMessage);
-            }
-            else
+            if (isSupported is null)
             {
                 return types[typeIndex];
             }
+
+            Result<bool> isSupportedType = isSupported(types[typeIndex]);
+            if (isSupportedType.IsSuccess && isSupportedType.Value)
+            {
+                return types[typeIndex];
+            }
+
+            this._userInterface.ShowMessage(MessageType.Warning, isSupportedType.ErrorMessage);
         }
         while (true);
     }
@@ -198,20 +193,19 @@ public class FormHandler
         do
         {
             int propertyInfoIndex = this.GetIndex(propertyInfos.Length, prompt);
-            if (isSupported is not null)
-            {
-                Result<bool> isSupportedParameter = isSupported(propertyInfos[propertyInfoIndex]);
-                if (isSupportedParameter.IsSuccess && isSupportedParameter.Value)
-                {
-                    return propertyInfos[propertyInfoIndex];
-                }
 
-                this._userInterface.ShowMessage(MessageType.Warning, isSupportedParameter.ErrorMessage);
-            }
-            else
+            if (isSupported is null)
             {
                 return propertyInfos[propertyInfoIndex];
             }
+
+            Result<bool> isSupportedProperty = isSupported(propertyInfos[propertyInfoIndex]);
+            if (isSupportedProperty.IsSuccess && isSupportedProperty.Value)
+            {
+                return propertyInfos[propertyInfoIndex];
+            }
+
+            this._userInterface.ShowMessage(MessageType.Warning, isSupportedProperty.ErrorMessage);
         }
         while (true);
     }
@@ -234,19 +228,18 @@ public class FormHandler
         do
         {
             methodInfoIndex = this.GetIndex(methodInfos.Length, prompt);
-            if (isSupported is not null)
-            {
-                if (isSupported(methodInfos[methodInfoIndex]))
-                {
-                    return methodInfos[methodInfoIndex];
-                }
 
-                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.MethodInvokeNotSupported);
-            }
-            else
+            if (isSupported is null)
             {
                 return methodInfos[methodInfoIndex];
             }
+
+            if (isSupported(methodInfos[methodInfoIndex]))
+            {
+                return methodInfos[methodInfoIndex];
+            }
+
+            this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.MethodInvokeNotSupported);
         }
         while (true);
     }
@@ -274,3 +267,4 @@ public class FormHandler
         while (true);
     }
 }
+#pragma warning restore SA1011 // Closing square brackets should be spaced correctly

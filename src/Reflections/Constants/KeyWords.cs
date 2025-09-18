@@ -13,7 +13,7 @@ public class KeyWords
     /// <summary>
     /// Keyword used to represent an empty or missing value
     /// </summary>
-    public const string Empty = "empty";
+    public const string Empty = "Empty";
 
     /// <summary>
     /// Keyword used to represent as index field.

@@ -41,7 +41,7 @@ public class Messages
     public const string PressEnterToExit = "\nPress enter to exit";
 
     /// <summary>
-    /// Warning message displayed to the user to inform entered option is invalid and enter a valid option again.
+    /// Error message displayed to the user to inform entered option is invalid and enter a valid option again.
     /// </summary>
     public const string EnterValidOption = "Enter a valid option !";
 
@@ -71,7 +71,7 @@ public class Messages
     public const string EnterTypeToInspect = "\nEnter which type to inspect : ";
 
     /// <summary>
-    /// Warning message displayed to the user that given arguments are invalid
+    /// Error message displayed to the user that given arguments are invalid
     /// </summary>
     public const string InvalidArguments = "Invalid arguments, method invoking failed !";
 
@@ -86,12 +86,12 @@ public class Messages
     public const string NotApplicableResult = "Result : N/A (void function)";
 
     /// <summary>
-    /// Warning message displayed to the user that method can't be invoked because type can't be initiated.
+    /// Error message displayed to the user that method can't be invoked because type can't be initiated.
     /// </summary>
     public const string TypeCantBeInitiated = "Type can't be initiated, so cant invoke methods values";
 
     /// <summary>
-    /// Warning message displayed to the user that no method found in this type.
+    /// Error message displayed to the user that no method found in this type.
     /// </summary>
     public const string NoMethodsFound = "No methods found in this type";
 }
