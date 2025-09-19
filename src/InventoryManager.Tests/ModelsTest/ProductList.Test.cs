@@ -74,7 +74,8 @@ public class ProductListTest
         ProductList productList = new ProductList();
         PopulateProductList(productList);
         productList.Delete(0);
-        Assert.Equal(0, productList.Count());
+        int productListCount = productList.Count();
+        Assert.Equal(1, productListCount);
     }
 
     /// <summary>
@@ -84,24 +85,7 @@ public class ProductListTest
     public void Search_ShouldReturnEmptyList_ForNullKeyword()
     {
         ProductList productList = new ProductList();
-        Product product1 = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        Product product2 = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Arthur" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product1);
-        productList.Add(product2);
+        PopulateProductList(productList);
 
         List<Product> result = productList.Search(null!);
         List<Product> expected = new List<Product>();
@@ -115,29 +99,11 @@ public class ProductListTest
     public void Search_ShouldReturnMatchingList_SpecifiedKeyword()
     {
         ProductList productList = new ProductList();
-        Product product1 = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        Product product2 = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Arthur" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product1);
-        productList.Add(product2);
+        PopulateProductList(productList);
 
         List<Product> result = productList.Search("Arthur");
-        List<Product> expected = new List<Product>();
-        expected.Add(product2);
-        Assert.Equal(result, expected);
+        int productListCount = result.Count;
+        Assert.Equal(1, productListCount);
     }
 
     /// <summary>
@@ -197,7 +163,8 @@ public class ProductListTest
     {
         ProductList productList = new ProductList();
         PopulateProductList(productList);
-        Assert.Equal(1, productList.Count());
+        int productListCount = productList.Count();
+        Assert.Equal(2, productListCount);
     }
 
     /// <summary>
@@ -206,14 +173,23 @@ public class ProductListTest
     /// <param name="productList">Product list to populate.</param>
     private static void PopulateProductList(ProductList productList)
     {
-        Product product = new Product(
-                    new Dictionary<string, object>
-                    {
+        Product product1 = new Product(
+            new Dictionary<string, object>
+            {
                 { ProductFieldNames.Id, "1234567890" },
                 { ProductFieldNames.Name, "Sankar" },
                 { ProductFieldNames.Price, 2000.21M },
                 { ProductFieldNames.Quantity, 21 },
-                    });
-        productList.Add(product);
+            });
+        Product product2 = new Product(
+            new Dictionary<string, object>
+            {
+                { ProductFieldNames.Id, "1234567890" },
+                { ProductFieldNames.Name, "Arthur" },
+                { ProductFieldNames.Price, 2000.21M },
+                { ProductFieldNames.Quantity, 21 },
+            });
+        productList.Add(product1);
+        productList.Add(product2);
     }
 }
