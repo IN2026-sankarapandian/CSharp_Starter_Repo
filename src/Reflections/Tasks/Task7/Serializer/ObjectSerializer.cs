@@ -41,7 +41,6 @@ public class ObjectSerializer
         {
             return Result<string>.Failure(string.Format(ErrorMessages.SerializationFailed, ex.Message));
         }
-
     }
 
     /// <summary>
