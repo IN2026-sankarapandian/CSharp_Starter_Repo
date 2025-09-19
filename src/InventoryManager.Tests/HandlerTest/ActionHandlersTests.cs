@@ -86,15 +86,7 @@ public class ActionHandlersTests
         Mock<IFormHandler> formHandlerMock = new Mock<IFormHandler>();
 
         ProductList productList = new ProductList();
-        Product product = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1111111111" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product);
+        PopulateProductList(productList);
 
         formHandlerMock.Setup(formHandler => formHandler.ShowProducts(productList)).Returns(true);
         formHandlerMock.Setup(formHandler => formHandler.GetIndex(productList)).Returns(1);
@@ -139,15 +131,7 @@ public class ActionHandlersTests
         Mock<IFormHandler> formHandlerMock = new Mock<IFormHandler>();
 
         ProductList productList = new ProductList();
-        Product product = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1111111111" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product);
+        PopulateProductList(productList);
 
         formHandlerMock.Setup(formHandler => formHandler.ShowProducts(productList)).Returns(true);
         formHandlerMock.Setup(formHandler => formHandler.GetIndex(productList)).Returns(1);
@@ -210,24 +194,16 @@ public class ActionHandlersTests
         Mock<IFormHandler> formHandlerMock = new Mock<IFormHandler>();
 
         ProductList productList = new ProductList();
-        Product product = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product);
+        PopulateProductList(productList);
 
         uiMock.Setup(ui => ui.PromptAndGetInput(It.IsAny<string>(), ConsoleColor.White))
-            .Returns("123");
+            .Returns("111");
 
         ActionHandler actionHandler = new ActionHandler(uiMock.Object, formHandlerMock.Object);
 
         actionHandler.HandleSearchProduct(productList);
 
-        uiMock.Verify(ui => ui.PrintAsTable(new List<Product> { product }), Times.Once());
+        uiMock.Verify(ui => ui.PrintAsTable(productList.Get()), Times.Once());
     }
 
     /// <summary>
@@ -240,15 +216,7 @@ public class ActionHandlersTests
         Mock<IFormHandler> formHandlerMock = new Mock<IFormHandler>();
 
         ProductList productList = new ProductList();
-        Product product = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product);
+        PopulateProductList(productList);
 
         uiMock.Setup(ui => ui.PromptAndGetInput(It.IsAny<string>(), ConsoleColor.White))
             .Returns("xyz");
@@ -257,7 +225,7 @@ public class ActionHandlersTests
 
         actionHandler.HandleSearchProduct(productList);
 
-        uiMock.Verify(ui => ui.PrintAsTable(new List<Product> { product }), Times.Never());
+        uiMock.Verify(ui => ui.PrintAsTable(productList.Get()), Times.Never());
     }
 
     /// <summary>
@@ -296,5 +264,22 @@ public class ActionHandlersTests
         await actionHandler.ConfirmExitAsync();
 
         uiMock.Verify(ui => ui.CreateNewPageFor("Menu"), Times.Once);
+    }
+
+    /// <summary>
+    /// Populate the specified list with sample products.
+    /// </summary>
+    /// <param name="productList">Product list to populate.</param>
+    private static void PopulateProductList(ProductList productList)
+    {
+        Product product = new Product(
+                    new Dictionary<string, object>
+                    {
+                { ProductFieldNames.Id, "1111111111" },
+                { ProductFieldNames.Name, "Sankar" },
+                { ProductFieldNames.Price, 2000.21M },
+                { ProductFieldNames.Quantity, 21 },
+                    });
+        productList.Add(product);
     }
 }

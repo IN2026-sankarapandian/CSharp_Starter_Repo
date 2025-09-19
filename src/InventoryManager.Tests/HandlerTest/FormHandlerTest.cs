@@ -26,15 +26,7 @@ public class FormHandlerTest
             .Returns("1");
 
         ProductList productList = new ProductList();
-        Product product = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1111111111" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product);
+        PopulateProductList(productList);
 
         FormHandler formHandler = new FormHandler(uiMock.Object);
 
@@ -76,15 +68,7 @@ public class FormHandlerTest
         Mock<IUserInterface> uiMock = new Mock<IUserInterface>();
 
         ProductList productList = new ProductList();
-        Product product = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product);
+        PopulateProductList(productList);
 
         FormHandler formHandler = new FormHandler(uiMock.Object);
 
@@ -110,5 +94,22 @@ public class FormHandlerTest
 
         Assert.False(result);
         uiMock.Verify(ui => ui.PromptLine(ErrorMessages.NoProducts, ConsoleColor.Yellow), Times.Once);
+    }
+
+    /// <summary>
+    /// Populate the specified list with sample products.
+    /// </summary>
+    /// <param name="productList">Product list to populate.</param>
+    private static void PopulateProductList(ProductList productList)
+    {
+        Product product = new Product(
+                    new Dictionary<string, object>
+                    {
+                { ProductFieldNames.Id, "1234567890" },
+                { ProductFieldNames.Name, "Sankar" },
+                { ProductFieldNames.Price, 2000.21M },
+                { ProductFieldNames.Quantity, 21 },
+                    });
+        productList.Add(product);
     }
 }

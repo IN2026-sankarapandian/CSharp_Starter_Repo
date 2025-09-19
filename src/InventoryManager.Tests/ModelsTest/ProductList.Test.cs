@@ -58,16 +58,7 @@ public class ProductListTest
     public void Edit_ShouldEdit_SpecifiedProduct()
     {
         ProductList productList = new ProductList();
-        Product product = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        List<Product> productsExpected = productList.Get();
-        productsExpected.Add(product);
+        PopulateProductList(productList);
 
         productList.Edit(0, ProductFieldNames.Name, "Arthur");
 
@@ -81,15 +72,7 @@ public class ProductListTest
     public void Delete_ShouldDelete_SpecifiedProduct()
     {
         ProductList productList = new ProductList();
-        Product product = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Sankar" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product);
+        PopulateProductList(productList);
         productList.Delete(0);
         Assert.Equal(0, productList.Count());
     }
@@ -213,15 +196,24 @@ public class ProductListTest
     public void Count_ShouldReturnCountOfCurrentCountOfProductList()
     {
         ProductList productList = new ProductList();
+        PopulateProductList(productList);
+        Assert.Equal(1, productList.Count());
+    }
+
+    /// <summary>
+    /// Populate the specified list with sample products.
+    /// </summary>
+    /// <param name="productList">Product list to populate.</param>
+    private static void PopulateProductList(ProductList productList)
+    {
         Product product = new Product(
-            new Dictionary<string, object>
-            {
+                    new Dictionary<string, object>
+                    {
                 { ProductFieldNames.Id, "1234567890" },
                 { ProductFieldNames.Name, "Sankar" },
                 { ProductFieldNames.Price, 2000.21M },
                 { ProductFieldNames.Quantity, 21 },
-            });
+                    });
         productList.Add(product);
-        Assert.Equal(1, productList.Count());
     }
 }

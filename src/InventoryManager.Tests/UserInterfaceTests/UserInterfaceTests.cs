@@ -33,24 +33,7 @@ public class UserInterfaceTests
     public void PrintTable_PrintsAllData()
     {
         ProductList productList = new ProductList();
-        Product product1 = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1234567890" },
-                { ProductFieldNames.Name, "Mobile" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        Product product2 = new Product(
-            new Dictionary<string, object>
-            {
-                { ProductFieldNames.Id, "1111111111" },
-                { ProductFieldNames.Name, "Phone" },
-                { ProductFieldNames.Price, 2000.21M },
-                { ProductFieldNames.Quantity, 21 },
-            });
-        productList.Add(product1);
-        productList.Add(product2);
+        PopulateProductList(productList);
 
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -95,5 +78,31 @@ public class UserInterfaceTests
         userInterface.PromptLine(null, ConsoleColor.White);
 
         Assert.Contains(string.Empty, stringWriter.ToString());
+    }
+
+    /// <summary>
+    /// Populate the specified list with sample products.
+    /// </summary>
+    /// <param name="productList">Product list to populate.</param>
+    private static void PopulateProductList(ProductList productList)
+    {
+        Product product1 = new Product(
+                    new Dictionary<string, object>
+                    {
+                { ProductFieldNames.Id, "1234567890" },
+                { ProductFieldNames.Name, "Mobile" },
+                { ProductFieldNames.Price, 2000.21M },
+                { ProductFieldNames.Quantity, 21 },
+                    });
+        Product product2 = new Product(
+            new Dictionary<string, object>
+            {
+                { ProductFieldNames.Id, "1111111111" },
+                { ProductFieldNames.Name, "Phone" },
+                { ProductFieldNames.Price, 2000.21M },
+                { ProductFieldNames.Quantity, 21 },
+            });
+        productList.Add(product1);
+        productList.Add(product2);
     }
 }
