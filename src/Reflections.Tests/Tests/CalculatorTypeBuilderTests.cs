@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Reflections.Common;
 using Reflections.Tasks.Task6.Calculator;
 using Reflections.Tasks.Task6.TypeBuilders;
 
@@ -17,8 +18,14 @@ public class CalculatorTypeBuilderTests
     public void TestAdd()
     {
         CalculatorTypeBuilder builder = new CalculatorTypeBuilder();
-        Type calcType = builder.BuildCalculatorType();
-        object? instance = Activator.CreateInstance(calcType);
+        Result<Type> calcType = builder.BuildCalculatorType();
+        if (!calcType.IsSuccess)
+        {
+            Assert.Fail(calcType.ErrorMessage);
+            return;
+        }
+
+        object? instance = Activator.CreateInstance(calcType.Value);
 
         if (instance is not null && instance is ICalculator calculator)
         {
@@ -35,8 +42,14 @@ public class CalculatorTypeBuilderTests
     public void TestSubtract()
     {
         CalculatorTypeBuilder builder = new CalculatorTypeBuilder();
-        Type calcType = builder.BuildCalculatorType();
-        object? instance = Activator.CreateInstance(calcType);
+        Result<Type> calcType = builder.BuildCalculatorType();
+        if (!calcType.IsSuccess)
+        {
+            Assert.Fail(calcType.ErrorMessage);
+            return;
+        }
+
+        object? instance = Activator.CreateInstance(calcType.Value);
 
         if (instance is not null && instance is ICalculator calculator)
         {
