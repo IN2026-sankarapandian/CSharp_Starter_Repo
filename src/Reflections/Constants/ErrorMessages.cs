@@ -129,4 +129,9 @@ public class ErrorMessages
     /// Error message displayed to the user that calculator type creation failed.
     /// </summary>
     public const string FailedToCreateInstance = "Failed to create calculator type, ex :{0}";
+
+    /// <summary>
+    /// Error message displayed to the user that serialization failed with execption message
+    /// </summary>
+    public const string SerializationFailed = "Failed to create serialize, ex :{0}";
 }

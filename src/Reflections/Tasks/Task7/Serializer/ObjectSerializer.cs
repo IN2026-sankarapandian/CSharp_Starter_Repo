@@ -1,6 +1,8 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using Reflections.Common;
+using Reflections.Constants;
 
 /// <summary>
 /// Serialize the object with reflections and reflection emit.
@@ -14,24 +16,32 @@ public class ObjectSerializer
     /// </summary>
     /// <param name="obj">Type instance</param>
     /// <returns>Serialized string</returns>
-    public string SerializeUsingReflection(object obj)
+    public Result<string> SerializeUsingReflection(object obj)
     {
         Type type = obj.GetType();
         FieldInfo[] fields = type.GetFields();
         PropertyInfo[] props = type.GetProperties();
         StringBuilder stringBuilder = new StringBuilder("{\n");
-        foreach (FieldInfo field in fields)
+        try
         {
-            stringBuilder.AppendLine($"{field.Name} : {field.GetValue(obj)?.ToString()},");
+            foreach (FieldInfo field in fields)
+            {
+                stringBuilder.AppendLine($"{field.Name} : {field.GetValue(obj)?.ToString()},");
+            }
+
+            foreach (PropertyInfo property in props)
+            {
+                stringBuilder.AppendLine($"{property.Name} : {property.GetValue(obj)?.ToString()}");
+            }
+
+            stringBuilder.AppendLine("}");
+            return Result<string>.Success(stringBuilder.ToString());
+        }
+        catch (Exception ex)
+        {
+            return Result<string>.Failure(string.Format(ErrorMessages.SerializationFailed, ex.Message));
         }
 
-        foreach (PropertyInfo property in props)
-        {
-            stringBuilder.AppendLine($"{property.Name} : {property.GetValue(obj)?.ToString()}");
-        }
-
-        stringBuilder.AppendLine("}");
-        return stringBuilder.ToString();
     }
 
     /// <summary>

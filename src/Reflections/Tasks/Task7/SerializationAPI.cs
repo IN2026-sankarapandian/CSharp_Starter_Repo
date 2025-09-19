@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Reflections.Common;
 using Reflections.Constants;
 using Reflections.Enums;
 using Reflections.Tasks.Task7.Shape;
@@ -34,7 +35,14 @@ public class SerializationAPI : ITask
         ObjectSerializer serializer = new ObjectSerializer();
         Stopwatch stopwatch = new Stopwatch();
         stopwatch.Start();
-        serializer.SerializeUsingReflection(rectangle);
+        Result<string> serializedResult = serializer.SerializeUsingReflection(rectangle);
+        if (!serializedResult.IsSuccess)
+        {
+            this._userInterface.ShowMessage(MessageType.Information, serializedResult.ErrorMessage);
+            this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.PressEnterToExit);
+            this._userInterface.GetInput();
+        }
+
         stopwatch.Stop();
         this._userInterface.ShowMessage(MessageType.Information, string.Format(PromptMessages.SerializationUsingReflection, stopwatch.ElapsedMilliseconds));
 
