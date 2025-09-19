@@ -25,7 +25,6 @@ public class DynamicTypeBuilderTask : ITask
     {
         this._userInterface = userInterface;
         this._formHandlers = formHandlers;
-        AssemblyBuilder assemblyBuilder = AssemblyBuilder.DefineDynamicAssembly(new AssemblyName("SampleAssembly"), AssemblyBuilderAccess.Run);
     }
 
     /// <inheritdoc/>

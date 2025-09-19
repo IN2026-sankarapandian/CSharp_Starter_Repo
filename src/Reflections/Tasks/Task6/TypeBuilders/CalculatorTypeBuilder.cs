@@ -1,5 +1,7 @@
 ﻿using System.Reflection;
 using System.Reflection.Emit;
+using Reflections.Common;
+using Reflections.Constants;
 using Reflections.Tasks.Task6.Calculator;
 
 namespace Reflections.Tasks.Task6.TypeBuilders;
@@ -13,7 +15,7 @@ public class CalculatorTypeBuilder
     /// Builds a type implementing <see cref="ICalculator"/> and returns it.
     /// </summary>
     /// <returns>Type implementing <see cref="ICalculator"/></returns>
-    public Type BuildCalculatorType()
+    public Result<Type> BuildCalculatorType()
     {
         Type interfaceType = typeof(ICalculator);
 
@@ -42,7 +44,12 @@ public class CalculatorTypeBuilder
         ilAdd.Emit(OpCodes.Ret);
 
         MethodInfo? addInterfaceMethod = interfaceType.GetMethod("Add");
-        typeBuilder.DefineMethodOverride(addMethod, addInterfaceMethod!);
+        if (addInterfaceMethod is null)
+        {
+            return Result<Type>.Failure(ErrorMessages.CalculatorNotHaveAddMethod);
+        }
+
+        typeBuilder.DefineMethodOverride(addMethod, addInterfaceMethod);
 
         // Implement subtract method
         MethodBuilder subMethod = typeBuilder.DefineMethod(
@@ -58,8 +65,26 @@ public class CalculatorTypeBuilder
         ilSub.Emit(OpCodes.Ret);
 
         MethodInfo? subInterfaceMethod = interfaceType.GetMethod("Subtract");
-        typeBuilder.DefineMethodOverride(subMethod, subInterfaceMethod!);
+        if (subInterfaceMethod is null)
+        {
+            return Result<Type>.Failure(ErrorMessages.CalculatorNotHaveSubtractMethod);
+        }
 
-        return typeBuilder.CreateType() !;
+        typeBuilder.DefineMethodOverride(subMethod, subInterfaceMethod);
+
+        try
+        {
+            Type? calculator = typeBuilder.CreateType();
+            if (calculator is null)
+            {
+                return Result<Type>.Failure(ErrorMessages.CreateTypeReturnedNull);
+            }
+
+            return Result<Type>.Success(calculator);
+        }
+        catch (Exception ex)
+        {
+            return Result<Type>.Failure(string.Format(ErrorMessages.FailedToCreateInstance, ex.Message));
+        }
     }
 }

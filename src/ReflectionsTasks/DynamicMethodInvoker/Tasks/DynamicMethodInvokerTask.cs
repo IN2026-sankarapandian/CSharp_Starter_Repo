@@ -77,24 +77,23 @@ public class DynamicMethodInvokerTask : ITask
         {
             this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.InspectTypeTitle, this.Name));
             this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.AssemblyName, assembly.FullName));
-            this._userInterface.ShowMessage(MessageType.Prompt, Messages.SelectTargetTypeMenuOptions);
-            this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterOption);
-            string? userChoice = Console.ReadLine();
-            switch (userChoice)
+            this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetTypeMenuOptions);
+            string? userChoice = this._formHandlers.GetUserInput(Messages.EnterOption);
+            if (userChoice.Equals("1"))
             {
-                case "1":
-                    Type[] types = assembly.GetTypes();
-                    object instance = this.HandleSelectTargetType(types);
-                    this.HandleSelectTargetMethodMenu(instance);
-                    this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
-                    this._userInterface.GetInput();
-                    break;
-                case "2":
-                    isRunning = false;
-                    break;
-                default:
-                    this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterValidOption);
-                    break;
+                Type[] types = assembly.GetTypes();
+                object instance = this.HandleSelectTargetType(types);
+                this.HandleSelectTargetMethodMenu(instance);
+                this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
+                this._userInterface.GetInput();
+            }
+            else if (userChoice.Equals("2"))
+            {
+                isRunning = false;
+            }
+            else
+            {
+                this._userInterface.ShowMessage(MessageType.Prompt, Messages.EnterValidOption);
             }
         }
         while (isRunning);
@@ -111,23 +110,24 @@ public class DynamicMethodInvokerTask : ITask
             this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectTargetMethodTitle, this.Name));
             this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.TypeName, typeInstance.GetType().Name));
             this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetMethodOptions);
-            string? userChoice = this._formHandlers.GetUserInput(Messages.EnterOption);
-            switch (userChoice)
+            string userChoice = this._formHandlers.GetUserInput(Messages.EnterOption);
+            if (userChoice.Equals("1"))
             {
-                case "1":
-                    Type type = typeInstance.GetType();
-                    MethodInfo[] methodInfos = type.GetMethods();
-                    MethodInfo methodInfo = this._formHandlers.GetTargetMethodInfo(methodInfos, Messages.EnterMethodToInvoke, this.IsSupportedMethod);
-                    this.HandleInvokeMethod(typeInstance, methodInfo);
-                    this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
-                    this._userInterface.GetInput();
-                    break;
-                case "2":
-                    return;
-                default:
-                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
-                    Thread.Sleep(1000);
-                    break;
+                Type type = typeInstance.GetType();
+                MethodInfo[] methodInfos = type.GetMethods();
+                MethodInfo methodInfo = this._formHandlers.GetTargetMethodInfo(methodInfos, Messages.EnterMethodToInvoke, this.IsSupportedMethod);
+                this.HandleInvokeMethod(typeInstance, methodInfo);
+
+                this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
+                this._userInterface.GetInput();
+            }
+            else if (userChoice.Equals("2"))
+            {
+                return;
+            }
+            else
+            {
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
             }
         }
     }
@@ -148,8 +148,10 @@ public class DynamicMethodInvokerTask : ITask
             {
                 this._userInterface.ShowMessage(MessageType.Warning, typeInstance.ErrorMessage);
             }
-
-            return typeInstance.Value;
+            else
+            {
+                return typeInstance.Value;
+            }
         }
         while (true);
     }
@@ -171,24 +173,26 @@ public class DynamicMethodInvokerTask : ITask
         }
 
         // If there is no parameters, the method can be invoked otherwise arguments should not be null
-        if (parameters.Length == 0 || arguments is not null)
+        if (parameters.Length != 0 && arguments is null)
         {
-            Result<object?> result = this._assemblyHelper.InvokeMethod(typeInstance, method, arguments.Value);
-            if (result.IsSuccess)
-            {
-                if (result.Value is not null)
-                {
-                    this._userInterface.ShowMessage(MessageType.Highlight, string.Format(Messages.Result, result.Value));
-                }
-                else
-                {
-                    this._userInterface.ShowMessage(MessageType.Highlight, Messages.NotApplicableResult);
-                }
-            }
-            else
-            {
-                this._userInterface.ShowMessage(MessageType.Warning, result.ErrorMessage);
-            }
+            return;
+        }
+
+        Result<object?> result = this._assemblyHelper.InvokeMethod(typeInstance, method, arguments.Value);
+        if (!result.IsSuccess)
+        {
+            this._userInterface.ShowMessage(MessageType.Warning, result.ErrorMessage);
+            return;
+        }
+
+        // Result value will be null if the invoked method is void
+        if (result.Value is not null)
+        {
+            this._userInterface.ShowMessage(MessageType.Highlight, string.Format(Messages.Result, result.Value));
+        }
+        else
+        {
+            this._userInterface.ShowMessage(MessageType.Highlight, Messages.NotApplicableResult);
         }
     }
 

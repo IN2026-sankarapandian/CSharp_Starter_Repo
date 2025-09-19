@@ -18,11 +18,11 @@ public class Validator
     {
         if (!SyntaxFacts.IsValidIdentifier(name))
         {
-            return Result<bool>.Failure(WarningMessages.NotValidIdentifierName);
+            return Result<bool>.Failure(ErrorMessages.NotValidIdentifierName);
         }
         else if (SyntaxFacts.GetKeywordKind(name) != SyntaxKind.None)
         {
-            return Result<bool>.Failure(string.Format(WarningMessages.NameIsReservedKeyword, name));
+            return Result<bool>.Failure(string.Format(ErrorMessages.NameIsReservedKeyword, name));
         }
 
         return Result<bool>.Success(true);

@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿#pragma warning disable SA1011 // Closing square brackets should be spaced correctlyusing System.Reflection;
+using System.Reflection;
 using Reflections.Common;
 using Reflections.Constants;
 
@@ -23,15 +24,15 @@ public class AssemblyHelper
         }
         catch (FileNotFoundException)
         {
-            return Result<Assembly>.Failure(WarningMessages.NoFileExists);
+            return Result<Assembly>.Failure(ErrorMessages.NoFileExists);
         }
         catch (BadImageFormatException)
         {
-            return Result<Assembly>.Failure(WarningMessages.NotValidAssembly);
+            return Result<Assembly>.Failure(ErrorMessages.NotValidAssembly);
         }
         catch (FileLoadException ex)
         {
-            return Result<Assembly>.Failure(string.Format(WarningMessages.FileCantLoaded, ex.Message));
+            return Result<Assembly>.Failure(string.Format(ErrorMessages.FileCantLoaded, ex.Message));
         }
     }
 
@@ -42,9 +43,7 @@ public class AssemblyHelper
     /// <param name="method">Method info of method to invoke.</param>
     /// <param name="arguments">Arguments to the method</param>
     /// <returns><see cref="Result{Assembly}"/> object indicating success with invoking method or failure with error message.</returns>
-#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
     public Result<object?> InvokeMethod(object instance, MethodInfo method, object?[]? arguments)
-#pragma warning disable SA1011 // Closing square brackets should be spaced correctly
     {
         try
         {
@@ -61,7 +60,7 @@ public class AssemblyHelper
         catch (Exception ex)
         {
             // Unexpected exception may get caught here as user may invoke any kind of method from any assemblies.
-            return Result<object?>.Failure(string.Format(WarningMessages.ExceptionCaught, ex.Message));
+            return Result<object?>.Failure(string.Format(ErrorMessages.ExceptionCaught, ex.Message));
         }
     }
 
@@ -72,26 +71,25 @@ public class AssemblyHelper
     /// <returns><see cref="Result{Assembly}"/> object indicating success with creating instance or failure with error message.</returns>
     public Result<object> CreateTypeInstance(Type type)
     {
-        if (!type.IsInterface && !type.IsAbstract && type.GetConstructor(Type.EmptyTypes) != null && !type.ContainsGenericParameters)
+        if (type.IsInterface || type.IsAbstract || type.GetConstructor(Type.EmptyTypes) == null || type.ContainsGenericParameters)
         {
-            try
-            {
-                object? typeInstance = Activator.CreateInstance(type);
-                if (typeInstance is not null)
-                {
-                    return Result<object>.Success(typeInstance);
-                }
-                else
-                {
-                    return Result<object>.Failure(WarningMessages.NullInstance);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Result<object>.Failure(string.Format(WarningMessages.ExceptionCaught, ex.Message));
-            }
+            return Result<object>.Failure(ErrorMessages.TypeCantInitiated);
         }
 
-        return Result<object>.Failure(WarningMessages.TypeCantInitiated);
+        try
+        {
+            object? typeInstance = Activator.CreateInstance(type);
+            if (typeInstance is null)
+            {
+                return Result<object>.Failure(ErrorMessages.NullInstance);
+            }
+
+            return Result<object>.Success(typeInstance);
+        }
+        catch (Exception ex)
+        {
+            return Result<object>.Failure(string.Format(ErrorMessages.ExceptionCaught, ex.Message));
+        }
     }
 }
+#pragma warning disable SA1011 // Closing square brackets should be spaced correctly

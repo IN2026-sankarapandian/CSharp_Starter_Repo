@@ -22,19 +22,19 @@ public class Utility
             return Result<object?>.Success(input);
         }
 
-        if (type.IsPrimitive || type == typeof(decimal))
+        if (!(type.IsPrimitive || type == typeof(decimal)))
         {
-            try
-            {
-                object? converted = Convert.ChangeType(input, type);
-                return Result<object?>.Success(converted);
-            }
-            catch (Exception ex)
-            {
-                return Result<object?>.Failure(ex.Message);
-            }
+            return Result<object?>.Failure(string.Format(ErrorMessages.TypeNotSupported, type.Name));
         }
 
-        return Result<object?>.Failure(string.Format(WarningMessages.TypeNotSupported, type.Name));
+        try
+        {
+            object? converted = Convert.ChangeType(input, type);
+            return Result<object?>.Success(converted);
+        }
+        catch (Exception ex)
+        {
+            return Result<object?>.Failure(ex.Message);
+        }
     }
 }

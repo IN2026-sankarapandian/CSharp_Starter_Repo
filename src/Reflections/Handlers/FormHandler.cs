@@ -1,5 +1,4 @@
 ﻿#pragma warning disable SA1011 // Closing square brackets should be spaced correctlyusing System.Reflection;
-
 using System.Reflection;
 using Reflections.Common;
 using Reflections.Constants;
@@ -45,7 +44,7 @@ public class FormHandler
             string? userInput = Console.ReadLine();
             if (string.IsNullOrEmpty(userInput))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.InputCannotEmpty);
+                this._userInterface.ShowMessage(MessageType.Warning, ErrorMessages.InputCannotEmpty);
             }
             else
             {
@@ -68,11 +67,11 @@ public class FormHandler
 
             if (string.IsNullOrEmpty(path))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.InputCannotEmpty);
+                this._userInterface.ShowMessage(MessageType.Warning, ErrorMessages.InputCannotEmpty);
             }
             else if (!File.Exists(path))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.NoFileExists);
+                this._userInterface.ShowMessage(MessageType.Warning, ErrorMessages.NoFileExists);
             }
             else
             {
@@ -99,7 +98,7 @@ public class FormHandler
                 return indexValue - 1;
             }
 
-            this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.EnterValidIndex);
+            this._userInterface.ShowMessage(MessageType.Warning, ErrorMessages.EnterValidIndex);
         }
         while (true);
     }
@@ -112,9 +111,9 @@ public class FormHandler
     /// <returns>Arguments given by the user</returns>
     public Result<object?[]?> GetArguments(ParameterInfo[] parameters)
     {
-        object?[] arguments = new object?[parameters.Length];
         try
         {
+            object?[] arguments = new object?[parameters.Length];
             for (int i = 0; i < parameters.Length; i++)
             {
                 do
@@ -131,13 +130,13 @@ public class FormHandler
                 }
                 while (true);
             }
+
+            return Result<object?[]?>.Success(arguments);
         }
         catch (Exception ex)
         {
             return Result<object?[]?>.Failure(ex.Message);
         }
-
-        return Result<object?[]?>.Success(arguments);
     }
 
     /// <summary>
@@ -239,7 +238,7 @@ public class FormHandler
                 return methodInfos[methodInfoIndex];
             }
 
-            this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.MethodInvokeNotSupported);
+            this._userInterface.ShowMessage(MessageType.Warning, ErrorMessages.MethodInvokeNotSupported);
         }
         while (true);
     }

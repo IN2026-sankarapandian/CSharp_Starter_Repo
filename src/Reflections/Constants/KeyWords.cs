@@ -33,7 +33,7 @@ public class KeyWords
     /// <summary>
     /// Keyword used to represent as null value.
     /// </summary>
-    public const string Null = "null";
+    public const string Null = "Null";
 
     /// <summary>
     /// Keyword used to represent as parameter field.

@@ -74,21 +74,25 @@ public class DynamicObjectInspectorTask : ITask
         {
             this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectTargetTypeTitle, this.Name));
             this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.AssemblyName, assembly.FullName));
+
             this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetTypeOptions);
             string? userChoice = this._formHandlers.GetUserInput(Messages.EnterOption);
-            switch (userChoice)
+
+            if (userChoice.Equals("1"))
             {
-                case "1":
-                    Type[] types = assembly.GetTypes();
-                    object typeInstance = this.HandleSelectTargetType(types);
-                    this.HandleSelectTargetPropertyMenu(typeInstance);
-                    break;
-                case "2":
-                    return;
-                default:
-                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
-                    Thread.Sleep(1000);
-                    break;
+                Type[] types = assembly.GetTypes();
+                object typeInstance = this.HandleSelectTargetType(types);
+                this.HandleSelectTargetPropertyMenu(typeInstance);
+                break;
+            }
+            else if (userChoice.Equals("2"))
+            {
+                return;
+            }
+            else
+            {
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
+                Thread.Sleep(1000);
             }
         }
     }
@@ -102,7 +106,7 @@ public class DynamicObjectInspectorTask : ITask
         while (true)
         {
             this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectTargetPropertyTitle, this.Name));
-            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.TypeName, typeInstance.GetType().Name));
+
             this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetPropertyOptions);
             string? userChoice = this._formHandlers.GetUserInput(Messages.PressEnterToExit);
             switch (userChoice)
@@ -154,24 +158,23 @@ public class DynamicObjectInspectorTask : ITask
             string? newValue = this._formHandlers.GetUserInput(string.Format(Messages.EnterNewValue, propertyInfo.Name, propertyInfo.PropertyType.Name));
             Result<object> convertedResult = this.ConvertType(newValue, propertyInfo.PropertyType);
 
-            if (convertedResult.IsSuccess)
+            if (!convertedResult.IsSuccess)
             {
-                Result<bool> propertyValueChangeResult = this.ChangePropertyValue(typeInstance, propertyInfo, convertedResult.Value);
-                if (propertyValueChangeResult.IsSuccess)
-                {
-                    this._userInterface.ShowMessage(MessageType.Highlight, Messages.PropertyValueUpdated);
-                    this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
-                    Console.ReadKey();
-                    break;
-                }
-                else
-                {
-                    this._userInterface.ShowMessage(MessageType.Warning, propertyValueChangeResult.ErrorMessage);
-                }
+                this._userInterface.ShowMessage(MessageType.Warning, convertedResult.ErrorMessage);
+                continue;
+            }
+
+            Result<bool> propertyValueChangeResult = this.ChangePropertyValue(typeInstance, propertyInfo, convertedResult.Value);
+            if (propertyValueChangeResult.IsSuccess)
+            {
+                this._userInterface.ShowMessage(MessageType.Highlight, Messages.PropertyValueUpdated);
+                this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);
+                Console.ReadKey();
+                return;
             }
             else
             {
-                this._userInterface.ShowMessage(MessageType.Warning, convertedResult.ErrorMessage);
+                this._userInterface.ShowMessage(MessageType.Warning, propertyValueChangeResult.ErrorMessage);
             }
         }
         while (true);
@@ -220,23 +223,25 @@ public class DynamicObjectInspectorTask : ITask
             return Result<object>.Success(input);
         }
 
-        if (type.IsPrimitive || type == typeof(decimal))
+        if (!(type.IsPrimitive || type == typeof(decimal)))
         {
-            try
-            {
-                object? converted = Convert.ChangeType(input, type);
-                if (converted is not null)
-                {
-                    return Result<object>.Success(converted);
-                }
-            }
-            catch (Exception ex)
-            {
-                return Result<object>.Failure(ex.Message);
-            }
+            return Result<object>.Failure(string.Format(Messages.TypeNotSupported, type.Name));
         }
 
-        return Result<object>.Failure(string.Format(Messages.TypeNotSupported, type.Name));
+        try
+        {
+            object? converted = Convert.ChangeType(input, type);
+            if (converted is null)
+            {
+                return Result<object>.Failure(string.Format(Messages.TypeNotSupported, type.Name));
+            }
+
+            return Result<object>.Success(converted);
+        }
+        catch (Exception ex)
+        {
+            return Result<object>.Failure(ex.Message);
+        }
     }
 
     /// <summary>
@@ -272,7 +277,7 @@ public class DynamicObjectInspectorTask : ITask
     /// <returns><see cref="Result{Assembly}"/> object indicating success if type can be instantiated and contains atleast one supported property ;otherwise failure with error message.</returns>
     private Result<bool> IsSupportedType(Type type)
     {
-        if (type.IsInterface && type.IsAbstract && type.GetConstructor(Type.EmptyTypes) == null && type.ContainsGenericParameters)
+        if (type.IsInterface || type.IsAbstract || type.GetConstructor(Type.EmptyTypes) == null || type.ContainsGenericParameters)
         {
             return Result<bool>.Failure(Messages.TypeCantInitiated);
         }

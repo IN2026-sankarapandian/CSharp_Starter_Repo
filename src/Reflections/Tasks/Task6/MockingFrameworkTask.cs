@@ -43,19 +43,29 @@ public class MockingFrameworkTask : ITask
     private void HandleTestingMenu()
     {
         this._userInterface.ShowMessage(MessageType.Title, this.Name);
-        ICalculator? instance = this.CreateCalculatorInstance();
+
+        Result<ICalculator> calculator = this.CreateCalculatorInstance();
+
+        if (!calculator.IsSuccess)
+        {
+            this._userInterface.ShowMessage(MessageType.Warning, calculator.ErrorMessage);
+            this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.PressEnterToExit);
+            this._userInterface.GetInput();
+            return;
+        }
+
         this._userInterface.ShowMessage(MessageType.Title, this.Name);
         this._userInterface.ShowMessage(MessageType.Information, PromptMessages.MockingFrameworkMenuOptions);
         string userChoice = this._formHandler.GetUserInput(PromptMessages.EnterWhichTestToRun);
         switch (userChoice)
         {
             case "1":
-                this.HandleTestAddMethod(instance);
+                this.HandleTestAddMethod(calculator.Value);
                 this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.PressEnterToExit);
                 this._userInterface.GetInput();
                 break;
             case "2":
-                this.HandleTestSubtractMethod(instance);
+                this.HandleTestSubtractMethod(calculator.Value);
                 this._userInterface.ShowMessage(MessageType.Prompt, PromptMessages.PressEnterToExit);
                 this._userInterface.GetInput();
                 break;
@@ -116,17 +126,28 @@ public class MockingFrameworkTask : ITask
     /// Creates a new instance of <see cref="ICalculator"/> type.
     /// </summary>
     /// <returns>Created instance of <see cref="ICalculator"/>.</returns>
-    private ICalculator? CreateCalculatorInstance()
+    private Result<ICalculator> CreateCalculatorInstance()
     {
         CalculatorTypeBuilder calculatorTypeBuilder = new CalculatorTypeBuilder();
-        Type? calculatorType = calculatorTypeBuilder.BuildCalculatorType();
-        Result<object> calculatorTypeResult = this._assemblyHelper.CreateTypeInstance(calculatorType);
-
-        if (calculatorTypeResult.IsSuccess)
+        Result<Type> calculatorTypeResult = calculatorTypeBuilder.BuildCalculatorType();
+        if (!calculatorTypeResult.IsSuccess)
         {
-            return (ICalculator)calculatorTypeResult.Value;
+            return Result<ICalculator>.Failure(calculatorTypeResult.ErrorMessage);
         }
 
-        return null;
+        Result<object> calculatorInstance = this._assemblyHelper.CreateTypeInstance(calculatorTypeResult.Value);
+        if (!calculatorInstance.IsSuccess)
+        {
+            return Result<ICalculator>.Failure(calculatorInstance.ErrorMessage);
+        }
+
+        if (calculatorInstance.Value is ICalculator calculator)
+        {
+            return Result<ICalculator>.Success(calculator);
+        }
+        else
+        {
+            return Result<ICalculator>.Failure(ErrorMessages.InstanceNotImplementICalculator);
+        }
     }
 }

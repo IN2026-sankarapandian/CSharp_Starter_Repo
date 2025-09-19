@@ -76,20 +76,22 @@ public class InspectAssemblyMetadataTask : ITask
             this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectTargetTypeTitle, this.Name));
             this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.AssemblyName, assembly.FullName));
             this._userInterface.ShowMessage(MessageType.Information, Messages.SelectTargetTypeOptions);
+
             string? userChoice = this._formHandlers.GetUserInput(Messages.EnterOption);
-            Type[] types = assembly.GetTypes();
-            switch (userChoice)
+            if (userChoice.Equals("1"))
             {
-                case "1":
-                    Type targetType = this._formHandlers.GetTargetType(types, Messages.EnterTypeToInspect);
-                    this.HandleShowTypeDetailsMenu(targetType);
-                    break;
-                case "2":
-                    return;
-                default:
-                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
-                    Thread.Sleep(1000);
-                    break;
+                Type[] types = assembly.GetTypes();
+                Type targetType = this._formHandlers.GetTargetType(types, Messages.EnterTypeToInspect);
+                this.HandleShowTypeDetailsMenu(targetType);
+            }
+            else if (userChoice.Equals("1"))
+            {
+                return;
+            }
+            else
+            {
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.EnterValidOption);
+                Thread.Sleep(1000);
             }
         }
     }
@@ -105,32 +107,32 @@ public class InspectAssemblyMetadataTask : ITask
             this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.SelectMemberKindTitle, this.Name));
             this._userInterface.ShowMessage(MessageType.Prompt, string.Format(Messages.TypeName, type.Name));
             this._userInterface.ShowMessage(MessageType.Prompt, Messages.SelectMemberKindOptions);
-            string? userChoice = this._formHandlers.GetUserInput(Messages.EnterMemberKindToInspect);
 
-            switch (userChoice)
+            string? userChoice = this._formHandlers.GetUserInput(Messages.EnterMemberKindToInspect);
+            if (userChoice.Equals("1"))
             {
-                case "1":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.PropertyTitle, this.Name));
-                    this._userInterface.DisplayTypeProperties(type, type.GetProperties());
-                    break;
-                case "2":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.FieldTitle, this.Name));
-                    this._userInterface.DisplayTypeFields(type, type.GetFields());
-                    break;
-                case "3":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.MethodTitle, this.Name));
-                    this._userInterface.DisplayTypeMethods(type.GetMethods());
-                    break;
-                case "4":
-                    this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.EventTitle, this.Name));
-                    this._userInterface.DisplayTypeEvents(type.GetEvents());
-                    break;
-                case "5":
-                    return;
-                default:
-                    this._userInterface.ShowMessage(MessageType.Warning, Messages.EventTitle);
-                    Thread.Sleep(1000);
-                    continue;
+                this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.PropertyTitle, this.Name));
+                this._userInterface.DisplayTypeProperties(type, type.GetProperties());
+            }
+            else if (userChoice.Equals("1"))
+            {
+                this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.FieldTitle, this.Name));
+                this._userInterface.DisplayTypeFields(type, type.GetFields());
+            }
+            else if (userChoice.Equals("1"))
+            {
+                this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.MethodTitle, this.Name));
+                this._userInterface.DisplayTypeMethods(type.GetMethods());
+            }
+            else if (userChoice.Equals("1"))
+            {
+                this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.EventTitle, this.Name));
+                this._userInterface.DisplayTypeEvents(type.GetEvents());
+            }
+            else
+            {
+                this._userInterface.ShowMessage(MessageType.Warning, Messages.EventTitle);
+                Thread.Sleep(1000);
             }
 
             this._userInterface.ShowMessage(MessageType.Prompt, Messages.PressEnterToExit);

@@ -61,7 +61,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine(WarningMessages.NoTypeExists);
+            Console.WriteLine(ErrorMessages.NoTypeExists);
         }
     }
 
@@ -81,12 +81,12 @@ public class ConsoleUI : IUserInterface
                 }
                 catch
                 {
-                    Console.WriteLine(WarningMessages.TypeInstantiationFailed);
+                    Console.WriteLine(ErrorMessages.TypeInstantiationFailed);
                 }
             }
             else
             {
-                Console.WriteLine(WarningMessages.CantGetValues);
+                Console.WriteLine(ErrorMessages.CantGetValues);
             }
 
             for (int index = 0; index < properties.Length; index++)
@@ -112,7 +112,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine(WarningMessages.NoPropertyExists);
+            Console.WriteLine(ErrorMessages.NoPropertyExists);
         }
     }
 
@@ -134,7 +134,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine(WarningMessages.NoFieldExists);
+            Console.WriteLine(ErrorMessages.NoFieldExists);
         }
     }
 
@@ -160,7 +160,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine(WarningMessages.NoMethodExists);
+            Console.WriteLine(ErrorMessages.NoMethodExists);
         }
     }
 
@@ -181,7 +181,7 @@ public class ConsoleUI : IUserInterface
         }
         else
         {
-            Console.WriteLine(WarningMessages.NoEventExists);
+            Console.WriteLine(ErrorMessages.NoEventExists);
         }
     }
 }

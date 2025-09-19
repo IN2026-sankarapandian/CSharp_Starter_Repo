@@ -39,17 +39,17 @@ public class PluginHandler
             foreach (string dllPath in Directory.GetFiles(rootPath, "*.dll"))
             {
                 Result<Assembly> assemblyResult = this._assemblyHelper.LoadAssemblyFile(dllPath);
-                if (assemblyResult.IsSuccess)
-                {
-                    Type? taskImplementation = assemblyResult.Value.GetTypes().Where(type => typeof(ITask).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract).FirstOrDefault();
-                    if (taskImplementation is not null)
-                    {
-                        services.AddTransient(typeof(ITask), taskImplementation);
-                    }
-                }
-                else
+                if (!assemblyResult.IsSuccess)
                 {
                     this._userInterface.ShowMessage(MessageType.Warning, assemblyResult.ErrorMessage);
+                    continue;
+                }
+
+                Type? taskImplementation = assemblyResult.Value.GetTypes()
+                    .Where(type => typeof(ITask).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract).FirstOrDefault();
+                if (taskImplementation is not null)
+                {
+                    services.AddTransient(typeof(ITask), taskImplementation);
                 }
             }
         }

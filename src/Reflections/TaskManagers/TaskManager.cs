@@ -39,7 +39,7 @@ public class TaskManager
 
             if (string.IsNullOrEmpty(userInput))
             {
-                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.InputCannotEmpty);
+                this._userInterface.ShowMessage(MessageType.Warning, ErrorMessages.InputCannotEmpty);
                 Thread.Sleep(1000);
             }
             else if (int.TryParse(userInput, out var userChoice) && userChoice >= 1 && userChoice <= this._tasks.Count)
@@ -52,7 +52,7 @@ public class TaskManager
             }
             else
             {
-                this._userInterface.ShowMessage(MessageType.Warning, WarningMessages.EnterValidOption);
+                this._userInterface.ShowMessage(MessageType.Warning, ErrorMessages.EnterValidOption);
                 Thread.Sleep(1000);
             }
         }
