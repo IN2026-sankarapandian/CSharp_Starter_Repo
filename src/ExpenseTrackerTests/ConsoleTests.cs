@@ -11,19 +11,37 @@ namespace ExpenseTrackerTests;
 public class ConsoleTests
 {
     /// <summary>
+    /// Sample data used to test.
+    /// </summary>
+    private List<ITransaction> _transactions = new List<ITransaction>
+        {
+            new IncomeTransactionData
+            {
+                Amount = 100,
+                Source = "Salary",
+            },
+
+            new ExpenseTransactionData
+            {
+                Amount = 200,
+                Category = "Food",
+            },
+        };
+
+    /// <summary>
     /// Tests whether prompt and get input gets the input from user
     /// </summary>
     [Fact]
     public void PromptAndGetInput_ShouldReturnNotNullInput()
     {
-        StringReader stringWriter = new StringReader("Helo");
+        StringReader stringWriter = new StringReader("Hello");
 
         Console.SetIn(stringWriter);
 
         ConsoleUI userInterface = new ConsoleUI();
 
         string? input = userInterface.PromptAndGetInput("Enter : ");
-        Assert.Equal("Helo", input);
+        Assert.Equal("Hello", input);
     }
 
     /// <summary>
@@ -80,27 +98,12 @@ public class ConsoleTests
     [Fact]
     public void ShowTransactionList_ShouldShowIncomesAlone_WhenSpecified()
     {
-        List<ITransaction> transactions = new List<ITransaction>
-        {
-            new IncomeTransactionData
-            {
-                Amount = 100,
-                Source = "Salary",
-            },
-
-            new ExpenseTransactionData
-            {
-                Amount = 200,
-                Category = "Food",
-            },
-        };
-
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
 
         IUserInterface userInterface = new ConsoleUI();
 
-        userInterface.ShowTransactionList(transactions, TransactionType.Income);
+        userInterface.ShowTransactionList(this._transactions, TransactionType.Income);
 
         Assert.Contains("100", stringWriter.ToString());
         Assert.DoesNotContain("200", stringWriter.ToString());
@@ -114,27 +117,12 @@ public class ConsoleTests
     [Fact]
     public void ShowTransactionList_ShouldShowExpenseAlone_WhenSpecified()
     {
-        List<ITransaction> transactions = new List<ITransaction>
-        {
-            new IncomeTransactionData
-            {
-                Amount = 100,
-                Source = "Salary",
-            },
-
-            new ExpenseTransactionData
-            {
-                Amount = 200,
-                Category = "Food",
-            },
-        };
-
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
 
         IUserInterface userInterface = new ConsoleUI();
 
-        userInterface.ShowTransactionList(transactions, TransactionType.Expense);
+        userInterface.ShowTransactionList(this._transactions, TransactionType.Expense);
 
         Assert.DoesNotContain("100", stringWriter.ToString());
         Assert.Contains("200", stringWriter.ToString());
@@ -148,27 +136,12 @@ public class ConsoleTests
     [Fact]
     public void ShowTransactionList_ShouldShowAll_WhenSpecified()
     {
-        List<ITransaction> transactions = new List<ITransaction>
-        {
-            new IncomeTransactionData
-            {
-                Amount = 100,
-                Source = "Salary",
-            },
-
-            new ExpenseTransactionData
-            {
-                Amount = 200,
-                Category = "Food",
-            },
-        };
-
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
 
         IUserInterface userInterface = new ConsoleUI();
 
-        userInterface.ShowTransactionList(transactions, TransactionType.All);
+        userInterface.ShowTransactionList(this._transactions, TransactionType.All);
 
         Assert.Contains("100", stringWriter.ToString());
         Assert.Contains("200", stringWriter.ToString());

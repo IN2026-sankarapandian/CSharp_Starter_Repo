@@ -22,15 +22,15 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockAccount.SetupGet(acc => acc.Sources).Returns(new List<string> { "Salary" });
-        mockUI.Setup(ui => ui.PromptAndGetInput(PromptMessages.EnterIncome)).Returns("1000");
-        mockUI.Setup(ui => ui.PromptAndGetInput(PromptMessages.EnterSource)).Returns("1");
+        mockAccount.SetupGet(mockAccount => mockAccount.Sources).Returns(new List<string> { "Salary" });
+        mockUI.Setup(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterIncome)).Returns("1000");
+        mockUI.Setup(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterSource)).Returns("1");
 
         Controller controller = new Controller(mockAccount.Object, mockUI.Object);
 
         controller.HandleAddIncome();
 
-        mockAccount.Verify(acc => acc.AddIncome(1000m, "Salary"), Times.Once());
+        mockAccount.Verify(mockAccount => mockAccount.AddIncome(1000m, "Salary"), Times.Once());
     }
 
     /// <summary>
@@ -42,15 +42,15 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockAccount.SetupGet(acc => acc.Categories).Returns(new List<string> { "Food" });
-        mockUI.Setup(ui => ui.PromptAndGetInput(PromptMessages.EnterExpense)).Returns("1000");
-        mockUI.Setup(ui => ui.PromptAndGetInput(PromptMessages.EnterCategory)).Returns("1");
+        mockAccount.SetupGet(mockAccount => mockAccount.Categories).Returns(new List<string> { "Food" });
+        mockUI.Setup(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterExpense)).Returns("1000");
+        mockUI.Setup(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterCategory)).Returns("1");
 
         Controller controller = new Controller(mockAccount.Object, mockUI.Object);
 
         controller.HandleAddExpense();
 
-        mockAccount.Verify(acc => acc.AddExpense(1000m, "Food"), Times.Once());
+        mockAccount.Verify(mockAccount => mockAccount.AddExpense(1000m, "Food"), Times.Once());
     }
 
     /// <summary>
@@ -62,14 +62,14 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>());
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>());
 
         Controller controller = new Controller(mockAccount.Object, mockUI.Object);
 
         controller.HandleEditTransaction();
 
-        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Once);
-        mockUI.Verify(ui => ui.PromptAndGetInput(PromptMessages.PressEnterToGoBack), Times.Once);
+        mockUI.Verify(mockUI => mockUI.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Once);
+        mockUI.Verify(mockUI => mockUI.PromptAndGetInput(PromptMessages.PressEnterToGoBack), Times.Once);
     }
 
     /// <summary>
@@ -81,14 +81,14 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>());
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>());
 
         Controller controller = new Controller(mockAccount.Object, mockUI.Object);
 
         controller.HandleDeleteTransaction();
 
-        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Once);
-        mockUI.Verify(ui => ui.PromptAndGetInput(PromptMessages.PressEnterToGoBack), Times.Once);
+        mockUI.Verify(mockUI => mockUI.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Once);
+        mockUI.Verify(mockUI => mockUI.PromptAndGetInput(PromptMessages.PressEnterToGoBack), Times.Once);
     }
 
     /// <summary>
@@ -100,14 +100,14 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>());
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>());
 
         Controller controller = new Controller(mockAccount.Object, mockUI.Object);
 
         controller.HandleViewTransactions();
 
-        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Once);
-        mockUI.Verify(ui => ui.PromptAndGetInput(PromptMessages.PressEnterToGoBack), Times.Once);
+        mockUI.Verify(mockUI => mockUI.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Once);
+        mockUI.Verify(mockUI => mockUI.PromptAndGetInput(PromptMessages.PressEnterToGoBack), Times.Once);
     }
 
     /// <summary>
@@ -119,12 +119,12 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(It.IsAny<string>()))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(It.IsAny<string>()))
           .Returns("2")
           .Returns("4")
           .Returns(string.Empty)
           .Returns("3");
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>
         {
             new ExpenseTransactionData
             {
@@ -137,8 +137,8 @@ public class ControllerTests
 
         controller.HandleViewTransactions();
 
-        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Exactly(2));
-        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.Expense), Times.Once);
+        mockUI.Verify(mockUI => mockUI.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Exactly(2));
+        mockUI.Verify(mockUI => mockUI.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.Expense), Times.Once);
     }
 
     /// <summary>
@@ -150,13 +150,13 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(It.IsAny<string>()))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(It.IsAny<string>()))
           .Returns("5")
           .Returns("1")
           .Returns("4")
           .Returns(string.Empty)
           .Returns("3");
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>
         {
             new IncomeTransactionData
             {
@@ -169,8 +169,8 @@ public class ControllerTests
 
         controller.HandleViewTransactions();
 
-        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Exactly(3));
-        mockUI.Verify(ui => ui.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.Income), Times.Once);
+        mockUI.Verify(mockUI => mockUI.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.All), Times.Exactly(3));
+        mockUI.Verify(mockUI => mockUI.ShowTransactionList(mockAccount.Object.TotalTransactionDataList, TransactionType.Income), Times.Once);
     }
 
     /// <summary>
@@ -182,7 +182,7 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>
         {
             new ExpenseTransactionData
             {
@@ -191,17 +191,17 @@ public class ControllerTests
             },
         });
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(PromptMessages.EnterIndexToEdit))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterIndexToEdit))
             .Returns(string.Empty)
             .Returns("3")
             .Returns("1");
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(PromptMessages.EnterWhatToEdit))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterWhatToEdit))
             .Returns(string.Empty)
             .Returns("3")
             .Returns("1");
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(PromptMessages.EnterNewAmount))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterNewAmount))
             .Returns(string.Empty)
             .Returns("word")
             .Returns("-100")
@@ -223,7 +223,7 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>
         {
             new ExpenseTransactionData
             {
@@ -232,24 +232,24 @@ public class ControllerTests
             },
         });
 
-        mockAccount.SetupGet(acc => acc.Categories).Returns(new List<string> { "Food" });
+        mockAccount.SetupGet(mockAccount => mockAccount.Categories).Returns(new List<string> { "Food" });
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(PromptMessages.EnterIndexToEdit))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterIndexToEdit))
             .Returns(string.Empty)
             .Returns("3")
             .Returns("1");
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(PromptMessages.EnterWhatToEdit))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterWhatToEdit))
             .Returns(string.Empty)
             .Returns("3")
             .Returns("2");
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(string.Format(PromptMessages.NewTag, Headings.Category)))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(string.Format(PromptMessages.NewTag, Headings.Category)))
             .Returns(string.Empty)
             .Returns("2")
             .Returns("1");
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(string.Format(string.Format(PromptMessages.EnterNewTag, Headings.Category))))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(string.Format(string.Format(PromptMessages.EnterNewTag, Headings.Category))))
             .Returns(string.Empty)
             .Returns("New Category");
 
@@ -269,7 +269,7 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>
         {
             new IncomeTransactionData
             {
@@ -278,19 +278,19 @@ public class ControllerTests
             },
         });
 
-        mockAccount.SetupGet(acc => acc.Sources).Returns(new List<string> { "Food" });
+        mockAccount.SetupGet(mockAccount => mockAccount.Sources).Returns(new List<string> { "Food" });
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(PromptMessages.EnterIndexToEdit))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterIndexToEdit))
             .Returns(string.Empty)
             .Returns("3")
             .Returns("1");
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(PromptMessages.EnterWhatToEdit))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterWhatToEdit))
             .Returns(string.Empty)
             .Returns("3")
             .Returns("2");
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(string.Format(PromptMessages.NewTag, Headings.Source)))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(string.Format(PromptMessages.NewTag, Headings.Source)))
             .Returns(string.Empty)
             .Returns("1");
 
@@ -310,10 +310,10 @@ public class ControllerTests
         Mock<IAccount> mockAccount = new Mock<IAccount>();
         Mock<IUserInterface> mockUI = new Mock<IUserInterface>();
 
-        mockUI.SetupSequence(ui => ui.PromptAndGetInput(PromptMessages.EnterIndexToDelete))
+        mockUI.SetupSequence(mockUI => mockUI.PromptAndGetInput(PromptMessages.EnterIndexToDelete))
             .Returns("1");
 
-        mockAccount.SetupGet(acc => acc.TotalTransactionDataList).Returns(new List<ITransaction>
+        mockAccount.SetupGet(mockAccount => mockAccount.TotalTransactionDataList).Returns(new List<ITransaction>
         {
             new IncomeTransactionData
             {
@@ -326,6 +326,6 @@ public class ControllerTests
 
         controller.HandleDeleteTransaction();
 
-        mockAccount.Verify(account => account.DeleteTransaction(0), Times.Once);
+        mockAccount.Verify(mockAccount => mockAccount.DeleteTransaction(0), Times.Once);
     }
 }

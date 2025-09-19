@@ -14,11 +14,11 @@ public class AccountTests
     [Fact]
     public void AddIncome_ShouldAddIncome()
     {
-        Account account = new Account();
+        Account mockAccount = new Account();
 
-        account.AddIncome(100, "Salary");
+        mockAccount.AddIncome(100, "Salary");
 
-        Assert.Equal(100, account.CurrentBalance);
+        Assert.Equal(100, mockAccount.CurrentBalance);
     }
 
     /// <summary>
@@ -27,11 +27,11 @@ public class AccountTests
     [Fact]
     public void AddExpense_ShouldAddExpense()
     {
-        Account account = new Account();
+        Account mockAccount = new Account();
 
-        account.AddExpense(100, "Food");
+        mockAccount.AddExpense(100, "Food");
 
-        Assert.Equal(-100, account.CurrentBalance);
+        Assert.Equal(-100, mockAccount.CurrentBalance);
     }
 
     /// <summary>
