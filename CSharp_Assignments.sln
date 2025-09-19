@@ -34,6 +34,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CollectionsAndGenerics", "s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MemoryOptimization", "src\MemoryOptimization\MemoryOptimization.csproj", "{2E081DFF-D959-85DF-C06C-12648079071E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExpenseTrackerTests", "src\ExpenseTrackerTests\ExpenseTrackerTests.csproj", "{0C9960ED-28F7-F192-75F9-13E50F5DCAAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -92,6 +94,10 @@ Global
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2E081DFF-D959-85DF-C06C-12648079071E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C9960ED-28F7-F192-75F9-13E50F5DCAAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C9960ED-28F7-F192-75F9-13E50F5DCAAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C9960ED-28F7-F192-75F9-13E50F5DCAAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C9960ED-28F7-F192-75F9-13E50F5DCAAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

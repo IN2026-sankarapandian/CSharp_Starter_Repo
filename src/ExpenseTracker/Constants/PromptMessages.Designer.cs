@@ -22,7 +22,7 @@ namespace ExpenseTracker.Constants {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class PromptMessages {
+    public class PromptMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace ExpenseTracker.Constants {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ExpenseTracker.Constants.PromptMessages", typeof(PromptMessages).Assembly);
@@ -51,7 +51,7 @@ namespace ExpenseTracker.Constants {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Current balance : {0}\nTotal income : +{1}\nTotal expense : -{2}\n.
         /// </summary>
-        internal static string AccountStats {
+        public static string AccountStats {
             get {
                 return ResourceManager.GetString("AccountStats", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Categories : .
         /// </summary>
-        internal static string Categories {
+        public static string Categories {
             get {
                 return ResourceManager.GetString("Categories", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to \n1. Amount\n2. {0}\n.
         /// </summary>
-        internal static string EditPrompt {
+        public static string EditPrompt {
             get {
                 return ResourceManager.GetString("EditPrompt", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Enter category : .
         /// </summary>
-        internal static string EnterCategory {
+        public static string EnterCategory {
             get {
                 return ResourceManager.GetString("EnterCategory", resourceCulture);
             }
@@ -99,7 +99,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to What do you want to do : .
         /// </summary>
-        internal static string EnterChoice {
+        public static string EnterChoice {
             get {
                 return ResourceManager.GetString("EnterChoice", resourceCulture);
             }
@@ -108,7 +108,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Enter the expense  : .
         /// </summary>
-        internal static string EnterExpense {
+        public static string EnterExpense {
             get {
                 return ResourceManager.GetString("EnterExpense", resourceCulture);
             }
@@ -117,7 +117,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Enter the income  : .
         /// </summary>
-        internal static string EnterIncome {
+        public static string EnterIncome {
             get {
                 return ResourceManager.GetString("EnterIncome", resourceCulture);
             }
@@ -126,7 +126,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Select the index of transaction to delete: .
         /// </summary>
-        internal static string EnterIndexToDelete {
+        public static string EnterIndexToDelete {
             get {
                 return ResourceManager.GetString("EnterIndexToDelete", resourceCulture);
             }
@@ -135,7 +135,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Select the index of transaction to edit : .
         /// </summary>
-        internal static string EnterIndexToEdit {
+        public static string EnterIndexToEdit {
             get {
                 return ResourceManager.GetString("EnterIndexToEdit", resourceCulture);
             }
@@ -144,7 +144,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Enter the new amount : .
         /// </summary>
-        internal static string EnterNewAmount {
+        public static string EnterNewAmount {
             get {
                 return ResourceManager.GetString("EnterNewAmount", resourceCulture);
             }
@@ -153,7 +153,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Enter new {0} : .
         /// </summary>
-        internal static string EnterNewTag {
+        public static string EnterNewTag {
             get {
                 return ResourceManager.GetString("EnterNewTag", resourceCulture);
             }
@@ -162,7 +162,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Enter a source : .
         /// </summary>
-        internal static string EnterSource {
+        public static string EnterSource {
             get {
                 return ResourceManager.GetString("EnterSource", resourceCulture);
             }
@@ -171,7 +171,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to What do you want to edit : .
         /// </summary>
-        internal static string EnterWhatToEdit {
+        public static string EnterWhatToEdit {
             get {
                 return ResourceManager.GetString("EnterWhatToEdit", resourceCulture);
             }
@@ -180,7 +180,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to 1. Add income\n2. Add expense\n3. View all transactions\n4. Edit transaction \n5. Delete transaction\n6. Exit application\n.
         /// </summary>
-        internal static string MenuPrompt {
+        public static string MenuPrompt {
             get {
                 return ResourceManager.GetString("MenuPrompt", resourceCulture);
             }
@@ -189,7 +189,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to New source.
         /// </summary>
-        internal static string NewSource {
+        public static string NewSource {
             get {
                 return ResourceManager.GetString("NewSource", resourceCulture);
             }
@@ -198,7 +198,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to New {0}.
         /// </summary>
-        internal static string NewTag {
+        public static string NewTag {
             get {
                 return ResourceManager.GetString("NewTag", resourceCulture);
             }
@@ -207,7 +207,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Press enter to go back.....
         /// </summary>
-        internal static string PressEnterToGoBack {
+        public static string PressEnterToGoBack {
             get {
                 return ResourceManager.GetString("PressEnterToGoBack", resourceCulture);
             }
@@ -216,7 +216,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Sources : .
         /// </summary>
-        internal static string Sources {
+        public static string Sources {
             get {
                 return ResourceManager.GetString("Sources", resourceCulture);
             }
@@ -225,7 +225,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to 1. View incomes \n2. View expenses \n3. Go back.
         /// </summary>
-        internal static string ViewPrompt {
+        public static string ViewPrompt {
             get {
                 return ResourceManager.GetString("ViewPrompt", resourceCulture);
             }

@@ -22,7 +22,7 @@ namespace ExpenseTracker.Constants {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class StatusMessages {
+    public class StatusMessages {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace ExpenseTracker.Constants {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ExpenseTracker.Constants.StatusMessages", typeof(StatusMessages).Assembly);
@@ -51,7 +51,7 @@ namespace ExpenseTracker.Constants {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,7 +63,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Deleted successfully.
         /// </summary>
-        internal static string DeletedSuccessfully {
+        public static string DeletedSuccessfully {
             get {
                 return ResourceManager.GetString("DeletedSuccessfully", resourceCulture);
             }
@@ -72,7 +72,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Edited successfully.
         /// </summary>
-        internal static string EditedSuccessfuly {
+        public static string EditedSuccessfuly {
             get {
                 return ResourceManager.GetString("EditedSuccessfuly", resourceCulture);
             }
@@ -81,7 +81,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Expense Entry Added successfully !.
         /// </summary>
-        internal static string ExpenseAddedSuccessfully {
+        public static string ExpenseAddedSuccessfully {
             get {
                 return ResourceManager.GetString("ExpenseAddedSuccessfully", resourceCulture);
             }
@@ -90,7 +90,7 @@ namespace ExpenseTracker.Constants {
         /// <summary>
         ///   Looks up a localized string similar to Income Entry Added successfully !.
         /// </summary>
-        internal static string IncomeAddedSuccessfully {
+        public static string IncomeAddedSuccessfully {
             get {
                 return ResourceManager.GetString("IncomeAddedSuccessfully", resourceCulture);
             }
