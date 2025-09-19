@@ -34,7 +34,7 @@ public class Task2 : ITask
         stopwatch.Start();
         CalculateWithParallel(integers);
         stopwatch.Stop();
-        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.ElapsedTimeParrallel, stopwatch.ElapsedMilliseconds));
+        this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.ElapsedTimeParallel, stopwatch.ElapsedMilliseconds));
 
         stopwatch.Restart();
         CalculateInSequential(integers);

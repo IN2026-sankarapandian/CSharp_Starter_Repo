@@ -18,7 +18,7 @@ public class Validator
     {
         if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uriResult))
         {
-            return Result<bool>.Failure(Messages.NotVaildURL);
+            return Result<bool>.Failure(Messages.NotValidURL);
         }
 
         return Result<bool>.Success(true);
