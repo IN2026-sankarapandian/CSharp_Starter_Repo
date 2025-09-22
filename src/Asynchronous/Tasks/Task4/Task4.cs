@@ -102,7 +102,7 @@ public class Task4 : ITask
 
         if (!wordResult.IsSuccess)
         {
-            return Result<String>.Failure(wordResult.ErrorMessage);
+            return Result<string>.Failure(wordResult.ErrorMessage);
         }
 
         string url = $"https://en.wikipedia.org/api/rest_v1/page/summary/{wordResult.Value}";
