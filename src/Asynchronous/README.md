@@ -22,7 +22,7 @@
 
 ### Task 4: Implementing Multi-Layered Async/Await Operations in a Real-World Scenario 
 
-- In this task I have implemented a simple tool that gets a summary of longest word in the file
+- In this task I have implemented a simple tool that gets a summary of longest word in the text file which should contain at least a single word.
 - I was asked to implement three methods
 - Method A (Should do time consuming operation) - I have implemented a method which will read a file and separate every words in it and return the longest word in it.
 - Method B (Should make a request with a url constructed by result of method A) - I have implemented the method to construct a url of Wikipedia api to get the summary of the longest word returned by methodA
@@ -75,7 +75,7 @@ public async Task<string> SomeAsyncOperation()
 
 ### Task 6: Real-World Application of ConfigureAwait in a Console Application with Thread Tracking 
 
-- In this task i have implemented a tool to find the total number of words in a file.
+- In this task i have implemented a tool to find the total number of words in a text file.
 - I was asked to implement two methods
 - Method A (Should do a long running operation) : I have created a method that read content from a file.
 - Method B (Should call MethodA, await its result, and then performs some further processing ) - I have created a method to get the counts of words in the content read from a file using method A.
