@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using Asynchronous.Common;
 using Asynchronous.Constants;
 using Asynchronous.Enums;
 using Asynchronous.FileServices;
@@ -40,16 +41,16 @@ public class Task6 : ITask
         {
             this._userInterface.ShowMessage(MessageType.Highlight, Messages.Task6ToolDescription);
             string filePath = this._formHandler.GetTxtFilePath(Messages.EnterPath);
-            int totalNumberOfWords = this.GetTotalNumberOfWordsInFile(filePath).Result;
-            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.TotalWords, totalNumberOfWords));
-        }
-        catch (IOException ex)
-        {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.IOExceptionOccurred, ex.Message));
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.AccessDenied, ex.Message));
+            Result<int> totalNumberOfWordsResult = this.GetTotalNumberOfWordsInFile(filePath).Result;
+
+            if (totalNumberOfWordsResult.IsSuccess)
+            {
+                this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.TotalWords, totalNumberOfWordsResult.Value));
+            }
+            else
+            {
+                this._userInterface.ShowMessage(MessageType.Warning, totalNumberOfWordsResult.ErrorMessage);
+            }
         }
         catch (Exception ex)
         {
@@ -65,21 +66,25 @@ public class Task6 : ITask
     /// </summary>
     /// <param name="path">Path of the file to get its total number of words.</param>
     /// <returns>Total number of words in the specified file.</returns>
-    private async Task<int> GetTotalNumberOfWordsInFile(string path) // Method B
+    private async Task<Result<int>> GetTotalNumberOfWordsInFile(string path) // Method B
     {
         this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.ThreadUsedBeforeAwait, Thread.CurrentThread.ManagedThreadId));
 
-        string content = await this._fileService.ReadFileAsync(
+        Result<string> contentResult = await this._fileService.ReadFileAsync(
             path,
             (progress, elapsedTime)
             => this._userInterface.DrawProgressBar(Messages.ReadingFile, progress, elapsedTime))
             .ConfigureAwait(false); // Method A
 
         this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.ThreadUsedAfterAwait, Thread.CurrentThread.ManagedThreadId));
+        if (!contentResult.IsSuccess)
+        {
+            return Result<int>.Failure(contentResult.ErrorMessage);
+        }
 
         // Removes non word, non space characters
-        content = Regex.Replace(content, RegexConstants.WordFilter, string.Empty);
+        string content = Regex.Replace(contentResult.Value, RegexConstants.WordFilter, string.Empty);
         string[] words = content.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-        return words.Length;
+        return Result<int>.Success(words.Length);
     }
 }

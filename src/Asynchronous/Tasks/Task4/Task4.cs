@@ -44,16 +44,15 @@ public class Task4 : ITask
 
         try
         {
-            string result = this.GetSummaryOfLongestWordFromFile(filePath).Result;
-            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.Summary, result));
-        }
-        catch (IOException ex)
-        {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.IOExceptionOccurred, ex.Message));
-        }
-        catch (UnauthorizedAccessException ex)
-        {
-            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.AccessDenied, ex.Message));
+            Result<string> result = this.GetSummaryOfLongestWordFromFile(filePath).Result;
+            if (result.IsSuccess)
+            {
+                this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.Summary, result.Value));
+            }
+            else
+            {
+                this._userInterface.ShowMessage(MessageType.Warning, result.ErrorMessage);
+            }
         }
         catch (Exception ex)
         {
@@ -69,19 +68,24 @@ public class Task4 : ITask
     /// </summary>
     /// <param name="path">Path of the file to read.</param>
     /// <returns>Longest word in the file.</returns>
-    public async Task<string> GetLongestWordFromFile(string path)
+    public async Task<Result<string>> GetLongestWordFromFile(string path)
     {
-        string essay = await this._fileService.ReadFileAsync(path, (progress, elapsedTime) =>
+        Result<string> essayResult = await this._fileService.ReadFileAsync(path, (progress, elapsedTime) =>
         {
             this._userInterface.DrawProgressBar(Messages.ReadingFile, progress, elapsedTime);
         });
 
+        if (!essayResult.IsSuccess)
+        {
+            return Result<string>.Failure(essayResult.ErrorMessage);
+        }
+
         // Clean text and get longest word
-        essay = Regex.Replace(essay.ToLower(), RegexConstants.WordFilter, string.Empty);
+        string essay = Regex.Replace(essayResult.Value.ToLower(), RegexConstants.WordFilter, string.Empty);
         string[] words = essay.Split(' ', StringSplitOptions.RemoveEmptyEntries);
         string longestWord = words.OrderByDescending(word => word.Length).FirstOrDefault() ?? string.Empty;
 
-        return longestWord;
+        return Result<string>.Success(longestWord);
     }
 
     /// <summary>
@@ -89,16 +93,22 @@ public class Task4 : ITask
     /// </summary>
     /// <param name="path">Path of the file to read.</param>
     /// <returns>Data about the longest word in the file.</returns>
-    public async Task<string> GetDataOfLongestWordFromFile(string path) // Method B
+    public async Task<Result<string>> GetDataOfLongestWordFromFile(string path) // Method B
     {
-        string word = await this.GetLongestWordFromFile(path);
-        string url = $"https://en.wikipedia.org/api/rest_v1/page/summary/{word}";
+        Result<string> wordResult = await this.GetLongestWordFromFile(path);
+
+        if (!wordResult.IsSuccess)
+        {
+            return Result<String>.Failure(wordResult.ErrorMessage);
+        }
+
+        string url = $"https://en.wikipedia.org/api/rest_v1/page/summary/{wordResult.Value}";
 
         using HttpClient client = new ();
         client.DefaultRequestHeaders.Add("User-Agent", "App");
         string data = await client.GetStringAsync(url);
 
-        return data;
+        return Result<string>.Success(data);
     }
 
     /// <summary>
@@ -106,16 +116,22 @@ public class Task4 : ITask
     /// </summary>
     /// <param name="path">Path of the file to read.</param>
     /// <returns>Summary of the longest word in the file.</returns>
-    public async Task<string> GetSummaryOfLongestWordFromFile(string path) // Method C
+    public async Task<Result<string>> GetSummaryOfLongestWordFromFile(string path) // Method C
     {
-        string json = await this.GetDataOfLongestWordFromFile(path);
-        using JsonDocument doc = JsonDocument.Parse(json);
+        Result<string> jsonResult = await this.GetDataOfLongestWordFromFile(path);
+
+        if (!jsonResult.IsSuccess)
+        {
+            return Result<string>.Failure(jsonResult.ErrorMessage);
+        }
+
+        using JsonDocument doc = JsonDocument.Parse(jsonResult.Value);
         string? summary = null;
         if (doc.RootElement.TryGetProperty("extract", out JsonElement extract))
         {
             summary = extract.GetString();
         }
 
-        return summary ?? Messages.NoSummary;
+        return Result<string>.Success(summary ?? Messages.NoSummary);
     }
 }
