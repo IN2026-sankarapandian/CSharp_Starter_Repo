@@ -214,4 +214,14 @@ public static class Messages
     /// Error message displayed to the user that path doesn't exists.
     /// </summary>
     public const string NoFileExists = "No files exists in specified path";
+
+    /// <summary>
+    /// Error message displayed to the user that IO exception occurred.
+    /// </summary>
+    public const string IOExceptionOccurred = "IO exception occurred: {0}";
+
+    /// <summary>
+    /// Error message displayed to the user that the access was denied to read the file.
+    /// </summary>
+    public const string AccessDenied = "Access denied: {0}";
 }

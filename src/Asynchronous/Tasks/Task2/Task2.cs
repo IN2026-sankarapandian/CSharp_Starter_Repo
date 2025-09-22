@@ -28,7 +28,7 @@ public class Task2 : ITask
     public void Run()
     {
         this._userInterface.ShowMessage(MessageType.Title, this.Name);
-        int[] integers = Enumerable.Range(0, 100000000).ToArray();
+        int[] integers = Enumerable.Range(0, TaskConfigurations.ArraySize).ToArray();
 
         Stopwatch stopwatch = Stopwatch.StartNew();
         stopwatch.Start();

@@ -43,10 +43,17 @@ public class Task6 : ITask
             int totalNumberOfWords = this.GetTotalNumberOfWordsInFile(filePath).Result;
             this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.TotalWords, totalNumberOfWords));
         }
+        catch (IOException ex)
+        {
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.IOExceptionOccurred, ex.Message));
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.AccessDenied, ex.Message));
+        }
         catch (Exception ex)
         {
             this._userInterface.ShowMessage(MessageType.Warning, string.Format(Messages.CantReadFile, ex.Message));
-            this._userInterface.GetInput();
         }
 
         this._userInterface.ShowMessage(MessageType.Information, Messages.EnterToExit);

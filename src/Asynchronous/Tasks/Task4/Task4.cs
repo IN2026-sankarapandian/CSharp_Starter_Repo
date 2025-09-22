@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using System.Text.RegularExpressions;
+using Asynchronous.Common;
 using Asynchronous.Constants;
 using Asynchronous.Enums;
 using Asynchronous.FileServices;
@@ -46,9 +47,17 @@ public class Task4 : ITask
             string result = this.GetSummaryOfLongestWordFromFile(filePath).Result;
             this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.Summary, result));
         }
+        catch (IOException ex)
+        {
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.IOExceptionOccurred, ex.Message));
+        }
+        catch (UnauthorizedAccessException ex)
+        {
+            this._userInterface.ShowMessage(MessageType.Title, string.Format(Messages.AccessDenied, ex.Message));
+        }
         catch (Exception ex)
         {
-            this._userInterface.ShowMessage(MessageType.Information, string.Format(Messages.Error, ex.Message));
+            this._userInterface.ShowMessage(MessageType.Warning, string.Format(Messages.CantReadFile, ex.Message));
         }
 
         this._userInterface.ShowMessage(MessageType.Information, Messages.EnterToExit);
@@ -60,23 +69,19 @@ public class Task4 : ITask
     /// </summary>
     /// <param name="path">Path of the file to read.</param>
     /// <returns>Longest word in the file.</returns>
-    public Task<string> GetLongestWordFromFile(string path) // Method A
+    public async Task<string> GetLongestWordFromFile(string path)
     {
-        return Task<string>.Run(() =>
+        string essay = await this._fileService.ReadFileAsync(path, (progress, elapsedTime) =>
         {
-            string essay = this._fileService.ReadFileAsync(path, (progress, elapsedTime) =>
-            {
-                this._userInterface.DrawProgressBar(Messages.ReadingFile, progress, elapsedTime);
-            }).Result;
-
-            // Removes non word, non space characters
-            essay = essay.ToLower();
-            essay = Regex.Replace(essay, RegexConstants.WordFilter, string.Empty);
-
-            string[] words = essay.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-
-            return words.OrderByDescending(word => word.Length).FirstOrDefault() ?? string.Empty;
+            this._userInterface.DrawProgressBar(Messages.ReadingFile, progress, elapsedTime);
         });
+
+        // Clean text and get longest word
+        essay = Regex.Replace(essay.ToLower(), RegexConstants.WordFilter, string.Empty);
+        string[] words = essay.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        string longestWord = words.OrderByDescending(word => word.Length).FirstOrDefault() ?? string.Empty;
+
+        return longestWord;
     }
 
     /// <summary>

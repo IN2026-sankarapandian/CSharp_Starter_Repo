@@ -41,23 +41,23 @@ public class Task3 : ITask
         int primeIntegersRangeMinValue = this._formHandler.GetInteger(Messages.EnterMinValueForPrime);
         int primeIntegersRangeCount = this._formHandler.GetInteger(Messages.EnterCountValueForPrime);
 
-        Thread thread1 = new (() =>
+        Thread primeNumberThread = new (() =>
         {
             primeNumbers = this._integerGenerator.GeneratePrimeNumbersRange(primeIntegersRangeMinValue, primeIntegersRangeCount);
         });
-        thread1.Start();
+        primeNumberThread.Start();
 
         int fibonacciSeriesRangeMinValue = this._formHandler.GetInteger(Messages.EnterMinValueForFib);
         int fibonacciSeriesRangeCount = this._formHandler.GetInteger(Messages.EnterCountValueForFib);
-        Thread thread2 = new (() =>
+        Thread fibonacciSeriesThread = new (() =>
         {
             fibonacciSeries = this._integerGenerator.GenerateFibonacciNumbersRange(fibonacciSeriesRangeMinValue, fibonacciSeriesRangeCount);
         });
 
-        thread2.Start();
+        fibonacciSeriesThread.Start();
 
-        thread1.Join();
-        thread2.Join();
+        primeNumberThread.Join();
+        fibonacciSeriesThread.Join();
 
         List<int>? result = null;
         if (primeNumbers is not null && fibonacciSeries is not null)

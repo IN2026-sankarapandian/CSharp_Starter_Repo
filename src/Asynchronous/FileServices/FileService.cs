@@ -36,13 +36,13 @@ public class FileService
         long nextThreshold = 0;
         char[] buffer = new char[1024 * 1024];
         int bytesRead;
-        StringBuilder sb = new ();
+        StringBuilder stringBuilder = new ();
 
         Stopwatch stopwatch = new ();
         stopwatch.Start();
         while ((bytesRead = await streamReader.ReadAsync(buffer, 0, buffer.Length)) > 0)
         {
-            sb.Append(buffer, 0, bytesRead);
+            stringBuilder.Append(buffer, 0, bytesRead);
             readBytes += bytesRead;
 
             if (onePercentBytes > 0 && readBytes >= nextThreshold)
@@ -56,6 +56,6 @@ public class FileService
         progressCallBack?.Invoke(100, stopwatch.ElapsedMilliseconds);
 
         stopwatch.Stop();
-        return sb.ToString();
+        return stringBuilder.ToString();
     }
 }
