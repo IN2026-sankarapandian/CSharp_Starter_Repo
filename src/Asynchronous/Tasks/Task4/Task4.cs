@@ -67,7 +67,8 @@ public class Task4 : ITask
     /// Reads the file in specified path and return the longest word in it.
     /// </summary>
     /// <param name="path">Path of the file to read.</param>
-    /// <returns>Longest word in the file.</returns>
+    /// <returns>Returns the <see cref="Result{T}"/> with value longest word in the file, if operation was successful
+    /// : otherwise false with the error message.</returns>
     public async Task<Result<string>> GetLongestWordFromFile(string path)
     {
         Result<string> essayResult = await this._fileService.ReadFileAsync(path, (progress, elapsedTime) =>
@@ -92,7 +93,9 @@ public class Task4 : ITask
     /// Gets the data of longest word in the specified file.
     /// </summary>
     /// <param name="path">Path of the file to read.</param>
-    /// <returns>Data about the longest word in the file.</returns>
+    /// <returns>Returns the <see cref="Result{T}"/> with value data about the longest word in the file if operation was successful:
+    /// : otherwise false with the error message.</returns>
+    /// <returns>.</returns>
     public async Task<Result<string>> GetDataOfLongestWordFromFile(string path) // Method B
     {
         Result<string> wordResult = await this.GetLongestWordFromFile(path);
@@ -115,7 +118,8 @@ public class Task4 : ITask
     /// Gets the summary of the longest word in the specified file.
     /// </summary>
     /// <param name="path">Path of the file to read.</param>
-    /// <returns>Summary of the longest word in the file.</returns>
+    /// <returns>Returns the <see cref="Result{T}"/> with value summary of the longest word in the file if operation was successful:
+    /// otherwise false with the error message.</returns>
     public async Task<Result<string>> GetSummaryOfLongestWordFromFile(string path) // Method C
     {
         Result<string> jsonResult = await this.GetDataOfLongestWordFromFile(path);
