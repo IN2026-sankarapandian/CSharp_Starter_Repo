@@ -57,6 +57,20 @@ public class BoilerMachine
     public Result StopBoiling() => this._currentStatus.StopBoiling();
 
     /// <summary>
+    /// Try to simulate some error in boiler operation.
+    /// </summary>
+    /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
+    /// otherwise with an error message indication why the operation failed</returns>
+    public Result SimulateBoilerError() => this._currentStatus.SimulateBoilerError();
+
+    /// <summary>
+    /// Resets the boiler machine to lockout state manually.
+    /// </summary>
+    /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
+    /// otherwise with an error message indication why the operation failed</returns>
+    public Result ResetLockOut() => this._currentStatus.ResetLockOut();
+
+    /// <summary>
     /// Starts the timer with specified interval
     /// </summary>
     /// <param name="interval">Interval to configure the timer</param>
@@ -91,11 +105,7 @@ public class BoilerMachine
     /// <param name="e">Event args</param>
     public void OnTimerElapsed(object? sender, System.Timers.ElapsedEventArgs e)
     {
-        if (this._currentStatus is BoilerMachineReadyState)
-        {
-            this.SetStatus(new BoilerMachinePrePurgeState(this));
-        }
-        else if (this._currentStatus is BoilerMachinePrePurgeState)
+        if (this._currentStatus is BoilerMachinePrePurgeState)
         {
             this.Logger.Log("Pre-Purge completed in 10 seconds.");
             this.SetStatus(new BoilerMachineStatusIgnitionState(this));

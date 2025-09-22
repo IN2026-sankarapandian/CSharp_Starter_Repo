@@ -24,7 +24,7 @@ public class BoilerMachineReadyState : IBoilerMachineStatus
     /// <inheritdoc/>
     public Result StartBoiling()
     {
-        this._boilerMachine.StartTimer(1000);
+        this._boilerMachine.SetStatus(new BoilerMachinePrePurgeState(this._boilerMachine));
         return Result.Success("Started boiling");
     }
 
@@ -32,5 +32,18 @@ public class BoilerMachineReadyState : IBoilerMachineStatus
     public Result StopBoiling()
     {
         return Result.Failure("Boiling is not started yet");
+    }
+
+    /// <inheritdoc/>
+    public Result SimulateBoilerError()
+    {
+        return Result.Failure("Boiler is not yet started, Error can be only simulated when the boiler is in operational mode");
+    }
+
+    /// <inheritdoc/>
+    public Result ResetLockOut()
+    {
+        this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        return Result.Success("Boiler machine reset to lockout state");
     }
 }

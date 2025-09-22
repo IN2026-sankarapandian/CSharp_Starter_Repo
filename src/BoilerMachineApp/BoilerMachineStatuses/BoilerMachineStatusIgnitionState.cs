@@ -34,4 +34,17 @@ public class BoilerMachineStatusIgnitionState : IBoilerMachineStatus
         this._boilerMachine.SetStatus(new BoilerMachineReadyState(this._boilerMachine));
         return Result.Success("Stopped operation at ignition state, moving back to ready state");
     }
+
+    /// <inheritdoc/>
+    public Result SimulateBoilerError()
+    {
+        return Result.Failure("Boiler is in ignition phase, Error can be only simulated when the boiler is in operational mode");
+    }
+
+    /// <inheritdoc/>
+    public Result ResetLockOut()
+    {
+        this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        return Result.Success("Boiler machine reset to lockout state");
+    }
 }
