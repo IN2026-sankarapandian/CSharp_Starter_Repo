@@ -1,5 +1,7 @@
 ﻿using BoilerMachineApp.BoilerMachines;
 using BoilerMachineApp.Enums;
+using BoilerMachineApp.Loggers;
+using ConsoleTables;
 
 namespace BoilerMachineApp.UserInterface;
 
@@ -71,5 +73,18 @@ public class ConsoleUI : IUserInterface
     public void Subscribe(BoilerMachine boilerMachine)
     {
         boilerMachine.OnStateChange += this.SetStatus;
+    }
+
+    /// <inheritdoc/>
+    public void ShowLogs(List<EventLog> logs)
+    {
+        this.ShowMessage(MessageType.Title, "Event logs");
+        ConsoleTable consoleTable = new ConsoleTable("Time stamp", "Event name", "Additonal data");
+        foreach (EventLog log in logs)
+        {
+            consoleTable.AddRow(log.TimeStamp.ToString(), log.Name, log.Data);
+        }
+
+        consoleTable.Write();
     }
 }

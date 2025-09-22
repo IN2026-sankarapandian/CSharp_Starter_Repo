@@ -42,6 +42,14 @@ public class BoilerMachineStatusIgnitionState : IBoilerMachineStatus
     }
 
     /// <inheritdoc/>
+    public Result ToggleRunInterlockSwitch()
+    {
+        this._boilerMachine.ToggleInterLock();
+        this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        return Result.Failure("Run interlock is turned open while machine is in ignition phase, reset to lockout status");
+    }
+
+    /// <inheritdoc/>
     public Result ResetLockOut()
     {
         this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));

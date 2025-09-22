@@ -29,6 +29,13 @@ public interface IBoilerMachineStatus
     public Result SimulateBoilerError();
 
     /// <summary>
+    /// Toggles the run interlock switch of boiler machine.
+    /// </summary>
+    /// <returns>Returns the <see cref="Result"/> object indicating success with success message;
+    /// otherwise with an error message indication why the operation failed</returns>
+    public Result ToggleRunInterlockSwitch();
+
+    /// <summary>
     /// Resets the boiler machine to lockout state manually.
     /// </summary>
     /// <returns>Returns the <see cref="Result"/> object indicating success with success message;

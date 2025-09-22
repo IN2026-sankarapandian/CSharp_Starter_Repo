@@ -42,6 +42,14 @@ public class BoilerMachinePrePurgeState : IBoilerMachineStatus
     }
 
     /// <inheritdoc/>
+    public Result ToggleRunInterlockSwitch()
+    {
+        this._boilerMachine.ToggleInterLock();
+        this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));
+        return Result.Failure("Run interlock is turned open while machine is in pre-purge state, reset to lockout status");
+    }
+
+    /// <inheritdoc/>
     public Result ResetLockOut()
     {
         this._boilerMachine.SetStatus(new BoilerMachineLockoutState(this._boilerMachine));

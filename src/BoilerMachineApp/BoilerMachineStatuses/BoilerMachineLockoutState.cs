@@ -17,14 +17,22 @@ public class BoilerMachineLockoutState : IBoilerMachineStatus
     public BoilerMachineLockoutState(BoilerMachine boilerMachine)
     {
         this._boilerMachine = boilerMachine;
-        this._boilerMachine.NotifyStateChange("Lockout state activated, restart the app for proper functioning");
+        if (this._boilerMachine.RunInterLock)
+        {
+            this._boilerMachine.SetStatus(new BoilerMachineReadyState(this._boilerMachine));
+        }
+        else
+        {
+            this._boilerMachine.NotifyStateChange("Lockout state activated, toggle run inter lock to move to ready state");
+        }
+
         this._boilerMachine.Logger.Log("Lockout state activated");
     }
 
     /// <inheritdoc/>
     public Result StartBoiling()
     {
-        this._boilerMachine.StartTimer(1000);
+        this._boilerMachine.StartTimer(10000);
         return Result.Failure("Boiler is at now lockout mode, can't start boiling");
     }
 
@@ -38,6 +46,14 @@ public class BoilerMachineLockoutState : IBoilerMachineStatus
     public Result SimulateBoilerError()
     {
         return Result.Failure("Boiler is at now lockout mode, Error can be only simulated when the boiler is in operational mode");
+    }
+
+    /// <inheritdoc/>
+    public Result ToggleRunInterlockSwitch()
+    {
+        this._boilerMachine.ToggleInterLock();
+        this._boilerMachine.SetStatus(new BoilerMachineReadyState(this._boilerMachine));
+        return Result.Success("Run interlock is turned closed, boiler machine moved to ready state");
     }
 
     /// <inheritdoc/>
